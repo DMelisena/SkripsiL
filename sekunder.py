@@ -19,10 +19,22 @@ def scatter(P,dsec,a,T):
     return n*TVL
 print("Nilai Barrier",scatter(0.2,3.15,0.0005317,1))
 print("Maka nilai barrier+HVL=",scatter(0.2,3.15,0.0005317,1)+HVL)
-
+#(P,dsec,a,T)
+#H=0.2,3.15,0.0005317,1
+#G=0.01,4.8,0.0006028,0.025
+#E=0.2,6.75,0.0006435,1
+#I'=0.01,4.35,0.0005885,0.2
+#F'= 0.2,4.05,0.000577,1
 def leakage(P,Dl,T):
     B=(P*Dl**2)/(0.001*W*T)
     n=-log10(B)
     return n*TVL
 
-print("Nilai Leakage=", leakage(0.2,3.15,1))
+print("Nilai Leakage=", leakage(0.2,6.75,1))
+print("Nilai Leakage+HVL=", leakage(0.2,6.75,1)+HVL)
+#(P,Dl,T)
+#H=0.2,3.15,1
+#G=0.01,4.5,0.025
+#E=0.2,6.75,1
+#I'=0.01,4.35,0.2
+#F'=0.2,3.075,1
