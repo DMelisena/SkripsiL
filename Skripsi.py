@@ -28,17 +28,23 @@ DR=2200*60/100#2200MU/min adalah dose rate maksimum pada LINAC. (1MU=1cGy)
 
 def WeekDR(br,dsadf):
     b=(br*dsadf**2)/(W*U*Tf)
-    n=-log(b,10)
-    return n*389
+    n=-log10(b)
+    return n*TVL
 
 def InstDR(br,dsadf):
-    return (br/40/1000)*(dsadf**2)/DR #Dibagi 1000 karenna dirubah dari mSv ke Sv
+    b=(br/40/1000)*(dsadf**2)/DR #Dibagi 1000 karenna dirubah dari mSv ke Sv
+    n=-log10(b)
+    return n*TVL
 
+print ("======Pada Dinding F========")
 print ("Barrier primer =", WeekDR(brp,4.15)) 
 print ("Barrier primer+2HVL =", WeekDR(brp,4.15)+(2*HVL)) #WeekDRF
-print (InstDR(brp,4.15)) #InstDRF
-print (WeekDR(brm,4.75)) #WeekDRF
-print (InstDR(brm,4.75)) #InstDRF
+print ("Barrier Primer InstDR =", InstDR(brp,4.15)) #InstDRF
+print ("Barrier primer InstDR+2HVL =", InstDR(brp,4.15)+(2*HVL)) #WeekDRF
 
-
+print ("======Pada Dinding H========")
+print ("Barrier primer =", WeekDR(brm,4.75)) 
+print ("Barrier primer+2HVL =", WeekDR(brm,4.75)+(2*HVL)) #WeekDRF
+print ("Barrier Primer InstDR =", InstDR(brm,4.75)) #InstDRF
+print ("Barrier primer InstDR+2HVL =", InstDR(brm,4.75)+(2*HVL)) #WeekDRF
 
