@@ -30,11 +30,15 @@ def leakage(P,Dl,T):
     n=-log10(B)
     return n*TVL
 
-print("Nilai Leakage=", leakage(0.2,6.75,1))
-print("Nilai Leakage+HVL=", leakage(0.2,6.75,1)+HVL)
+print("Nilai Leakage=", leakage(0.2,3.15,1))
+#print("Nilai Leakage+HVL=", leakage(0.2,3.15,1)+HVL) #Ternyata leakage gaperlu ditambah HVL
+
+Head = ["Dinding", "Barrier","Barrier+HVL"]
+Data =[ ]
 #(P,Dl,T)
 #H=0.2,3.15,1
 #G=0.01,4.5,0.025
 #E=0.2,6.75,1
 #I'=0.01,4.35,0.2
 #F'=0.2,3.075,1
+
