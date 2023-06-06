@@ -33,21 +33,28 @@ print("Maka nilai barrier+HVL=",scatter(0.2,3.15,0.0005317,1)+HVL)
 
 #-=============LEAKAGE==============
 def leakage(P,Dl,T):
-    B=(P*Dl**2)/(0.001*W*T)
+    B=(P*(Dl**2))/(0.001*W*T)
     n=-log10(B)
     return n*TVL
+
+def bleakcheck(P,Dl,T):
+    return (P*(Dl**2))/(0.001*W*T)
+def nleakcheck(P,Dl,T):
+    B=(P*(Dl**2))/(0.001*W*T)
+    return -log10(B)
+print("B leakage nilai G = ",bleakcheck(0.01,4.8,0.025))
 
 print("Nilai Leakage=", leakage(0.2,3.15,1))
 #print("Nilai Leakage+HVL=", leakage(0.2,3.15,1)+HVL) #Ternyata leakage gaperlu ditambah HVL
 #FORMULA INI SALAH KARENA FIRST IMPACT TVL AMA SETELAH2NYA GA DIBEDAIN
 #HARUSNYA FIRST IMPACT (1HVL PERTAMA) 41cm, terus sisanya 37cm berdasarkan tabel
-Head = ["Dinding", "Scatter","Leakage"]
+head = ["Dinding", "Scatter","Leakage"]
 mydata = [
     ["H",scatter(0.2,3.15,0.0005317,1)+HVL,leakage(0.2,3.15,1)],
-    ["G",scatter(0.01,4.8,0.0006028,0.025)+HVL,leakage(0.01,4.5,0.025)],
-    ["E",scatter(0.2,6.75,0.0006435,1)+HVL,leakage(0.2,6.75,1)],
-    ["I'",scatter(0.01,4.35,0.0005885,0.2)+HVL,leakage(0.01,4.35,0.2)],
-    ["F'",scatter(0.2,4.05,0.000577,1)+HVL,leakage(0.2,3.075,1)]
+    ["G",scatter(0.01,4.8,0.0006028,0.025)+HVL,leakage(0.01,4.8,0.025)+HVL],
+    ["E",scatter(0.2,6.75,0.0006435,1)+HVL,leakage(0.2,6.75,1)+HVL],
+    ["I'",scatter(0.01,4.35,0.0005885,0.2)+HVL,leakage(0.01,4.35,0.2)+HVL],
+    ["F'",scatter(0.2,4.05,0.000577,1)+HVL,leakage(0.2,4.05,1)+HVL]
         ]
 
 print(tabulate(mydata, headers=head,tablefmt="grid"))
