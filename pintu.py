@@ -33,3 +33,13 @@ def HLT(B,dl):
     return (0.001*W*U*B)/(dl**2)
 
 print("HLT = ",HLT(0.0000595,4.8))
+
+
+#========Neutron Capture Gamma Rays========
+qn=4.6*100000000000
+b=1
+d1=4.56
+sr=267.831
+ya=((b*qn)/(4*pi*d1*d1))+((5.4*b*qn)/(2*pi*sr))+((1.3*qn)/(2*pi*sr))
+                        
+print("ya =",ya)
