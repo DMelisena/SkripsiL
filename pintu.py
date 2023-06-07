@@ -84,8 +84,10 @@ xbpe=nbpe*TVLbpe
 print ("xbpe",xbpe)
 Hy=Htot+hcg
 Hy1=Hy*10**6 #Karena P nya uSv, jadi ini dari Sv dirubah jadi uSv jg
-nhy=log10(Hy1/P/2)
-print("nhy",nhy)
+print("Hy = ",Hy1)
+nhy=log10(Hy1/(P/2))
+print("nhy = ",nhy)
 tvlbpe=6
 xpb=nhy*tvlbpe
 print("xpb = ",xpb)
+
