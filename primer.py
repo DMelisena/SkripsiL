@@ -34,6 +34,7 @@ def InstDR(br,dsadf):
     n=-log10(b)
     return n*TVL
 
+"""
 print ("======  Pada Dinding F  ========")
 print ("Barrier primer =", WeekDR(brp,4.15,1)) 
 print ("Barrier primer+2HVL =", WeekDR(brp,4.15,1)+(2*HVL)) #WeekDRF
@@ -45,10 +46,19 @@ print ("Barrier primer =", WeekDR(brm,4.75,0.2))
 print ("Barrier primer+2HVL =", WeekDR(brm,4.75,0.2)+(2*HVL)) #WeekDRF
 print ("Barrier Primer InstDR =", InstDR(brm,4.75)) #InstDRF
 print ("Barrier primer InstDR+2HVL =", InstDR(brm,4.75)+(2*HVL)) #WeekDRF
+"""
 
 data=[
-     ["F",WeekDR(brp,4.15,1),WeekDR(brp,4.15,1)+(2*HVL),InstDR(brp,4.15),InstDR(brp,4.15)+(2*HVL)],
-     ["I", WeekDR(brm,4.75,0.2), WeekDR(brm,4.75,0.2)+(2*HVL),InstDR(brm,4.75),InstDR(brm,4.75)+(2*HVL)]
+     ["F",
+      WeekDR(brp,4.15,1),
+      WeekDR(brp,4.15,1)+(2*HVL),
+      InstDR(brp,4.15),
+      InstDR(brp,4.15)+(2*HVL)],
+     ["I", 
+      WeekDR(brm,4.75,0.2), 
+      WeekDR(brm,4.75,0.2)+(2*HVL),
+      InstDR(brm,4.75),
+      InstDR(brm,4.75)+(2*HVL)]
         ]
 head=["Dinding", "WeekB", "WeekB+2HVL","InstB","InstB+2HVL"]
 print(tabulate(data,headers=head,tablefmt="grid"))
