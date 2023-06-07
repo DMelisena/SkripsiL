@@ -12,14 +12,16 @@ dsca=1
 F=pi*((41/2)**2)
 
 TVL=305
+print("TVL = ",TVL)
 HVL=TVL*log10(2)
-
+print("HVL = ",HVL)
 #=============Scatter=================
 
 def scatter(P,dsec,a,T):
     B=(P*dsca**2*dsec**2*400)/(a*W*T*F)
     n=-log10(B)
     return n*TVL
+
 print("Nilai Barrier",scatter(0.2,3.15,0.0005317,1))
 print("Maka nilai barrier+HVL=",scatter(0.2,3.15,0.0005317,1)+HVL)
 
@@ -48,6 +50,8 @@ print("Nilai Leakage=", leakage(0.2,3.15,1))
 #print("Nilai Leakage+HVL=", leakage(0.2,3.15,1)+HVL) #Ternyata leakage gaperlu ditambah HVL
 #FORMULA INI SALAH KARENA FIRST IMPACT TVL AMA SETELAH2NYA GA DIBEDAIN
 #HARUSNYA FIRST IMPACT (1HVL PERTAMA) 41cm, terus sisanya 37cm berdasarkan tabel
+
+
 head = ["Dinding", "Scatter","Leakage"]
 mydata = [
     ["H",scatter(0.2,3.15,0.0005317,1)+HVL,leakage(0.2,3.15,1)],
