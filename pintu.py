@@ -43,3 +43,25 @@ sr=267.831
 ya=((b*qn)/(4*pi*d1*d1))+((5.4*b*qn)/(2*pi*sr))+((1.3*qn)/(2*pi*sr))
                         
 print("ya =",ya)
+
+K=6.9*10**(-16)
+hy=K*ya*(10**(-5.85/3))
+
+print("hy =",hy)
+d2=5.85
+
+hcg=W*hy
+print ("hcg =", hcg)
+#========Ekivalen dari Neutron========
+s1=5.364
+s0=12.069
+TVD= 2.06*sqrt(s1)
+print("TVD = ", TVD)
+hnd0=2.4*(10**-15)*ya*sqrt(s0/s1)*(1.64*10**(-d2/1.9)+(10**-(d2/3.455)))
+#Atas itu formulanya skripsi daftar pustaka andika, tapi ditulis di skripsinya salah tapi hasilnya bener
+hnd1=2.4*10**-15*ya*sqrt(s0/s1)*(1.64*10**(-d2/1.9)+(10**-(d2/TVD)))
+
+print("hnd = ",hnd1)
+
+hn=W*hnd1
+print("hn=",hn)
