@@ -15,7 +15,7 @@ dzz=6.45
 def HS(a0,az,A0,AZ,dH,dr,dz):
     return (W*U*a0*A0*az*AZ)/((dH*dr*dz)**2)
 
-print(HS(0.0021,0.008,1.9044,12.069,2.65,4.2,4.35))
+print("HS=",HS(0.0021,0.008,1.9044,12.069,2.65,4.2,4.35))
 
 ##############--HPS--#####
 A1  =6.75
@@ -33,8 +33,12 @@ def HLT(B,dl):
     return (0.001*W*U*B)/(dl**2)
 
 print("HLT = ",HLT(0.0000595,4.8))
+Htot = 2.64*(HLT(0.0000595,4.8)
+        +HLS(0.0051)
+        +HPS(0.000381,1600,0.022,1)
+        +(0.28*(HS(0.0021,0.008,1.9044,12.069,2.65,4.2,4.35))))
 
-
+print("Htot",Htot)
 #========Neutron Capture Gamma Rays========
 qn=4.6*100000000000
 b=1
@@ -65,3 +69,23 @@ print("hnd = ",hnd1)
 
 hn=W*hnd1
 print("hn=",hn)
+
+#=======Dosis EKivalen Total Pada Area Pintu========
+hw=Htot+hcg+hn
+print("hw = ",hw)
+
+#Perhitunggan Ketebalan BPE
+P=5*2
+hn1=hn*10**6 #Dirubah dari Sv jadi uSv karena nilai P nya uSv
+nbpe=log10(hn1/(P/2))
+print("nbpe = ",nbpe)
+TVLbpe = 45
+xbpe=nbpe*TVLbpe
+print ("xbpe",xbpe)
+Hy=Htot+hcg
+Hy1=Hy*10**6 #Karena P nya uSv, jadi ini dari Sv dirubah jadi uSv jg
+nhy=log10(Hy1/P/2)
+print("nhy",nhy)
+tvlbpe=6
+xpb=nhy*tvlbpe
+print("xpb = ",xpb)
