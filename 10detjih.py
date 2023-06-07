@@ -151,7 +151,7 @@ s16 = openmc.ZPlane(z/2, boundary_type='vacuum')
 s17 = openmc.ZPlane(-z/2, boundary_type='vacuum')
 
 # Kolimator Sekunder; kotakan berukuran xk x yk x (zk2-zkol) di titik referensi kuning tengah
-s21 = openmc.XPlane(x00+(xk/2.0), boundary_type='transmission')
+s21 = openmc.XPlane(x00+(xk/2.0), boundary_type='transmission') #x00 adalah koordinat pasien terhadap titik pusat ruangan tersebut, sedangkan xk adalah ukuran pasien.
 s22 = openmc.XPlane(x00-(xk/2.0), boundary_type='transmission')
 s23 = openmc.YPlane(y00+(yk/2.0), boundary_type='transmission')
 s24 = openmc.YPlane(y00-(yk/2.0), boundary_type='transmission')
@@ -175,25 +175,32 @@ s34 = openmc.YPlane(y00-(hole2/2.0), boundary_type='transmission')
 #hole2 = 3.7 #1.85
 
 
+###################### Kolimator Primer ##########################
 #Kolimator Primer ; simetris dengan sekunder secara vertikal
 #Setinggi zk(7), sejarak zg(10) dari kolimator sekunder
-s41 = openmc.XPlane(x00+(xk/2.0), boundary_type='transmission')
+#x00+xk = ukuran pasien pada koordinat pasien
+s41 = openmc.XPlane(x00+(xk/2.0), boundary_type='transmission') 
 s42 = openmc.XPlane(x00-(xk/2.0), boundary_type='transmission')
 s43 = openmc.YPlane(y00+(yk/2.0), boundary_type='transmission')
 s44 = openmc.YPlane(y00-(yk/2.0), boundary_type='transmission')
+
+#z00+100, 100 dari koordinat pusat pasien, dan 100-xk1 = 100-7 = 93 cm dari titik tengah pasien
 s45 = openmc.ZPlane(z00+zkol+zk2+zg+zk1, boundary_type='transmission')
 s46 = openmc.ZPlane(z00+zkol+zk2+zg, boundary_type='transmission')
+
 #Cone dari titik 0 pasien, setinggi zkol+zk2+zg+hole1h (106.1-ish(?))
 s47 = openmc.ZCone(x0=x00, y0=y00, z0=(z00+zkol+zk2+zg+hole1h),\
                 r2=(0.052377301357642*2),\
                 boundary_type='transmission') #r2 apaan dah????????????
+                #Entah kenapa ini dibuat cone, bukan plane? but why??
 s48 = openmc.ZPlane(z00+zkol+zk2+zg+hole1h, boundary_type='transmission')
 
 #Surface Door
 s49 = openmc.YPlane((-y/2)-pb, boundary_type='transmission')
-s50 = openmc.YPlane((-y/2)-pb-bpe, boundary_type='transmission')
+s50 = openmc.YPlane((-y/2)-pb-bpe, boundary_type='transmission') #Pintu keluar terhadap desain dinding? oiya emang gitu ya
 s51 = openmc.YPlane((-y/2)-pb-bpe-pb, boundary_type='transmission')
 
+################## soft tissue pasien ######################
 #soft Tissue
 s52 = openmc.XPlane(x00+(xa/2), boundary_type='transmission')
 s53 = openmc.XPlane(x00-(xa/2), boundary_type='transmission')
@@ -358,7 +365,7 @@ pos_source = (
                 y00, \
                 z00 + ( d*(cos(rot)) ) \
             )
-settings = openmc.Settings()
+settings = openmc.Settinggs()
 source = openmc.Source()
 source.space = openmc.stats.Point(xyz=pos_source)
 phi =openmc.stats.Uniform(0.0,2*pi)
@@ -373,6 +380,7 @@ settings.particles = 2000000
 settings.run_mode = 'fixed source'
 settings.photon_transport = True
 settings.export_to_xml()
+
 ################################################################################
 # Tally #
 ################################################################################
