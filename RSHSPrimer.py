@@ -23,4 +23,30 @@ HVL=TVL*log10(2)
 
 #========Instantenous Dose Rate=====
 DR=2200*60/100 #2200MU/min *jam/menit /100Gy/(MU=cGy)
-def WeekDR(br,dsadf,T) #
+#Apakah MU pada linac itu maksimalnya juga 2200?
+def WeekDR(P,dsad,T): #W dan U dah ada
+    b=(P*dsad**2)/(W*U*T)
+    n=-log10(b)
+    return n*TVL
+
+def InstDR(P,dsad):
+    b=(P/40/1000)*(dsad**2)/DR #Dibagi 1000 karenna dirubah dari mSv ke Sv
+    n=-log10(b)
+    return n*TVL
+
+data=[
+     ["F",
+      WeekDR(brp,7.32,1),
+      WeekDR(brp,7.32,1)+(2*HVL),
+      InstDR(brp,7.32),
+      InstDR(brp,7.32)+(2*HVL)],
+     ["I", 
+      WeekDR(brp,7.32,1), 
+      WeekDR(brp,7.32,1)+(2*HVL),
+      InstDR(brp,7.32),
+      InstDR(brp,7.32)+(2*HVL)]
+        ]
+#Nilai dsad 7.32 = 1 + 3.240 + 3.080
+
+head=["Dinding", "WeekB", "WeekB+2HVL","InstB","InstB+2HVL"]
+print(tabulate(data,headers=head,tablefmt="grid"))

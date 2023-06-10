@@ -15,7 +15,7 @@ U=0.33 #Faktor Guna dapet dari mana?
 #Dikali setengah agar aman menurut ncrp
 brp=20/2/50  #batas radiasi pekerja,   (20mSv/tahun)*setengah/50 minggu/tahun
 brm=1/2/50   #batas radiasi masyarakat,(1mSv/tahun*setengah/50 minggu/tahun
-
+print("BRP = ",brp, "     brm = ",brm)
 #======== Variabel TVL =========
 TVL=389
 HVL=TVL*log10(2) #Pengubangan dari agar menjadi setengah, menjadi 1/10 laju dosis radiasi
