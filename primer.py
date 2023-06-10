@@ -21,7 +21,7 @@ TVL=389
 HVL=TVL*log10(2) #Pengubangan dari agar menjadi setengah, menjadi 1/10 laju dosis radiasi
 print("HVL=",HVL)
 
-#======== Variabel tambahan untuk instantenous Dose Rate
+#======== Instantenous Dose Rate
 DR=2200*60/100#2200MU/min adalah dose rate maksimum pada LINAC. (1MU=1cGy)
 #2200 MU/min = 2200cGy/min = 132000 cGy/jam = 1320 Gy/jam
 def WeekDR(br,dsadf,T):
@@ -34,19 +34,6 @@ def InstDR(br,dsadf):
     n=-log10(b)
     return n*TVL
 
-"""
-print ("======  Pada Dinding F  ========")
-print ("Barrier primer =", WeekDR(brp,4.15,1)) 
-print ("Barrier primer+2HVL =", WeekDR(brp,4.15,1)+(2*HVL)) #WeekDRF
-print ("Barrier Primer InstDR =", InstDR(brp,4.15)) #InstDRF
-print ("Barrier primer InstDR+2HVL =", InstDR(brp,4.15)+(2*HVL)) #WeekDRF
-
-print ("======  Pada Dinding I  ========")
-print ("Barrier primer =", WeekDR(brm,4.75,0.2)) 
-print ("Barrier primer+2HVL =", WeekDR(brm,4.75,0.2)+(2*HVL)) #WeekDRF
-print ("Barrier Primer InstDR =", InstDR(brm,4.75)) #InstDRF
-print ("Barrier primer InstDR+2HVL =", InstDR(brm,4.75)+(2*HVL)) #WeekDRF
-"""
 
 data=[
      ["F",
@@ -62,3 +49,17 @@ data=[
         ]
 head=["Dinding", "WeekB", "WeekB+2HVL","InstB","InstB+2HVL"]
 print(tabulate(data,headers=head,tablefmt="grid"))
+
+"""
+print ("======  Pada Dinding F  ========")
+print ("Barrier primer =", WeekDR(brp,4.15,1)) 
+print ("Barrier primer+2HVL =", WeekDR(brp,4.15,1)+(2*HVL)) #WeekDRF
+print ("Barrier Primer InstDR =", InstDR(brp,4.15)) #InstDRF
+print ("Barrier primer InstDR+2HVL =", InstDR(brp,4.15)+(2*HVL)) #WeekDRF
+
+print ("======  Pada Dinding I  ========")
+print ("Barrier primer =", WeekDR(brm,4.75,0.2)) 
+print ("Barrier primer+2HVL =", WeekDR(brm,4.75,0.2)+(2*HVL)) #WeekDRF
+print ("Barrier Primer InstDR =", InstDR(brm,4.75)) #InstDRF
+print ("Barrier primer InstDR+2HVL =", InstDR(brm,4.75)+(2*HVL)) #WeekDRF
+"""
