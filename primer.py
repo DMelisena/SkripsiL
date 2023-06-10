@@ -24,13 +24,15 @@ print("HVL=",HVL)
 #======== Instantenous Dose Rate
 DR=2200*60/100#2200MU/min adalah dose rate maksimum pada LINAC. (1MU=1cGy)
 #2200 MU/min = 2200cGy/min = 132000 cGy/jam = 1320 Gy/jam
-def WeekDR(br,dsadf,T):
-    b=(br*dsadf**2)/(W*U*T)
+#P = Batas Dosis
+
+def WeekDR(P,dsadf,T):
+    b=(P*dsadf**2)/(W*U*T)
     n=-log10(b)
     return n*TVL
 
-def InstDR(br,dsadf):
-    b=(br/40/1000)*(dsadf**2)/DR #Dibagi 1000 karenna dirubah dari mSv ke Sv
+def InstDR(P,dsadf):
+    b=(P/40/1000)*(dsadf**2)/DR #Dibagi 1000 karenna dirubah dari mSv ke Sv
     n=-log10(b)
     return n*TVL
 
