@@ -20,6 +20,7 @@ brm=1/2/50 #Batas Radiasi Masyarakat 1mSv*setengah/(50 minggu/tahun)
 #==========Variabel TVL======
 TVL=389
 HVL=TVL*log10(2)
+print("HVL =", HVL)
 
 #========Instantenous Dose Rate=====
 DR=2200*60/100 #2200MU/min *jam/menit /100Gy/(MU=cGy)
