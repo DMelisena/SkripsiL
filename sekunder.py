@@ -56,8 +56,8 @@ head = ["Dinding", "Scatter","Leakage"]
 mydata = [
     ["H",scatter(0.2,3.15,0.0005317,1)+HVL,
      leakage(0.2,3.15,1)],
-    ["G",scatter(0.01,4.8,0.0006028,0.025)+H
-     VL,leakage(0.01,4.8,0.025)+HVL],
+    ["G",scatter(0.01,4.8,0.0006028,0.025)+HVL,
+     leakage(0.01,4.8,0.025)+HVL],
     ["E",scatter(0.2,6.75,0.0006435,1)+
      HVL,leakage(0.2,6.75,1)+HVL],
     ["I'",scatter(0.01,4.35,0.0005885,0.2)+
