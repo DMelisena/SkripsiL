@@ -45,9 +45,10 @@ def a(dsec):
     degree = atandeg(dsec,dsca)
     return slope*degree+intercept
 
-print(f"Nilai scatter fraction(a) pada dsec 3.15 = {a(3.15)}")
+#print(f"Nilai scatter fraction(a) pada dsec 3.15 = {a(3.15)}")
 
-def scatter(P,dsec,a,T): # (dsec = jarak pasien ke titik pengukuran ; a= Fraksi hambur atau serapan dosis berkas primer yang terhambur dari pasien)
+def scatter(P,dsec,T): # (dsec = jarak pasien ke titik pengukuran ; a= Fraksi hambur atau serapan dosis berkas primer yang terhambur dari pasien)
+    a= a(dsec)
     B=(P*dsca**2*dsec**2*400)/(a*W*T*F)
     n=-log10(B)
     return n*TVL
