@@ -11,9 +11,9 @@ print("W = ",W)
 dsca=1 #jarak sumber ke pasien 1 meter
 F=pi*((41/2)**2) #Kenapa 41? luas lapangan radiasi 41cm2, bukannya harusnya meter?
 
-TVL1= 41 #cm
-TVLe= 37 #cm
-TVL = 38.9 #cm
+TVL1= 410 #mm
+TVLe= 370 #mm
+TVL = 305 #mm
 HVL=TVL*log10(2)
 print("HVL = ",HVL)
 
@@ -40,16 +40,20 @@ intercept = y1 - slope *x1
 #fungsi ax+b
 print(f"Fungsi y = {slope}x +{intercept}")
 
-#print("Nilai a dari dsec 3.15",atandeg(3.15,1)*slope+intercept)
+print("Nilai a dari dsec 3.15",atandeg(3.15,1)*slope+intercept)
 def a(dsec):
     degree = atandeg(dsec,dsca)
     return slope*degree+intercept
 
-#print(f"Nilai scatter fraction(a) pada dsec 3.15 = {a(3.15)}")
+print(f"Nilai scatter fraction(a) pada dsec 3.15 = {a(3.15)}")
 
 def scatter(P,dsec,T): # (dsec = jarak pasien ke titik pengukuran ; a= Fraksi hambur atau serapan dosis berkas primer yang terhambur dari pasien)
-    a= a(dsec)
-    B=(P*dsca**2*dsec**2*400)/(a*W*T*F)
+    al= a(dsec)
+    print("alpha =", al)
+    #print("alpha = 0.0005317")
+    B=(P*(dsca**2)*(dsec**2)*400)/(al*W*T*F)
+    #B=(P*(dsca**2)*(dsec**2)*400)/(0.0005317*700000*T*F)
     n=-log10(B)
     return n*TVL
 
+print("P=0.2,dsec = 3.15, T= 1",scatter(0.2,3.15,1)+HVL,"mm")
