@@ -9,7 +9,7 @@ hariperminggu=5
 #======== Variabel Asumsi Konstan
 W=hariperminggu*gyperpasien*pasienperhari*1000
 dsca=1
-F=pi*((41/2)**2)
+F=pi*((41/2)**2) #Kenapa 41? luas lapangan radiasi 41cm2, bukannya harusnya meter?
 
 TVL=305
 print("TVL = ",TVL)
@@ -54,11 +54,16 @@ print("Nilai Leakage=", leakage(0.2,3.15,1))
 
 head = ["Dinding", "Scatter","Leakage"]
 mydata = [
-    ["H",scatter(0.2,3.15,0.0005317,1)+HVL,leakage(0.2,3.15,1)],
-    ["G",scatter(0.01,4.8,0.0006028,0.025)+HVL,leakage(0.01,4.8,0.025)+HVL],
-    ["E",scatter(0.2,6.75,0.0006435,1)+HVL,leakage(0.2,6.75,1)+HVL],
-    ["I'",scatter(0.01,4.35,0.0005885,0.2)+HVL,leakage(0.01,4.35,0.2)+HVL],
-    ["F'",scatter(0.2,4.05,0.000577,1)+HVL,leakage(0.2,4.05,1)+HVL]
+    ["H",scatter(0.2,3.15,0.0005317,1)+HVL,
+     leakage(0.2,3.15,1)],
+    ["G",scatter(0.01,4.8,0.0006028,0.025)+H
+     VL,leakage(0.01,4.8,0.025)+HVL],
+    ["E",scatter(0.2,6.75,0.0006435,1)+
+     HVL,leakage(0.2,6.75,1)+HVL],
+    ["I'",scatter(0.01,4.35,0.0005885,0.2)+
+     HVL,leakage(0.01,4.35,0.2)+HVL],
+    ["F'",scatter(0.2,4.05,0.000577,1)+
+     HVL,leakage(0.2,4.05,1)+HVL]
         ]
 
 print(tabulate(mydata, headers=head,tablefmt="grid"))
