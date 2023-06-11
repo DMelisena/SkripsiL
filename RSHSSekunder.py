@@ -29,6 +29,9 @@ def atanrad(dsec,dsca):
     #return atanrad,atandeg
 def atandeg(dsec,dsca):
     return degrees(atanrad(dsec,dsca))
+
+print("atanrad 2705,2025 = ",atanrad(2705,2025))
+print("atandeg 2705,2025 = ",atandeg(2705,2025))
 #print("atan =",atanrad(3.15,1)) #Mengecek nilai atan
 #print("Degree = ",atandeg(3.15,1)) #mengecek sudut yang dihasilkan berdasarkan nilai atan yang sebelumnya ditemukan
 
