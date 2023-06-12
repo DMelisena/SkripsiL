@@ -67,6 +67,7 @@ print("Htot = ",Htot)###################
 qn=4.6*100000000000 #Kekuatan sumber neutron yang dipancarkan dari kepala, NCRP 151 = 4.6E11
 #akselerator dan diserap isocenter per Gy sinar-X
 B = 1#aktor transmisi
+#B  = #Faktor transmisi untuk neutron yang menembus head shielding, asumsi head sebagai timbal b=1
 
 x=2.505+8.605-1.500-2.350
 x1=x-(1.550+0.765+3.24)
@@ -75,36 +76,76 @@ y2=y1+0.125+0.925
 x2= y2*(x1/y1)
 r2=sqrt(x2**2+y2**2)
 d1=r2
-
-
-
-dl = #jarak dari sumber ke pintu masuk (m)
-HLT = (0.001*W*U*B)/(dl**2)
-
-print("HLT = ",HLT(0.0000595,4.8))
-
-#dsec= #jarak isocenter ke garis tengah labirin di pintu
-#dzz = #jarak dari isocenter ke garis tengah labirin di pintu
-
-
-#b  = #Faktor transmisi untuk neutron yang menembus head shielding, asumsi head sebagai timbal b=1
 #d1 = #Jarak dari isocenter ke garis tengah labirin di pintu dengan arah sinar mengenai pinggir labirin
 
+sr = #Total luas permukaan dalam bunker, MINTOL SIAPA KEK, UDAH KEITUNG DI KERTAS
 
-##########DAH SAMPE SINI HAHAHA, NYARI LUAS AJA TINGGALAN
-####MESKIPUN NILAI a NYA BELOM TAU YA HEHE
-#sr = #Total luas permukaan dalam bunker
+################ 2.a Fluens Neutron ##########################
+
+ya=((b*qn)/(4*pi*d1*d1))+((5.4*b*qn)/(2*pi*sr))+((1.3*qn)/(2*pi*sr))
+print("ya =",ya)
+
+################ 2.b gamma capure di tiap beban kerja ########
+
+TVD = 3 #(Tenth-Value Distance) jarak yang dibutuhkan untuk mereduksi
+#photon fluence menjadi 1/10 kali semula (bernilai 3 untuk 10 MV)
+d2 = 8605-1500-(2350/2)#Jarak dari tengah labirin ke pintu (m)
+K=6.9*10**(-16)#Nilai berdasarkan pengukuran : 6.9 * 10e-16 Sv m2 (NCRP report no. 151)
+
+hy=K*ya*(10**(-5.85/TVD)) #Dosis ekivalen hasil tangkapan gamma oleh Neutron (Sv/Gy)
+print("hy =",hy)
+
+################ 2.c Laju dosis neutron capture gamma rays####
+
+hcg=W*hy #hcg= #Perhitungan LAju Dosis Neutron Capture Gamma Rays
+print ("hcg =", hcg)
+
+##########################################################################
+###### 3 Dosis Ekivalen Neutron Pada Pintu################################
+##########################################################################
+#s0/s1 = #Rasio luas penampang pintu masuk labirin dalam dengan luas penampang sepanjang labirin
+#TVD= Tenth Value Dose
+#s1=5.364
+#s0=12.069
+#TVD= 2.06*sqrt(s1)
+
 #ya = 
+################ 3.a Laju Dosis neutron di setiap beban kerja #
 
-#K  = #Nilai berdasarkan pengukuran : 6.9 * 10e-16 Sv m2 (NCRP report no. 151)
-#hy = #Dosis ekivalen hasil tangkapan gamma oleh Neutron (Sv/Gy)
-#d2 = #Jarak dari tengah labirin ke pintu (m)
-
-#hcg= #Perhitungan LAju Dosis Neutron Capture Gamma Rays
 #s0/s1 = #Rasio luas penampang pintu masuk labirin dalam dengan luas penampang sepanjang labirin
 #TVD= Tenth Value Dose
 #hnd = #laju dosis neutron di setiap beban kerja
-
+hnd1=2.4*10**-15*ya*sqrt(s0/s1)*(1.64*10**(-d2/1.9)+(10**-(d2/TVD)))
+print("hnd = ",hnd1)
 #hn=W*hnd1 #Perhitungan laju dosis neutron
 
 #hw=
+################ 3.b Laju Dosis neutron #######################
+hn=W*hnd1
+print("hn=",hn)
+
+##########################################################################
+#=============== Dosis EKivalen Total Pada Area Pintu ====================
+##########################################################################
+hw=Htot+hcg+hn
+print("hw = ",hw)
+
+##################### Perhitunggan Ketebalan BPE #########################
+P=5*2
+hn1=hn*10**6 #Dirubah dari Sv jadi uSv karena nilai P nya uSv
+nbpe=log10(hn1/(P/2))
+print("nbpe = ",nbpe)
+TVLbpe = 45
+xbpe=nbpe*TVLbpe
+print ("xbpe",xbpe)
+
+##################### Perhitunggan Ketebalan Pb ##########################
+P=5*2
+Hy=Htot+hcg
+Hy1=Hy*10**6 #Karena P nya uSv, jadi ini dari Sv dirubah jadi uSv jg
+print("Hy = ",Hy1)
+nhy=log10(Hy1/(P/2))
+print("nhy = ",nhy)
+tvlbpe=6
+xpb=nhy*tvlbpe
+print("xpb = ",xpb)
