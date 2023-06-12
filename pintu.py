@@ -62,7 +62,7 @@ print("ya =",ya)
 K=6.9*10**(-16)
 hy=K*ya*(10**(-5.85/3))
 print("hy =",hy)
-d2=5.85
+d2=5.85 #1.05 +panjang lorong sebenarnya, apakah dianggap 105 sebagai tengah dari 195?
 ################ 2.c Laju dosis neutron capture gamma rays####
 
 hcg=W*hy
