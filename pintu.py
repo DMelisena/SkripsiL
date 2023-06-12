@@ -24,8 +24,6 @@ print("HS=",HS(0.0021,0.008,1.9044,12.069,2.65,4.2,4.35))
 
 ################ 1.b Hamburan Pasien ###########################
 A1  =6.75
-dsec=6.75
-dzz =6.45
 def HPS(a,F,a1,dsca):
     return (W*U*a*(F/400)*a1*A1)/((dsca*dsec*dzz)**2)
 print("HPS = ",HPS(0.000381,1600,0.022,1))
@@ -95,7 +93,7 @@ print("hn=",hn)
 hw=Htot+hcg+hn
 print("hw = ",hw)
 
-#Perhitunggan Ketebalan BPE
+##################### Perhitunggan Ketebalan BPE #########################
 P=5*2
 hn1=hn*10**6 #Dirubah dari Sv jadi uSv karena nilai P nya uSv
 nbpe=log10(hn1/(P/2))
@@ -103,6 +101,9 @@ print("nbpe = ",nbpe)
 TVLbpe = 45
 xbpe=nbpe*TVLbpe
 print ("xbpe",xbpe)
+
+##################### Perhitunggan Ketebalan Pb ##########################
+P=5*2
 Hy=Htot+hcg
 Hy1=Hy*10**6 #Karena P nya uSv, jadi ini dari Sv dirubah jadi uSv jg
 print("Hy = ",Hy1)
