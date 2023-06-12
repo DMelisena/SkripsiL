@@ -10,18 +10,58 @@ hariperminggu=5
 #======== Variabel Asumsi Konstan
 W=hariperminggu*gyperpasien*pasienperhari
 U=0.33
-#dsec = #jarak dari isocenter ke garis tengah labirin di pintu (m)
-#dzz = #jarak garis tengah labirin ke pintu
+
+################ 1.a Hamburan Radiasi dari Dinding #############
 
 #a0= #Koefisien refleksi pada hamburan pertama 
 #az= #refleksi pada refleksi kedua dari permukaan Az
 #A0= #Field size maksimum yang terproyeksi pada dinding A0(m2)
-#Az= #luas cross section labirin (m2)
-#dH= #Jarak isocenter ke dinding A0 [(dpp+1) pada gambar 3.6]
-#dr= #Jarak dari pusat sinar pada refleksi pertama ke garis tengah labirin
-#dz= #Panjang labirin ke pintu (m)
+Az= 2.350*4.27#luas cross section labirin (m2)
+dH= 3.24+0.1#Jarak isocenter ke dinding A0 [(dpp+1) pada gambar 3.6]
+dr=1.9+4.625 #Jarak dari pusat sinar pada refleksi pertama ke garis tengah labirin
+dz=7.105-2.350 #Panjang labirin ke pintu (m)
 
-#A1= #Luas dinding yang dapat dilihat dari pintu masuk ruangan (m2)
+HS=(W*U*a0*A0*az*Az)/((dH*dr*dz)**2) 
+printf("HS = {HS}")
+
+################ 1.b Hamburan Pasien ###########################
+A1=1.85*4.27 #Luas dinding yang dapat dilihat dari pintu masuk ruangan (m2)
+dsec = sqrt((3.24+0.765)**2+((3.8/2)+6.360-1.735)**2)+#jarak dari isocenter ke garis tengah labirin di pintu (m)
+dzz = 8.605-1.500#jarak garis tengah labirin ke pintu
+
+a = #fraksi hamburan terhadap paparan pada target radiasi
+F = #luas lapangan radiasi (cm2
+a1= #Koefisien refleksi dinding beton untuk hamburan pasien pada sudut 45° untuk monoenergetic photon 0,5 MeV
+dsca= 1   #Jarak pasien dan sumber
+HPS = (W*U*a*(F/400)*a1*A1)/((dsca*dsec*dzz)**2)
+print("HPS = ",HPS)
+
+################ 1.c Kebocoran head dan dihamburkan oleh dinding
+HLS = (0.001*W*U*a1*A1)/((dsec*dzz)**2)
+print ("HLS = ",HLS(0.0051))
+
+################ 1.d Transmisi Radiasi bocor melalui dinding labirin
+HLT = (0.001*W*U*B)/(dl**2)
+B = 1#aktor transmisi
+
+
+dl = #jarak dari sumber ke pintu masuk (m
+x=2.505+8.605-1.500-2.350
+x1=x-(1.550+0.765+3.24)
+y1=1.900+2.500
+y2=y1+0.125+0.925
+x2= y2*(x1/y1)
+
+r2=sqrt(x2**2+y2**2)
+d1=r2
+
+
+
+dl = #jarak dari sumber ke pintu masuk (m)
+HLT = (0.001*W*U*B)/(dl**2)
+
+print("HLT = ",HLT(0.0000595,4.8))
+
 #dsec= #jarak isocenter ke garis tengah labirin di pintu
 #dzz = #jarak dari isocenter ke garis tengah labirin di pintu
 
