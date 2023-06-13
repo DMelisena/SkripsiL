@@ -17,7 +17,7 @@ U=0.33
 
 ################ 1.a Hamburan Radiasi dari Dinding #############
 
-#a0= #Koefisien refleksi pada hamburan pertama 
+#a0= #Koefisien refleksi pada hamburan pertama, berdasarkan NCRP 151 tabel 8a yaitu 0° incidence
 #az= #refleksi pada refleksi kedua dari permukaan Az
 #A0= #Field size maksimum yang terproyeksi pada dinding A0(m2)
 Az= 2.350*4.27#luas cross section labirin (m2)
@@ -64,7 +64,7 @@ print("Htot = ",Htot)###################
 ####### 2 Dosis Ekivalen total dari Neutron Capture Gamma Rays ###########
 ##########################################################################
 
-qn=4.6*100000000000 #Kekuatan sumber neutron yang dipancarkan dari kepala, NCRP 151 = 4.6E11
+qn=4.6e11 #Kekuatan sumber neutron yang dipancarkan dari kepala, NCRP 151 = 4.6E11
 #akselerator dan diserap isocenter per Gy sinar-X
 B = 1#aktor transmisi
 #B  = #Faktor transmisi untuk neutron yang menembus head shielding, asumsi head sebagai timbal b=1
@@ -116,11 +116,10 @@ print ("hcg =", hcg)
 ##########################################################################
 ###### 3 Dosis Ekivalen Neutron Pada Pintu################################
 ##########################################################################
-#s0/s1 = #Rasio luas penampang pintu masuk labirin dalam dengan luas penampang sepanjang labirin
+s0s1 = 1850/2350 #Rasio luas penampang pintu masuk labirin dalam dengan luas penampang sepanjang labirin
+s1=2.350*4.270
 #TVD= Tenth Value Dose
-#s1=5.364
-#s0=12.069
-#TVD= 2.06*sqrt(s1)
+TVD= 2.06*sqrt(s1) #ini maksudnya udaranya kan ya? atau tvd dari timbal?
 
 ################ 3.a Laju Dosis neutron di setiap beban kerja #
 
