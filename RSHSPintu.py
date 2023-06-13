@@ -17,9 +17,11 @@ U=0.33
 
 ################ 1.a Hamburan Radiasi dari Dinding #############
 
-#a0= #Koefisien refleksi pada hamburan pertama, berdasarkan NCRP 151 tabel 8a yaitu 0° incidence
-#az= #refleksi pada refleksi kedua dari permukaan Az
-#A0= #Field size maksimum yang terproyeksi pada dinding A0(m2)
+a0= 0.0021#Koefisien refleksi pada hamburan pertama, berdasarkan NCRP 151 tabel 8a yaitu 0° incidence
+az= 0.0080#refleksi pada refleksi kedua dari permukaan Az
+FA0= 0.4*0.4
+
+A0=FA0*((3.240**2)) #Field size maksimum yang terproyeksi pada dinding A0(m2)
 Az= 2.350*4.27#luas cross section labirin (m2)
 dH= 3.24+0.1#Jarak isocenter ke dinding A0 [(dpp+1) pada gambar 3.6]
 dr=1.9+4.625 #Jarak dari pusat sinar pada refleksi pertama ke garis tengah labirin
