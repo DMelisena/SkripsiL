@@ -78,7 +78,20 @@ r2=sqrt(x2**2+y2**2)
 d1=r2
 #d1 = #Jarak dari isocenter ke garis tengah labirin di pintu dengan arah sinar mengenai pinggir labirin
 
-sr = #Total luas permukaan dalam bunker, MINTOL SIAPA KEK, UDAH KEITUNG DI KERTAS
+######################################################################
+LD1=1850*(8605-1500)
+LD2=125*2350
+LD3=2500*(6480+765+765)
+LD4=3800*6480
+LD5=1850*(6480+765+765)
+LDatas=(LD1+LD2+LD3+LD4+LD5)*2
+LDS=4270*(8605-1500+1850+125+2500+765+3800+765+1850+765+1850+6480
+          +765+1850+765+3800+765+2500+(2505+8605-1500-2350-1550)+125+11110-1500-2509+1850)
+
+sr=LDatas+LDS #Total luas permukaan dalam bunker, MINTOL SIAPA KEK, UDAH KEITUNG DI KERTAS
+
+######################################################################
+
 
 ################ 2.a Fluens Neutron ##########################
 
@@ -109,19 +122,15 @@ print ("hcg =", hcg)
 #s0=12.069
 #TVD= 2.06*sqrt(s1)
 
-#ya = 
 ################ 3.a Laju Dosis neutron di setiap beban kerja #
 
 #s0/s1 = #Rasio luas penampang pintu masuk labirin dalam dengan luas penampang sepanjang labirin
 #TVD= Tenth Value Dose
-#hnd = #laju dosis neutron di setiap beban kerja
-hnd1=2.4*10**-15*ya*sqrt(s0/s1)*(1.64*10**(-d2/1.9)+(10**-(d2/TVD)))
+hnd1=2.4*10**-15*ya*sqrt(s0/s1)*(1.64*10**(-d2/1.9)+(10**-(d2/TVD)))#laju dosis neutron di setiap beban kerja
 print("hnd = ",hnd1)
-#hn=W*hnd1 #Perhitungan laju dosis neutron
 
-#hw=
 ################ 3.b Laju Dosis neutron #######################
-hn=W*hnd1
+hn=W*hnd1 #Perhitungan laju dosis neutron
 print("hn=",hn)
 
 ##########################################################################
