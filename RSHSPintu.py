@@ -33,9 +33,36 @@ printf("HS = {HS}")
 ################ 1.b Hamburan Pasien ###########################
 
 A1=1.85*4.27 #Luas dinding yang dapat dilihat dari pintu masuk ruangan (m2)
-dsec = sqrt((3.24+0.765)**2+((3.8/2)+6.360-1.735)**2)+#jarak dari isocenter ke garis tengah labirin di pintu (m)
+dsec = sqrt((3.24+0.765)**2+((3.8/2)+6.360-1.735)**2)#jarak dari isocenter ke garis tengah labirin di pintu (m)
 dzz = 8.605-1.500#jarak garis tengah labirin ke pintu
 
+
+#Scatter Fraction sudut x pada energi 10MV
+x1, y1 = 60, 0.000746 #60 derajat
+x2, y2 = 90, 0.000381 #90 derajat
+
+#========Mencari Fungsi ax+b========
+#Data berdasarkan sudut dan scatter fraction pada energi 10MV
+# cari slope
+slope = (y2 - y1) / (x2 - x1)
+# cari intercept
+intercept = y1 - slope *x1
+
+#fungsi ax+b
+print(f"Fungsi y = {slope}x +{intercept}")
+
+print("Nilai a dari dsec 3.15",atandeg(3.15,1)*slope+intercept)
+def a(dsec):
+    degree = atandeg(dsec,dsca)
+    return slope*degree+intercept
+
+print(f"Nilai scatter fraction(a) pada dsec 3.15 = {a(3.15)}")
+
+def scatter(P,dsec,T): # (dsec = jarak pasien ke titik pengukuran ; a= Fraksi hambur atau serapan dosis berkas primer yang terhambur dari pasien)
+    al= a(dsec)
+    print("alpha =", al)
+
+    
 a = #fraksi hamburan terhadap paparan pada target radiasi
 F = #luas lapangan radiasi (cm2
 a1= #Koefisien refleksi dinding beton untuk hamburan pasien pada sudut 45° untuk monoenergetic photon 0,5 MeV
