@@ -43,18 +43,19 @@ x2, y2 = 90, 0.000381 #90 derajat
 
 #========Mencari Fungsi ax+b========
 #Data berdasarkan sudut dan scatter fraction pada energi 10MV
+
+dsca= 1   #Jarak pasien dan sumber
 # cari slope
 slope = (y2 - y1) / (x2 - x1)
 # cari intercept
 intercept = y1 - slope *x1
-
 #fungsi ax+b
-print(f"Fungsi y = {slope}x +{intercept}")
-
-print("Nilai a dari dsec 3.15",atandeg(3.15,1)*slope+intercept)
-def a(dsec):
-    degree = atandeg(dsec,dsca)
-    return slope*degree+intercept
+#print(f"Fungsi y = {slope}x +{intercept}")
+#print("Nilai a dari dsec 3.15",atandeg(3.15,1)*slope+intercept)
+atanrad = atan(dsec/dsca)
+atandeg = degree(atanrad)
+degree = atandeg(dsec,dsca)
+a = slope*degree+intercept #fraksi hamburan terhadap paparan pada target radiasi
 
 print(f"Nilai scatter fraction(a) pada dsec 3.15 = {a(3.15)}")
 
@@ -62,11 +63,9 @@ def scatter(P,dsec,T): # (dsec = jarak pasien ke titik pengukuran ; a= Fraksi ha
     al= a(dsec)
     print("alpha =", al)
 
-    
-a = #fraksi hamburan terhadap paparan pada target radiasi
-F = #luas lapangan radiasi (cm2
-a1= #Koefisien refleksi dinding beton untuk hamburan pasien pada sudut 45° untuk monoenergetic photon 0,5 MeV
-dsca= 1   #Jarak pasien dan sumber
+F = FA0#luas lapangan radiasi (cm2
+a1= 0.015#Koefisien refleksi dinding beton untuk hamburan pasien pada sudut 45° untuk monoenergetic photon 0,5 MeV
+
 HPS = (W*U*a*(F/400)*a1*A1)/((dsca*dsec*dzz)**2)
 print("HPS = ",HPS)
 
