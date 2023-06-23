@@ -21,19 +21,22 @@ brm=1/2/50 #Batas Radiasi Masyarakat 1mSv*setengah/(50 minggu/tahun)
 TVL=389
 HVL=TVL*log10(2)
 print("HVL =", HVL)
-
+TVL1=410 ; TVLe=370 #mm
 #========Instantenous Dose Rate=====
 DR=2200*60/100 #2200MU/min *jam/menit /100Gy/(MU=cGy)
 #Apakah MU pada linac itu maksimalnya juga 2200?
 def WeekDR(P,dsad,T): #W dan U dah ada
     b=(P*dsad**2)/(W*U*T)
     n=-log10(b)
-    return n*TVL
+
+    #return n*TVL #return TVL1+(n-1)TVLe
+    return TVL1+(TVLe*(n-1))
 
 def InstDR(P,dsad):
     b=(P/40/1000)*(dsad**2)/DR #Dibagi 1000 karenna dirubah dari mSv ke Sv
     n=-log10(b)
-    return n*TVL
+    #return n*TVL 
+    return TVL1+(TVLe*(n-1))
 
 data=[
      ["F",
