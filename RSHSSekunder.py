@@ -6,10 +6,10 @@ pasienperhari=70
 gyperpasien=4
 hariperminggu=5
 
-W=hariperminggu*gyperpasien*pasienperhari*1000
+W=hariperminggu*gyperpasien*pasienperhari*1000 #1.400.000 mSv
 print("W = ",W)
 dsca=1 #jarak sumber ke pasien 1 meter
-F=pi*((41/2)**2) #Kenapa 41? luas lapangan radiasi 41cm2, bukannya harusnya meter?
+#F=pi*((41/2)**2) #Kenapa 41? luas lapangan radiasi 41cm2, bukannya harusnya meter?
 F=100
 #========Pembatas Dosis======
 #Dikali setengah agar aman menurut ncrp
@@ -23,11 +23,11 @@ TVL = 305 #mm
 HVL=TVL*log10(2)
 print("HVL = ",HVL)
 
-def atanrad(dsec,dsca):
+def atanrad(dsec,dsca): #Fungsi didalam atandeg, dipisahin biar gampang dibaca aja
     return atan(dsec/dsca) 
     #atandeg = atan(atanrad)
     #return atanrad,atandeg
-def atandeg(dsec,dsca):
+def atandeg(dsec,dsca): # Fungsi yang dipakek, terus scatter disudutnya di interpolasiin dari table b.4 antara 60 dan 90
     return degrees(atanrad(dsec,dsca))
 
 print("atanrad 2705,2025 = ",atanrad(2705,2025))
@@ -45,10 +45,11 @@ x2, y2 = 90, 0.000381 #90 derajat
 slope = (y2 - y1) / (x2 - x1)
 # cari intercept
 intercept = y1 - slope *x1
-
 #fungsi ax+b
 print(f"Fungsi y = {slope}x +{intercept}")
 
+
+########## Karena nilai slopenya dah ketemu, degree tinggal dikaliin slope + intercept
 print("Nilai a dari dsec 3.15",atandeg(3.15,1)*slope+intercept)
 def a(dsec):
     degree = atandeg(dsec,dsca)
@@ -57,7 +58,7 @@ def a(dsec):
 print(f"Nilai scatter fraction(a) pada dsec 3.15 = {a(3.15)}")
 
 def scatter(P,dsec,T): # (dsec = jarak pasien ke titik pengukuran ; a= Fraksi hambur atau serapan dosis berkas primer yang terhambur dari pasien)
-    al= a(dsec)
+    al= a(dsec) #nilai scatternya cukup dari dsec, karena dsca (Pasien ke sumber) pasti 1
     print("alpha =", al)
     #print("alpha = 0.0005317")
     B=(P*(dsca**2)*(dsec**2)*400)/(al*W*T*F)
