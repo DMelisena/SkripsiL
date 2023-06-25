@@ -25,18 +25,18 @@ TVL1=410 ; TVLe=370 #mm
 #========Instantenous Dose Rate=====
 DR=2200*60/100 #2200MU/min *jam/menit /100Gy/(MU=cGy)
 #Apakah MU pada linac itu maksimalnya juga 2200?
-def WeekDR(P,dsad,T): #W dan U dah ada
-    b=(P*dsad**2)/(W*U*T)
+def WeekDR( P , dsad , T ): #W dan U dah ada, dsad ini di ncrp dpri, jarak dari xray target ke titik perlindungan, kok rasanya beda ama dsad yang kuitung ya?
+    b=(P * dsad **2 ) / (W *U *T )
     n=-log10(b)
 
     #return n*TVL #return TVL1+(n-1)TVLe
     return TVL1+(TVLe*(n-1))
 
 def InstDR(P,dsad):
-    b=(P/40/1000)*(dsad**2)/DR #Dibagi 1000 karenna dirubah dari mSv ke Sv
+    b=(P/40/1000)*(dsad**2)/DR #Dibagi 1000 karena dirubah dari mSv ke Sv
     n=-log10(b)
     #return n*TVL 
-    return TVL1+(TVLe*(n-1))
+    return TVL1+(TVLe*(n-1)) 
 
 data=[
      ["F",

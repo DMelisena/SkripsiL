@@ -20,8 +20,11 @@ U=0.33
 a0= 0.0021#Koefisien refleksi pada hamburan pertama, berdasarkan NCRP 151 tabel 8a yaitu 0° incidence
 az= 0.0080#refleksi pada refleksi kedua dari permukaan Az
 FA0= 0.4*0.4
-
-A0=FA0*((3.240**2)) #Field size maksimum yang terproyeksi pada dinding A0(m2)
+#Dengan jarak pasien ke primer sejarak 3.24 meter, dan luas field radiasi senilai 0.4*0.4
+#maka nilai 3.24 dikalikan jarak kuadrat. Ini adalah 
+#A0=FA0*((3.24**2)) #Metode ini salah #Field size maksimum yang terproyeksi pada dinding A0(m2)
+A0= (0.4*(1+3.24))**2
+print("Nilai A0 =",A0)
 Az= 2.350*4.27#luas cross section labirin (m2)
 dH= 3.24+0.1#Jarak isocenter ke dinding A0 [(dpp+1) pada gambar 3.6]
 dr=1.9+4.625 #Jarak dari pusat sinar pada refleksi pertama ke garis tengah labirin
