@@ -10,7 +10,7 @@ W=hariperminggu*gyperpasien*pasienperhari*1000
 print("W = ",W)
 dsca=1 #jarak sumber ke pasien 1 meter
 F=pi*((41/2)**2) #Kenapa 41? luas lapangan radiasi 41cm2, bukannya harusnya meter?
-
+F=100
 #========Pembatas Dosis======
 #Dikali setengah agar aman menurut ncrp
 brp=20/2/50  #batas radiasi pekerja,   (20mSv/tahun)*setengah/50 minggu/tahun
