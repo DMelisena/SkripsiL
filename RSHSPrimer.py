@@ -39,16 +39,16 @@ def InstDR(P,dsad):
     return TVL1+(TVLe*(n-1)) 
 
 data=[
-     ["F",
-      WeekDR(brp,7.32,1),
-      WeekDR(brp,7.32,1)+(2*HVL),
-      InstDR(brp,7.32),
-      InstDR(brp,7.32)+(2*HVL)],
-     ["I", 
-      WeekDR(brp,7.32,1), 
-      WeekDR(brp,7.32,1)+(2*HVL),
-      InstDR(brp,7.32),
-      InstDR(brp,7.32)+(2*HVL)]
+     ["B",
+      WeekDR(brp,8.04,1),
+      WeekDR(brp,8.04,1)+(2*HVL),
+      InstDR(brp,8.04),
+      InstDR(brp,8.04)+(2*HVL)],
+     ["T", 
+      WeekDR(brp,8.04,1), 
+      WeekDR(brp,8.04,1)+(2*HVL),
+      InstDR(brp,8.04),
+      InstDR(brp,8.04)+(2*HVL)]
         ]
 #Nilai dsad 7.32 = 1 + 3.240 + 3.080
 
