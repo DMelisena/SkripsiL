@@ -36,10 +36,10 @@ print("atandeg 2705,2025 = ",atandeg(2705,2025))
 #print("Degree = ",atandeg(3.15,1)) #mengecek sudut yang dihasilkan berdasarkan nilai atan yang sebelumnya ditemukan
 
 #Scatter Fraction sudut x pada energi 10MV
+x30, y30 = 30, 0.00318
+x45, y45 = 45, 0.00135
 x60, y60 = 60, 0.000746 #60 derajat
 x90, y90 = 90, 0.000381 #90 derajat
-x45, y45 = 45, 0.00135
-x30, y30 = 30, 0.00318
 
 #========Mencari Fungsi ax+b========
 #Data berdasarkan sudut dan scatter fraction pada energi 10MV
@@ -48,8 +48,8 @@ x30, y30 = 30, 0.00318
 slope = (y90 - y60) / (x90 - x60) ; print("slope = ",slope)
 slope2 = (y45 - y30) / (x45 - x30) ; print("slope = ",slope)
 # cari intercept
-intercept = y60 - slope *x60 ; print("intercept = ",intercept)
-intercept2 = y45 - slope *x30 ; print("intercept = ",intercept)
+intercept = y60 - slope * x60 ; print("intercept = ",intercept)
+intercept2 = y45 - slope * x30 ; print("intercept = ",intercept)
 #fungsi ax+b
 print(f"Fungsi y = {slope}x +{intercept}")
 ############# cari slope 60 90 ###############
