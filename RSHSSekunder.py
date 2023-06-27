@@ -24,16 +24,9 @@ HVL=TVL*log10(2)
 print("HVL = ",HVL)
 
 def atanrad(dsec,dsca): #Fungsi didalam atandeg, dipisahin biar gampang dibaca aja
-    return atan(dsec/dsca) 
-    #atandeg = atan(atanrad)
-    #return atanrad,atandeg
+    return atan(dsec/dsca) #nyari nilai pi
 def atandeg(dsec,dsca): # Fungsi yang dipakek, terus scatter disudutnya di interpolasiin dari table b.4 antara 60 dan 90
-    return degrees(atanrad(dsec,dsca))
-
-print("atanrad 2705,2025 = ",atanrad(2705,2025))
-print("atandeg 2705,2025 = ",atandeg(2705,2025))
-#print("atan =",atanrad(3.15,1)) #Mengecek nilai atan
-#print("Degree = ",atandeg(3.15,1)) #mengecek sudut yang dihasilkan berdasarkan nilai atan yang sebelumnya ditemukan
+    return degrees(atanrad(dsec,dsca)) #nyari derajat dari nilai pi
 
 #Scatter Fraction sudut x pada energi 10MV
 x30, y30 = 30, 0.00318
@@ -43,17 +36,15 @@ x90, y90 = 90, 0.000381 #90 derajat
 
 #========Mencari Fungsi ax+b========
 #Data berdasarkan sudut dan scatter fraction pada energi 10MV
-#
-############# cari slope 60 90 ###############
+
+#cari slope 60 90
 slope = (y90 - y60) / (x90 - x60) ; print("slope = ",slope)
 slope2 = (y45 - y30) / (x45 - x30) ; print("slope = ",slope)
 # cari intercept
 intercept = y60 - slope * x60 ; print("intercept = ",intercept)
-intercept2 = y45 - slope2 * x30 ; print("intercept = ",intercept)
-#fungsi ax+b
+intercept2 = y30 - slope2 * x30 ; print("intercept = ",intercept)
 print(f"Fungsi y = {slope}x +{intercept}")
-############# cari slope 60 90 ###############
-
+print(f"Fungsi y2 = {slope2}x +{intercept2}")
 
 ########## Karena nilai slopenya dah ketemu, degree tinggal dikaliin slope + intercept
 print("Nilai a dari dsec 3.15",atandeg(3.15,1)*slope+intercept)
