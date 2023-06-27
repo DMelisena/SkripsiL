@@ -49,7 +49,7 @@ slope = (y90 - y60) / (x90 - x60) ; print("slope = ",slope)
 slope2 = (y45 - y30) / (x45 - x30) ; print("slope2 = ",slope2)
 # cari intercept
 intercept = y60 - slope *x60 ; print("intercept = ",intercept)
-intercept2 = y45 - slope *x45 ; print("intercept2 = ",intercept2)
+intercept2 = y30 - slope2 *x30 ; print("intercept2 = ",intercept2)
 #fungsi ax+b
 print(f"Fungsi y = {slope}x +{intercept}")
 ############# cari slope 60 90 ###############
@@ -58,6 +58,7 @@ print(f"Fungsi y2 = {slope2}x +{intercept2}")
 
 def a(dsec):
     degree = atandeg(dsec, dsca)
+    print("Degree =",degree)
     #return slope2 * degree + intercept2
     if 60 <= degree <= 90:
         degree=int(degree)
@@ -86,6 +87,7 @@ def scatter(P,dsec,T): # (dsec = jarak pasien ke titik pengukuran ; a= Fraksi ha
     #B=(P*(dsca**2)*(dsec**2)*400)/(0.0005317*700000*T*F)
     #n=-log10(B)
     return al#n*TVL
+
 head = ["Dinding", "Scatter",]
 mydata = [
     ["BL",a(dsecbl),scatter(0.2 ,dsecbl,1  )+HVL],

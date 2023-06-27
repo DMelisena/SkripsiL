@@ -49,7 +49,7 @@ slope = (y90 - y60) / (x90 - x60) ; print("slope = ",slope)
 slope2 = (y45 - y30) / (x45 - x30) ; print("slope = ",slope)
 # cari intercept
 intercept = y60 - slope * x60 ; print("intercept = ",intercept)
-intercept2 = y45 - slope * x30 ; print("intercept = ",intercept)
+intercept2 = y45 - slope2 * x30 ; print("intercept = ",intercept)
 #fungsi ax+b
 print(f"Fungsi y = {slope}x +{intercept}")
 ############# cari slope 60 90 ###############
@@ -59,14 +59,14 @@ print(f"Fungsi y = {slope}x +{intercept}")
 print("Nilai a dari dsec 3.15",atandeg(3.15,1)*slope+intercept)
 def a(dsec):
     degree = atandeg(dsec, dsca)
-    return slope * degree + intercept
-    #if 60 <= degree <= 90:
-    #    degree=int(degree)
-    #    return slope * degree + intercept
-    #elif 30 <= degree <= 45:
-    #    return slope2 * degree + intercept2
-    #else:
-    #    return 0
+    #return slope * degree + intercept
+    if 60 <= degree <= 90:
+        degree=int(degree)
+        return slope * degree + intercept
+    elif 30 <= degree <= 45:
+        return slope2 * degree + intercept2
+    else:
+        return 0
 
 def adegree(dsec):
     degree = atandeg(dsec,dsca)
@@ -75,7 +75,7 @@ def adegree(dsec):
 print(f"Nilai scatter fraction(a) pada dsec 3.15 = {a(3.15)}")
 
 def scatter(P,dsec,T): # (dsec = jarak pasien ke titik pengukuran ; a= Fraksi hambur atau serapan dosis berkas primer yang terhambur dari pasien)
-    al= a(dsec) #nilai scatternya cukup dari dsec, karena dsca (Pasien ke sumber) pasti 1
+    al= adegree(dsec) #nilai scatternya cukup dari dsec, karena dsca (Pasien ke sumber) pasti 1
     print("alpha =", al)
     #print("alpha = 0.0005317")
     B=(P*(dsca**2)*(dsec**2)*400)/(al*W*T*F)
@@ -115,15 +115,17 @@ dsect1 = 1900+2500+125
 dsect2 = 1900+2500+125+1850+810
 dsectl = c(1550+765+3240, 1900+2500+125)
 
-head = ["Dinding", "adegree","Scatter","Leakage"]
+
+
+head = ["Dinding","dsec","adegree","Scatter","Leakage"]
 mydata = [
-    ["BL",adegree(dsecbl),scatter(0.2 ,dsecbl,1  )+HVL,    leakage (0.2 ,dsecbl,1  )],
-    ["B" ,adegree(dsecb), scatter(0.01,dsecb ,0.2)+HVL,    leakage (0.01,dsecb ,0.2)+HVL],
-    ["BD",adegree(dsecbd),scatter(0.2 ,dsecbd,1  )+HVL,    leakage (0.2 ,dsecbd,1  )+HVL],
-    ["Te",adegree(dsecte),scatter(0.2 ,dsecte,1  )+HVL,    leakage (0.2 ,dsecte,1  )+HVL],
-    ["T1",adegree(dsect1),scatter(0.2 ,dsect1,1  )+HVL,    leakage (0.2 ,dsect1,1  )+HVL],
-    ["T2",adegree(dsect2),scatter(0.2 ,dsect2,1  )+HVL,    leakage (0.2 ,dsect2,1  )],
-    ["TL",adegree(dsect1),scatter(0.2 ,dsectl,1  )+HVL,    leakage (0.2 ,dsectl,1  )],
+    ["BL",dsecbl,adegree(dsecbl),scatter(0.2 ,dsecbl,1  )+HVL,    leakage (0.2 ,dsecbl,1  )],
+    ["B" ,dsecb,adegree(dsecb), scatter(0.01,dsecb ,0.2)+HVL,    leakage (0.01,dsecb ,0.2)+HVL],
+    ["BD",dsecbd,adegree(dsecbd),scatter(0.2 ,dsecbd,1  )+HVL,    leakage (0.2 ,dsecbd,1  )+HVL],
+    ["Te",dsecte,adegree(dsecte),scatter(0.2 ,dsecte,1  )+HVL,    leakage (0.2 ,dsecte,1  )+HVL],
+    ["T1",dsect1,adegree(dsect1),scatter(0.2 ,dsect1,1  )+HVL,    leakage (0.2 ,dsect1,1  )+HVL],
+    ["T2",dsect2,adegree(dsect2),scatter(0.2 ,dsect2,1  )+HVL,    leakage (0.2 ,dsect2,1  )],
+    ["TL",dsect1,adegree(dsect1),scatter(0.2 ,dsectl,1  )+HVL,    leakage (0.2 ,dsectl,1  )],
         ]
 
 print(tabulate(mydata, headers=head,tablefmt="grid"))
