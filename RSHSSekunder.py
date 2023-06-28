@@ -64,14 +64,19 @@ def atandeg(dsec): # Fungsi yang dipakek, terus scatter disudutnya di interpolas
 print(f"Nilai scatter fraction(a) pada dsec 3.15 = {a(3.15)}")
 
 def scatter(P,dsec,T): # (dsec = jarak pasien ke titik pengukuran ; a= Fraksi hambur atau serapan dosis berkas primer yang terhambur dari pasien)
+    #print(f"Pada dinding{Name}")
     al= atandeg(dsec) #nilai scatternya cukup dari dsec, karena dsca (Pasien ke sumber) pasti 1
-    print("alpha =", al)
+    print(f"\nScatter Fraction (a) {dsec} =", al)
     #print("alpha = 0.0005317")
     B=(P*(dsca**2)*(dsec**2)*400)/(al*W*T*F)
     print(f"Bscatter= {P} ( {dsca} **2)*( {dsec} **2)*400)/( {al} * {W} * {T} * {F} )= {B} ")
     #B=(P*(dsca**2)*(dsec**2)*400)/(0.0005317*700000*T*F)
     n=-log10(B)
+    print (f"n dari Bpri = {n}\nKetebalan dinding beton = {n*TVL}")
+
     return n*TVL
+
+"""
 def bscatter(P,dsec,T): # (dsec = jarak pasien ke titik pengukuran ; a= Fraksi hambur atau serapan dosis berkas primer yang terhambur dari pasien)
     al= a(dsec) #nilai scatternya cukup dari dsec, karena dsca (Pasien ke sumber) pasti 1
     print("alpha =", al)
@@ -86,6 +91,7 @@ def nscatter(P,dsec,T): # (dsec = jarak pasien ke titik pengukuran ; a= Fraksi h
     #B=(P*(dsca**2)*(dsec**2)*400)/(0.0005317*700000*T*F)
     n=-log10(B)
     return n
+"""
 
 #print("P=0.2,dsec = 3.15, T= 1",scatter(0.2,3.15,1)+HVL,"mm")
 
@@ -96,23 +102,27 @@ def leakage(P,Dl,T):
     print(f"leakage=({P}*({Dl}**2))/(0.001*{W}*{T})={n*TVL}")
     return n*TVL
 
-def c(a,b): #pythagoras c kemudian diubah dari mm ke m
-    return (sqrt(a*a+b*b))/10000
+def c(a1,b1): #pythagoras c kemudian diubah dari mm ke m
+    a=a1/1000
+    b=b1/1000
+    return (sqrt(a*a+b*b))
 
+
+#masih dalam mm, c nya diubah jadi bikin mm jadi m aja
 dsecbl = c(1550+765+3240,1900+1850)
 dsecb = (1280+1900+1850)/1000
 dsecbd = c(1550+765+3240,1900+1850)
 dsecte = c(1550+765+3240, 1900+2500+125+1850)
-dsect1 = 1900+2500+125
-dsect2 = 1900+2500+125+1850+810
+dsect1 = (1900+2500+125)/1000
+dsect2 = (1900+2500+125+1850+810)/1000
 dsectl = c(1550+765+3240, 1900+2500+125)
 
 
 
-head = ["Dinding","dsec","atandeg","Scatter","Leakage"]
+head = ["Dinding","dsec","Scatter\nDegree","Scatter","Leakage"]
 mydata = [
     ["BL",dsecbl,atandeg(dsecbl),scatter(0.2 ,dsecbl,1  )+HVL,   leakage (0.2 ,dsecbl,1  )],
-    ["B" ,dsecb,  atandeg(dsecb) ,scatter(0.01,dsecb ,0.2)+HVL,   leakage (0.01,dsecb ,0.2)+HVL],
+    ["B" ,dsecb, atandeg(dsecb) ,scatter(0.01,dsecb ,0.2)+HVL,   leakage (0.01,dsecb ,0.2)+HVL],
     ["BD",dsecbd,atandeg(dsecbd),scatter(0.2 ,dsecbd,1  )+HVL,   leakage (0.2 ,dsecbd,1  )+HVL],
     ["Te",dsecte,atandeg(dsecte),scatter(0.2 ,dsecte,1  )+HVL,   leakage (0.2 ,dsecte,1  )+HVL],
     ["T1",dsect1,atandeg(dsect1),scatter(0.2 ,dsect1,1  )+HVL,   leakage (0.2 ,dsect1,1  )+HVL],
