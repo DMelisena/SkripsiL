@@ -17,9 +17,9 @@ brp=20/2/50  #batas radiasi pekerja,   (20mSv/tahun)*setengah/50 minggu/tahun
 brm=1/2/50   #batas radiasi masyarakat,(1mSv/tahun*setengah/50 minggu/tahun
 print("BRP = ",brp, "     brm = ",brm)
 
-TVL1= 410 #mm
-TVLe= 370 #mm
-TVL = 305 #mm
+TVL1= 0.410 #m
+TVLe= 0.370 #m
+TVL = 0.305 #m
 HVL=TVL*log10(2)
 print("HVL = ",HVL)
 
@@ -37,22 +37,21 @@ x90, y90 = 90, 0.000381 #90 derajat
 #========Mencari Fungsi ax+b========
 #Data berdasarkan sudut dan scatter fraction pada energi 10MV
 
-#cari slope 60 90
+# cari slope 60 90
 slope = (y90 - y60) / (x90 - x60) ; print("slope = ",slope)
 slope2 = (y45 - y30) / (x45 - x30) ; print("slope = ",slope)
 # cari intercept
 intercept = y60 - slope * x60 ; print("intercept = ",intercept)
 intercept2 = y30 - slope2 * x30 ; print("intercept = ",intercept)
+# Karena nilai slopenya dah ketemu, degree tinggal dikaliin slope + intercept
 print(f"Fungsi y = {slope}x +{intercept}")
 print(f"Fungsi y2 = {slope2}x +{intercept2}")
 
-########## Karena nilai slopenya dah ketemu, degree tinggal dikaliin slope + intercept
 print("Nilai a dari dsec 3.15",atandeg(3.15,1)*slope+intercept)
 def a(dsec):
     degree = atandeg(dsec, dsca)
     #return slope * degree + intercept
     if 60 <= degree <= 90:
-        degree=int(degree)
         return slope * degree + intercept
     elif 30 <= degree <= 45:
         return slope2 * degree + intercept2
@@ -70,6 +69,7 @@ def scatter(P,dsec,T): # (dsec = jarak pasien ke titik pengukuran ; a= Fraksi ha
     print("alpha =", al)
     #print("alpha = 0.0005317")
     B=(P*(dsca**2)*(dsec**2)*400)/(al*W*T*F)
+    print(f"Bscatter= {P} ( {dsca} **2)*( {dsec} **2)*400)/( {al} * {W} * {T} * {F} )= {B} ")
     #B=(P*(dsca**2)*(dsec**2)*400)/(0.0005317*700000*T*F)
     n=-log10(B)
     return n*TVL
@@ -92,7 +92,9 @@ def nscatter(P,dsec,T): # (dsec = jarak pasien ke titik pengukuran ; a= Fraksi h
 
 def leakage(P,Dl,T):
     B=(P*(Dl**2))/(0.001*W*T)
+    
     n=-log10(B)
+    print(f"leakage=({P}*({Dl}**2))/(0.001*{W}*{T})={n*TVL}")
     return n*TVL
 
 def c(a,b): #pythagoras c kemudian diubah dari mm ke m
