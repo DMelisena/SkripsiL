@@ -63,10 +63,10 @@ def atandeg(dsec): # Fungsi yang dipakek, terus scatter disudutnya di interpolas
 
 print(f"Nilai scatter fraction(a) pada dsec 3.15 = {a(3.15)}")
 
-def scatter(P,dsec,T): # (dsec = jarak pasien ke titik pengukuran ; a= Fraksi hambur atau serapan dosis berkas primer yang terhambur dari pasien)
-    #print(f"Pada dinding{Name}")
+def scatter(Nama,P,dsec,T): # (dsec = jarak pasien ke titik pengukuran ; a= Fraksi hambur atau serapan dosis berkas primer yang terhambur dari pasien)
+    print(f"\nPada dinding {Nama} dengan dsec = {dsec}")
     al= atandeg(dsec) #nilai scatternya cukup dari dsec, karena dsca (Pasien ke sumber) pasti 1
-    print(f"\nScatter Fraction (a) {dsec} =", al)
+    print(f"Scatter Fraction (a) {Nama} =", al)
     #print("alpha = 0.0005317")
     B=(P*(dsca**2)*(dsec**2)*400)/(al*W*T*F)
     print(f"Bscatter= {P} ( {dsca} **2)*( {dsec} **2)*400)/( {al} * {W} * {T} * {F} )= {B} ")
@@ -121,13 +121,13 @@ dsectl = c(1550+765+3240, 1900+2500+125)
 
 head = ["Dinding","dsec","Scatter\nDegree","Scatter","Leakage"]
 mydata = [
-    ["BL",dsecbl,atandeg(dsecbl),scatter(0.2 ,dsecbl,1  )+HVL,   leakage (0.2 ,dsecbl,1  )],
-    ["B" ,dsecb, atandeg(dsecb) ,scatter(0.01,dsecb ,0.2)+HVL,   leakage (0.01,dsecb ,0.2)+HVL],
-    ["BD",dsecbd,atandeg(dsecbd),scatter(0.2 ,dsecbd,1  )+HVL,   leakage (0.2 ,dsecbd,1  )+HVL],
-    ["Te",dsecte,atandeg(dsecte),scatter(0.2 ,dsecte,1  )+HVL,   leakage (0.2 ,dsecte,1  )+HVL],
-    ["T1",dsect1,atandeg(dsect1),scatter(0.2 ,dsect1,1  )+HVL,   leakage (0.2 ,dsect1,1  )+HVL],
-    ["T2",dsect2,atandeg(dsect2),scatter(0.2 ,dsect2,1  )+HVL,   leakage (0.2 ,dsect2,1  )],
-    ["TL",dsect1,atandeg(dsect1),scatter(0.2 ,dsectl,1  )+HVL,   leakage (0.2 ,dsectl,1  )],
+    ["BL",dsecbl,atandeg(dsecbl),scatter("BL",0.2 ,dsecbl,1  )+HVL,   leakage (0.2 ,dsecbl,1  )],
+    ["B" ,dsecb, atandeg(dsecb) ,scatter("B",0.01,dsecb ,0.2)+HVL,   leakage (0.01,dsecb ,0.2)+HVL],
+    ["BD",dsecbd,atandeg(dsecbd),scatter("BD",0.2 ,dsecbd,1  )+HVL,   leakage (0.2 ,dsecbd,1  )+HVL],
+    ["Te",dsecte,atandeg(dsecte),scatter("Te",0.2 ,dsecte,1  )+HVL,   leakage (0.2 ,dsecte,1  )+HVL],
+    ["T1",dsect1,atandeg(dsect1),scatter("T1",0.2 ,dsect1,1  )+HVL,   leakage (0.2 ,dsect1,1  )+HVL],
+    ["T2",dsect2,atandeg(dsect2),scatter("T2",0.2 ,dsect2,1  )+HVL,   leakage (0.2 ,dsect2,1  )],
+    ["TL",dsect1,atandeg(dsect1),scatter("TL",0.2 ,dsectl,1  )+HVL,   leakage (0.2 ,dsectl,1  )],
         ]
 
 print(tabulate(mydata, headers=head,tablefmt="grid"))
