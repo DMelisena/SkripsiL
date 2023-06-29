@@ -42,8 +42,6 @@ intercept2 = y30 - slope2 * x30 ; print("intercept = ",intercept)
 print(f"Fungsi y = {slope}x +{intercept}")
 print(f"Fungsi y2 = {slope2}x +{intercept2}")
 
-
-
 #print("Nilai a atau scatter fraction dari dsec = 3.15",atandeg(3.15,1)*slope+intercept)
 def a(dsec):
     degree = atandeg(dsec)
@@ -66,16 +64,14 @@ print(f"Nilai scatter fraction(a) pada dsec 3.15 = {a(3.15)}")
 def scatter(Nama,P,dsec,T): # (dsec = jarak pasien ke titik pengukuran ; a= Fraksi hambur atau serapan dosis berkas primer yang terhambur dari pasien)
     print(f"\nPada dinding {Nama} dengan dsec = {dsec}")
     al= atandeg(dsec) #nilai scatternya cukup dari dsec, karena dsca (Pasien ke sumber) pasti 1
-    print(f"Scatter Fraction (a) {Nama} =", al)
+    print(f"Scatter Fraction(a) dinding {Nama} =", al)
     #print("alpha = 0.0005317")
     B=(P*(dsca**2)*(dsec**2)*400)/(al*W*T*F)
     print(f"Bscatter= {P} ( {dsca} **2)*( {dsec} **2)*400)/( {al} * {W} * {T} * {F} )= {B} ")
     #B=(P*(dsca**2)*(dsec**2)*400)/(0.0005317*700000*T*F)
     n=-log10(B)
     print (f"n dari Bpri = {n}\nKetebalan dinding beton = {n*TVL}")
-
     return n*TVL
-
 
 def bscatter(P,dsec,T): 
     al= a(dsec) 
@@ -89,9 +85,6 @@ def nscatter(P,dsec,T):
     B=(P*(dsca**2)*(dsec**2)*400)/(al*W*T*F)
     n=-log10(B)
     return n
-
-
-#print("P=0.2,dsec = 3.15, T= 1",scatter(0.2,3.15,1)+HVL,"mm")
 
 def leakage(P,Dl,T):
     B=(P*(Dl**2))/(0.001*W*T)
