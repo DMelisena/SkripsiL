@@ -26,7 +26,7 @@ FA0= 0.4*0.4
 A0= (0.4*(1+3.24))**2
 print("Nilai A0 =",A0)
 Az= 2.350*4.27#luas cross section labirin (m2)
-dH= 3.24+0.1#Jarak isocenter ke dinding A0 [(dpp+1) pada gambar 3.6]
+dH= 3.24+1#Jarak isocenter ke dinding A0 [(dpp+1) pada gambar 3.6]
 dr=1.9+4.625 #Jarak dari pusat sinar pada refleksi pertama ke garis tengah labirin
 dz=7.105-2.350 #Panjang labirin ke pintu (m)
 
