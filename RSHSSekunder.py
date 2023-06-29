@@ -76,22 +76,20 @@ def scatter(Nama,P,dsec,T): # (dsec = jarak pasien ke titik pengukuran ; a= Frak
 
     return n*TVL
 
-"""
-def bscatter(P,dsec,T): # (dsec = jarak pasien ke titik pengukuran ; a= Fraksi hambur atau serapan dosis berkas primer yang terhambur dari pasien)
-    al= a(dsec) #nilai scatternya cukup dari dsec, karena dsca (Pasien ke sumber) pasti 1
+
+def bscatter(P,dsec,T): 
+    al= a(dsec) 
     print("alpha =", al)
-    #print("alpha = 0.0005317")
     B=(P*(dsca**2)*(dsec**2)*400)/(al*W*T*F)
     return B
-def nscatter(P,dsec,T): # (dsec = jarak pasien ke titik pengukuran ; a= Fraksi hambur atau serapan dosis berkas primer yang terhambur dari pasien)
-    al= a(dsec) #nilai scatternya cukup dari dsec, karena dsca (Pasien ke sumber) pasti 1
+
+def nscatter(P,dsec,T):
+    al= a(dsec)
     print("alpha =", al)
-    #print("alpha = 0.0005317")
     B=(P*(dsca**2)*(dsec**2)*400)/(al*W*T*F)
-    #B=(P*(dsca**2)*(dsec**2)*400)/(0.0005317*700000*T*F)
     n=-log10(B)
     return n
-"""
+
 
 #print("P=0.2,dsec = 3.15, T= 1",scatter(0.2,3.15,1)+HVL,"mm")
 
@@ -110,7 +108,7 @@ def c(a1,b1): #pythagoras c kemudian diubah dari mm ke m
 
 #masih dalam mm, c nya diubah jadi bikin mm jadi m aja
 dsecbl = c(1550+765+3240,1900+1850)
-dsecb = (1280+1900+1850)/1000
+dsecb  = (1280+1900+1850)/1000
 dsecbd = c(1550+765+3240,1900+1850)
 dsecte = c(1550+765+3240, 1900+2500+125+1850)
 dsect1 = (1900+2500+125)/1000
@@ -118,11 +116,24 @@ dsect2 = (1900+2500+125+1850+810)/1000
 dsectl = c(1550+765+3240, 1900+2500+125)
 
 
+head = ["Dinding","dsec","Scatter\nDegree","Scatter","Leakage"]
+mydata = [
+    ["BL",dsecbl,atandeg(dsecbl),scatter("BL",0.2 ,dsecbl,1  )+HVL,   leakage (0.2 ,dsecbl,1  )],
+    ["B" ,dsecb, atandeg(dsecb) ,scatter("B",0.01,dsecb ,0.2 )+HVL,   leakage (0.01,dsecb ,0.2)+HVL],
+    ["BD",dsecbd,atandeg(dsecbd),scatter("BD",0.2 ,dsecbd,1  )+HVL,   leakage (0.2 ,dsecbd,1  )+HVL],
+    ["Te",dsecte,atandeg(dsecte),scatter("Te",0.2 ,dsecte,1  )+HVL,   leakage (0.2 ,dsecte,1  )+HVL],
+    ["T1",dsect1,atandeg(dsect1),scatter("T1",0.2 ,dsect1,1  )+HVL,   leakage (0.2 ,dsect1,1  )+HVL],
+    ["T2",dsect2,atandeg(dsect2),scatter("T2",0.2 ,dsect2,1  )+HVL,   leakage (0.2 ,dsect2,1  )],
+    ["TL",dsect1,atandeg(dsect1),scatter("TL",0.2 ,dsectl,1  )+HVL,   leakage (0.2 ,dsectl,1  )],
+        ]
+
+print(tabulate(mydata, headers=head,tablefmt="grid"))
+
 
 head = ["Dinding","dsec","Scatter\nDegree","Scatter","Leakage"]
 mydata = [
     ["BL",dsecbl,atandeg(dsecbl),scatter("BL",0.2 ,dsecbl,1  )+HVL,   leakage (0.2 ,dsecbl,1  )],
-    ["B" ,dsecb, atandeg(dsecb) ,scatter("B",0.01,dsecb ,0.2)+HVL,   leakage (0.01,dsecb ,0.2)+HVL],
+    ["B" ,dsecb, atandeg(dsecb) ,scatter("B",0.01,dsecb ,0.2 )+HVL,   leakage (0.01,dsecb ,0.2)+HVL],
     ["BD",dsecbd,atandeg(dsecbd),scatter("BD",0.2 ,dsecbd,1  )+HVL,   leakage (0.2 ,dsecbd,1  )+HVL],
     ["Te",dsecte,atandeg(dsecte),scatter("Te",0.2 ,dsecte,1  )+HVL,   leakage (0.2 ,dsecte,1  )+HVL],
     ["T1",dsect1,atandeg(dsect1),scatter("T1",0.2 ,dsect1,1  )+HVL,   leakage (0.2 ,dsect1,1  )+HVL],
