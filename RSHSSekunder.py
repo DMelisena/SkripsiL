@@ -7,6 +7,7 @@ gyperpasien=4
 hariperminggu=5
 
 W=hariperminggu*gyperpasien*pasienperhari*1000 #1.400.000 mSv
+print("\nPerhitungan Nilai - Nilai standar keamanan menurt SRS dan NCRP ",W)
 print("W = ",W)
 dsca=1 #jarak sumber ke pasien 1 meter
 #F=pi*((41/2)**2) #Kenapa 41? luas lapangan radiasi 41cm2, bukannya harusnya meter?
@@ -33,16 +34,20 @@ x90, y90 = 90, 0.000381 #90 derajat
 #Data berdasarkan sudut dan scatter fraction pada energi 10MV
 
 # cari slope 60 90
-slope = (y90 - y60) / (x90 - x60) ; print("slope = ",slope)
-slope2 = (y45 - y30) / (x45 - x30) ; print("slope = ",slope)
-# cari intercept
-intercept = y60 - slope * x60 ; print("intercept = ",intercept)
-intercept2 = y30 - slope2 * x30 ; print("intercept = ",intercept)
+print (f"\n===========  Scatter Fractions  ==============")
+slope = (y90 - y60) / (x90 - x60) ; print("slope 6090 = ",slope)
+intercept = y60 - slope * x60 ; print("intercept 6090 = ",intercept)
+slope2 = (y45 - y30) / (x45 - x30) ; print("slope 3045 = ",slope2)
+intercept2 = y30 - slope2 * x30 ; print("intercept 3045 = ",intercept2)
 # Karena nilai slopenya dah ketemu, degree tinggal dikaliin slope + intercept
 print(f"Fungsi y = {slope}x +{intercept}")
 print(f"Fungsi y2 = {slope2}x +{intercept2}")
+print (f"==============================================\n")
 
-#print("Nilai a atau scatter fraction dari dsec = 3.15",atandeg(3.15,1)*slope+intercept)
+def atanrad(dsec): #Fungsi didalam atandeg, dipisahin biar gampang dibaca aja
+    return atan(dsec/dsca) #nyari nilai pi
+def atandeg(dsec): # Fungsi yang dipakek, terus scatter disudutnya di interpolasiin dari table b.4 antara 60 dan 90
+    return degrees(atanrad(dsec)) #nyari derajat dari nilai pi
 def a(dsec):
     degree = atandeg(dsec)
     #return slope * degree + intercept
@@ -53,24 +58,24 @@ def a(dsec):
     else:
         return 0
 
-def atanrad(dsec): #Fungsi didalam atandeg, dipisahin biar gampang dibaca aja
-    return atan(dsec/dsca) #nyari nilai pi
-def atandeg(dsec): # Fungsi yang dipakek, terus scatter disudutnya di interpolasiin dari table b.4 antara 60 dan 90
-    return degrees(atanrad(dsec)) #nyari derajat dari nilai pi
-
-
-print(f"Nilai scatter fraction(a) pada dsec 3.15 = {a(3.15)}")
+#print(f"Nilai scatter fraction(a) pada dsec 3.15 = {a(3.15)}")
 
 def scatter(Nama,P,dsec,T): # (dsec = jarak pasien ke titik pengukuran ; a= Fraksi hambur atau serapan dosis berkas primer yang terhambur dari pasien)
-    print(f"\nPada dinding {Nama} dengan dsec = {dsec}")
-    al= atandeg(dsec) #nilai scatternya cukup dari dsec, karena dsca (Pasien ke sumber) pasti 1
-    print(f"Scatter Fraction(a) dinding {Nama} =", al)
+    #print(f"\nPada dinding {Nama} dengan dsec = {dsec}")
+    deg= atandeg(dsec) #nilai scatternya cukup dari dsec, karena dsca (Pasien ke sumber) pasti 1
+    #print(f"Sudut yang tercipta : {deg}")
+    al = a(dsec)
+    #print(f"Scatter Fraction(a) dinding {Nama} =", al)
     #print("alpha = 0.0005317")
     B=(P*(dsca**2)*(dsec**2)*400)/(al*W*T*F)
-    print(f"Bscatter= {P} ( {dsca} **2)*( {dsec} **2)*400)/( {al} * {W} * {T} * {F} )= {B} ")
+    #print(f"Bscatter= {P} ( {dsca} **2)*( {dsec} **2)*400)/( {al} * {W} * {T} * {F} )= {B} ")
     #B=(P*(dsca**2)*(dsec**2)*400)/(0.0005317*700000*T*F)
     n=-log10(B)
-    print (f"n dari Bpri = {n}\nKetebalan dinding beton = {n*TVL}")
+    #print (f"n dari Bpri = {n}\nKetebalan dinding beton = {n*TVL}")
+    print (f"================   {Nama}    =====================")
+    print (f"===============  Scatter  ====================")
+    print (f"dsec ={dsec} \ndeg = {deg} a = {al}\nB = {B}\nn ={n}\nShield = {n*TVL}")
+
     return n*TVL
 
 def bscatter(P,dsec,T): 
@@ -90,7 +95,9 @@ def leakage(P,Dl,T):
     B=(P*(Dl**2))/(0.001*W*T)
     
     n=-log10(B)
-    print(f"leakage=({P}*({Dl}**2))/(0.001*{W}*{T})={n*TVL}")
+    print (f"===============  Leakage  ====================")
+    print(f"B = {B} n = {n} \nShield = {n*TVL}\n")
+    #print(f"leakage=({P}*({Dl}**2))/(0.001*{W}*{T})={n*TVL}")
     return n*TVL
 
 def c(a1,b1): #pythagoras c kemudian diubah dari mm ke m
@@ -117,21 +124,7 @@ mydata = [
     ["Te",dsecte,atandeg(dsecte),scatter("Te",0.2 ,dsecte,1  )+HVL,   leakage (0.2 ,dsecte,1  )+HVL],
     ["T1",dsect1,atandeg(dsect1),scatter("T1",0.2 ,dsect1,1  )+HVL,   leakage (0.2 ,dsect1,1  )+HVL],
     ["T2",dsect2,atandeg(dsect2),scatter("T2",0.2 ,dsect2,1  )+HVL,   leakage (0.2 ,dsect2,1  )],
-    ["TL",dsect1,atandeg(dsect1),scatter("TL",0.2 ,dsectl,1  )+HVL,   leakage (0.2 ,dsectl,1  )],
-        ]
-
-print(tabulate(mydata, headers=head,tablefmt="grid"))
-
-
-head = ["Dinding","dsec","Scatter\nDegree","Scatter","Leakage"]
-mydata = [
-    ["BL",dsecbl,atandeg(dsecbl),scatter("BL",0.2 ,dsecbl,1  )+HVL,   leakage (0.2 ,dsecbl,1  )],
-    ["B" ,dsecb, atandeg(dsecb) ,scatter("B",0.01,dsecb ,0.2 )+HVL,   leakage (0.01,dsecb ,0.2)+HVL],
-    ["BD",dsecbd,atandeg(dsecbd),scatter("BD",0.2 ,dsecbd,1  )+HVL,   leakage (0.2 ,dsecbd,1  )+HVL],
-    ["Te",dsecte,atandeg(dsecte),scatter("Te",0.2 ,dsecte,1  )+HVL,   leakage (0.2 ,dsecte,1  )+HVL],
-    ["T1",dsect1,atandeg(dsect1),scatter("T1",0.2 ,dsect1,1  )+HVL,   leakage (0.2 ,dsect1,1  )+HVL],
-    ["T2",dsect2,atandeg(dsect2),scatter("T2",0.2 ,dsect2,1  )+HVL,   leakage (0.2 ,dsect2,1  )],
-    ["TL",dsect1,atandeg(dsect1),scatter("TL",0.2 ,dsectl,1  )+HVL,   leakage (0.2 ,dsectl,1  )],
+    ["TL",dsectl,atandeg(dsect1),scatter("TL",0.2 ,dsectl,1  )+HVL,   leakage (0.2 ,dsectl,1  )],
         ]
 
 print(tabulate(mydata, headers=head,tablefmt="grid"))
