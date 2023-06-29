@@ -54,6 +54,7 @@ def InstDR(P,dsad):
     return TVL1+(TVLe*(n-1)) 
 def bInstDR(P,dsad):
     b=(P/40/1000)*(dsad**2)/DR #Dibagi 1000 karena dirubah dari mSv ke Sv
+    print("$$B_{IDR}=\ frac {",P,"(",dsad,"^{2})}{",DR,"}$$") #tinggal dihapus jarak \ dan f jadi langsung latex
     return b 
 def nInstDR(P,dsad):
     b=(P/40/1000)*(dsad**2)/DR #Dibagi 1000 karena dirubah dari mSv ke Sv
