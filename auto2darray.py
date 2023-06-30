@@ -1,4 +1,4 @@
-import numpy as npqq
+import numpy as np
 import math
 from math import *
 from tabulate import tabulate
@@ -72,21 +72,27 @@ arrsh=["Scatter\nShielding"]
 def scatter(Nama,P,dsec,T): # (dsec = jarak pasien ke titik pengukuran ; a= Fraksi hambur atau serapan dosis berkas primer yang terhambur dari pasien)
     #print(f"\nPada dinding {Nama} dengan dsec = {dsec}")
     deg= atandeg(dsec) #nilai scatternya cukup dari dsec, karena dsca (Pasien ke sumber) pasti 1
+    arrdeg.append(deg)
     #print(f"Sudut yang tercipta : {deg}")
-    
+    arrname.append(Nama)
     al = a(dsec)
+    arra.append(al)
     #print(f"Scatter Fraction(a) dinding {Nama} =", al)
     #print("alpha = 0.0005317")
     B=(P*(dsca**2)*(dsec**2)*400)/(al*W*T*F)
+    arrb.append(B)
     #print(f"Bscatter= {P} ( {dsca} **2)*( {dsec} **2)*400)/( {al} * {W} * {T} * {F} )= {B} ")
     #B=(P*(dsca**2)*(dsec**2)*400)/(0.0005317*700000*T*F)
     n=-log10(B)
+    arrb.append(n)
+    sh=n*TVL
+    arrsh.append(sh)
     #print (f"n dari Bpri = {n}\nKetebalan dinding beton = {n*TVL}")
     print (f"================   {Nama}    =====================")
     print (f"===============  Scatter  ====================")
     print (f"dsec ={dsec} \ndeg = {deg} a = {al}\nB = {B}\nn ={n}\nShield = {n*TVL}")
 
-    return n*TVL
+    return sh
 def bscatter(P,dsec,T): 
     al= a(dsec) 
     print("alpha =", al)
@@ -144,3 +150,22 @@ mydata = [
         ]
 
 print(tabulate(mydata, headers=head,tablefmt="grid"))
+
+
+array=[]
+array.append(arrname)
+array.append(arrdeg)
+array.append(arra)
+array.append(arrb)
+array.append(arrn)
+array.append(arrsh)
+
+nparray=np.array
+obarray=np.array(nparray,dtype=object)
+tarray=obarray.T
+trarray=np.transpose(tarray)
+print(trarray)
+
+#trarray = np.transpose(array)
+
+#print(tabulate(trarray, tablefmt="grid"))
