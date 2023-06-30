@@ -76,7 +76,7 @@ def scatter(Nama,P,dsec,T): # (dsec = jarak pasien ke titik pengukuran ; a= Frak
     #print(f"Sudut yang tercipta : {deg}")
     arrname.append(Nama)
     al = a(dsec)
-    arra.append(al)
+    arra.append( al)
     #print(f"Scatter Fraction(a) dinding {Nama} =", al)
     #print("alpha = 0.0005317")
     B=(P*(dsca**2)*(dsec**2)*400)/(al*W*T*F)
@@ -84,7 +84,7 @@ def scatter(Nama,P,dsec,T): # (dsec = jarak pasien ke titik pengukuran ; a= Frak
     #print(f"Bscatter= {P} ( {dsca} **2)*( {dsec} **2)*400)/( {al} * {W} * {T} * {F} )= {B} ")
     #B=(P*(dsca**2)*(dsec**2)*400)/(0.0005317*700000*T*F)
     n=-log10(B)
-    arrb.append(n)
+    arrn.append(n)
     sh=n*TVL
     arrsh.append(sh)
     #print (f"n dari Bpri = {n}\nKetebalan dinding beton = {n*TVL}")
@@ -137,7 +137,7 @@ dsect1 = (1900+2500+125)/1000
 dsect2 = (1900+2500+125+1850+810)/1000
 dsectl = c(1550+765+3240, 1900+2500+125)
 
-
+"""
 head = ["Dinding","dsec","Scatter\nDegree","Scatter","Leakage"]
 mydata = [
     ["BL",dsecbl,atandeg(dsecbl),scatter("BL",0.2 ,dsecbl,1  )+HVL,   leakage (0.2 ,dsecbl,1  )],
@@ -149,8 +149,17 @@ mydata = [
     ["TL",dsectl,atandeg(dsect1),scatter("TL",0.2 ,dsectl,1  )+HVL,   leakage (0.2 ,dsectl,1  )],
         ]
 
+        
 print(tabulate(mydata, headers=head,tablefmt="grid"))
 
+"""
+scatter("BL",0.2 ,dsecbl,1  );   leakage (0.2 ,dsecbl,1  )
+scatter("B",0.01,dsecb ,0.2 );   leakage (0.01,dsecb ,0.2)
+scatter("BD",0.2 ,dsecbd,1  );   leakage (0.2 ,dsecbd,1  )
+scatter("Te",0.2 ,dsecte,1  );   leakage (0.2 ,dsecte,1  )
+scatter("T1",0.2 ,dsect1,1  );   leakage (0.2 ,dsect1,1  )
+scatter("T2",0.2 ,dsect2,1  );   leakage (0.2 ,dsect2,1  )
+scatter("TL",0.2 ,dsectl,1  );   leakage (0.2 ,dsectl,1  )
 
 array=[]
 array.append(arrname)
@@ -160,12 +169,26 @@ array.append(arrb)
 array.append(arrn)
 array.append(arrsh)
 
-nparray=np.array
+#print(array)
+nparray=np.array(array)
+nparray=np.array([np.round(val,precision) if isinstance(val, float) else val for val in nparray])
+print(tabulate(nparray,tablefmt="grid"))
 obarray=np.array(nparray,dtype=object)
 tarray=obarray.T
-trarray=np.transpose(tarray)
-print(trarray)
+trarray=np.transpose(obarray)
 
+print("Data type:", trarray.dtype)
+
+#rounded_trarray=np.round(trarray,10)
+precision = 1
+#trarray=np.array([np.round(val,precision) if isinstance(val, float) else val for val in trarray])
+print(tabulate(trarray,tablefmt="grid"))
+"""
+
+print(nparray)
+print(trarray)
+print(tabulate(trarray, tablefmt="grid"))
 #trarray = np.transpose(array)
 
 #print(tabulate(trarray, tablefmt="grid"))
+"""
