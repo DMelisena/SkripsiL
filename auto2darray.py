@@ -1,4 +1,4 @@
-import numpy as py
+import numpy as npqq
 import math
 from math import *
 from tabulate import tabulate
@@ -62,10 +62,18 @@ def a(dsec):
 
 #print(f"Nilai scatter fraction(a) pada dsec 3.15 = {a(3.15)}")
 
+arrname= ["Name"]
+arrdeg=["Array"]
+arra=["Scatter\nValue"]
+arrb=["Bpri"]
+arrn=["n"]
+arrsh=["Scatter\nShielding"]
+
 def scatter(Nama,P,dsec,T): # (dsec = jarak pasien ke titik pengukuran ; a= Fraksi hambur atau serapan dosis berkas primer yang terhambur dari pasien)
     #print(f"\nPada dinding {Nama} dengan dsec = {dsec}")
     deg= atandeg(dsec) #nilai scatternya cukup dari dsec, karena dsca (Pasien ke sumber) pasti 1
     #print(f"Sudut yang tercipta : {deg}")
+    
     al = a(dsec)
     #print(f"Scatter Fraction(a) dinding {Nama} =", al)
     #print("alpha = 0.0005317")
@@ -79,20 +87,17 @@ def scatter(Nama,P,dsec,T): # (dsec = jarak pasien ke titik pengukuran ; a= Frak
     print (f"dsec ={dsec} \ndeg = {deg} a = {al}\nB = {B}\nn ={n}\nShield = {n*TVL}")
 
     return n*TVL
-
 def bscatter(P,dsec,T): 
     al= a(dsec) 
     print("alpha =", al)
     B=(P*(dsca**2)*(dsec**2)*400)/(al*W*T*F)
     return B
-
 def nscatter(P,dsec,T):
     al= a(dsec)
     print("alpha =", al)
     B=(P*(dsca**2)*(dsec**2)*400)/(al*W*T*F)
     n=-log10(B)
     return n
-
 def leakage(P,Dl,T):
     B=(P*(Dl**2))/(0.001*W*T)
     
@@ -101,23 +106,13 @@ def leakage(P,Dl,T):
     print(f"B = {B} n = {n} \nShield = {n*TVL}\n")
     #print(f"leakage=({P}*({Dl}**2))/(0.001*{W}*{T})={n*TVL}")
     return n*TVL
-
 def c(a1,b1): #pythagoras c kemudian diubah dari mm ke m
     a=a1/1000
     b=b1/1000
     return (sqrt(a*a+b*b))
 
 
-
-
-arrname= ["Name"]
-arrdeg=["Array"]
-arra=["Scatter\nValue"]
-arrb=["Bpri"]
-arrn=["n"]
-arrsh=["Scatter\nShielding"]
-
-
+"""
 def scatter(Nama,P,dsec,T):
     arrname.append(Nama)
     dsca = 1
@@ -125,6 +120,7 @@ def scatter(Nama,P,dsec,T):
     al = a(deg)
     B=(P*(dsca**2)*(dsec**2)*400)/(al*W*T*F)
     n=-log10(B)
+"""
 
 #masih dalam mm, c nya diubah jadi bikin mm jadi m aja
 dsecbl = c(1550+765+3240,1900+1850)
