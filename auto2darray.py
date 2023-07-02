@@ -153,6 +153,20 @@ mydata = [
 print(tabulate(mydata, headers=head,tablefmt="grid"))
 
 """
+def sekunder(Nama,P,dsec,T):
+    scatter(Nama,P,dsec,T)
+    leakage(P,dsec,T)
+    return
+
+sekunder("BL",0.2 ,dsecbl,1  )
+sekunder("B",0.01,dsecb ,0.2 )
+sekunder("BD",0.2 ,dsecbd,1  )
+sekunder("Te",0.2 ,dsecte,1  )
+sekunder("T1",0.2 ,dsect1,1  )
+sekunder("T2",0.2 ,dsect2,1  )
+sekunder("TL",0.2 ,dsectl,1  )
+
+"""
 scatter("BL",0.2 ,dsecbl,1  );   leakage (0.2 ,dsecbl,1  )
 scatter("B",0.01,dsecb ,0.2 );   leakage (0.01,dsecb ,0.2)
 scatter("BD",0.2 ,dsecbd,1  );   leakage (0.2 ,dsecbd,1  )
@@ -160,7 +174,7 @@ scatter("Te",0.2 ,dsecte,1  );   leakage (0.2 ,dsecte,1  )
 scatter("T1",0.2 ,dsect1,1  );   leakage (0.2 ,dsect1,1  )
 scatter("T2",0.2 ,dsect2,1  );   leakage (0.2 ,dsect2,1  )
 scatter("TL",0.2 ,dsectl,1  );   leakage (0.2 ,dsectl,1  )
-
+"""
 array=[]
 array.append(arrname)
 array.append(arrdeg)
@@ -172,7 +186,7 @@ array.append(arrsh)
 #print(array)
 nparray=np.array(array)
 nparray=np.array([np.round(val,precision) if isinstance(val, float) else val for val in nparray])
-print(tabulate(nparray,tablefmt="grid"))
+#print(tabulate(nparray,tablefmt="grid"))
 obarray=np.array(nparray,dtype=object)
 tarray=obarray.T
 trarray=np.transpose(obarray)
