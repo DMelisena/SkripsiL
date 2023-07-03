@@ -66,10 +66,13 @@ arrname= ["Name"]
 arrdsec= ["dsec"]
 arrdeg=["Scatter\nDegree"]
 arra=["Scatter\nValue"]
-arrb=["Bpri"]
+arrb=["Bps"]
 arrn=["n"]
 arrsh=["Scatter\nShielding"]
-
+arrdl=["D Leak"] #Harusnya dari sumber
+arrbleak=["B leak"]
+arrnbleak=["n leak"]
+arrshleak=["Leakage\nShielding"]
 def scatter(Nama,P,dsec,T): # (dsec = jarak pasien ke titik pengukuran ; a= Fraksi hambur atau serapan dosis berkas primer yang terhambur dari pasien)
     #print(f"\nPada dinding {Nama} dengan dsec = {dsec}")
     
@@ -90,32 +93,25 @@ def scatter(Nama,P,dsec,T): # (dsec = jarak pasien ke titik pengukuran ; a= Frak
     arrn.append("%.5f"%n)
     sh=(n*TVL)+HVL
     arrsh.append("%.5f"%sh)
+
     #print (f"n dari Bpri = {n}\nKetebalan dinding beton = {n*TVL}")
     print (f"================   {Nama}    =====================")
     print (f"===============  Scatter  ====================")
     print (f"dsec ={dsec} \ndeg = {deg} a = {al}\nB = {B}\nn ={n}\nShield = {n*TVL}")
 
     return sh
-"""def bscatter(P,dsec,T): 
-    al= a(dsec) 
-    print("alpha =", al)
-    B=(P*(dsca**2)*(dsec**2)*400)/(al*W*T*F)
-    return B
-def nscatter(P,dsec,T):
-    al= a(dsec)
-    print("alpha =", al)
-    B=(P*(dsca**2)*(dsec**2)*400)/(al*W*T*F)
-    n=-log10(B)
-    return n
-"""
 def leakage(P,Dl,T):
+    arrdl.append("%.5f"%Dl)
     B=(P*(Dl**2))/(0.001*W*T)
-    
+    arrbleak.append("%.5f"%B)
     n=-log10(B)
+    arrnbleak.append("%.5f"%n)
     print (f"===============  Leakage  ====================")
     print(f"B = {B} n = {n} \nShield = {n*TVL}\n")
     #print(f"leakage=({P}*({Dl}**2))/(0.001*{W}*{T})={n*TVL}")
-    return n*TVL
+    shleak=n*TVL
+    arrshleak.append("%.5f"%shleak)
+    return shleak
 def c(a1,b1): #pythagoras c kemudian diubah dari mm ke m
     a=a1/1000
     b=b1/1000
@@ -153,6 +149,10 @@ array.append(arra)
 array.append(arrb)
 array.append(arrn)
 array.append(arrsh)
+array.append(arrdl)
+array.append(arrbleak)
+array.append(arrnbleak)
+array.append(arrshleak)
 
 
 #print(array)
