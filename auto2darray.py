@@ -69,7 +69,7 @@ arra=["Scatter\nValue"]
 arrb=["Bps"]
 arrn=["n"]
 arrsh=["Scatter\nShielding"]
-arrdl=["D Leak"] #Harusnya dari sumber
+arrdl=["dLeak"] #Harusnya dari sumber
 arrbleak=["B leak"]
 arrnbleak=["n leak"]
 arrshleak=["Leakage\nShielding"]
@@ -127,27 +127,27 @@ dsectl = c(1550+765+3240, 1900+2500+125+1850)
 dsecu1 = (1900+2500+125)/1000
 dsecu2 = (1900+2500+125+1850+810)/1000
 dsecbl = c(1550+765+3240, 1900+2500+125)
-""""
-dlbl =
-dlb  =
-dlbd =
-dlte =
-dlt1 =
-dlt2 = 
-dltl =
-"""
-def sekunder(Nama,P,dsec,T):
+
+dlbd = c(c(1550+765+3240,1900+1850),1)*1000
+dls = c((1280+1900+1850)/1000,1)*1000
+dlte = c(c(1550+765+3240,1900+1850),1)*1000
+dltl = c(c(1550+765+3240, 1900+2500+125+1850),1)*1000
+dlu1 = c((1900+2500+125)/1000,1)*1000
+dlu2 = c((1900+2500+125+1850+810)/1000,1)*1000
+dlbl = c(c(1550+765+3240, 1900+2500+125),1)*1000
+
+def sekunder(Nama,P,dsec,Dl,T):
     scatter(Nama,P,dsec,T)
-    leakage(P,dsec,T)
+    leakage(P,Dl,T)
     return
 
-sekunder("BD",0.2 ,dsecbd,1  )
-sekunder("S",0.01,dsecs,0.2 )
-sekunder("Te",0.2 ,dsecte,1  )
-sekunder("TL",0.2 ,dsectl,1  )
-sekunder("U1",0.2 ,dsecu1,1  )
-sekunder("U2",0.2 ,dsecu2,1  )
-sekunder("BL",0.2 ,dsecbl,1  )
+sekunder("BD",0.2 ,dsecbd,dlbd,1  )
+sekunder("S" ,0.01,dsecs ,dls ,0.2)
+sekunder("Te",0.2 ,dsecte,dlte,1  )
+sekunder("TL",0.2 ,dsectl,dltl,1  )
+sekunder("U1",0.2 ,dsecu1,dlu1,1  )
+sekunder("U2",0.2 ,dsecu2,dlu2,1  )
+sekunder("BL",0.2 ,dsecbl,dlbl,1  )
 
 array=[]
 array.append(arrname)
