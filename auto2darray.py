@@ -87,7 +87,7 @@ def scatter(Nama,P,dsec,T): # (dsec = jarak pasien ke titik pengukuran ; a= Frak
     #B=(P*(dsca**2)*(dsec**2)*400)/(0.0005317*700000*T*F)
     n=-log10(B)
     arrn.append(n)
-    sh=n*TVL
+    sh=(n*TVL)+HVL
     arrsh.append(sh)
     #print (f"n dari Bpri = {n}\nKetebalan dinding beton = {n*TVL}")
     print (f"================   {Nama}    =====================")
