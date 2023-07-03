@@ -2,7 +2,6 @@ import numpy as np
 import math
 from math import *
 from tabulate import tabulate
-
 #========Beban Kerja
 pasienperhari=70
 gyperpasien=4
@@ -47,6 +46,7 @@ print(f"Fungsi y2 = {slope2}x +{intercept2}")
 print (f"==============================================\n")
 
 def atanrad(dsec): #Fungsi didalam atandeg, dipisahin biar gampang dibaca aja
+    dsca=1
     return atan(dsec/dsca) #nyari nilai pi
 def atandeg(dsec): # Fungsi yang dipakek, terus scatter disudutnya di interpolasiin dari table b.4 antara 60 dan 90
     return degrees(atanrad(dsec)) #nyari derajat dari nilai pi
@@ -63,7 +63,8 @@ def a(dsec):
 #print(f"Nilai scatter fraction(a) pada dsec 3.15 = {a(3.15)}")
 
 arrname= ["Name"]
-arrdeg=["Array"]
+arrdsec= ["dsec"]
+arrdeg=["Scatter\nDegree"]
 arra=["Scatter\nValue"]
 arrb=["Bpri"]
 arrn=["n"]
@@ -71,6 +72,7 @@ arrsh=["Scatter\nShielding"]
 
 def scatter(Nama,P,dsec,T): # (dsec = jarak pasien ke titik pengukuran ; a= Fraksi hambur atau serapan dosis berkas primer yang terhambur dari pasien)
     #print(f"\nPada dinding {Nama} dengan dsec = {dsec}")
+    arrdsec.append(dsec)
     deg= atandeg(dsec) #nilai scatternya cukup dari dsec, karena dsca (Pasien ke sumber) pasti 1
     arrdeg.append(deg)
     #print(f"Sudut yang tercipta : {deg}")
@@ -93,7 +95,7 @@ def scatter(Nama,P,dsec,T): # (dsec = jarak pasien ke titik pengukuran ; a= Frak
     print (f"dsec ={dsec} \ndeg = {deg} a = {al}\nB = {B}\nn ={n}\nShield = {n*TVL}")
 
     return sh
-def bscatter(P,dsec,T): 
+"""def bscatter(P,dsec,T): 
     al= a(dsec) 
     print("alpha =", al)
     B=(P*(dsca**2)*(dsec**2)*400)/(al*W*T*F)
@@ -104,6 +106,7 @@ def nscatter(P,dsec,T):
     B=(P*(dsca**2)*(dsec**2)*400)/(al*W*T*F)
     n=-log10(B)
     return n
+"""
 def leakage(P,Dl,T):
     B=(P*(Dl**2))/(0.001*W*T)
     
@@ -177,6 +180,7 @@ scatter("TL",0.2 ,dsectl,1  );   leakage (0.2 ,dsectl,1  )
 """
 array=[]
 array.append(arrname)
+array.append(arrdsec)
 array.append(arrdeg)
 array.append(arra)
 array.append(arrb)
