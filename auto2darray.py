@@ -119,27 +119,35 @@ def c(a1,b1): #pythagoras c kemudian diubah dari mm ke m
 
 
 #masih dalam mm, c nya diubah jadi bikin mm jadi m aja
-dsecbl = c(1550+765+3240,1900+1850)
-dsecb  = (1280+1900+1850)/1000
+#Perubahan orientasi karena salah, utara harusnya barat
 dsecbd = c(1550+765+3240,1900+1850)
-dsecte = c(1550+765+3240, 1900+2500+125+1850)
-dsect1 = (1900+2500+125)/1000
-dsect2 = (1900+2500+125+1850+810)/1000
-dsectl = c(1550+765+3240, 1900+2500+125)
-
-
+dsecs = (1280+1900+1850)/1000
+dsecte = c(1550+765+3240,1900+1850)
+dsectl = c(1550+765+3240, 1900+2500+125+1850)
+dsecu1 = (1900+2500+125)/1000
+dsecu2 = (1900+2500+125+1850+810)/1000
+dsecbl = c(1550+765+3240, 1900+2500+125)
+""""
+dlbl =
+dlb  =
+dlbd =
+dlte =
+dlt1 =
+dlt2 = 
+dltl =
+"""
 def sekunder(Nama,P,dsec,T):
     scatter(Nama,P,dsec,T)
     leakage(P,dsec,T)
     return
 
-sekunder("BL",0.2 ,dsecbl,1  )
-sekunder("B",0.01,dsecb ,0.2 )
 sekunder("BD",0.2 ,dsecbd,1  )
+sekunder("S",0.01,dsecs,0.2 )
 sekunder("Te",0.2 ,dsecte,1  )
-sekunder("T1",0.2 ,dsect1,1  )
-sekunder("T2",0.2 ,dsect2,1  )
 sekunder("TL",0.2 ,dsectl,1  )
+sekunder("U1",0.2 ,dsecu1,1  )
+sekunder("U2",0.2 ,dsecu2,1  )
+sekunder("BL",0.2 ,dsecbl,1  )
 
 array=[]
 array.append(arrname)
@@ -153,7 +161,6 @@ array.append(arrdl)
 array.append(arrbleak)
 array.append(arrnbleak)
 array.append(arrshleak)
-
 
 #print(array)
 nparray=np.array(array)
