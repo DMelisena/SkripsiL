@@ -92,12 +92,14 @@ def scatter(Nama,P,dsec,T): # (dsec = jarak pasien ke titik pengukuran ; a= Frak
     n=-log10(B)
     arrn.append("%.5f"%n)
     sh=(n*TVL)+HVL
-    arrsh.append("%.5f"%sh)
+    arrsh.append("%.7f"%sh)
 
     #print (f"n dari Bpri = {n}\nKetebalan dinding beton = {n*TVL}")
     print (f"================   {Nama}    =====================")
     print (f"===============  Scatter  ====================")
     print (f"dsec ={dsec} \ndeg = {deg} a = {al}\nB = {B}\nn ={n}\nShield = {n*TVL}")
+    print ("$$B_{ps}=\ frac",P,"{",al,W, T,"}",dsca,"}^{2}",dsec,"^{2}\ frac{400}{",F,"} $$")
+    
 
     return sh
 def leakage(P,Dl,T):
@@ -109,8 +111,9 @@ def leakage(P,Dl,T):
     print (f"===============  Leakage  ====================")
     print(f"B = {B} n = {n} \nShield = {n*TVL}\n")
     #print(f"leakage=({P}*({Dl}**2))/(0.001*{W}*{T})={n*TVL}")
+    print("$$B_{L}=\ frac{",P,Dl,"^{2}}{10^{-3}",W,T,"}$$")
     shleak=n*TVL
-    arrshleak.append("%.5f"%shleak)
+    arrshleak.append("%.7f"%shleak)
     return shleak
 def c(a1,b1): #pythagoras c kemudian diubah dari mm ke m
     a=a1/1000
