@@ -73,6 +73,9 @@ arrdl=["dLeak"] #Harusnya dari sumber
 arrbleak=["B leak"]
 arrnbleak=["n leak"]
 arrshleak=["Leakage\nShielding"]
+
+formulas=[]
+
 def scatter(Nama,P,dsec,T): # (dsec = jarak pasien ke titik pengukuran ; a= Fraksi hambur atau serapan dosis berkas primer yang terhambur dari pasien)
     #print(f"\nPada dinding {Nama} dengan dsec = {dsec}")
     
@@ -99,9 +102,15 @@ def scatter(Nama,P,dsec,T): # (dsec = jarak pasien ke titik pengukuran ; a= Frak
     print (f"===============  Scatter  ====================")
     print (f"dsec ={dsec} \ndeg = {deg} a = {al}\nB = {B}\nn ={n}\nShield = {n*TVL}")
     print ("$$B_{ps}=\ frac",P,"{",al,W, T,"}",dsca,"}^{2}",dsec,"^{2}\ frac{400}{",F,"} $$")
-    
+    # Expression
+    expression = r"$$B_{ps}=\frac{" + str(P) + "}{" + str("%.5f"%al) + r"\times" + str(W) + r"\times" + str(T) + r"}\times{" + str(dsca) + r"}^{2}\times" + str("%.5f"%dsec) + r"^{2}\frac{400}{" + str(F) + "}$$"
 
+    #expression = r"$$B_{ps}=\frac{" + str(P) + "}{" + str("%.5f"%al) + r"\ times" + str(W)+ r"\ times"+ str(T) + "}{}" + str(dsca) + "}^{2}\times" + str("%.5f"%dsec) + "^{2}\frac{400}{" + str(F) + "}$$"
+    # Open a text file in write mode
+    with open("expression.txt", "a") as file:
+        file.write(expression+"\n")
     return sh
+
 def leakage(P,Dl,T):
     arrdl.append("%.5f"%Dl)
     B=(P*(Dl**2))/(0.001*W*T)
@@ -112,6 +121,7 @@ def leakage(P,Dl,T):
     print(f"B = {B} n = {n} \nShield = {n*TVL}\n")
     #print(f"leakage=({P}*({Dl}**2))/(0.001*{W}*{T})={n*TVL}")
     print("$$B_{L}=\ frac{",P,Dl,"^{2}}{10^{-3}",W,T,"}$$")
+    #formulas.append("$$B_{L}=\ frac{",P,Dl,"^{2}}{10^{-3}",W,T,"}$$")
     shleak=n*TVL
     arrshleak.append("%.7f"%shleak)
     return shleak
@@ -172,3 +182,4 @@ tarray=obarray.T
 trarray=np.transpose(obarray)
 print("Data type:", trarray.dtype)
 print(tabulate(trarray,tablefmt="grid"))
+print(formulas)
