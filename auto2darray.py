@@ -72,23 +72,24 @@ arrsh=["Scatter\nShielding"]
 
 def scatter(Nama,P,dsec,T): # (dsec = jarak pasien ke titik pengukuran ; a= Fraksi hambur atau serapan dosis berkas primer yang terhambur dari pasien)
     #print(f"\nPada dinding {Nama} dengan dsec = {dsec}")
-    arrdsec.append(dsec)
+    
+    arrdsec.append("%.5f"%dsec)
     deg= atandeg(dsec) #nilai scatternya cukup dari dsec, karena dsca (Pasien ke sumber) pasti 1
-    arrdeg.append(deg)
+    arrdeg.append("%.5f"%deg)
     #print(f"Sudut yang tercipta : {deg}")
     arrname.append(Nama)
     al = a(dsec)
-    arra.append( al)
+    arra.append("%.5f"%al)
     #print(f"Scatter Fraction(a) dinding {Nama} =", al)
     #print("alpha = 0.0005317")
     B=(P*(dsca**2)*(dsec**2)*400)/(al*W*T*F)
-    arrb.append(B)
+    arrb.append("%.5f"%B)
     #print(f"Bscatter= {P} ( {dsca} **2)*( {dsec} **2)*400)/( {al} * {W} * {T} * {F} )= {B} ")
     #B=(P*(dsca**2)*(dsec**2)*400)/(0.0005317*700000*T*F)
     n=-log10(B)
-    arrn.append(n)
+    arrn.append("%.5f"%n)
     sh=(n*TVL)+HVL
-    arrsh.append(sh)
+    arrsh.append("%.5f"%sh)
     #print (f"n dari Bpri = {n}\nKetebalan dinding beton = {n*TVL}")
     print (f"================   {Nama}    =====================")
     print (f"===============  Scatter  ====================")
@@ -194,6 +195,7 @@ nparray=np.array([np.round(val,precision) if isinstance(val, float) else val for
 obarray=np.array(nparray,dtype=object)
 tarray=obarray.T
 trarray=np.transpose(obarray)
+
 
 print("Data type:", trarray.dtype)
 
