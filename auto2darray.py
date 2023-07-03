@@ -122,16 +122,6 @@ def c(a1,b1): #pythagoras c kemudian diubah dari mm ke m
     return (sqrt(a*a+b*b))
 
 
-"""
-def scatter(Nama,P,dsec,T):
-    arrname.append(Nama)
-    dsca = 1
-    deg = atandeg(dsec)
-    al = a(deg)
-    B=(P*(dsca**2)*(dsec**2)*400)/(al*W*T*F)
-    n=-log10(B)
-"""
-
 #masih dalam mm, c nya diubah jadi bikin mm jadi m aja
 dsecbl = c(1550+765+3240,1900+1850)
 dsecb  = (1280+1900+1850)/1000
@@ -141,22 +131,7 @@ dsect1 = (1900+2500+125)/1000
 dsect2 = (1900+2500+125+1850+810)/1000
 dsectl = c(1550+765+3240, 1900+2500+125)
 
-"""
-head = ["Dinding","dsec","Scatter\nDegree","Scatter","Leakage"]
-mydata = [
-    ["BL",dsecbl,atandeg(dsecbl),scatter("BL",0.2 ,dsecbl,1  )+HVL,   leakage (0.2 ,dsecbl,1  )],
-    ["B" ,dsecb, atandeg(dsecb) ,scatter("B",0.01,dsecb ,0.2 )+HVL,   leakage (0.01,dsecb ,0.2)+HVL],
-    ["BD",dsecbd,atandeg(dsecbd),scatter("BD",0.2 ,dsecbd,1  )+HVL,   leakage (0.2 ,dsecbd,1  )+HVL],
-    ["Te",dsecte,atandeg(dsecte),scatter("Te",0.2 ,dsecte,1  )+HVL,   leakage (0.2 ,dsecte,1  )+HVL],
-    ["T1",dsect1,atandeg(dsect1),scatter("T1",0.2 ,dsect1,1  )+HVL,   leakage (0.2 ,dsect1,1  )+HVL],
-    ["T2",dsect2,atandeg(dsect2),scatter("T2",0.2 ,dsect2,1  )+HVL,   leakage (0.2 ,dsect2,1  )],
-    ["TL",dsectl,atandeg(dsect1),scatter("TL",0.2 ,dsectl,1  )+HVL,   leakage (0.2 ,dsectl,1  )],
-        ]
 
-        
-print(tabulate(mydata, headers=head,tablefmt="grid"))
-
-"""
 def sekunder(Nama,P,dsec,T):
     scatter(Nama,P,dsec,T)
     leakage(P,dsec,T)
@@ -170,15 +145,6 @@ sekunder("T1",0.2 ,dsect1,1  )
 sekunder("T2",0.2 ,dsect2,1  )
 sekunder("TL",0.2 ,dsectl,1  )
 
-"""
-scatter("BL",0.2 ,dsecbl,1  );   leakage (0.2 ,dsecbl,1  )
-scatter("B",0.01,dsecb ,0.2 );   leakage (0.01,dsecb ,0.2)
-scatter("BD",0.2 ,dsecbd,1  );   leakage (0.2 ,dsecbd,1  )
-scatter("Te",0.2 ,dsecte,1  );   leakage (0.2 ,dsecte,1  )
-scatter("T1",0.2 ,dsect1,1  );   leakage (0.2 ,dsect1,1  )
-scatter("T2",0.2 ,dsect2,1  );   leakage (0.2 ,dsect2,1  )
-scatter("TL",0.2 ,dsectl,1  );   leakage (0.2 ,dsectl,1  )
-"""
 array=[]
 array.append(arrname)
 array.append(arrdsec)
@@ -188,27 +154,11 @@ array.append(arrb)
 array.append(arrn)
 array.append(arrsh)
 
+
 #print(array)
 nparray=np.array(array)
-nparray=np.array([np.round(val,precision) if isinstance(val, float) else val for val in nparray])
-#print(tabulate(nparray,tablefmt="grid"))
 obarray=np.array(nparray,dtype=object)
 tarray=obarray.T
 trarray=np.transpose(obarray)
-
-
 print("Data type:", trarray.dtype)
-
-#rounded_trarray=np.round(trarray,10)
-precision = 1
-#trarray=np.array([np.round(val,precision) if isinstance(val, float) else val for val in trarray])
 print(tabulate(trarray,tablefmt="grid"))
-"""
-
-print(nparray)
-print(trarray)
-print(tabulate(trarray, tablefmt="grid"))
-#trarray = np.transpose(array)
-
-#print(tabulate(trarray, tablefmt="grid"))
-"""
