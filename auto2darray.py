@@ -7,7 +7,7 @@ pasienperhari=70
 gyperpasien=4
 hariperminggu=5
 
-W=hariperminggu*gyperpasien*pasienperhari*1000 #1.400.000 mSv
+W=hariperminggu*gyperpasien*pasienperhari #1.400 Sv
 print("\nPerhitungan Nilai - Nilai standar keamanan menurt SRS dan NCRP ",W)
 print("W = ",W)
 dsca=1 #jarak sumber ke pasien 1 meter
@@ -15,8 +15,8 @@ dsca=1 #jarak sumber ke pasien 1 meter
 F=40*40
 #========Pembatas Dosis======
 #Dikali setengah agar aman menurut ncrp
-brp=20/2/50  #batas radiasi pekerja,   (20mSv/tahun)*setengah/50 minggu/tahun
-brm=1/2/50   #batas radiasi masyarakat,(1mSv/tahun*setengah/50 minggu/tahun
+brp=20/2/50/1000 #batas radiasi pekerja,   (20mSv/tahun)*setengah/50 minggu/tahun
+brm=1/2/50/1000   #batas radiasi masyarakat,(1mSv/tahun*setengah/50 minggu/tahun
 print("BRP = ",brp, "     brm = ",brm)
 
 TVL1= 0.410 #m
@@ -75,8 +75,9 @@ arrnbleak=["n leak"]
 arrshleak=["Leakage\nShield"]
 
 formulas=[]
-with open("expression.txt", "w") as file:
+with open("SekunderLatex.txt", "w") as file:
         file.write("==========Formula Latex========\n")
+
 def scatter(Nama,P,dsec,T): # (dsec = jarak pasien ke titik pengukuran ; a= Fraksi hambur atau serapan dosis berkas primer yang terhambur dari pasien)
     #print(f"\nPada dinding {Nama} dengan dsec = {dsec}")
     
@@ -104,10 +105,14 @@ def scatter(Nama,P,dsec,T): # (dsec = jarak pasien ke titik pengukuran ; a= Frak
     print (f"dsec ={dsec} \ndeg = {deg} a = {al}\nB = {B}\nn ={n}\nShield = {n*TVL}")
     print ("$$B_{ps}=\ frac",P,"{",al,W, T,"}",dsca,"}^{2}",dsec,"^{2}\ frac{400}{",F,"} $$")
     # Expression
-    expression = r"$$B_{ps}=\frac{" + str(P) + "}{" + str("%.5f"%al) + r"\times" + str(W) + r"\times" + str(T) + r"}\times{" + str(dsca) + r"}^{2}\times" + str("%.5f"%dsec) + r"^{2}\times\frac{400}{" + str(F) + "}$$"
+    bps = r"$$B_{ps}=\frac{" + str(P) + "}{" + str("%.5f"%al) + r"\times" + str(W) + r"\times" + str(T) + r"}\times{" + str(dsca) + r"}^{2}\times" + str("%.5f"%dsec) + r"^{2}\times\frac{400}{" + str(F) + "}="+ str(B) + "$$"
+    nps = r"$$n=-log("+ str(B) + r")=" + str(n)+ r"$$"
+    shps = r"$$Barrier ="+ str(n) +r"\times"+ str(TVL)+ r"+" +str(HVL) + "=" + str(sh) + r"$$"
     # Open a text file in write mode
-    with open("expression.txt", "a") as file:
-        file.write(expression+"\n")
+    with open("SekunderLatex.txt", "a") as file:
+        file.write(bps+"\n")
+        file.write(nps+"\n")
+        file.write(shps+"\n")
     return sh
 
 def leakage(P,Dl,T):
@@ -123,10 +128,14 @@ def leakage(P,Dl,T):
     #formulas.append("$$B_{L}=\ frac{",P,Dl,"^{2}}{10^{-3}",W,T,"}$$")
     shleak=n*TVL
     arrshleak.append("%.5f"%shleak)
-    expression = r"$$B_{L}=\frac{" + str(P) + r"\times" + str("%.5f"%Dl) + r"^{2}}{10^{-3}"+ str("%.5f"%W)+str("%.5f"%T)+"}$$"
+    bl = r"$$B_{L}=\frac{" + str(P) + r"\times" + str("%.5f"%Dl) + r"^{2}}{10^{-3}\times"+ str(W)+ r"\times" +str(T)+"}="+str(B)+"$$"
+    nl = r"$$n=-log("+ str(B) + r")=" + str(n)+ r"$$"
+    shl= r"$$Barrier ="+ str(n) +r"\times"+ str(TVL) + "=" + str(shleak) + r"$$"
     # Open a text file in write mode
-    with open("expression.txt", "a") as file:
-        file.write(expression+"\n")
+    with open("SekunderLatex.txt", "a") as file:
+        file.write(bl+"\n")
+        file.write(nl+"\n")
+        file.write(shl+"\n")
     return shleak
 def c(a1,b1): #pythagoras c kemudian diubah dari mm ke m
     a=a1/1000
@@ -157,13 +166,13 @@ def sekunder(Nama,P,dsec,Dl,T):
     leakage(P,Dl,T)
     return
 
-sekunder("BD",0.2 ,dsecbd,dlbd,1  )
-sekunder("S" ,0.01,dsecs ,dls ,0.2)
-sekunder("Te",0.2 ,dsecte,dlte,1  )
-sekunder("TL",0.2 ,dsectl,dltl,1  )
-sekunder("U1",0.2 ,dsecu1,dlu1,1  )
-sekunder("U2",0.2 ,dsecu2,dlu2,1  )
-sekunder("BL",0.2 ,dsecbl,dlbl,1  )
+sekunder("BD",brp ,dsecbd,dlbd,1  )
+sekunder("S" ,brm,dsecs ,dls ,0.2)
+sekunder("Te",brp ,dsecte,dlte,1  )
+sekunder("TL",brp ,dsectl,dltl,1  )
+sekunder("U1",brp ,dsecu1,dlu1,1  )
+sekunder("U2",brp ,dsecu2,dlu2,1  )
+sekunder("BL",brp ,dsecbl,dlbl,1  )
 
 array=[]
 array.append(arrname)
