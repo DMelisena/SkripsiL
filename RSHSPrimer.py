@@ -49,6 +49,10 @@ def WeekDR( P , dsad , T ): #W dan U dah ada, dsad ini di ncrp dpri, jarak dari 
     arrwsh.append("%.5f"%sh)
     shhvl=sh+2*HVL
     arrwshvl.append("%.5f"%shhvl)
+    print("==================================================================")
+    print("$$B_{pri}=\\frac{",P," \\times",dsad,"^{2}}{",W,"\\times",U,"\\times",T,"} =",b,"$$")
+    print("$$n=-log(",b,")=",n,"$$")
+    print ("$$t_{barrier}=(",TVL1,"+(",n,"-1)\\times",TVLe,"=",sh,"$$")
     return sh
 """
 def bWeekDR( P , dsad , T ): #W dan U dah ada, dsad ini di ncrp dpri, jarak dari xray target ke titik perlindungan, kok rasanya beda ama dsad yang kuitung ya?
@@ -73,6 +77,10 @@ def InstDR(P,dsad):
     #return n*TVL 
     sh =TVL1+(TVLe*(n-1)) 
     arrish.append("%.5f"%sh)
+    print("==================================================================")
+    print("$$B_{IDR}=\\frac {",P,"(",dsad,"^{2})}{",DR,"}=",b,"$$") #tinggal dihapus jarak \ dan f jadi langsung latex
+    print("$$n=-log(",b,")=",n,"$$")
+    print ("$$t_{barrier}=(",TVL1,"+(",n,"-1)\\times",TVLe,"=",sh,"$$")
     return sh
 """
 def bInstDR(P,dsad):
@@ -113,8 +121,8 @@ print(tabulate(data,headers=head,tablefmt="grid"))
 """
 
 def primer(P,dsad,T):
-    InstDR(P,dsad)
     WeekDR(P,dsad,T)
+    InstDR(P,dsad)
 
 primer(brp,8.04,1)
 primer(brp,8.04,1)
