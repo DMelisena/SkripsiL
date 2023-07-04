@@ -31,6 +31,7 @@ dr=1.9+4.625 #Jarak dari pusat sinar pada refleksi pertama ke garis tengah labir
 dz=7.105-2.350 #Panjang labirin ke pintu (m)
 
 HS=(W*U*a0*A0*az*Az)/((dH*dr*dz)**2) 
+print("$$H_{S}=\\frac{",W,"\\times",U,"\\times", a0,"\\times","%.5f"%A0,"\\times",az,"\\times",Az,"}{(",dH,"\\times",dr,"\\times","%.5f"%dz,")^{2}}=",HS,"$$")
 print("HS = ",HS)
 
 ################ 1.b Hamburan Pasien ###########################
