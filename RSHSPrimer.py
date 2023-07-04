@@ -15,8 +15,8 @@ U=0.33 #karena dipakai 8 jam/24 jam??
 #Tf=1
 
 #==========Pembatas Dosis=====
-brp=20/2/50 #Batas Radiasi Pekerja
-brm=1/2/50 #Batas Radiasi Masyarakat 1mSv*setengah/(50 minggu/tahun)
+brp=20/2/50/1000 #Batas Radiasi Pekerja
+brm=1/2/50/1000 #Batas Radiasi Masyarakat 1mSv*setengah/(50 minggu/tahun)
 
 
 #==========Variabel TVL======
