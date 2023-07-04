@@ -6,7 +6,7 @@ pasienperhari=70
 gyperpasien=4
 hariperminggu=5
 
-W=hariperminggu*gyperpasien*pasienperhari*1000 #1.400.000 mSv
+W=hariperminggu*gyperpasien*pasienperhari #1.400.000 mSv
 print("\nPerhitungan Nilai - Nilai standar keamanan menurt SRS dan NCRP ",W)
 print("W = ",W)
 dsca=1 #jarak sumber ke pasien 1 meter
@@ -74,7 +74,7 @@ def scatter(Nama,P,dsec,T): # (dsec = jarak pasien ke titik pengukuran ; a= Frak
     #print (f"n dari Bpri = {n}\nKetebalan dinding beton = {n*TVL}")
     print (f"================   {Nama}    =====================")
     print (f"===============  Scatter  ====================")
-    print (f"dsec ={dsec} \ndeg = {deg} a = {al}\nB = {B}\nn ={n}\nShield = {n*TVL}\n")
+    print (f"dsec ={dsec} \ndeg = {deg} a = {al}\nB = {B}\nn ={n}\nShield = {n*TVL}")
 
     return n*TVL
 
