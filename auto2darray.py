@@ -12,7 +12,7 @@ print("\nPerhitungan Nilai - Nilai standar keamanan menurt SRS dan NCRP ",W)
 print("W = ",W)
 dsca=1 #jarak sumber ke pasien 1 meter
 #F=pi*((41/2)**2) #Kenapa 41? luas lapangan radiasi 41cm2, bukannya harusnya meter?
-F=100
+F=40*40
 #========Pembatas Dosis======
 #Dikali setengah agar aman menurut ncrp
 brp=20/2/50  #batas radiasi pekerja,   (20mSv/tahun)*setengah/50 minggu/tahun
@@ -62,7 +62,7 @@ def a(dsec):
 
 #print(f"Nilai scatter fraction(a) pada dsec 3.15 = {a(3.15)}")
 
-arrname= ["Name"]
+arrname= ["Na\nme"]
 arrdsec= ["dsec"]
 arrdeg=["Scatter\nDegree"]
 arra=["Scatter\nValue"]
@@ -72,7 +72,7 @@ arrsh=["Scatter\nShielding"]
 arrdl=["dLeak"] #Harusnya dari sumber
 arrbleak=["B leak"]
 arrnbleak=["n leak"]
-arrshleak=["Leakage\nShielding"]
+arrshleak=["Leakage\nShield"]
 
 formulas=[]
 with open("expression.txt", "w") as file:
@@ -96,7 +96,7 @@ def scatter(Nama,P,dsec,T): # (dsec = jarak pasien ke titik pengukuran ; a= Frak
     n=-log10(B)
     arrn.append("%.5f"%n)
     sh=(n*TVL)+HVL
-    arrsh.append("%.7f"%sh)
+    arrsh.append("%.6f"%sh)
 
     #print (f"n dari Bpri = {n}\nKetebalan dinding beton = {n*TVL}")
     print (f"================   {Nama}    =====================")
@@ -122,7 +122,7 @@ def leakage(P,Dl,T):
     print("$$B_{L}=\ frac{",P,Dl,"^{2}}{10^{-3}",W,T,"}$$")
     #formulas.append("$$B_{L}=\ frac{",P,Dl,"^{2}}{10^{-3}",W,T,"}$$")
     shleak=n*TVL
-    arrshleak.append("%.7f"%shleak)
+    arrshleak.append("%.5f"%shleak)
     expression = r"$$B_{L}=\frac{" + str(P) + r"\times" + str("%.5f"%Dl) + r"^{2}}{10^{-3}"+ str("%.5f"%W)+str("%.5f"%T)+"}$$"
     # Open a text file in write mode
     with open("expression.txt", "a") as file:
