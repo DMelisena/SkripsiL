@@ -134,7 +134,7 @@ sr=LDatas+LDS #Total luas permukaan dalam bunker, MINTOL SIAPA KEK, UDAH KEITUNG
 ################ 2.a Fluens Neutron ##########################
 b=1
 ya=((b*qn)/(4*pi*d1*d1))+((5.4*b*qn)/(2*pi*sr))+((1.3*qn)/(2*pi*sr))
-print(r"$$\varphi_{A}=\frac{",b,r"\times",qn,r"}{4 \times \pi",d1,r"^{2}} \frac{5.4",b,r"\times",qn,"}{2\pi",r"\times",sr,r"}} \frac{1.3 \times",qn,"}{2\pi",sr,"}=",ya,"$$")
+print(r"$$\varphi_{A}=\frac{",b,r"\times",qn,r"}{4 \times \pi",d1,r"^{2}} \frac{5.4",b,r"\times",qn,"}{2\pi",r"\times",sr,r"} \frac{1.3 \times",qn,"}{2\pi",sr,"}=",ya,"$$")
 #print("ya =",ya)
 
 ################ 2.b gamma capure di tiap beban kerja ########
@@ -174,14 +174,17 @@ print(r"$$H_{n,D}=2.4 \times 10^{-15}",ya,r"\sqrt{\frac{",S0,"}{",S1,r"}}\begin{
 
 ################ 3.b Laju Dosis neutron #######################
 hn=W*hnd1 #Perhitungan laju dosis neutron
-
+print("$$H_{n}=",W,r"\times",hnd1,"=",hn,"$$")
 print("hn=",hn)
 
 ##########################################################################
 #=============== Dosis EKivalen Total Pada Area Pintu ====================
 ##########################################################################
 hw=Htot+hcg+hn
+print("$$H_{w}=",Htot,r"+",hcg,r"+",hn,"=",hw,"$$")
 print("hw = ",hw)
+
+
 
 ##################### Perhitunggan Ketebalan BPE #########################
 P=5 #10/2
