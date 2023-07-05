@@ -173,6 +173,13 @@ sekunder("TL",brp ,dsectl,dltl,1  )
 sekunder("U1",brp ,dsecu1,dlu1,1  )
 sekunder("U2",brp ,dsecu2,dlu2,1  )
 sekunder("BL",brp ,dsecbl,dlbl,1  )
+print("BD P=",brp,"P = " ,dsecbd, "Dl= ",dlbd,"T = ",1  )
+print("S  P=",brm,"P = " ,dsecs , "Dl= ",dls ,"T = ",0.2)
+print("Te P=",brp,"P = " ,dsecte, "Dl= ",dlte,"T = ",1  )
+print("TL P=",brp,"P = " ,dsectl, "Dl= ",dltl,"T = ",1  )
+print("U1 P=",brp,"P = " ,dsecu1, "Dl= ",dlu1,"T = ",1  )
+print("U2 P=",brp,"P = " ,dsecu2, "Dl= ",dlu2,"T = ",1  )
+print("BL P=",brp,"P = " ,dsecbl, "Dl= ",dlbl,"T = ",1  )
 
 array=[]
 array.append(arrname)
