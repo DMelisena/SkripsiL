@@ -22,9 +22,8 @@ print("Zirconium =",zirconium)
 water=openmc.Material(3,"H2O")
 water.add_nuclide('H1',2)
 water.add_nuclide('O16',1)
-water.set_density('g/cm3',1)
-
-water.add_s_alpha_beta('c_H_in_H20')
+water.set_density('g/cc',1)
+water.add_s_alpha_beta('c_H_in_H2O')
 
 mats=openmc.Materials([uo2,zirconium,water])
 #It's an array that could be used as this
@@ -73,5 +72,6 @@ univ=openmc.Universe(cells=[cell])
 #univ=openmc.Universe()
 #univ.add_cell(cell)
 
-univ.plot(width=(2.0,2.0))
-plt.show
+univ.plot(width=(2.0, 2.0))
+plt.savefig('plot.png')
+plt.show()
