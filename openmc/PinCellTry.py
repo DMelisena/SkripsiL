@@ -1,4 +1,5 @@
 import openmc
+import matplotlib.pyplot as plt
 
 mat = openmc.Material()
 print(mat)
@@ -51,15 +52,26 @@ puo2.set_density('g/cm3',11.5)
 
 mox=openmc.Material.mix_materials([uo2,puo2],[0.97,0.03],'wo')
 ######################################
+############# Geometry ###############
+sph= openmc.Sphere(r=1.0)
+isphere=-sph
+osphere=+sph
 
-"""
-zircaloy =  openmc.Material(name='Zircaloy')
-zircaloy.set_density('g/cm3',6.55)
-zircaloy.add_nuclide('Zr90',7.2758e-3)
-"""
+#print((0,0,0) in isphere, (0,0,2) in isphere)
 
-print(uo2)
-"""
-      ,"\n",zircaloy,"\n",zirconium
-      
-      )"""
+z_plane=openmc.ZPlane(z0=0)
+n_hemisphere=-sph & +z_plane #What the hell does this even mean
+
+n_hemisphere.bounding_box
+
+cell=openmc.Cell()
+cell.region=n_hemisphere #or cell = openmc.Cell(region=n_hemisphere)
+cell.fill=water
+
+######################################
+univ=openmc.Universe(cells=[cell])
+#univ=openmc.Universe()
+#univ.add_cell(cell)
+
+univ.plot(width=(2.0,2.0))
+plt.show
