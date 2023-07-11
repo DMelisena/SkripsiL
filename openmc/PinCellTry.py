@@ -74,4 +74,11 @@ univ=openmc.Universe(cells=[cell])
 
 univ.plot(width=(2.0, 2.0))
 plt.savefig('plot.png')
+univ.plot(width=(2,2),basis='xz',colors={cell:'fuchsia'})
+
+plt.savefig('xz,png')
 plt.show()
+
+fuel_or = openmc.ZCylinder(r=0.39)
+clad_ir = openmc.ZCylinder(r=0.40)
+clad_or = openmc.ZCylinder(r=0.46)
