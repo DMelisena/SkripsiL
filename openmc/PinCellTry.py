@@ -76,9 +76,40 @@ univ.plot(width=(2.0, 2.0))
 plt.savefig('plot.png')
 univ.plot(width=(2,2),basis='xz',colors={cell:'fuchsia'})
 
-plt.savefig('xz,png')
+plt.savefig('xz.png')
 plt.show()
 
 fuel_or = openmc.ZCylinder(r=0.39)
 clad_ir = openmc.ZCylinder(r=0.40)
 clad_or = openmc.ZCylinder(r=0.46)
+fuel_region = -fuel_or
+gap_region = +fuel_or & -clad_ir
+clad_region = +clad_ir & -clad_or
+
+fuel = openmc.cell(1,'fuel')
+fuel.fill=uo2
+fuel.region = fuel_region
+
+gap = openmc.Cell(2,'air gap')
+gap.region = gap_region
+
+clad=openmc.Cell(3,'clad')
+clad.fill=zirconium
+gap.region = clad_region
+
+pitch = 1.26
+left = openmc.XPlane(x0=-pitch/2, boundary_type='reflective')
+right = openmc.XPlane(x0=pitch/2, boundary_type='reflective')
+bottom = openmc.YPlane(y0=-pitch/2, boundary_type='reflective')
+top = openmc.YPlane(y0=pitch/2, boundary_type='reflective') 
+
+w_region = +left & -right & +bottom & -top & +clad_or
+
+moderator=openmc.Cell(4,'moderator')
+moderator.fill = water
+moderator.region=w_region
+
+box = openmc.rectangular_prism(width=pitch, height=pitch, boundary_type='reflective')
+type(box)
+
+w_region = box & +clad_or
