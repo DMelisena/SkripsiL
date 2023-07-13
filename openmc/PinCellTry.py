@@ -34,6 +34,7 @@ mats=openmc.Materials([uo2,zirconium,water])
 mats.export_to_xml()
 
 ######################################
+
 ########### Material Mix #############
 #mixture of 0.97 uo2 and 0.03 puo2
 
@@ -51,6 +52,8 @@ puo2.set_density('g/cm3',11.5)
 
 mox=openmc.Material.mix_materials([uo2,puo2],[0.97,0.03],'wo')
 ######################################
+
+
 ############# Geometry ###############
 sph= openmc.Sphere(r=1.0)
 isphere=-sph
@@ -68,9 +71,7 @@ cell.region=n_hemisphere #or cell = openmc.Cell(region=n_hemisphere)
 cell.fill=water
 
 ######################################
-univ=openmc.Universe(cells=[cell])
-#univ=openmc.Universe()
-#univ.add_cell(cell)
+univ=openmc.Universe(cells=[cell]) #univ=openmc.Universe() ;univ.add_cell(cell)
 
 univ.plot(width=(2.0, 2.0))
 plt.savefig('plot.png')
@@ -78,6 +79,10 @@ univ.plot(width=(2,2),basis='xz',colors={cell:'fuchsia'})
 
 plt.savefig('xz.png')
 plt.show()
+######################################
+######################################
+
+
 
 fuel_or = openmc.ZCylinder(r=0.39)
 clad_ir = openmc.ZCylinder(r=0.40)
@@ -103,7 +108,7 @@ right = openmc.XPlane(x0=pitch/2, boundary_type='reflective')
 bottom = openmc.YPlane(y0=-pitch/2, boundary_type='reflective')
 top = openmc.YPlane(y0=pitch/2, boundary_type='reflective') 
 
-w_region = +left & -right & +bottom & -top & +clad_or
+w_region = +left & -right & +bottom & -top & + clad_or
 
 moderator=openmc.Cell(4,'moderator')
 moderator.fill = water
