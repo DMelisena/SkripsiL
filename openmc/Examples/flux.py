@@ -77,8 +77,11 @@ root_cell.region = +min_x & -max_x & +min_y & -max_y & +min_z & -max_z
 # Create root Universe
 root_universe = openmc.Universe(universe_id=0, name='root universe')
 root_universe.add_cell(root_cell)
-
-
+root_universe.plot(width=(3,3))
+plt.savefig('fluxxy.png')
+root_universe.plot(width=(3,3),basis='xz')
+plt.savefig('fluxxz.png')
+plt.show()
 
 # Create Geometry and set root Universe
 geometry = openmc.Geometry(root_universe)
