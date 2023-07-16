@@ -28,26 +28,29 @@ zircaloy = openmc.Material(name='Zircaloy')
 zircaloy.set_density('g/cm3', 6.55)
 zircaloy.add_nuclide('Zr90', 7.2758e-3)
 ################################################
+materials=openmc.Materials([uo2,zircaloy,water])
+materials.export_to_xml()
+################################################
 
 ################ Silinder ######################
 fuel_or = openmc.ZCylinder(r=0.39)
 clad_ir = openmc.ZCylinder(r=0.40)
 clad_or = openmc.ZCylinder(r=0.46)
-fuel_region = -fuel_or #didalam fuel_or
-gap_region = +fuel_or & -clad_ir #diluar fuel_or, tetapi didalam clad_ir
-clad_region = +clad_ir & -clad_or #diluar clad_ir, tapi didalam clad_or
+#fuel_region = -fuel_or #didalam fuel_or
+#gap_region = +fuel_or & -clad_ir #diluar fuel_or, tetapi didalam clad_ir
+#clad_region = +clad_ir & -clad_or #diluar clad_ir, tapi didalam clad_or
 
 ################ Bahan #########################
-fuel = openmc.Cell(1,'fuel')
-fuel.fill=uo2
-fuel.region = fuel_region
+fuel = openmc.Cell(1,fill=uo2,region=-fuel_or)
+#fuel.fill=uo2
+#fuel.region = fuel_region
 
-gap = openmc.Cell(2,'air gap')
-gap.region = gap_region
+gap = openmc.Cell(2,region = +fuel_or & -clad_ir)
+#gap.region = gap_region
 
-clad=openmc.Cell(3,'clad')
-clad.fill= zircaloy
-clad.region = clad_region
+clad=openmc.Cell(3,fill=zircaloy, region = +clad_ir & -clad_or)
+#clad.fill= zircaloy
+#clad.region = clad_region
 
 ################ Air ###########################
 pitch = 1.26
@@ -84,5 +87,6 @@ settings.source=src
 settings.batches=100
 settings.inactive = 10
 settings.particles = 1000
+
 
 settings.export_to_xml()
