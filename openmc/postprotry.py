@@ -46,3 +46,20 @@ univ.add_cell(fuelcell,gapcell,cladcell,moderator)
 
 geometry=openmc.Geometry(univ)
 geometry.export_to_xml()
+
+##################################################
+
+batch=1000
+inactive = 10
+particles=5000
+
+settings_file=openmc.Settings()
+settings_file.batches=batches
+settings_file.inactive=inactive
+settings_file.particles = particles
+
+bounds= [-0.64,-0.64,-0.64,0.64,0.64,0.64] #just an array of [x_min, y_min, z_min, x_max, y_max, z_max]
+uniform_dist=openmc.stats.Box(bounds[:3],bounds[3:],only_fissionable=True)
+setting_file.source=openmc.Source(space=uniform_dist)
+
+settings_file.export_to_xml()
