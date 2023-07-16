@@ -1,5 +1,7 @@
 import openmc
 import matplotlib.pyplot as plt
+import numpy as np
+from IPython.display import Image
 
 
 ############# Material #######################
