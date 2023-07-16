@@ -19,7 +19,7 @@ water.add_s_alpha_beta('c_H_in_H2O')
 
 #Pure Zirconium
 zirconium =  openmc.Material(2,"Zirconium")
-zirconium.add_nuclide('Zr',1.0)
+zirconium.add_element('Zr',1.0)
 zirconium.set_density('g/cm3',6.6)
 print("Zirconium =",zirconium)
 
@@ -47,7 +47,7 @@ gap.region = gap_region
 
 clad=openmc.Cell(3,'clad')
 clad.fill= zircaloy
-gap.region = clad_region
+clad.region = clad_region
 
 ################ Air ###########################
 pitch = 1.26
@@ -71,3 +71,18 @@ plt.savefig('pincell.png')
 univ.plot(width=(3,3),basis='xz',colors={moderator:'fuchsia'})
 plt.savefig('xzpincell.png')
 plt.show()
+
+geom=openmc.Geometry()
+geom.root_universe=univ
+
+###### Starting Source and Setting ##############
+point=openmc.stats.Point((0,0,0))
+src=openmc.Source(space=point)
+
+settings=openmc.Settings()
+settings.source=src
+settings.batches=100
+settings.inactive = 10
+settings.particles = 1000
+
+settings.export_to_xml()
