@@ -21,3 +21,25 @@ zircaloy=openmc.add_nuclide('Zr90',7.2758e-3)
 
 materials=openmc.Materials([fuel,water,zircaloy])
 materials.export_to_xml()
+
+##################################################
+fuelor=openmc.ZCylinder(r=0.39)#fuel
+fuelir=openmc.ZCylinder(r=0.4) #gap
+clador=openmc.ZCylinder(r=0.46)#clad
+
+fuelor_region= -fuelor
+fuelir_region= +fuelor & -fuelir
+clador_region= +fuelir & -clador
+
+len=1.26
+box=openmc.rectangular_prism(len,len,boundary_type='reflective')
+water= box & +clador
+
+univ=openmc.Universe(name='1.6% Fuel Pin')
+
+fuelcell=openmc.Cell(fill=fuel,region=fuelor_region)
+gapcell=openmc.Cell(region=fuelir_region)
+cladcell=openmc.Cell(fill=zircaloy,region=clador_region)
+moderator=openmc.Cell(fill=water,region=water)
+
+univ.add_cell(fuelcell,gapcell,cladcell,moderator)
