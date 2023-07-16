@@ -54,18 +54,19 @@ clad=openmc.Cell(3,fill=zircaloy, region = +clad_ir & -clad_or)
 
 ################ Air ###########################
 pitch = 1.26
-left = openmc.XPlane(x0=-pitch/2, boundary_type='reflective')
-right = openmc.XPlane(x0=pitch/2, boundary_type='reflective')
-bottom = openmc.YPlane(y0=-pitch/2, boundary_type='reflective')
-top = openmc.YPlane(y0=pitch/2, boundary_type='reflective')
+#left = openmc.XPlane(x0=-pitch/2, boundary_type='reflective')
+#right = openmc.XPlane(x0=pitch/2, boundary_type='reflective')
+#bottom = openmc.YPlane(y0=-pitch/2, boundary_type='reflective')
+#top = openmc.YPlane(y0=pitch/2, boundary_type='reflective')
+box = openmc.rectangular_prism(width=pitch, height=pitch, boundary_type='reflective')
+w_region = box & +clad_or
+#w_region = +left & -right & +bottom & -top & + clad_or
 
-w_region = +left & -right & +bottom & -top & + clad_or
 moderator=openmc.Cell(4,'moderator')
 moderator.fill = water
 moderator.region=w_region
 #Di luar clad or, adalah air. Tetapi didalam sumbu xy pitch
-#box = openmc.rectangular_prism(width=pitch, height=pitch, boundary_type='reflective')
-#type(box) ; w_region = box & +clad_or
+
 ################################################
 
 univ = openmc.Universe(cells=(fuel,gap, clad, moderator))
