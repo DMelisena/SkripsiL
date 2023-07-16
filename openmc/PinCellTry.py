@@ -68,18 +68,21 @@ moderator.region=w_region
 #Di luar clad or, adalah air. Tetapi didalam sumbu xy pitch
 
 ################################################
+################################################
+################################################
+geom=openmc.Geometry([fuel,gap, clad, moderator])
+geom.export_to_xml()
 
-univ = openmc.Universe(cells=(fuel,gap, clad, moderator))
+univ = openmc.Universe(cells=[fuel,gap, clad, moderator])
 univ.plot(width=(3.0,3.0))
 plt.savefig('pincell.png')
 univ.plot(width=(3,3),basis='xz',colors={moderator:'fuchsia'})
 plt.savefig('xzpincell.png')
-plt.show()
-
-geom=openmc.Geometry()
-geom.root_universe=univ
+#plt.show()
 
 ###### Starting Source and Setting ##############
+#Define Problem Setting
+
 point=openmc.stats.Point((0,0,0))
 src=openmc.Source(space=point)
 
