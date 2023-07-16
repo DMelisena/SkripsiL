@@ -2,6 +2,7 @@ import openmc
 import matplotlib.pyplot as plt
 import numpy as np
 from IPython.display import Image
+#%matplotlib inline, tidak digunakan karena bukan di notebook
 
 
 ############# Material #######################
