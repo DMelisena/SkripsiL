@@ -16,7 +16,7 @@ water=openmc.add_nuclide('O16',2.4732e-2)
 water=openmc.add_nuclide('B10',8.0042e-6)
 
 zircaloy=openmc.Material(name='Zircaloy')
-zircaloy=openmc.set_density('g/cm3',0.740582)
+zircaloy=openmc.set_density('g/cm3',6.55)
 zircaloy=openmc.add_nuclide('Zr90',7.2758e-3)
 
 materials=openmc.Materials([fuel,water,zircaloy])
@@ -43,3 +43,6 @@ cladcell=openmc.Cell(fill=zircaloy,region=clador_region)
 moderator=openmc.Cell(fill=water,region=water)
 
 univ.add_cell(fuelcell,gapcell,cladcell,moderator)
+
+geometry=openmc.Geometry(univ)
+geometry.export_to_xml()
