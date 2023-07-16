@@ -93,3 +93,4 @@ settings.inactive = 10
 settings.particles = 1000
 
 settings.export_to_xml()
+openmc.run()
