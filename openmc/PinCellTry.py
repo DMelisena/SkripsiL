@@ -62,7 +62,7 @@ box = openmc.rectangular_prism(width=pitch, height=pitch, boundary_type='reflect
 w_region = box & +clad_or
 #w_region = +left & -right & +bottom & -top & + clad_or
 
-moderator=openmc.Cell(4,'moderator')
+moderator=openmc.Cell(fill=water,region=w_region)
 moderator.fill = water
 moderator.region=w_region
 #Di luar clad or, adalah air. Tetapi didalam sumbu xy pitch
