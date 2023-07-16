@@ -1,6 +1,7 @@
 import openmc
 import matplotlib.pyplot as plt
-
+from math import log10
+import numpy as np
 
 ############# Material #######################
 #Uranium Dioksida, Seperti H2O tapi pakai U bukannya H.
@@ -82,7 +83,7 @@ plt.savefig('xzpincell.png')
 
 ###### Starting Source and Setting ##############
 #Define Problem Setting
-
+"""
 point=openmc.stats.Point((0,0,0))
 src=openmc.Source(space=point)
 
@@ -94,3 +95,59 @@ settings.particles = 1000
 
 
 settings.export_to_xml()
+"""
+
+# Define problem settings
+
+# Indicate how many particles to run
+settings = openmc.Settings()
+settings.batches = 100
+settings.inactive = 10
+settings.particles = 1000
+
+# Create an initial uniform spatial source distribution over fissionable zones
+lower_left = (-pitch/2, -pitch/2, -1)
+upper_right = (pitch/2, pitch/2, 1)
+uniform_dist = openmc.stats.Box(lower_left, upper_right, only_fissionable=True)
+settings.source = openmc.source.Source(space=uniform_dist)
+
+# For source convergence checks, add a mesh that can be used to calculate the
+# Shannon entropy
+entropy_mesh = openmc.RegularMesh()
+entropy_mesh.lower_left = (-fuel_or.r, -fuel_or.r)
+entropy_mesh.upper_right = (fuel_or.r, fuel_or.r)
+entropy_mesh.dimension = (10, 10)
+settings.entropy_mesh = entropy_mesh
+settings.export_to_xml()
+
+###############################################################################
+# Define tallies
+
+# Create a mesh that will be used for tallying
+mesh = openmc.RegularMesh()
+mesh.dimension = (100, 100)
+mesh.lower_left = (-pitch/2, -pitch/2)
+mesh.upper_right = (pitch/2, pitch/2)
+
+# Create a mesh filter that can be used in a tally
+mesh_filter = openmc.MeshFilter(mesh)
+
+# Now use the mesh filter in a tally and indicate what scores are desired
+mesh_tally = openmc.Tally(name="Mesh tally")
+mesh_tally.filters = [mesh_filter]
+mesh_tally.scores = ['flux', 'fission', 'nu-fission']
+
+# Let's also create a tally to get the flux energy spectrum. We start by
+# creating an energy filter
+e_min, e_max = 1e-5, 20.0e6
+groups = 500
+energies = np.logspace(log10(e_min), log10(e_max), groups + 1)
+energy_filter = openmc.EnergyFilter(energies)
+
+spectrum_tally = openmc.Tally(name="Flux spectrum")
+spectrum_tally.filters = [energy_filter]
+spectrum_tally.scores = ['flux']
+
+# Instantiate a Tallies collection and export to XML
+tallies = openmc.Tallies([mesh_tally, spectrum_tally])
+tallies.export_to_xml()
