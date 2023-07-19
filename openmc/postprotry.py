@@ -54,15 +54,12 @@ universe=openmc.Universe(cells=[fuelcell,gapcell,cladcell,moderator])
 universe.plot(width=(1.5,1.5))
 universe.plot(width=(5,5),basis='xz')
 plt.show
-batch=1000
-
-inactive = 10
-particles=5000
+##################################################
 
 settings_file=openmc.Settings()
-settings_file.batches=batch
-settings_file.inactive=inactive
-settings_file.particles = particles
+settings_file.batches=100
+settings_file.inactive=10
+settings_file.particles = 5000
 
 bounds= [-0.64,-0.64,-0.64,0.64,0.64,0.64] #just an array of [x_min, y_min, z_min, x_max, y_max, z_max]
 uniform_dist=openmc.stats.Box(bounds[:3],bounds[3:],only_fissionable=True)
@@ -72,6 +69,20 @@ settings_file.export_to_xml()
 
 ##################################################
 
-plot = openmc.Plot.from_geometry(geometry)
-plot.pixels=(250,250)
-plt.show()
+tallies=openmc.Tallies()
+mesh = openmc.RegularMesh()
+mesh.dimension = [100,100]
+mesh.lower_left = -0.63, -0.63
+mesh.upper_right = 0.63, 0.63
+mesh_filter=openmc.MeshFilter(mesh)
+
+tally=openmc.Tally(name='flux')
+tally.filters=[mesh_filter]
+tally.scores=['flux','fission']
+
+tallies.append(tally)
+
+tallies.export_to_xml()
+
+openmc.run()
+t
