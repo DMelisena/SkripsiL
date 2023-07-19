@@ -4,20 +4,20 @@ import matplotlib.pyplot as plt
 import openmc
 
 fuel=openmc.Material(name=r'1.6% Fuel')
-fuel=openmc.set_density('g/cm3',10.31341)
-fuel=openmc.add_nuclide('U235',3.7503e-4)
-fuel=openmc.add_nuclide('U238',2.2625E-2)
-fuel=openmc.add_nuclide('O16',4.6007e-2)
+fuel.set_density('g/cm3',10.31341)
+fuel.add_nuclide('U235',3.7503e-4)
+fuel.add_nuclide('U238',2.2625E-2)
+fuel.add_nuclide('O16',4.6007e-2)
 
 water=openmc.Material(name='Borated Water')
-water=openmc.set_density('g/cm3',0.740582)
-water=openmc.add_nuclide('H1',4.9457e-2)
-water=openmc.add_nuclide('O16',2.4732e-2)
-water=openmc.add_nuclide('B10',8.0042e-6)
+water.set_density('g/cm3',0.740582)
+water.add_nuclide('H1',4.9457e-2)
+water.add_nuclide('O16',2.4732e-2)
+water.add_nuclide('B10',8.0042e-6)
 
 zircaloy=openmc.Material(name='Zircaloy')
-zircaloy=openmc.set_density('g/cm3',6.55)
-zircaloy=openmc.add_nuclide('Zr90',7.2758e-3)
+zircaloy.set_density('g/cm3',6.55)
+zircaloy.add_nuclide('Zr90',7.2758e-3)
 
 materials=openmc.Materials([fuel,water,zircaloy])
 materials.export_to_xml()
@@ -33,33 +33,45 @@ clador_region= +fuelir & -clador
 
 len=1.26
 box=openmc.rectangular_prism(len,len,boundary_type='reflective')
-water= box & +clador
+water_region= box & +clador
 
 univ=openmc.Universe(name='1.6% Fuel Pin')
 
 fuelcell=openmc.Cell(fill=fuel,region=fuelor_region)
 gapcell=openmc.Cell(region=fuelir_region)
 cladcell=openmc.Cell(fill=zircaloy,region=clador_region)
-moderator=openmc.Cell(fill=water,region=water)
+moderator=openmc.Cell(fill=water,region=water_region)
 
-univ.add_cell(fuelcell,gapcell,cladcell,moderator)
-
+univ.add_cell(fuelcell)
+univ.add_cell(gapcell)
+univ.add_cell(cladcell)
+univ.add_cell(moderator)
 geometry=openmc.Geometry(univ)
 geometry.export_to_xml()
 
 ##################################################
-
+universe=openmc.Universe(cells=[fuelcell,gapcell,cladcell,moderator])
+universe.plot(width=(1.5,1.5))
+universe.plot(width=(5,5),basis='xz')
+plt.show
 batch=1000
+
 inactive = 10
 particles=5000
 
 settings_file=openmc.Settings()
-settings_file.batches=batches
+settings_file.batches=batch
 settings_file.inactive=inactive
 settings_file.particles = particles
 
 bounds= [-0.64,-0.64,-0.64,0.64,0.64,0.64] #just an array of [x_min, y_min, z_min, x_max, y_max, z_max]
 uniform_dist=openmc.stats.Box(bounds[:3],bounds[3:],only_fissionable=True)
-setting_file.source=openmc.Source(space=uniform_dist)
+settings_file.source=openmc.Source(space=uniform_dist)
 
 settings_file.export_to_xml()
+
+##################################################
+
+plot = openmc.Plot.from_geometry(geometry)
+plot.pixels=(250,250)
+plt.show()
