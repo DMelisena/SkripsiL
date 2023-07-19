@@ -18,11 +18,14 @@ materials.export_to_xml()
 ##################################################################
 
 ##################################################################
+alasb=openmc.ZPlane(z0=-2.5)
+alasa=openmc.ZPlane(z0=2.5)
 bola=openmc.Sphere(r=1)
-kotak=openmc.rectangular_prism(2,2,boundary_type='reflective')
+kotak=openmc.rectangular_prism(3,3,boundary_type='reflective')
+
 
 matahari=-bola
-moderator=+bola & kotak
+moderator=+bola & kotak & -alasa & +alasb
 
 fuelcell=openmc.Cell(fill=fuel,region=matahari)
 moderatorcell=openmc.Cell(fill=water,region=moderator)
@@ -38,7 +41,7 @@ geometry.export_to_xml()
 
 ##################################################################
 universe=openmc.Universe(cells=[fuelcell,moderatorcell])
-universe.plot(width=(3,3))
-universe.plot(width=(3,3),basis='xz')
+universe.plot(width=(6,6))
+universe.plot(width=(6,6),basis='xz')
 
 plt.show()
