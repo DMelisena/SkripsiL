@@ -114,8 +114,6 @@ relative_error[nonzero]=flux.std_dev[nonzero]/flux.mean[nonzero]
 
 ret = plt.hist(relative_error[nonzero],bins=100)
 
-plt.show()
-
 sp.source
 sp.source['E']
 
@@ -124,7 +122,7 @@ probability,bin_edges=np.histogram(sp.source['E'],bins=energy_bins,density=True)
 
 print(sum(probability*np.diff(energy_bins)))
 
-plt.semilogx(energy_bins[:-1],probability*np.diff(energy_bins),linestyle='steps')
+plt.semilogx(energy_bins[:-1],probability*np.diff(energy_bins))
 plt.xlabel('Energy(eV)')
 plt.ylabel('probability/eV')
 
