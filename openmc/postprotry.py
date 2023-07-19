@@ -85,4 +85,3 @@ tallies.append(tally)
 tallies.export_to_xml()
 
 openmc.run()
-t
