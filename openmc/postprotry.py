@@ -85,3 +85,54 @@ tallies.append(tally)
 tallies.export_to_xml()
 
 openmc.run()
+##################################################
+sp = openmc.StatePoint('statepoint.100.h5')
+sptally = sp.get_tally(scores=['flux'])
+print(sptally)
+tally.sum
+
+print(sptally.mean.shape)
+(sptally.mean,sptally.std_dev)
+
+flux=sptally.get_slice(scores=['flux'])
+fission = sptally.get_slice(scores=['fission'])
+print(flux)
+
+flux.std_dev.shape=(100,100)
+flux.mean.shape=(100,100)
+fission.std_dev.shape = (100,100)
+fission.mean.shape=(100,100)
+
+fig=plt.subplot(121)
+fig.imshow(flux.mean)
+fig2=plt.subplot(122)
+fig2.imshow(fission.mean)
+
+relative_error=np.zeros_like(flux.std_dev)
+nonzero=flux.mean>0
+relative_error[nonzero]=flux.std_dev[nonzero]/flux.mean[nonzero]
+
+ret = plt.hist(relative_error[nonzero],bins=100)
+
+plt.show()
+
+sp.source
+sp.source['E']
+
+energy_bins=np.logspace(3,7)
+probability,bin_edges=np.histogram(sp.source['E'],bins=energy_bins,density=True)
+
+print(sum(probability*np.diff(energy_bins)))
+
+plt.semilogx(energy_bins[:-1],probability*np.diff(energy_bins),linestyle='steps')
+plt.xlabel('Energy(eV)')
+plt.ylabel('probability/eV')
+
+plt.quiver(sp.source['r']['x'],sp.source['r']['y'],
+           sp.source['u']['x'],sp.source['u']['y'],
+           np.log(sp.source['E']),cmap='jet',scale=20.0)
+
+plt.colorbar()
+plt.xlim((-0.5,0.5))
+plt.ylim((-0.5,0.5))
+plt.show()
