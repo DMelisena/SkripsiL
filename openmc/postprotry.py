@@ -35,13 +35,12 @@ len=1.26
 box=openmc.rectangular_prism(len,len,boundary_type='reflective')
 water_region= box & +clador
 
-univ=openmc.Universe(name='1.6% Fuel Pin')
-
 fuelcell=openmc.Cell(fill=fuel,region=fuelor_region)
 gapcell=openmc.Cell(region=fuelir_region)
 cladcell=openmc.Cell(fill=zircaloy,region=clador_region)
 moderator=openmc.Cell(fill=water,region=water_region)
 
+univ=openmc.Universe(name='1.6% Fuel Pin')
 univ.add_cell(fuelcell)
 univ.add_cell(gapcell)
 univ.add_cell(cladcell)
