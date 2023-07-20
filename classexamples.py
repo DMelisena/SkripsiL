@@ -1,9 +1,9 @@
 class rectangle:
-    def __init__(kotak,p,l):
-        kotak.p=p
-        kotak.l=l
-    def luas(kotak):
-        print(f"Luas kotak ini adalah {kotak.l*kotak.p}")
+    def __init__(self,p=None,l=None):
+        self.p=p
+        self.l=l
+    def luas(self):
+        print(f"Luas kotak ini adalah {self.l*self.p}")
 kotakA=rectangle()
 kotakA.p=4
 kotakA.l=3
