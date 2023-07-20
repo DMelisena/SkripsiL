@@ -45,3 +45,36 @@ universe.plot(width=(6,6))
 universe.plot(width=(6,6),basis='xz')
 
 plt.show()
+
+##################################################################
+
+settings=openmc.Settings()
+settings.batches=100
+settings.inactive=10
+settings.particles=5000
+
+
+import matplotlib.pyplot as plt
+
+bounds= [-0.64,-0.64,-0.64,0.64,0.64,0.64] #just an array of [x_min, y_min, z_min, x_max, y_max, z_max]
+uniform_dist=openmc.stats.Box(bounds[:3],bounds[3:],only_fissionable=True)
+settings_file.source=openmc.Source(space=uniform_dist)
+# Extract coordinates from the bounds array
+x_min, y_min, z_min, x_max, y_max, z_max = bounds
+
+# Plot the lower-left corner as a red circle
+plt.scatter(x_min, y_min, color='red', label='Lower-Left Corner')
+
+# Plot the upper-right corner as a blue circle
+plt.scatter(x_max, y_max, color='blue', label='Upper-Right Corner')
+
+# Set axis labels and title
+plt.xlabel('X Coordinate')
+plt.ylabel('Y Coordinate')
+plt.title('Lower-Left and Upper-Right Corners of the Box')
+
+# Add a legend
+plt.legend()
+
+# Show the plot
+plt.show()
