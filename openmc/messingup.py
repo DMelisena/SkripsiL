@@ -18,9 +18,9 @@ materials.export_to_xml()
 ##################################################################
 
 ##################################################################
-alasb=openmc.ZPlane(z0=-2.5)
-alasa=openmc.ZPlane(z0=2.5)
-bola=openmc.Sphere(r=1)
+alasb=openmc.ZPlane(z0=-2.5,boundary_type='reflective')
+alasa=openmc.ZPlane(z0=2.5,boundary_type='reflective')
+bola=openmc.Sphere(r=1,boundary_type='reflective')
 kotak=openmc.rectangular_prism(3,3,boundary_type='reflective')
 
 
@@ -53,28 +53,51 @@ settings.batches=100
 settings.inactive=10
 settings.particles=5000
 
+settings.export_to_xml()
 
-import matplotlib.pyplot as plt
+##################################################################
 
-bounds= [-0.64,-0.64,-0.64,0.64,0.64,0.64] #just an array of [x_min, y_min, z_min, x_max, y_max, z_max]
-uniform_dist=openmc.stats.Box(bounds[:3],bounds[3:],only_fissionable=True)
-settings_file.source=openmc.Source(space=uniform_dist)
-# Extract coordinates from the bounds array
-x_min, y_min, z_min, x_max, y_max, z_max = bounds
+tallies=openmc.Tallies()
 
-# Plot the lower-left corner as a red circle
-plt.scatter(x_min, y_min, color='red', label='Lower-Left Corner')
+mesh=openmc.RegularMesh()
+mesh.dimension=[100,100]
+mesh.lower_left=(-2.9,-2.9)
+mesh.upper_right=(2.9,2.9)
+mesh_filter=openmc.MeshFilter(mesh)
 
-# Plot the upper-right corner as a blue circle
-plt.scatter(x_max, y_max, color='blue', label='Upper-Right Corner')
+tally=openmc.Tally(name='flux')
+tally.filters=[mesh_filter]
+tally.scores=['flux','fission']
 
-# Set axis labels and title
-plt.xlabel('X Coordinate')
-plt.ylabel('Y Coordinate')
-plt.title('Lower-Left and Upper-Right Corners of the Box')
+tallies.append(tally)
 
-# Add a legend
-plt.legend()
+tallies.export_to_xml()
 
-# Show the plot
-plt.show()
+
+
+openmc.run()
+
+##################################################################
+
+
+# Step 1: Get the tally data from the simulation results
+sp = openmc.StatePoint('statepoint.100.h5')
+tally = sp.get_tally(name='flux')  # Replace 'flux' with the name of your tally
+
+# Step 2: Get the dose coefficients for the corresponding particle and geometry
+particle = 'neutron'  # Replace with the incident particle type used in the simulation
+geometry = 'AP'       # Replace with the irradiation geometry used in the simulation
+energy, dose_coeffs = openmc.data.dose_coefficients(particle, geometry)
+
+# Interpolate dose coefficients to the tally energy grid
+tally_energy = tally.filters[0].bins[0].edges
+
+dose_coeffs_interp = np.interp(tally_energy, energy, dose_coeffs)
+
+# Convert tally results to effective dose
+effective_dose = tally.mean[:, 0, 0] * dose_coeffs_interp  # pSv cm^2 * flux (or air kerma)
+
+# Calculate the total effective dose by summing over all energy bins
+total_effective_dose = np.sum(effective_dose)
+
+print("Total Effective Dose (pSv):", total_effective_dose)
