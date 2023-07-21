@@ -54,7 +54,7 @@ plt.show()
 ##################################################################
 
 settings=openmc.Settings()
-settings.batches=200
+settings.batches=20
 settings.inactive=10
 settings.particles=5000
 
@@ -124,6 +124,39 @@ nonzero=flux.mean>0
 relative_error[nonzero]=flux.std_dev[nonzero]/flux.mean[nonzero]
 
 ret=plt.hist(relative_error[nonzero],bins=50)
+plt.show()
+
+sp.source
+print(sp.source)
+print(sp.source.dtype)
+
+"""
+    'r': This represents the position vector of the particle. It has three components: 'x', 'y', and 'z', which denote the x, y, and z coordinates of the particle's position in 3D space, respectively. For example, sp.source['r']['x'] gives you the x-coordinates of the particle positions.
+
+    'u': This represents the direction vector of the particle. Similar to 'r', it also has three components: 'x', 'y', and 'z', which denote the x, y, and z components of the particle's direction, respectively. For example, sp.source['u']['y'] gives you the y-component of the particle's direction.
+
+    'E': This represents the energy of the particle. It is a single value that gives you the energy of the particle at the specified position and direction.
+"""
+##################################################################
+sp.source['E']
+
+#probability/eV
+energy_bins = np.logspace(3,7)
+probability, bin_edges = np.histogram(sp.source['E'],energy_bins,density=True)
+print(sum(probability*np.diff(energy_bins)))
+
+plt.semilogx(energy_bins[:-1],probability*np.diff(energy_bins),drawstyle='steps')
+plt.xlabel('Energy (eV)')
+plt.ylabel('Probability/eV') 
+##################################################################
+
+plt.quiver(sp.source['r']['x'],sp.source['r']['y'],
+           sp.source['u']['x'],sp.source['u']['y'],
+           np.log(sp.source['E']),cmap='jet',scale=20.0)
+
+plt.colorbar()
+plt.xlim((-3,3))
+plt.ylim((-3,3))
 plt.show()
 
 
