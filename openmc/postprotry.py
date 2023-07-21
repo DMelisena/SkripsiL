@@ -50,13 +50,13 @@ geometry.export_to_xml()
 
 ##################################################
 universe=openmc.Universe(cells=[fuelcell,gapcell,cladcell,moderator])
-universe.plot(width=(1.5,1.5))
-universe.plot(width=(5,5),basis='xz')
-plt.show
+univ.plot(width=(1.5,1.5))
+univ.plot(width=(5,5),basis='xz')
+plt.show()
 ##################################################
 
 settings_file=openmc.Settings()
-settings_file.batches=100
+settings_file.batches= 20
 settings_file.inactive=10
 settings_file.particles = 5000
 
@@ -124,7 +124,7 @@ print(sum(probability*np.diff(energy_bins)))
 plt.semilogx(energy_bins[:-1],probability*np.diff(energy_bins))
 plt.xlabel('Energy(eV)')
 plt.ylabel('probability/eV')
-
+plt.show()
 plt.quiver(sp.source['r']['x'],sp.source['r']['y'],
            sp.source['u']['x'],sp.source['u']['y'],
            np.log(sp.source['E']),cmap='jet',scale=20.0)
