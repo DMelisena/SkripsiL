@@ -53,17 +53,26 @@ settings.batches=20
 settings.inactive=10
 settings.particles=5000
 
+#Why are these needed????
+# Create an initial uniform spatial source distribution over fissionable zones
+bounds = [-0.63, -0.63, -0.63, 0.63, 0.63, 0.63]
+uniform_dist = openmc.stats.Box(bounds[:3], bounds[3:], only_fissionable=True)
+settings.source = openmc.Source(space=uniform_dist)
+
+
 settings.export_to_xml()
 
 ##################################################################
-
 tallies=openmc.Tallies()
-
+#Ini konsentrasi Mesh maksudnya gimana? kaitannya apa sama detektor yang digunakan?
 mesh=openmc.RegularMesh()
 mesh.dimension=[100,100]
 mesh.lower_left=(-2.9,-2.9)
 mesh.upper_right=(2.9,2.9)
+
 mesh_filter=openmc.MeshFilter(mesh)
+#The alternatives are DistribcellFilter, EnergyFilter, MaterialFilter, MeshFilter, MuFilter, PolarFilter, SphHarmFilter, SurfaceFilter, UniverseFilter, and ZernikeFilter, UniverseFilter, EnergyFilter,MaterialFilter, CellbornFilter or CellFilter
+#https://openmc.readthedocs.io/en/stable/usersguide/tallies.html
 
 tally=openmc.Tally(name='flux')
 tally.filters=[mesh_filter]
@@ -74,9 +83,19 @@ tallies.append(tally)
 tallies.export_to_xml()
 
 openmc.run()
-
 ##################################################################
-4431
+##################################################################
+
+sp.openmc.StatePoint('statepoint.20.h5') #20 is the number of batches, this function loads the tally results
+
+tally=sp.get_tally(name='flux') #data yang diperlukan adalah flux, sehingga pakai itu. Fission belum dipakai
+print(tally)
+
+
+
+
+
+
 
 """
 
