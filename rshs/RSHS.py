@@ -88,8 +88,13 @@ z1=openmc.ZPlane(3100,boundary_type='reflective')
 z2=openmc.ZPlane(3100+1170,boundary_type='reflective')
 z3=openmc.ZPlane(3100+1170+1250,boundary_type='reflective')
 
+#pintu utara, pintu barat, pintu selatan
 pu=openmc.YPlane(1900+2500+1200+1850+400,boundary_type='transmission') #asumsi pintu lebih lebar 40cm dibandingkan lubang pintunya
-pt=u5
+pb0=b5
+pb1=openmc.XPlane(-6320+765+2505-58,boundary_type='transmission')
+pb2=openmc.XPlane(-6320+765+2505-58-1620,boundary_type='transmission')
+pb3=openmc.XPlane(-6320+765+2505-58-1620-58,boundary_type='transmission')
+ps=u3
 
 ###############################################
 dt1 = -t1 & +t2 & +s3 & -u5 & +z0 & -z3  
@@ -104,6 +109,9 @@ du1 = +b5 & -t3 & -u1 & +u2 & +z0 & -z3
 du2 = +b3 & -t5 & -u3 & +u4 & +z0 & -z3
 
 ds1 = +b3 & -t3 & +s1 & -s2 & +z0 & -z3
+###############################################
+ppb = -pu & +ps & -pb0 & +pb1 & +z0 & -z3#pintu Pb
+
 
 #pintu =
 
