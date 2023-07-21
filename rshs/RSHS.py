@@ -83,6 +83,7 @@ s2=openmc.YPlane(-1900-1850,boundary_type='transmission')
 s3=openmc.YPlane(-1900,boundary_type='transmission')
 
 #z
+zm1=openmc.ZPlane(-1000,boundary_type='reflective')
 z0=openmc.ZPlane(0,boundary_type='reflective')
 z1=openmc.ZPlane(3100,boundary_type='reflective')
 z2=openmc.ZPlane(3100+1170,boundary_type='reflective')
@@ -91,27 +92,31 @@ z3=openmc.ZPlane(3100+1170+1250,boundary_type='reflective')
 #pintu utara, pintu barat, pintu selatan
 pu=openmc.YPlane(1900+2500+1200+1850+400,boundary_type='transmission') #asumsi pintu lebih lebar 40cm dibandingkan lubang pintunya
 pb0=b5
-pb1=openmc.XPlane(-6320+765+2505-58,boundary_type='transmission')
-pb2=openmc.XPlane(-6320+765+2505-58-1620,boundary_type='transmission')
-pb3=openmc.XPlane(-6320+765+2505-58-1620-58,boundary_type='transmission')
+pb1=openmc.XPlane(-6320+765+2505-158,boundary_type='transmission') #Angkanya ini masih ngarang karena gatau tebal pintu, ada kemungkinan formulanya di RHSPintu.py salah
+pb2=openmc.XPlane(-6320+765+2505-158-1020,boundary_type='transmission')
+pb3=openmc.XPlane(-6320+765+2505-158-1020-158,boundary_type='transmission')
 ps=u3
 
 ###############################################
-dt1 = -t1 & +t2 & +s3 & -u5 & +z0 & -z3  
-dt2 = -t2 & +t3 & +s1 & -u1 & +z0 & -z3
-dt3 = -t3 & +t4 & +s3 & -u5 & +z0 & -z3
+dt1 = -t1 & +t2 & +s3 & -u5 & +z0 & -z2  
+dt2 = -t2 & +t3 & +s1 & -u1 & +z0 & -z2
+dt3 = -t3 & +t4 & +s3 & -u5 & +z0 & -z2
 
-db1 = +b1 & -b2 & +s3 & -u5 & +z0 & -z3
-db2 = +b2 & -b3 & +s1 & -u3 & +z0 & -z3
-db3 = +b3 & -b4 & +s3 & -u5 & +z0 & -z3
+db1 = +b1 & -b2 & +s3 & -u5 & +z0 & -z2
+db2 = +b2 & -b3 & +s1 & -u3 & +z0 & -z2
+db3 = +b3 & -b4 & +s3 & -u5 & +z0 & -z2
 
-du1 = +b5 & -t3 & -u1 & +u2 & +z0 & -z3
-du2 = +b3 & -t5 & -u3 & +u4 & +z0 & -z3
+du1 = +b5 & -t3 & -u1 & +u2 & +z0 & -z2
+du2 = +b3 & -t5 & -u3 & +u4 & +z0 & -z2
 
-ds1 = +b3 & -t3 & +s1 & -s2 & +z0 & -z3
+ds1 = +b3 & -t3 & +s1 & -s2 & +z0 & -z2
+
+datas= +b1 & -t1 & +s1 & -u1 & +z2 & -z3
+dbaw= +b1 & -t1 & +s1 & -u1 & +zm1 & -z0
 ###############################################
-ppb = -pu & +ps & -pb0 & +pb1 & +z0 & -z3#pintu Pb
-
+ppb = -pu & +ps & -pb0 & +pb1 & +z0 & -z2#pintu Pb
+pbpe= -pu & +ps & -pb1 & +pb2 & +z0 & -z2#pintu BPE
+ppb2= -pu & +ps & -pb2 & +pb3 & +z0 & -z2#pintu Pb
 
 #pintu =
 
@@ -125,12 +130,21 @@ du1cell=openmc.Cell(fill=concrete,region=du1)
 du2cell=openmc.Cell(fill=concrete,region=du2)
 ds1cell=openmc.Cell(fill=concrete,region=ds1)
 
+ppbcell=openmc.Cell(fill=lead,region=ppb)
+pbpecell=openmc.Cell(fill=bpe,region=pbpe)
+ppb2cell=openmc.Cell(fill=lead,region=ppb2)
+
+datascell=openmc.Cell(fill=concrete,region=datas)
+dbawcell=openmc.Cell(fill=concrete,region=dbaw)
+
 univ=openmc.Universe(cells=[dt1cell,dt2cell,dt3cell,
                             db1cell,db2cell,db3cell,
-                            du1cell,du2cell,ds1cell])
+                            du1cell,du2cell,ds1cell
+                            ,ppbcell,pbpecell,ppb2cell
+                            ,datascell,dbawcell])
 geometry=openmc.Geometry(univ)
 geometry.export_to_xml()
 
-univ.plot(width=(14000,14000),basis='xy')
+univ.plot(width=(14000,14000),basis='xy',colors={ppb2cell:'fuchsia'})
 univ.plot(width=(14000,14000),basis='xz')
 plt.show()
