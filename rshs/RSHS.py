@@ -147,4 +147,5 @@ geometry.export_to_xml()
 
 univ.plot(width=(14000,14000),basis='xy',colors={ppb2cell:'fuchsia'})
 univ.plot(width=(14000,14000),basis='xz')
+univ.plot(width=(14000,14000),basis='yz')
 plt.show()
