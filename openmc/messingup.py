@@ -49,7 +49,7 @@ plt.show()
 ##################################################################
 
 settings=openmc.Settings()
-settings.batches=100
+settings.batches=20
 settings.inactive=10
 settings.particles=5000
 
@@ -78,7 +78,7 @@ tallies.export_to_xml()
 openmc.run()
 
 ##################################################################
-
+"""
 
 # Step 1: Get the tally data from the simulation results
 sp = openmc.StatePoint('statepoint.100.h5')
@@ -101,3 +101,5 @@ effective_dose = tally.mean[:, 0, 0] * dose_coeffs_interp  # pSv cm^2 * flux (or
 total_effective_dose = np.sum(effective_dose)
 
 print("Total Effective Dose (pSv):", total_effective_dose)
+"""
+##################################################################
