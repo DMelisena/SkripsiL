@@ -1,5 +1,5 @@
 import openmc
-import matplotlib.pyplot as pltt
+import matplotlib.pyplot as plt
 from math import *
 
 air=openmc.Material(name='Air')
@@ -58,7 +58,7 @@ materials.export_to_xml()
 ################################################
 
 ############# Geometry ########################
-#y
+#x
 t1=openmc.YPlane(6320,boundary_type='transmission')
 t2=openmc.YPlane(6320-765,boundary_type='transmission')
 t3=openmc.YPlane(6320-765-1550,boundary_type='transmission')
@@ -70,7 +70,7 @@ b2=openmc.YPlane(-6320+765,boundary_type='transmission')
 b3=openmc.YPlane(-6320+765+1550,boundary_type='transmission')
 b4=openmc.YPlane(-6320+765+2505,boundary_type='transmission')
 
-#x
+#y
 u1=openmc.XPlane(1900+2500+125+1850+810,boundary_type='transmission')
 u2=openmc.XPlane(1900+2500+125+1850,boundary_type='transmission')
 u3=openmc.XPlane(1900+2500+125,boundary_type='transmission')
@@ -81,3 +81,40 @@ s1=openmc.XPlane(-1900-1850-1280,boundary_type='transmission')
 s2=openmc.XPlane(-1900-1850,boundary_type='transmission')
 s3=openmc.XPlane(-1900,boundary_type='transmission')
 
+#z
+z0=openmc.ZPlane(0,boundary_type='reflective')
+z1=openmc.ZPlane(3100,boundary_type='reflective')
+z2=openmc.ZPlane(3100+1170,boundary_type='reflective')
+z3=openmc.ZPlane(3100+1170+1250,boundary_type='reflective')
+
+###############################################
+dt1 = -t1 & +t2 & +s3 & -u5 & +z0 & -z3  
+dt2 = -t2 & +t3 & +s1 & -u1 & +z0 & -z3
+dt3 = -t3 & +t4 & +s3 & -u5 & +z0 & -z3
+
+db1 = +b1 & -b2 & +s3 & -u5 & +z0 & -z3
+db2 = +b2 & -b3 & +s1 & -u3 & +z0 & -z3
+db3 = +b3 & -b4 & +s3 & -u5 & +z0 & -z3
+
+du1 = +b4 & -t3 & -u1 & +u2 & +z0 & -z3
+du2 = +b1 & -t5 & -u3 & +u4 & +z0 & -z3
+
+
+
+
+dt1cell=openmc.Cell(fill=concrete,region=dt1)
+dt2cell=openmc.Cell(fill=concrete,region=dt2)
+dt3cell=openmc.Cell(fill=concrete,region=dt3)
+db1cell=openmc.Cell(fill=concrete,region=db1)
+db2cell=openmc.Cell(fill=concrete,region=db2)
+db3cell=openmc.Cell(fill=concrete,region=db3)
+du1cell=openmc.Cell(fill=concrete,region=du1)
+du2cell=openmc.Cell(fill=concrete,region=du2)
+
+univ=openmc.Universe(cells=[dt1cell,dt2cell,dt3cell,db1cell,db2cell,db3cell,du1cell,du2cell])
+geometry=openmc.Geometry(univ)
+geometry.export_to_xml()
+
+univ.plot(width=(14000,14000),basis='xy')
+univ.plot(width=(14000,14000),basis='xz')
+plt.show()
