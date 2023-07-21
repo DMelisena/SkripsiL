@@ -42,14 +42,19 @@ geometry.export_to_xml()
 ##################################################################
 #universe=openmc.Universe(cells=[fuelcell,moderatorcell])
 geouniv.plot(width=(6,6))
+#plt.figure(figsize=(10,5))
+#fig1=plt.subplot(121)
+#fig1.imshow(geouniv.plot)
 geouniv.plot(width=(6,6),basis='xz')
+#fig2=plt.subplot(122)
+#fig2.imshow(geouniv.plot)
 
 plt.show()
 
 ##################################################################
 
 settings=openmc.Settings()
-settings.batches=20
+settings.batches=200
 settings.inactive=10
 settings.particles=5000
 
@@ -86,14 +91,40 @@ openmc.run()
 ##################################################################
 ##################################################################
 
-sp.openmc.StatePoint('statepoint.20.h5') #20 is the number of batches, this function loads the tally results
+sp=openmc.StatePoint('statepoint.20.h5') #20 is the number of batches, this function loads the tally results
 
 tally=sp.get_tally(name='flux') #data yang diperlukan adalah flux, sehingga pakai itu. Fission belum dipakai
-print(tally)
+print("tally = \n",tally)
+
+tally.sum
+
+print(tally.mean.shape) #Mean dan standar deviasi dari nilai tally
+(tally.mean, tally.std_dev)
 
 
+flux=tally.get_slice(scores=['flux'])
+fission=tally.get_slice(scores=['fission'])
+print("flux = ",flux)
+print("fission = ",fission)
 
+flux.std_dev.shape=(100,100)
+flux.mean.shape=(100,100)
+fission.std_dev.shape=(100,100)
+fission.mean.shape=(100,100)
 
+fig3=plt.subplot(121) #1x2grid on first
+fig3.imshow(flux.mean)
+fig4=plt.subplot(122)
+fig4.imshow(fission.mean)
+
+plt.show()
+
+relative_error=np.zeros_like(flux.std_dev)
+nonzero=flux.mean>0
+relative_error[nonzero]=flux.std_dev[nonzero]/flux.mean[nonzero]
+
+ret=plt.hist(relative_error[nonzero],bins=50)
+plt.show()
 
 
 
