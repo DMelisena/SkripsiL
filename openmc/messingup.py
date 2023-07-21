@@ -40,9 +40,9 @@ geometry.export_to_xml()
 ##################################################################
 
 ##################################################################
-universe=openmc.Universe(cells=[fuelcell,moderatorcell])
-universe.plot(width=(6,6))
-universe.plot(width=(6,6),basis='xz')
+#universe=openmc.Universe(cells=[fuelcell,moderatorcell])
+geouniv.plot(width=(6,6))
+geouniv.plot(width=(6,6),basis='xz')
 
 plt.show()
 
@@ -73,11 +73,11 @@ tallies.append(tally)
 
 tallies.export_to_xml()
 
-
-
 openmc.run()
 
 ##################################################################
+4431
+
 """
 
 # Step 1: Get the tally data from the simulation results
