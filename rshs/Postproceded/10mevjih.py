@@ -68,7 +68,7 @@ mat.export_to_xml()
 # Geometry #
 ################################################################################
 ####################################################
-rot = 90 # Degree of Rotation (0 - 360) ##
+rot = 270 # Degree of Rotation (0 - 360) ##
 ####################################################
 # Pasien (Titik Referensi), kuning tengah
 x00 = -94.0
@@ -330,12 +330,23 @@ geom.export_to_xml()
 ################################################################################
 # Settings #
 ################################################################################
-d = (zkol+zk2+zg+hole1h-0.1)
-pos_source = (
+d = (zkol+zk2+zg+hole1h-0.1+1) #62+21+10+6.1-0.1+1=100
+
+pos_source = 
+            """
+            ( d*(sin(radians(rot))) ), \
+             0, \
+             75+( d*(cos(radians(rot)) ) \
+             
+            """
+            (
                 x00 + ( d*(sin(rot)) ), \
                 y00, \
                 z00 + ( d*(cos(rot)) ) \
             )
+
+
+
 settings = openmc.Settings()
 source = openmc.Source()
 source.space = openmc.stats.Point(xyz=pos_source)
@@ -347,7 +358,7 @@ source.particle = 'photon'
 settings.source = source
 settings.batches = 11
 settings.inactive = 1
-settings.particles = 500_000 #2_000_000
+settings.particles = 5_000 #2_000_000
 settings.run_mode = 'fixed source'
 settings.photon_transport = True
 settings.export_to_xml()
@@ -374,7 +385,7 @@ dose_filter = openmc.EnergyFunctionFilter(energy, dose)
 tally1.filters = [mesh_filter, particle1, dose_filter]
 tally.append(tally1)
 tally2 = openmc.Tally(name = 'flux')
-#tally2 = openmc.Tally()
+#tally2 = openmc.Tally(
 particle2 = openmc.ParticleFilter('photon')
 tally2.filters = [mesh_filter, particle2]
 #tally2.filters = [filter_cell, particle2]
