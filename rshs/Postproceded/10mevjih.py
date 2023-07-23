@@ -317,7 +317,6 @@ ooxz2 = (x00, y00, z00) # Plot Kolimator
 universe.plot(
     origin=ooxy2,
     # width=(x+100+10, x+100+10),
-    # width=(x+100+10, y+100+10),
     width=(x+2*xdet, y+2*ydet),
     pixels=(500, 500),
     basis='xy',
@@ -348,7 +347,7 @@ source.particle = 'photon'
 settings.source = source
 settings.batches = 11
 settings.inactive = 1
-settings.particles = 500_000
+settings.particles = 500_000 #2_000_000
 settings.run_mode = 'fixed source'
 settings.photon_transport = True
 settings.export_to_xml()
@@ -356,7 +355,7 @@ settings.export_to_xml()
 # Tally #
 ################################################################################
 tally = openmc.Tallies()
-
+#filter_cell = openmc.CellFilter((c15, c16,c23, c22,c24,c25, c18,c21, c27))
 mesh = openmc.RegularMesh() # type: ignore
 mesh.dimension = [100, 100]
 xlen = x + 2*xdet
@@ -365,17 +364,20 @@ mesh.lower_left = [-xlen/2, -xlen/2]
 mesh.upper_right = [ylen/2, ylen/2]
 mesh_filter = openmc.MeshFilter(mesh)
 
-
+#tally1 = openmc.Tally()
 tally1 = openmc.Tally(name = 'dose')
 particle1 = openmc.ParticleFilter('photon')
 tally1.scores = ['flux']
 energy, dose = openmc.data.dose_coefficients('photon', 'RLAT')
 dose_filter = openmc.EnergyFunctionFilter(energy, dose)
+#tally1.filters = [filter_cell, particle1, dose_filter]
 tally1.filters = [mesh_filter, particle1, dose_filter]
 tally.append(tally1)
 tally2 = openmc.Tally(name = 'flux')
+#tally2 = openmc.Tally()
 particle2 = openmc.ParticleFilter('photon')
 tally2.filters = [mesh_filter, particle2]
+#tally2.filters = [filter_cell, particle2]
 tally2.scores = ['flux']
 tally.append(tally2)
 
