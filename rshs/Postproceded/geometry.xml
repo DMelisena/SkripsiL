@@ -1,0 +1,90 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<geometry>
+  <cell id="1" material="6" region="-1 5 4 -3 -16 17" universe="1"/>
+  <cell id="2" material="6" region="-3 6 2 -5 -16 17" universe="1"/>
+  <cell id="3" material="6" region="-8 2 7 -6 -16 17" universe="1"/>
+  <cell id="4" material="6" region="-15 8 12 -13 -16 17" universe="1"/>
+  <cell id="5" material="6" region="-7 4 2 -9 -16 17" universe="1"/>
+  <cell id="6" material="6" region="-9 10 7 -11 -16 17" universe="1"/>
+  <cell id="7" material="6" region="14 -10 12 -11 -16 17" universe="1"/>
+  <cell id="8" material="1" region="-81 84 -87 90 -75 78" universe="1"/>
+  <cell id="9" material="2" region="-63 66 -69 72 -75 78 ~(-81 84 -87 90 -75 78)" universe="1"/>
+  <cell id="10" material="1" region="-111 108 -114" universe="1"/>
+  <cell id="11" material="2" region="-93 96 -99 102 -105 108 ~(-111 108 -114)" universe="1"/>
+  <cell id="12" material="3" region="-39 40 -41 42 -43 44" universe="1"/>
+  <cell id="13" material="3" region="45 -2 -55 7 -48 49" universe="1"/>
+  <cell id="14" material="3" region="45 -2 -46 47 -48 49" universe="1"/>
+  <cell id="15" material="1" region="-2 45 -52 60 -16 17 ~(45 -2 -46 47 -48 49) ~(45 -2 -55 7 -48 49)" universe="1"/>
+  <cell id="16" material="3" region="-50 51 3 -52 -48 49" universe="1"/>
+  <cell id="17" material="1" region="2 -1 3 -52 -16 17 ~(-50 51 3 -52 -48 49)" universe="1"/>
+  <cell id="18" material="3" region="-50 51 53 -4 -48 49" universe="1"/>
+  <cell id="19" material="3" region="9 -54 -46 47 -48 49" universe="1"/>
+  <cell id="20" material="3" region="9 -54 -55 7 -48 49" universe="1"/>
+  <cell id="21" material="3" region="-56 1 -3 57 -48 49" universe="1"/>
+  <cell id="22" material="1" region="-56 1 -52 60 -16 17 ~(-56 1 -3 57 -48 49)" universe="1"/>
+  <cell id="23" material="3" region="-58 59 -38 60 -48 49" universe="1"/>
+  <cell id="24" material="4" region="-36 37 -5 9 -16 17" universe="1"/>
+  <cell id="25" material="5" region="-4 38 -5 9 -16 17 ~(-36 37 -5 9 -16 17)" universe="1"/>
+  <cell id="26" material="1" region="2 -1 -4 60 -16 17 ~(-4 38 -5 9 -16 17) ~(-50 51 53 -4 -48 49) ~(-58 59 -38 60 -48 49)" universe="1"/>
+  <cell id="27" material="1" region="-1 -3 2 4 -16 17 ~((-1 5 4 -3 -16 17) | (-3 6 2 -5 -16 17) | (-8 2 7 -6 -16 17) | (-15 8 12 -13 -16 17) | (-7 4 2 -9 -16 17) | (-9 10 7 -11 -16 17) | (14 -10 12 -11 -16 17) | (-81 84 -87 90 -75 78) | (-63 66 -69 72 -75 78) | (-111 108 -114) | (-93 96 -99 102 -105 108) | (-39 40 -41 42 -43 44) | (9 -54 -46 47 -48 49) | (9 -54 -55 7 -48 49))" universe="1"/>
+  <surface coeffs="420.0" id="1" type="x-plane"/>
+  <surface coeffs="-420.0" id="2" type="x-plane"/>
+  <surface coeffs="367.5" id="3" type="y-plane"/>
+  <surface coeffs="-367.5" id="4" type="y-plane"/>
+  <surface coeffs="335.0" id="5" type="x-plane"/>
+  <surface coeffs="293.5" id="6" type="y-plane"/>
+  <surface coeffs="-277.5" id="7" type="y-plane"/>
+  <surface coeffs="-273.0" id="8" type="x-plane"/>
+  <surface coeffs="215.0" id="9" type="x-plane"/>
+  <surface coeffs="95.0" id="10" type="x-plane"/>
+  <surface coeffs="98.5" id="11" type="y-plane"/>
+  <surface coeffs="-187.5" id="12" type="y-plane"/>
+  <surface coeffs="112.5" id="13" type="y-plane"/>
+  <surface coeffs="6.0" id="14" type="x-plane"/>
+  <surface coeffs="-194.0" id="15" type="x-plane"/>
+  <surface boundary="vacuum" coeffs="125.0" id="16" type="z-plane"/>
+  <surface boundary="vacuum" coeffs="-125.0" id="17" type="z-plane"/>
+  <surface coeffs="-369.0" id="36" type="y-plane"/>
+  <surface coeffs="-377.7" id="37" type="y-plane"/>
+  <surface coeffs="-379.2" id="38" type="y-plane"/>
+  <surface coeffs="-78.0" id="39" type="x-plane"/>
+  <surface coeffs="-110.0" id="40" type="x-plane"/>
+  <surface coeffs="31.5" id="41" type="y-plane"/>
+  <surface coeffs="-120.5" id="42" type="y-plane"/>
+  <surface coeffs="-65.0" id="43" type="z-plane"/>
+  <surface coeffs="-85.0" id="44" type="z-plane"/>
+  <surface boundary="vacuum" coeffs="-470.0" id="45" type="x-plane"/>
+  <surface coeffs="-19.5" id="46" type="y-plane"/>
+  <surface coeffs="-69.5" id="47" type="y-plane"/>
+  <surface coeffs="-50.0" id="48" type="z-plane"/>
+  <surface coeffs="-100.0" id="49" type="z-plane"/>
+  <surface coeffs="-69.0" id="50" type="x-plane"/>
+  <surface coeffs="-119.0" id="51" type="x-plane"/>
+  <surface boundary="vacuum" coeffs="417.5" id="52" type="y-plane"/>
+  <surface coeffs="-417.5" id="53" type="y-plane"/>
+  <surface coeffs="265.0" id="54" type="x-plane"/>
+  <surface coeffs="-227.5" id="55" type="y-plane"/>
+  <surface boundary="vacuum" coeffs="470.0" id="56" type="x-plane"/>
+  <surface coeffs="317.5" id="57" type="y-plane"/>
+  <surface coeffs="300.0" id="58" type="x-plane"/>
+  <surface coeffs="250.0" id="59" type="x-plane"/>
+  <surface boundary="vacuum" coeffs="-429.2" id="60" type="y-plane"/>
+  <surface coeffs="6.123233995736766e-17 0.0 -1.0 92.0" id="63" type="plane"/>
+  <surface coeffs="6.123233995736766e-17 0.0 -1.0 58.0" id="66" type="plane"/>
+  <surface coeffs="0.0 1.0 0.0 -27.0" id="69" type="plane"/>
+  <surface coeffs="0.0 1.0 0.0 -62.0" id="72" type="plane"/>
+  <surface coeffs="1.0 0.0 6.123233995736766e-17 -11.0" id="75" type="plane"/>
+  <surface coeffs="1.0 0.0 6.123233995736766e-17 -32.0" id="78" type="plane"/>
+  <surface coeffs="6.123233995736766e-17 0.0 -1.0 76.85" id="81" type="plane"/>
+  <surface coeffs="6.123233995736766e-17 0.0 -1.0 73.15" id="84" type="plane"/>
+  <surface coeffs="0.0 1.0 0.0 -42.65" id="87" type="plane"/>
+  <surface coeffs="0.0 1.0 0.0 -46.35" id="90" type="plane"/>
+  <surface coeffs="6.123233995736766e-17 0.0 -1.0 92.0" id="93" type="plane"/>
+  <surface coeffs="6.123233995736766e-17 0.0 -1.0 58.0" id="96" type="plane"/>
+  <surface coeffs="0.0 1.0 0.0 -27.0" id="99" type="plane"/>
+  <surface coeffs="0.0 1.0 0.0 -62.0" id="102" type="plane"/>
+  <surface coeffs="1.0 0.0 6.123233995736766e-17 6.0" id="105" type="plane"/>
+  <surface coeffs="1.0 0.0 6.123233995736766e-17 -1.0" id="108" type="plane"/>
+  <surface coeffs="-0.09482160332965928 0.9051783966703407 0.9051783966703407 -0.0 -0.0 -1.2246467991473532e-16 0.9671803539625143 80.56087730366032 135.77675950055112 6881.641691374505" id="111" type="quadric"/>
+  <surface coeffs="1.0 0.0 6.123233995736766e-17 5.099999999999994" id="114" type="plane"/>
+</geometry>
