@@ -114,6 +114,7 @@ ds1 = +b3 & -t3 & +s1 & -s2 & +z0 & -z2
 datas= +b1 & -t1 & +s1 & -u1 & +z2 & -z3
 dbaw= +b1 & -t1 & +s1 & -u1 & +zm1 & -z0
 ###############################################
+
 ppb = -pu & +ps & -pb0 & +pb1 & +z0 & -z2#pintu Pb
 pbpe= -pu & +ps & -pb1 & +pb2 & +z0 & -z2#pintu BPE
 ppb2= -pu & +ps & -pb2 & +pb3 & +z0 & -z2#pintu Pb
@@ -145,7 +146,52 @@ univ=openmc.Universe(cells=[dt1cell,dt2cell,dt3cell,
 geometry=openmc.Geometry(univ)
 geometry.export_to_xml()
 
-univ.plot(width=(14000,14000),basis='xy',colors={ppb2cell:'fuchsia'})
-univ.plot(width=(14000,14000),basis='xz')
-univ.plot(width=(14000,14000),basis='yz')
-plt.show()
+colors= {}
+colors[lead]='black'
+colors[bpe]='lightblue'
+colors[concrete]='grey'
+
+univ.plot(width=(14000,14000),basis='xy',color_by='material',colors=colors)
+univ.plot(width=(14000,14000),basis='xz',color_by='material',colors=colors)
+univ.plot(width=(14000,14000),basis='yz',color_by='material',colors=colors)
+#plt.show()
+###############################################
+#                Rotation
+###############################################
+def sposi(d,rot):  #source position
+    return ( d*(sin(radians(rot))) ), \
+     0, \
+     75+( d*(cos(radians(rot)) ) \
+    )#asumsi tinggi pasien 75cm
+linacpos=sposi(100,0)
+print(linacpos)
+###############################################
+#                 Setting                     #
+###############################################
+settings=openmc.Settings()
+source  =openmc.Source()
+#source.space=openmc.stats.Points(xyz=)
+source.space=openmc.stats.Point(xyz=linacpos)
+#phi2=openmc.stats.Isotropic() #isotropic ato uniform?
+#phi1=openmc.stats.Monodirectional((0,0,1))
+phi =openmc.stats.Uniform(0.0,2*pi)
+mu=openmc.stats.Uniform(-1,1)
+
+#source.particle = 'neutron'
+source.angle = openmc.stats.PolarAzimuthal(mu,phi,reference_uvw=(-1,0,0))
+source.energy = openmc.stats.Discrete([10e6],[1])
+#Sepertinya Resource
+source.particle = 'photon'
+settings.source = source
+settings.batches= 10
+settings.inactive=1
+settings.particles = 10000
+settings.run_mode = 'fixed source'
+settings.photon_transport = True
+settings.export_to_xml()
+
+###############################################
+#                 Tallies                     #
+###############################################
+
+
