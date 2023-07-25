@@ -83,11 +83,12 @@ s2=openmc.YPlane(-1900-1850,boundary_type='transmission')
 s3=openmc.YPlane(-1900,boundary_type='transmission')
 
 #z
-zm1=openmc.ZPlane(-1000,boundary_type='reflective')
-z0=openmc.ZPlane(0,boundary_type='reflective')
-z1=openmc.ZPlane(3100,boundary_type='reflective')
-z2=openmc.ZPlane(3100+1170,boundary_type='reflective')
-z3=openmc.ZPlane(3100+1170+1250,boundary_type='reflective')
+
+zm1=openmc.ZPlane(-3000,boundary_type='reflective')
+z3=openmc.ZPlane(-3000+480+1240+1860+1170+1250,boundary_type='reflective') #1250 ATO 2500???
+z2=openmc.ZPlane(-3000+480+1240+1860+1170,boundary_type='reflective')
+z1=openmc.ZPlane(-3000+480+1240+1860,boundary_type='reflective')
+z0=openmc.ZPlane(-3000+480,boundary_type='reflective')
 
 #pintu utara, pintu barat, pintu selatan
 pu=openmc.YPlane(1900+2500+1200+1850+400,boundary_type='transmission') #asumsi pintu lebih lebar 40cm dibandingkan lubang pintunya
@@ -163,11 +164,11 @@ colors[bpe]='lightblue'
 colors[concrete]='grey'
 
 
-univ.plot(width=(14000,10000),basis='xy',color_by='material',colors=colors)
+univ.plot(width=(14000,17000),basis='xy',color_by='material',colors=colors)
 plt.savefig('xyRSHS.png')
-univ.plot(width=(14000,8000),basis='xz',color_by='material',colors=colors)
+univ.plot(width=(14000,6500),basis='xz',color_by='material',colors=colors)
 plt.savefig('xzRSHS.png')
-univ.plot(width=(14000,8000),basis='yz',color_by='material',colors=colors)
+univ.plot(width=(18000,6500),basis='yz',color_by='material',colors=colors)
 plt.savefig('yzRSHS.png')
 plt.show()
 ###############################################
