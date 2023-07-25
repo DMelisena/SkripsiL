@@ -12,6 +12,16 @@ air.add_element('Fe',0.001)
 air.add_element('Si',0.001)
 air.add_element('Mn',0.001)
 
+air2=openmc.Material(name='Air 2')
+air2.set_density('g/cm3',0.001205)
+air2.add_nuclide('N14',0.7)
+air2.add_nuclide('O16',0.3)
+#air.add_s_alpha_beta('c_H_in_Air')
+air2.add_element('C',0.002)
+air2.add_element('Fe',0.001)
+air2.add_element('Si',0.001)
+air2.add_element('Mn',0.001)
+
 soft=openmc.Material(name='Soft Tissue')
 soft.set_density('g/cm3',1.0)
 soft.add_element('H', 10.4472, percent_type='ao')#1
@@ -52,7 +62,7 @@ concrete.add_element('Ca', 0.01, percent_type='ao')#20
 concrete.add_element('Fe', 0.01, percent_type='ao')#26
 concrete.add_element('Pb', 0.01, percent_type='ao')#82
 
-materials=openmc.Materials([air,soft,bpe,lead,concrete])
+materials=openmc.Materials([air,air2,soft,bpe,lead,concrete])
 materials.export_to_xml()
 
 ################################################
@@ -82,7 +92,7 @@ s1=openmc.YPlane(-1900-1850-1280,boundary_type='transmission')
 s2=openmc.YPlane(-1900-1850,boundary_type='transmission')
 s3=openmc.YPlane(-1900,boundary_type='transmission')
 
-#z
+#z total tinggi = 6000, lantai 1 setebal 480
 
 zm1=openmc.ZPlane(-3000,boundary_type='reflective')
 z3=openmc.ZPlane(-3000+480+1240+1860+1170+1250,boundary_type='reflective') #1250 ATO 2500???
@@ -98,14 +108,6 @@ pb2=openmc.XPlane(-6320+765+2505-158-1020,boundary_type='transmission')
 pb3=openmc.XPlane(-6320+765+2505-158-1020-158,boundary_type='transmission')
 ps=u3
 
-###############################################
-#                Detektor                     #
-du1=openmc.YPlane(1900+2500+1200+1850+810+30,boundary_type='transmission')
-du2=openmc.YPlane(1900+2500+1200+1850+810+100,boundary_type='transmission')
-du3=openmc.YPlane(1900+2500+1200+1850+810+200,boundary_type='transmission')
-
-dub=openmc.XPlane(-6320+765+2505+1000,boundary_type='transmission')
-dut=openmc.XPlane(-6320+765+2505+1000+500,boundary_type='transmission')
 
 ###############################################
 dt1 = -t1 & +t2 & +s3 & -u5 & +z0 & -z2  
@@ -152,8 +154,42 @@ ppb2cell=openmc.Cell(fill=lead,region=ppb2)
 datascell=openmc.Cell(fill=concrete,region=datas)
 dbawcell=openmc.Cell(fill=concrete,region=dbaw)
 
+
+###############################################
+#                Detektor                     #
+du1=openmc.YPlane (1900+2500+1200+1850+810+300,boundary_type='transmission')
+du1t=openmc.YPlane(1900+2500+1200+1850+810+300+500,boundary_type='transmission')
+du2=openmc.YPlane (1900+2500+1200+1850+810+1000,boundary_type='transmission')
+du2t=openmc.YPlane(1900+2500+1200+1850+810+1000+500,boundary_type='transmission')
+du3=openmc.YPlane (1900+2500+1200+1850+810+2000,boundary_type='transmission')
+du3t=openmc.YPlane(1900+2500+1200+1850+810+2000+500,boundary_type='transmission')
+
+duz0=openmc.ZPlane(-3000+480+1000,boundary_type='transmission')
+duz1=openmc.ZPlane(3000,boundary_type='transmission')
+
+dubb=openmc.XPlane(-6320+765+2505+1000,boundary_type='transmission') #Koordinat x nya masih ngasal
+dubt=openmc.XPlane(-6320+765+2505+1000+500,boundary_type='transmission')
+
+ducb=openmc.XPlane(2500,boundary_type='transmission') #koordinat x nya masih ngasal
+duct=openmc.XPlane(2500+500,boundary_type='transmission')
+
+detb1= +du1 & -du1t & +duz0 & -duz1 & +dubb & -dubt #detektor utara barat, x nya ngasal
+detb2= +du2 & -du2t & +duz0 & -duz1 & +dubb & -dubt 
+detb3= +du3 & -du3t & +duz0 & -duz1 & +dubb & -dubt
+dett1= +du1 & -du1t & +duz0 & -duz1 & +ducb & -duct #detektor utara timur, x nya ngasal
+dett2= +du2 & -du2t & +duz0 & -duz1 & +ducb & -duct
+dett3= +du3 & -du3t & +duz0 & -duz1 & +ducb & -duct
+
+#Detektor
+detb1cell=openmc.Cell(fill=air2,region=detb1) #sel detektor barat 1
+detb2cell=openmc.Cell(fill=air2,region=detb2)
+detb3cell=openmc.Cell(fill=air2,region=detb3)
+dett1cell=openmc.Cell(fill=air2,region=dett1)
+dett2cell=openmc.Cell(fill=air2,region=dett2)
+dett3cell=openmc.Cell(fill=air2,region=dett3)
+
 #void1cell = openmc.Cell(fill=air, region= (-datascell.region) & (-dt1cell.region) & (-dt2cell.region) & (-dt3cell.region) & (-db1cell.region) & (-db2cell.region) & (-db3cell.region) & (-du1cell.region) & (-du2cell.region) & (-ds1cell.region))
-void1= +z0 & -z2 & ~dt1cell.region & ~dt2cell.region & ~dt3cell.region & ~db1cell.region & ~db2cell.region & ~db3cell.region & ~du1cell.region & ~du2cell.region & ~ds1cell.region
+void1= +z0 & -z2 & ~detb1cell.region & ~detb2cell.region & ~detb3cell.region & ~dett1cell.region & ~dett2cell.region & ~dett3cell.region & ~dt1cell.region & ~dt2cell.region & ~dt3cell.region & ~db1cell.region & ~db2cell.region & ~db3cell.region & ~du1cell.region & ~du2cell.region & ~ds1cell.region
 
 void1cell = openmc.Cell(fill=air, region=void1)
 
@@ -161,7 +197,9 @@ univ=openmc.Universe(cells=[dt1cell,dt2cell,dt3cell,
                             db1cell,db2cell,db3cell,
                             du1cell,du2cell,ds1cell,
                             ppbcell,pbpecell,ppb2cell,
-                            datascell,dbawcell,void1cell])
+                            datascell,dbawcell,void1cell,
+                            detb1cell,detb2cell,detb3cell,
+                            dett1cell,dett2cell,dett3cell ])
 geometry=openmc.Geometry(univ)
 geometry.export_to_xml()
 
@@ -169,6 +207,8 @@ colors= {}
 colors[lead]='black'
 colors[bpe]='lightblue'
 colors[concrete]='grey'
+colors[air]='white'
+colors[air2]='blue'
 
 ###############################################
 #                Rotation
@@ -189,7 +229,7 @@ print(linacpos)
 ###############################################
 #            Penampil Geometri                #
 ###############################################
-univ.plot(width=(14000,17000),basis='xy',color_by='material',colors=colors)
+univ.plot(width=(14000,22000),basis='xy',color_by='material',colors=colors)
 plt.savefig('xyRSHS.png')
 univ.plot(width=(14000,6500),basis='xz',color_by='material',colors=colors)
 plt.savefig('xzRSHS.png')
