@@ -123,8 +123,9 @@ du2 = +b3 & -t5 & -u3 & +u4 & +z0 & -z2
 
 ds1 = +b3 & -t3 & +s1 & -s2 & +z0 & -z2
 
-datas= +b1 & -t1 & +s1 & -u1 & +z2 & -z3
-dbaw= +b1 & -t1 & +s1 & -u1 & +zm1 & -z0
+datas= +b1 & -t1 & +s1 & -u1 & +z2 & -z3 #celing
+datte= +b4 & -t4 & -u5 & +s3 & +z1 & -z2 #linac's middle wall
+dbaw = +b1 & -t1 & +s1 & -u1 & +zm1 & -z0 #flooring
 ###############################################
 #pintu
 ppb = -pu & +ps & -pb0 & +pb1 & +z0 & -z2#pintu Pb
@@ -152,6 +153,7 @@ pbpecell=openmc.Cell(fill=bpe,region=pbpe)
 ppb2cell=openmc.Cell(fill=lead,region=ppb2)
 
 datascell=openmc.Cell(fill=concrete,region=datas)
+dattecell=openmc.Cell(fill=concrete,region=datte)
 dbawcell=openmc.Cell(fill=concrete,region=dbaw)
 
 
@@ -197,7 +199,8 @@ univ=openmc.Universe(cells=[dt1cell,dt2cell,dt3cell,
                             db1cell,db2cell,db3cell,
                             du1cell,du2cell,ds1cell,
                             ppbcell,pbpecell,ppb2cell,
-                            datascell,dbawcell,void1cell,
+                            datascell,dbawcell,dattecell,
+                            void1cell,
                             detb1cell,detb2cell,detb3cell,
                             dett1cell,dett2cell,dett3cell ])
 geometry=openmc.Geometry(univ)
