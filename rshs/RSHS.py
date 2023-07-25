@@ -97,6 +97,8 @@ pb2=openmc.XPlane(-6320+765+2505-158-1020,boundary_type='transmission')
 pb3=openmc.XPlane(-6320+765+2505-158-1020-158,boundary_type='transmission')
 ps=u3
 
+
+
 ###############################################
 dt1 = -t1 & +t2 & +s3 & -u5 & +z0 & -z2  
 dt2 = -t2 & +t3 & +s1 & -u1 & +z0 & -z2
@@ -114,12 +116,16 @@ ds1 = +b3 & -t3 & +s1 & -s2 & +z0 & -z2
 datas= +b1 & -t1 & +s1 & -u1 & +z2 & -z3
 dbaw= +b1 & -t1 & +s1 & -u1 & +zm1 & -z0
 ###############################################
-
+#pintu
 ppb = -pu & +ps & -pb0 & +pb1 & +z0 & -z2#pintu Pb
 pbpe= -pu & +ps & -pb1 & +pb2 & +z0 & -z2#pintu BPE
 ppb2= -pu & +ps & -pb2 & +pb3 & +z0 & -z2#pintu Pb
 
-#pintu =
+#Udara
+#void1= -dt1 & +dt2 & -dt3 & +db1 & -db2 & +db3 & -du1 & +du2 & -ds1 & +ppb & -pbpe & +ppb2 & +datas & -dbaw 
+#void1cell=openmc.Cell(fill=air,region=void1)
+
+#Cell =
 
 dt1cell=openmc.Cell(fill=concrete,region=dt1)
 dt2cell=openmc.Cell(fill=concrete,region=dt2)
@@ -138,11 +144,16 @@ ppb2cell=openmc.Cell(fill=lead,region=ppb2)
 datascell=openmc.Cell(fill=concrete,region=datas)
 dbawcell=openmc.Cell(fill=concrete,region=dbaw)
 
+#void1cell = openmc.Cell(fill=air, region= (-datascell.region) & (-dt1cell.region) & (-dt2cell.region) & (-dt3cell.region) & (-db1cell.region) & (-db2cell.region) & (-db3cell.region) & (-du1cell.region) & (-du2cell.region) & (-ds1cell.region))
+void1= +z0 & -z2 & ~dt1cell.region & ~dt2cell.region & ~dt3cell.region & ~db1cell.region & ~db2cell.region & ~db3cell.region & ~du1cell.region & ~du2cell.region & ~ds1cell.region
+
+void1cell = openmc.Cell(fill=air, region=void1)
+
 univ=openmc.Universe(cells=[dt1cell,dt2cell,dt3cell,
                             db1cell,db2cell,db3cell,
-                            du1cell,du2cell,ds1cell
-                            ,ppbcell,pbpecell,ppb2cell
-                            ,datascell,dbawcell])
+                            du1cell,du2cell,ds1cell,
+                            ppbcell,pbpecell,ppb2cell,
+                            datascell,dbawcell,void1cell])
 geometry=openmc.Geometry(univ)
 geometry.export_to_xml()
 
@@ -150,11 +161,12 @@ colors= {}
 colors[lead]='black'
 colors[bpe]='lightblue'
 colors[concrete]='grey'
+colors[air]='green'
 
 univ.plot(width=(14000,14000),basis='xy',color_by='material',colors=colors)
 univ.plot(width=(14000,14000),basis='xz',color_by='material',colors=colors)
 univ.plot(width=(14000,14000),basis='yz',color_by='material',colors=colors)
-#plt.show()
+plt.show()
 ###############################################
 #                Rotation
 ###############################################
@@ -183,7 +195,7 @@ source.energy = openmc.stats.Discrete([10e6],[1])
 #Sepertinya Resource
 source.particle = 'photon'
 settings.source = source
-settings.batches= 10
+settings.batches= 11
 settings.inactive=1
 settings.particles = 10000
 settings.run_mode = 'fixed source'
