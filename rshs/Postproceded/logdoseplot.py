@@ -15,6 +15,7 @@ ax.set_title('Power density (kW/cm$^3$)') #type: ignore
 # plt.axis('off')
 # plt.show()
 # plt.savefig(f'img/fission2/core_n{i}_{corefrac}.png')
+plt.savefig('figlogdoseplot.png')
 plt.show()
 # plt.close()
 # plt.clf()
