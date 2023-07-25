@@ -175,7 +175,7 @@ def sposi(d,rot):  #source position
      0, \
      75+( d*(cos(radians(rot)) ) \
     )#asumsi tinggi pasien 75cm
-linacpos=sposi(100,0)
+linacpos=sposi(100,90)
 print(linacpos)
 ###############################################
 #                 Setting                     #
@@ -187,7 +187,7 @@ source.space=openmc.stats.Point(xyz=linacpos)
 #phi2=openmc.stats.Isotropic() #isotropic ato uniform?
 #phi1=openmc.stats.Monodirectional((0,0,1))
 phi =openmc.stats.Uniform(0.0,2*pi)
-mu=openmc.stats.Uniform(-1,1)
+mu=openmc.stats.Uniform(0.989,1)
 
 #source.particle = 'neutron'
 source.angle = openmc.stats.PolarAzimuthal(mu,phi,reference_uvw=(-1,0,0))
