@@ -227,7 +227,7 @@ settings.export_to_xml()
 tally = openmc.Tallies()
 #filter_cell = openmc.CellFilter((c15, c16,c23, c22,c24,c25, c18,c21, c27))
 mesh = openmc.RegularMesh() # type: ignore
-mesh.dimension = [100, 100]
+mesh.dimension = [1000, 1000]
 xdet=50
 ydet=50
 
