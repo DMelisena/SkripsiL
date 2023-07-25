@@ -98,7 +98,14 @@ pb2=openmc.XPlane(-6320+765+2505-158-1020,boundary_type='transmission')
 pb3=openmc.XPlane(-6320+765+2505-158-1020-158,boundary_type='transmission')
 ps=u3
 
+###############################################
+#                Detektor                     #
+du1=openmc.YPlane(1900+2500+1200+1850+810+30,boundary_type='transmission')
+du2=openmc.YPlane(1900+2500+1200+1850+810+100,boundary_type='transmission')
+du3=openmc.YPlane(1900+2500+1200+1850+810+200,boundary_type='transmission')
 
+dub=openmc.XPlane(-6320+765+2505+1000,boundary_type='transmission')
+dut=openmc.XPlane(-6320+765+2505+1000+500,boundary_type='transmission')
 
 ###############################################
 dt1 = -t1 & +t2 & +s3 & -u5 & +z0 & -z2  
