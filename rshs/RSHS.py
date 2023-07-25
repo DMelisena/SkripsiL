@@ -94,11 +94,11 @@ s3=openmc.YPlane(-1900,boundary_type='transmission')
 
 #z total tinggi = 6000, lantai 1 setebal 480
 
-zm1=openmc.ZPlane(-3000,boundary_type='reflective')
-z3=openmc.ZPlane(-3000+480+1240+1860+1170+1250,boundary_type='reflective') #1250 ATO 2500???
-z2=openmc.ZPlane(-3000+480+1240+1860+1170,boundary_type='reflective')
-z1=openmc.ZPlane(-3000+480+1240+1860,boundary_type='reflective')
-z0=openmc.ZPlane(-3000+480,boundary_type='reflective')
+zm1=openmc.ZPlane(-3000,boundary_type='transmission')
+z3=openmc.ZPlane(-3000+480+1240+1860+1170+1250,boundary_type='transmission')#1250 ATO 2500???
+z2=openmc.ZPlane(-3000+480+1240+1860+1170,boundary_type='transmission')
+z1=openmc.ZPlane(-3000+480+1240+1860,boundary_type='transmission')
+z0=openmc.ZPlane(-3000+480,boundary_type='transmission')
 
 #pintu utara, pintu barat, pintu selatan geometri nya
 pu=openmc.YPlane(1900+2500+1200+1850+400,boundary_type='transmission') 
@@ -169,7 +169,7 @@ du3=openmc.YPlane (1900+2500+1200+1850+810+2000,boundary_type='transmission')
 du3t=openmc.YPlane(1900+2500+1200+1850+810+2000+500,boundary_type='transmission')
 
 duz0=openmc.ZPlane(-3000+480+1000,boundary_type='transmission')#Tinggi detektor, default untuk semua detektor kecuali atas
-duz1=openmc.ZPlane(3000,boundary_type='transmission')
+duz1=openmc.ZPlane(-3000+480+1000+2000,boundary_type='transmission')
 
 dubb=openmc.XPlane(-6320+765+2505+1000,boundary_type='transmission') #Koordinat x nya masih ngasal
 dubt=openmc.XPlane(-6320+765+2505+1000+500,boundary_type='transmission')
@@ -240,12 +240,12 @@ das=openmc.XPlane(-250,boundary_type='transmission')
 dat=openmc.YPlane(250,boundary_type='transmission')
 dab=openmc.YPlane(-250,boundary_type='transmission')
 
-da1=openmc.ZPlane(-3000+480+1240+1860+1170+1250+300,boundary_type='reflective') #1250 ATO 2500???
-da1t=openmc.ZPlane(-3000+480+1240+1860+1170+1250+300+500,boundary_type='reflective') #1250 ATO 2500???
-da2=openmc.ZPlane(-3000+480+1240+1860+1170+1250+1000,boundary_type='reflective')
-da2t=openmc.ZPlane(-3000+480+1240+1860+1170+1250+1000+500,boundary_type='reflective')
-da3=openmc.ZPlane(-3000+480+1240+1860+1170+1250+2000,boundary_type='reflective')
-da3t=openmc.ZPlane(-3000+480+1240+1860+1170+1250+2000+500,boundary_type='reflective')
+da1=openmc.ZPlane(-3000+480+1240+1860+1170+1250+300,boundary_type='transmission') #1250 ATO 2500???
+da1t=openmc.ZPlane(-3000+480+1240+1860+1170+1250+300+500,boundary_type='transmission') #1250 ATO 2500???
+da2=openmc.ZPlane(-3000+480+1240+1860+1170+1250+1000,boundary_type='transmission')
+da2t=openmc.ZPlane(-3000+480+1240+1860+1170+1250+1000+500,boundary_type='transmission')
+da3=openmc.ZPlane(-3000+480+1240+1860+1170+1250+2000,boundary_type='transmission') 
+da3t=openmc.ZPlane(-3000+480+1240+1860+1170+1250+2000+500,boundary_type='transmission')
 
 deta1= +da1 & -da1t & -dau & +das & +dab & -dat
 deta2= +da2 & -da2t & -dau & +das & +dab & -dat
@@ -324,7 +324,10 @@ mu=openmc.stats.Uniform(0.989,1)
 
 #source.particle = 'neutron'
 source.angle = openmc.stats.PolarAzimuthal(mu,phi,reference_uvw=(-1,0,0))
-source.energy = openmc.stats.Discrete([10e6],[1])
+#mu= distribution of the cosine of the polar angle
+#phi=distribution of the azimuthal angle in radians
+
+source.energy = openmc.stats.Discrete([10e6],[1]) #10MeV
 #Sepertinya Resource
 source.particle = 'photon'
 settings.source = source
