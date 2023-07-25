@@ -174,7 +174,7 @@ def sposi(d,rot):  #source position
 
 ###############################################
 #        Input (linac distance,rotation)      #
-linacpos=sposi(1000,0)
+linacpos=sposi(1000,270)
 ###############################################
 print(linacpos)
 
@@ -211,7 +211,7 @@ source.particle = 'photon'
 settings.source = source
 settings.batches= 11
 settings.inactive=1
-settings.particles = 1000
+settings.particles = 1000000
 settings.run_mode = 'fixed source'
 settings.photon_transport = True
 settings.export_to_xml()
