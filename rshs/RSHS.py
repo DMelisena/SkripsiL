@@ -163,7 +163,25 @@ colors[lead]='black'
 colors[bpe]='lightblue'
 colors[concrete]='grey'
 
+###############################################
+#                Rotation
+###############################################
+def sposi(d,rot):  #source position
+    return ( d*(sin(radians(rot))) ), \
+     0, \
+     1240+( d*(cos(radians(rot)) ) \
+    )#asumsi tinggi pasien 75cm
 
+###############################################
+#        Input (linac distance,rotation)      #
+linacpos=sposi(1000,0)
+###############################################
+print(linacpos)
+
+
+###############################################
+#            Penampil Geometri                #
+###############################################
 univ.plot(width=(14000,17000),basis='xy',color_by='material',colors=colors)
 plt.savefig('xyRSHS.png')
 univ.plot(width=(14000,6500),basis='xz',color_by='material',colors=colors)
@@ -171,20 +189,6 @@ plt.savefig('xzRSHS.png')
 univ.plot(width=(18000,6500),basis='yz',color_by='material',colors=colors)
 plt.savefig('yzRSHS.png')
 plt.show()
-###############################################
-#                Rotation
-###############################################
-def sposi(d,rot):  #source position
-    return ( d*(sin(radians(rot))) ), \
-     0, \
-     75+( d*(cos(radians(rot)) ) \
-    )#asumsi tinggi pasien 75cm
-
-###############################################
-#        Input (linac distance,rotation)      #
-linacpos=sposi(100,270)
-###############################################
-print(linacpos)
 
 
 ###############################################
