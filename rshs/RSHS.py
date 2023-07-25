@@ -94,7 +94,8 @@ s3=openmc.YPlane(-1900,boundary_type='transmission')
 
 #z total tinggi = 6000, lantai 1 setebal 480
 
-zm1=openmc.ZPlane(-3000,boundary_type='transmission')
+zm1=openmc.ZPlane(-3000,boundary_type='vacuum')
+zmax=openmc.ZPlane(3000,boundary_type='vacuum')
 z3=openmc.ZPlane(-3000+480+1240+1860+1170+1250,boundary_type='transmission')#1250 ATO 2500???
 z2=openmc.ZPlane(-3000+480+1240+1860+1170,boundary_type='transmission')
 z1=openmc.ZPlane(-3000+480+1240+1860,boundary_type='transmission')
@@ -256,8 +257,10 @@ deta2cell=openmc.Cell(fill=air2,region=deta2)
 deta3cell=openmc.Cell(fill=air2,region=deta3)
 
 
+
+box=openmc.rectangular_prism(18000,22000,boundary_type='vacuum')
 #void1cell = openmc.Cell(fill=air, region= (-datascell.region) & (-dt1cell.region) & (-dt2cell.region) & (-dt3cell.region) & (-db1cell.region) & (-db2cell.region) & (-db3cell.region) & (-du1cell.region) & (-du2cell.region) & (-ds1cell.region))
-void1= +z0 & -z2 & ~detb1cell.region & ~detb2cell.region & ~detb3cell.region & ~dett1cell.region & ~dett2cell.region & ~dett3cell.region & ~dt1cell.region & ~dt2cell.region & ~dt3cell.region & ~db1cell.region & ~db2cell.region & ~db3cell.region & ~du1cell.region & ~du2cell.region & ~ds1cell.region
+void1= +z0 & -zmax & -box & ~detb1cell.region & ~detb2cell.region & ~detb3cell.region & ~dett1cell.region & ~dett2cell.region & ~dett3cell.region & ~dt1cell.region & ~dt2cell.region & ~dt3cell.region & ~db1cell.region & ~db2cell.region & ~db3cell.region & ~du1cell.region & ~du2cell.region & ~ds1cell.region
 
 void1cell = openmc.Cell(fill=air, region=void1)
 
