@@ -161,14 +161,13 @@ colors= {}
 colors[lead]='black'
 colors[bpe]='lightblue'
 colors[concrete]='grey'
-colors[air]='lightgreen'
 
-univ.plot(width=(14000,14000),basis='xy',color_by='material',colors=colors)
+
+univ.plot(width=(14000,10000),basis='xy',color_by='material',colors=colors)
 plt.savefig('xyRSHS.png')
-
-univ.plot(width=(14000,14000),basis='xz',color_by='material',colors=colors)
+univ.plot(width=(14000,8000),basis='xz',color_by='material',colors=colors)
 plt.savefig('xzRSHS.png')
-univ.plot(width=(14000,14000),basis='yz',color_by='material',colors=colors)
+univ.plot(width=(14000,8000),basis='yz',color_by='material',colors=colors)
 plt.savefig('yzRSHS.png')
 plt.show()
 ###############################################
@@ -179,8 +178,14 @@ def sposi(d,rot):  #source position
      0, \
      75+( d*(cos(radians(rot)) ) \
     )#asumsi tinggi pasien 75cm
-linacpos=sposi(100,90)
+
+###############################################
+#        Input (linac distance,rotation)      #
+linacpos=sposi(100,270)
+###############################################
 print(linacpos)
+
+
 ###############################################
 #                 Setting                     #
 ###############################################
