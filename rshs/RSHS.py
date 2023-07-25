@@ -161,11 +161,15 @@ colors= {}
 colors[lead]='black'
 colors[bpe]='lightblue'
 colors[concrete]='grey'
-colors[air]='green'
+colors[air]='lightgreen'
 
 univ.plot(width=(14000,14000),basis='xy',color_by='material',colors=colors)
+plt.savefig('xyRSHS.png')
+
 univ.plot(width=(14000,14000),basis='xz',color_by='material',colors=colors)
+plt.savefig('xzRSHS.png')
 univ.plot(width=(14000,14000),basis='yz',color_by='material',colors=colors)
+plt.savefig('yzRSHS.png')
 plt.show()
 ###############################################
 #                Rotation
@@ -197,7 +201,7 @@ source.particle = 'photon'
 settings.source = source
 settings.batches= 11
 settings.inactive=1
-settings.particles = 10000
+settings.particles = 1000
 settings.run_mode = 'fixed source'
 settings.photon_transport = True
 settings.export_to_xml()
