@@ -278,13 +278,14 @@ univ=openmc.Universe(cells=[dt1cell,dt2cell,dt3cell,
                             detb1cell,detb2cell,detb3cell,
                             deta1cell,deta2cell,deta3cell])
 geometry=openmc.Geometry(univ)
+
 geometry.export_to_xml()
 
 colors= {}
 colors[lead]='black'
 colors[bpe]='lightblue'
 colors[concrete]='grey'
-colors[air]='lightgreen'
+colors[air]='white'
 
 univ.plot(width=(14000,14000),basis='xy',color_by='material',colors=colors)
 plt.savefig('xyRSHS.png')
