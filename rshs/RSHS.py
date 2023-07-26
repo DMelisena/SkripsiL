@@ -73,45 +73,45 @@ materials.export_to_xml()
 
 ############# Geometry ########################
 #x
-t1=openmc.XPlane(6320,boundary_type='transmission')
-t2=openmc.XPlane(6320-765,boundary_type='transmission')
-t3=openmc.XPlane(6320-765-1550,boundary_type='transmission')
-t4=openmc.XPlane(6320-765-1550-765,boundary_type='transmission')
-t5=openmc.XPlane(6320-765-1550-765,boundary_type='transmission')
+t1=openmc.XPlane(632,boundary_type='transmission')
+t2=openmc.XPlane(632-76.5,boundary_type='transmission')
+t3=openmc.XPlane(632-76.5-155,boundary_type='transmission')
+t4=openmc.XPlane(632-76.5-155-76.5,boundary_type='transmission')
+t5=openmc.XPlane(632-76.5-155-76.5,boundary_type='transmission')
 
-b1=openmc.XPlane(-6320,boundary_type='transmission')
-b2=openmc.XPlane(-6320+765,boundary_type='transmission')
-b3=openmc.XPlane(-6320+765+1550,boundary_type='transmission')
-b4=openmc.XPlane(-6320+765+1550+765,boundary_type='transmission')
-b5=openmc.XPlane(-6320+765+2505,boundary_type='transmission')
+b1=openmc.XPlane(-632,boundary_type='transmission')
+b2=openmc.XPlane(-632+76.5,boundary_type='transmission')
+b3=openmc.XPlane(-632+76.5+155.0,boundary_type='transmission')
+b4=openmc.XPlane(-632+76.5+155.0+76.5,boundary_type='transmission')
+b5=openmc.XPlane(-632+76.5+250.5,boundary_type='transmission')
 
 #y #Di berkas 125, tapi ga make sense jadi diubah ke 1200 biar masuk angkanya
-u1=openmc.YPlane(1900+2500+1200+1850+810,boundary_type='transmission')
-u2=openmc.YPlane(1900+2500+1200+1850,boundary_type='transmission')
-u3=openmc.YPlane(1900+2500+1200,boundary_type='transmission')
-u4=openmc.YPlane(1900+2500,boundary_type='transmission')
-u5=openmc.YPlane(1900,boundary_type='transmission')
+u1=openmc.YPlane(190.0+250.0+120.0+185.0+81.0,boundary_type='transmission')
+u2=openmc.YPlane(190.0+250.0+120.0+185.0,boundary_type='transmission')
+u3=openmc.YPlane(190.0+250.0+120.0,boundary_type='transmission')
+u4=openmc.YPlane(190.0+250.0,boundary_type='transmission')
+u5=openmc.YPlane(190.0,boundary_type='transmission')
 
-s1=openmc.YPlane(-1900-1850-1280,boundary_type='transmission')
-s2=openmc.YPlane(-1900-1850,boundary_type='transmission')
-s3=openmc.YPlane(-1900,boundary_type='transmission')
+s1=openmc.YPlane(-190.0-185.0-128.0,boundary_type='transmission')
+s2=openmc.YPlane(-190.0-185.0,boundary_type='transmission')
+s3=openmc.YPlane(-190.0,boundary_type='transmission')
 
 #z total tinggi = 6000, lantai 1 setebal 480
 
-zm1=openmc.ZPlane(-3000,boundary_type='vacuum')
-zmax=openmc.ZPlane(3000,boundary_type='vacuum')
-z3=openmc.ZPlane(-3000+480+1240+1860+1170+1250,boundary_type='transmission')#1250 ATO 2500???
-z2=openmc.ZPlane(-3000+480+1240+1860+1170,boundary_type='transmission')
-z1=openmc.ZPlane(-3000+480+1240+1860,boundary_type='transmission')
-z0=openmc.ZPlane(-3000+480,boundary_type='transmission')
+zm1=openmc.ZPlane(-300.0,boundary_type='vacuum')
+zmax=openmc.ZPlane(300.0,boundary_type='vacuum')
+z3=openmc.ZPlane(-300.0+48.0+124.0+186.0+117.0+125.0,boundary_type='transmission')#1250 ATO 2500???
+z2=openmc.ZPlane(-300.0+48.0+124.0+186.0+117.0,boundary_type='transmission')
+z1=openmc.ZPlane(-300.0+48.0+124.0+186.0,boundary_type='transmission')
+z0=openmc.ZPlane(-300.0+48.0,boundary_type='transmission')
 
 #pintu utara, pintu barat, pintu selatan geometri nya
-pu=openmc.YPlane(1900+2500+1200+1850+400,boundary_type='transmission') 
+pu=openmc.YPlane(190.0+250.0+120.0+185.0+40.0,boundary_type='transmission') 
 #                                    ^^^ asumsi pintu lebih lebar 40cm dibandingkan lubang pintunya
 pb0=b5
-pb1=openmc.XPlane(-6320+765+2505-158,boundary_type='transmission') #Angkanya ini masih ngarang karena gatau tebal pintu, ada kemungkinan formulanya di RHSPintu.py salah
-pb2=openmc.XPlane(-6320+765+2505-158-1020,boundary_type='transmission')
-pb3=openmc.XPlane(-6320+765+2505-158-1020-158,boundary_type='transmission')
+pb1=openmc.XPlane(-632.0+76.5+250.5-15.8,boundary_type='transmission') #Angkanya ini masih ngarang karena gatau tebal pintu, ada kemungkinan formulanya di RHSPintu.py salah
+pb2=openmc.XPlane(-632.0+76.5+250.5-15.8-102.0,boundary_type='transmission')
+pb3=openmc.XPlane(-632.0+76.5+250.5-15.8-102.0-15.8,boundary_type='transmission')
 ps=u3
 
 
@@ -166,21 +166,21 @@ dbawcell=openmc.Cell(fill=concrete,region=dbaw)
 ###############################################
 #                Detektor/Tally               #
 #                          Utara              #
-deu1=openmc.YPlane (1900+2500+1200+1850+810+300,boundary_type='transmission')
-deu1t=openmc.YPlane(1900+2500+1200+1850+810+300+108,boundary_type='transmission') #+tebal detektor
-deu2=openmc.YPlane (1900+2500+1200+1850+810+1000,boundary_type='transmission')
-deu2t=openmc.YPlane(1900+2500+1200+1850+810+1000+108,boundary_type='transmission')
-deu3=openmc.YPlane (1900+2500+1200+1850+810+2000,boundary_type='transmission')
-deu3t=openmc.YPlane(1900+2500+1200+1850+810+2000+108,boundary_type='transmission')
+deu1=openmc.YPlane (190.0+250.0+120.0+185.0+81.0+30.0,boundary_type='transmission')
+deu1t=openmc.YPlane(190.0+250.0+120.0+185.0+81.0+30.0+10.8,boundary_type='transmission') #+tebal detektor
+deu2=openmc.YPlane (190.0+250.0+120.0+185.0+81.0+100.0,boundary_type='transmission')
+deu2t=openmc.YPlane(190.0+250.0+120.0+185.0+81.0+100.0+10.8,boundary_type='transmission')
+deu3=openmc.YPlane (190.0+250.0+120.0+185.0+81.0+200.0,boundary_type='transmission')
+deu3t=openmc.YPlane(190.0+250.0+120.0+185.0+81.0+200.0+10.8,boundary_type='transmission')
 
-deuz0=openmc.ZPlane(-3000+480+1000,boundary_type='transmission')#Tinggi detektor, default untuk semua detektor kecuali atas
-deuz1=openmc.ZPlane(-3000+480+1000+2000,boundary_type='transmission')
+deuz0=openmc.ZPlane(-300.0+48.0+100.0,boundary_type='transmission')#Tinggi detektor, default untuk semua detektor kecuali atas
+deuz1=openmc.ZPlane(-300.0+48.0+100.0+200.0,boundary_type='transmission')
 
-deubb=openmc.XPlane(-6320+765+2505+1000,boundary_type='transmission') #Koordinat x nya masih ngasal
-deubt=openmc.XPlane(-6320+765+2505+1000+500,boundary_type='transmission')
+deubb=openmc.XPlane(-632.0+76.5+250.5+100.0,boundary_type='transmission') #Koordinat x nya masih ngasal
+deubt=openmc.XPlane(-632.0+76.5+250.5+100.0+50.0,boundary_type='transmission')
 
-deucb=openmc.XPlane(2500,boundary_type='transmission') #koordinat x nya masih ngasal
-deuct=openmc.XPlane(2500+500,boundary_type='transmission')
+deucb=openmc.XPlane(250.0,boundary_type='transmission') #koordinat x nya masih ngasal
+deuct=openmc.XPlane(250.0+50.0,boundary_type='transmission')
 
 detb1= +deu1 & -deu1t & +deuz0 & -deuz1 & +deubb & -deubt #detektor utara barat, x nya ngasal
 detb2= +deu2 & -deu2t & +deuz0 & -deuz1 & +deubb & -deubt 
@@ -199,15 +199,15 @@ detut3cell=openmc.Cell(fill=air2,region=dett3)
 
 
 #                          Timur              #
-det1=openmc.XPlane(6320+300,boundary_type='transmission')
-det1t=openmc.XPlane(6320+300+108,boundary_type='transmission')
-det2=openmc.XPlane(6320+1000,boundary_type='transmission')
-det2t=openmc.XPlane(6320+1000+108,boundary_type='transmission')
-det3=openmc.XPlane(6320+2000,boundary_type='transmission')
-det3t=openmc.XPlane(6320+2000+108,boundary_type='transmission')
+det1=openmc.XPlane(632.0+30.0,boundary_type='transmission')
+det1t=openmc.XPlane(632.0+30.0+10.8,boundary_type='transmission')
+det2=openmc.XPlane(632.0+100.0,boundary_type='transmission')
+det2t=openmc.XPlane(632.0+100.0+10.8,boundary_type='transmission')
+det3=openmc.XPlane(632.0+200.0,boundary_type='transmission')
+det3t=openmc.XPlane(632.0+200.0+10.8,boundary_type='transmission')
 
-detu=openmc.YPlane(250,boundary_type='transmission')
-dets=openmc.YPlane(-250,boundary_type='transmission')
+detu=openmc.YPlane(25.0,boundary_type='transmission')
+dets=openmc.YPlane(-25.0,boundary_type='transmission')
 
 dett1= +det1 & -det1t & +deuz0 & -deuz1 & -detu & +dets
 dett2= +det2 & -det2t & +deuz0 & -deuz1 & -detu & +dets
@@ -219,15 +219,15 @@ dett3cell=openmc.Cell(fill=air2,region=dett3)
 
 #                          Barat              #
 
-deb1=openmc.XPlane(-6320+765+2505-158-1020-158-300,boundary_type='transmission')
-deb1t=openmc.XPlane(-6320+765+2505-158-1020-158-300-108,boundary_type='transmission')
-deb2=openmc.XPlane(-6320+765+2505-158-1020-158-1000,boundary_type='transmission')
-deb2t=openmc.XPlane(-6320+765+2505-158-1020-158-1000-108,boundary_type='transmission')
-deb3=openmc.XPlane(-6320+765+2505-158-1020-158-2000,boundary_type='transmission')
-deb3t=openmc.XPlane(-6320+765+2505-158-1020-158-2000-108,boundary_type='transmission')
+deb1=openmc.XPlane (-632.0+76.5+250.5-15.8-102.0-15.8-30.0,boundary_type='transmission')
+deb1t=openmc.XPlane(-632.0+76.5+250.5-15.8-102.0-15.8-30.0-10.8,boundary_type='transmission')
+deb2=openmc.XPlane (-632.0+76.5+250.5-15.8-102.0-15.8-100.0,boundary_type='transmission')
+deb2t=openmc.XPlane(-632.0+76.5+250.5-15.8-102.0-15.8-100.0-10.8,boundary_type='transmission')
+deb3=openmc.XPlane (-632.0+76.5+250.5-15.8-102.0-15.8-200.0,boundary_type='transmission')
+deb3t=openmc.XPlane(-632.0+76.5+250.5-15.8-102.0-15.8-200.0-10.8,boundary_type='transmission')
 
-debu=openmc.YPlane(1900+2500+1200+1850-675,boundary_type='transmission') 
-debs=openmc.YPlane(1900+2500+1200+1850-675-500,boundary_type='transmission') 
+debu=openmc.YPlane(190.0+250.0+120.0+185.0-67.5,boundary_type='transmission') 
+debs=openmc.YPlane(190.0+250.0+120.0+185.0-67.5-50.0,boundary_type='transmission') 
 
 detb1= -deb1 & +deb1t & +deuz0 & -deuz1 & -debu & +debs
 detb2= -deb2 & +deb2t & +deuz0 & -deuz1 & -debu & +debs
@@ -238,18 +238,18 @@ detb2cell=openmc.Cell(fill=air2,region=detb2)
 detb3cell=openmc.Cell(fill=air2,region=detb3)
 
 #                          Atas               #
-deau=openmc.XPlane(250,boundary_type='transmission')
-deas=openmc.XPlane(-250,boundary_type='transmission')
+deau=openmc.XPlane(25.0,boundary_type='transmission')
+deas=openmc.XPlane(-25.0,boundary_type='transmission')
 
-deat=openmc.YPlane(250,boundary_type='transmission')
-deab=openmc.YPlane(-250,boundary_type='transmission')
+deat=openmc.YPlane(25.0,boundary_type='transmission')
+deab=openmc.YPlane(-25.0,boundary_type='transmission')
 
-dea1=openmc.ZPlane(3000+300,boundary_type='transmission') #1250 ATO 2500???
-dea1t=openmc.ZPlane(3000+300+108,boundary_type='transmission') #1250 ATO 2500???
-dea2=openmc.ZPlane(3000+1000,boundary_type='transmission')
-dea2t=openmc.ZPlane(3000+1000+108,boundary_type='transmission')
-dea3=openmc.ZPlane(3000+2000,boundary_type='transmission') 
-dea3t=openmc.ZPlane(3000+2000+108,boundary_type='transmission')
+dea1=openmc.ZPlane(300.0+30.0,boundary_type='transmission') #1250 ATO 2500???
+dea1t=openmc.ZPlane(300.0+30.0+10.8,boundary_type='transmission') #1250 ATO 2500???
+dea2=openmc.ZPlane(300.0+100.0,boundary_type='transmission')
+dea2t=openmc.ZPlane(300.0+100.0+10.8,boundary_type='transmission')
+dea3=openmc.ZPlane(300.0+200.0,boundary_type='transmission') 
+dea3t=openmc.ZPlane(300.0+200.0+10.8,boundary_type='transmission')
 
 deta1= +dea1 & -dea1t & -deau & +deas & +deab & -deat
 deta2= +dea2 & -dea2t & -deau & +deas & +deab & -deat
@@ -272,6 +272,7 @@ univ=openmc.Universe(cells=[dt1cell,dt2cell,dt3cell,
                             ppbcell,pbpecell,ppb2cell,
                             datascell,dbawcell,dattecell,
                             void1cell,
+                            detb1cell,detb2cell,detb3cell,
                             detub1cell,detub2cell,detub3cell,
                             detut1cell,detut2cell,detut3cell,
                             dett1cell,dett2cell,dett3cell,
@@ -294,7 +295,7 @@ def sposi(d,rot):
     v= 0
     w= (-cos(radians(rot))) #source position
     uvw = (u,v,w)
-    xyz = ( d*(sin(radians(rot))) ), 0, -1280+ ( d*(cos(radians(rot)) ))
+    xyz = ( d*(sin(radians(rot))) ), 0, -128+ ( d*(cos(radians(rot)) ))
     return uvw, xyz
     #asumsi tinggi pasien 75cm
 
@@ -308,11 +309,11 @@ print(linacuvw, linacxyz)
 ###############################################
 #            Penampil Geometri                #
 ###############################################
-univ.plot(width=(18000,21000),basis='xy',color_by='material',colors=colors)
+univ.plot(width=(1800,2100),basis='xy',color_by='material',colors=colors)
 plt.savefig('xyRSHS.png')
-univ.plot(width=(14000,10400),basis='xz',color_by='material',colors=colors)
+univ.plot(width=(1400,1040),basis='xz',color_by='material',colors=colors)
 plt.savefig('xzRSHS.png')
-univ.plot(width=(18000,10400),basis='yz',color_by='material',colors=colors)
+univ.plot(width=(1800,1040),basis='yz',color_by='material',colors=colors)
 plt.savefig('yzRSHS.png')
 plt.show()
 
@@ -360,11 +361,9 @@ tally = openmc.Tallies()
 #filter_cell = openmc.CellFilter((c15, c16,c23, c22,c24,c25, c18,c21, c27))
 mesh = openmc.RegularMesh() # type: ignore
 mesh.dimension = [100, 100]
-xdet=50
-ydet=50
 
-xlen = 14000
-ylen = 14000
+xlen = 1400
+ylen = 1400
 mesh.lower_left = [-xlen/2, -xlen/2]
 mesh.upper_right = [ylen/2, ylen/2]
 mesh_filter = openmc.MeshFilter(mesh)
@@ -388,3 +387,7 @@ tally.append(tally2)
 
 tally.export_to_xml()
 openmc.run()
+
+#tan theta = r/SAD=20/1000; theta = atan(20/100)=0.19739555984988; cos theta=0.98058
+#tan theta = r/SAD=20/1000; theta = atan(20/100)=0.19739555984988; cos theta=0.98058
+#10 MeV = 
