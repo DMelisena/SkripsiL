@@ -289,17 +289,20 @@ colors[air2]='blue'
 ###############################################
 #                Rotation
 ###############################################
-def sposi(d,rot):  #source position
-    return ( d*(sin(radians(rot))) ), \
-     0, \
-     -1280+( d*(cos(radians(rot)) ) \
-    )#asumsi tinggi pasien 75cm
+def sposi(d,rot):
+    u= (-sin(radians(rot)))
+    v= 0
+    w= (-cos(radians(rot))) #source position
+    uvw = (u,v,w)
+    xyz = ( d*(sin(radians(rot))) ), 0, -1280+ ( d*(cos(radians(rot)) ))
+    return uvw, xyz
+    #asumsi tinggi pasien 75cm
 
 ###############################################
 #        Input (linac distance,rotation)      #
-linacpos=sposi(1000,270)
+linacuvw, linacxyz=sposi(1000,270)
 ###############################################
-print(linacpos)
+print(linacuvw, linacxyz)
 
 
 ###############################################
@@ -320,14 +323,17 @@ plt.show()
 settings=openmc.Settings()
 source  =openmc.Source()
 #source.space=openmc.stats.Points(xyz=)
-source.space=openmc.stats.Point(xyz=linacpos)
+source.space=openmc.stats.Point(xyz=linacxyz)
 #phi2=openmc.stats.Isotropic() #isotropic ato uniform?
 #phi1=openmc.stats.Monodirectional((0,0,1))
 phi =openmc.stats.Uniform(0.0,2*pi)
 mu=openmc.stats.Uniform(0.989,1)
 
+
+
+
 #source.particle = 'neutron'
-source.angle = openmc.stats.PolarAzimuthal(mu,phi,reference_uvw=(-1,0,0))
+source.angle = openmc.stats.PolarAzimuthal(mu,phi,reference_uvw=linacuvw)
 #mu= distribution of the cosine of the polar angle
 #phi=distribution of the azimuthal angle in radians
 
