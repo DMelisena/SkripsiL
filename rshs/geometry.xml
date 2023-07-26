@@ -24,9 +24,6 @@
   <cell id="22" material="2" region="41 -42 35 -36 -47 48" universe="1"/>
   <cell id="23" material="2" region="43 -44 35 -36 -47 48" universe="1"/>
   <cell id="24" material="2" region="45 -46 35 -36 -47 48" universe="1"/>
-  <cell id="25" material="2" region="-49 50 35 -36 -55 56" universe="1"/>
-  <cell id="26" material="2" region="-51 52 35 -36 -55 56" universe="1"/>
-  <cell id="27" material="2" region="-53 54 35 -36 -55 56" universe="1"/>
   <cell id="28" material="2" region="61 -62 -57 58 60 -59" universe="1"/>
   <cell id="29" material="2" region="63 -64 -57 58 60 -59" universe="1"/>
   <cell id="30" material="2" region="65 -66 -57 58 60 -59" universe="1"/>

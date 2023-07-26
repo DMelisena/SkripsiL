@@ -263,7 +263,12 @@ deta3cell=openmc.Cell(fill=air2,region=deta3)
 
 box=openmc.rectangular_prism(18000,22000,boundary_type='vacuum')
 #void1cell = openmc.Cell(fill=air, region= (-datascell.region) & (-dt1cell.region) & (-dt2cell.region) & (-dt3cell.region) & (-db1cell.region) & (-db2cell.region) & (-db3cell.region) & (-du1cell.region) & (-du2cell.region) & (-ds1cell.region))
-void1= +z0 & -zmax  & ~detb1cell.region & ~detb2cell.region & ~detb3cell.region & ~dett1cell.region & ~dett2cell.region & ~dett3cell.region & ~dt1cell.region & ~dt2cell.region & ~dt3cell.region & ~db1cell.region & ~db2cell.region & ~db3cell.region & ~du1cell.region & ~du2cell.region & ~ds1cell.region
+void1= +z0 & -zmax \
+      & ~detb1cell.region & ~detb2cell.region & ~detb3cell.region \
+        & ~dett1cell.region & ~dett2cell.region & ~dett3cell.region \
+            & ~dt1cell.region & ~dt2cell.region & ~dt3cell.region \
+                & ~db1cell.region & ~db2cell.region & ~db3cell.region \
+                    & ~du1cell.region & ~du2cell.region & ~ds1cell.region
 
 void1cell = openmc.Cell(fill=air, region=void1)
 
@@ -276,8 +281,7 @@ univ=openmc.Universe(cells=[dt1cell,dt2cell,dt3cell,
                             detub1cell,detub2cell,detub3cell,
                             detut1cell,detut2cell,detut3cell,
                             dett1cell,dett2cell,dett3cell,
-                             detb1cell,detb2cell,detb3cell,
-                              deta1cell,deta2cell,deta3cell])
+                            deta1cell,deta2cell,deta3cell])
 geometry=openmc.Geometry(univ)
 geometry.export_to_xml()
 
@@ -294,7 +298,7 @@ colors[air2]='blue'
 def sposi(d,rot):  #source position
     return ( d*(sin(radians(rot))) ), \
      0, \
-     1240+( d*(cos(radians(rot)) ) \
+     75+( d*(cos(radians(rot)) ) \
     )#asumsi tinggi pasien 75cm
 
 ###############################################

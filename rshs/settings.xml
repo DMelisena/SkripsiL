@@ -6,7 +6,7 @@
   <inactive>1</inactive>
   <source particle="photon" strength="1.0" type="independent">
     <space type="point">
-      <parameters>-1000.0 0 1239.9999999999998</parameters>
+      <parameters>-1000.0 0 74.99999999999982</parameters>
     </space>
     <angle reference_uvw="-1.0 0.0 0.0" type="mu-phi">
       <mu parameters="0.989 1" type="uniform"/>

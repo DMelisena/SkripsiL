@@ -275,7 +275,6 @@ univ=openmc.Universe(cells=[dt1cell,dt2cell,dt3cell,
                             detub1cell,detub2cell,detub3cell,
                             detut1cell,detut2cell,detut3cell,
                             dett1cell,dett2cell,dett3cell,
-                            detb1cell,detb2cell,detb3cell,
                             deta1cell,deta2cell,deta3cell])
 geometry=openmc.Geometry(univ)
 
@@ -286,25 +285,35 @@ colors[lead]='black'
 colors[bpe]='lightblue'
 colors[concrete]='grey'
 colors[air]='white'
-
-univ.plot(width=(14000,14000),basis='xy',color_by='material',colors=colors)
-plt.savefig('xyRSHS.png')
-
-univ.plot(width=(14000,14000),basis='xz',color_by='material',colors=colors)
-plt.savefig('xzRSHS.png')
-univ.plot(width=(14000,14000),basis='yz',color_by='material',colors=colors)
-plt.savefig('yzRSHS.png')
-plt.show()
+colors[air2]='blue'
 ###############################################
 #                Rotation
 ###############################################
 def sposi(d,rot):  #source position
     return ( d*(sin(radians(rot))) ), \
      0, \
-     75+( d*(cos(radians(rot)) ) \
+     -1280+( d*(cos(radians(rot)) ) \
     )#asumsi tinggi pasien 75cm
-linacpos=sposi(100,90)
+
+###############################################
+#        Input (linac distance,rotation)      #
+linacpos=sposi(1000,270)
+###############################################
 print(linacpos)
+
+
+###############################################
+#            Penampil Geometri                #
+###############################################
+univ.plot(width=(18000,21000),basis='xy',color_by='material',colors=colors)
+plt.savefig('xyRSHS.png')
+univ.plot(width=(14000,10400),basis='xz',color_by='material',colors=colors)
+plt.savefig('xzRSHS.png')
+univ.plot(width=(18000,10400),basis='yz',color_by='material',colors=colors)
+plt.savefig('yzRSHS.png')
+plt.show()
+
+
 ###############################################
 #                 Setting                     #
 ###############################################
@@ -319,7 +328,10 @@ mu=openmc.stats.Uniform(0.989,1)
 
 #source.particle = 'neutron'
 source.angle = openmc.stats.PolarAzimuthal(mu,phi,reference_uvw=(-1,0,0))
-source.energy = openmc.stats.Discrete([10e6],[1])
+#mu= distribution of the cosine of the polar angle
+#phi=distribution of the azimuthal angle in radians
+
+source.energy = openmc.stats.Discrete([10e6],[1]) #10MeV
 #Sepertinya Resource
 source.particle = 'photon'
 settings.source = source
