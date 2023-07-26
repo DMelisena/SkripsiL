@@ -98,8 +98,8 @@ s3=openmc.YPlane(-1900,boundary_type='transmission')
 
 #z total tinggi = 6000, lantai 1 setebal 480
 
-zm1=openmc.ZPlane(-3000,boundary_type='reflective')
-zmax=openmc.ZPlane(3000,boundary_type='reflective')
+zm1=openmc.ZPlane(-3000,boundary_type='vacuum')
+zmax=openmc.ZPlane(3000,boundary_type='vacuum')
 z3=openmc.ZPlane(-3000+480+1240+1860+1170+1250,boundary_type='transmission')#1250 ATO 2500???
 z2=openmc.ZPlane(-3000+480+1240+1860+1170,boundary_type='transmission')
 z1=openmc.ZPlane(-3000+480+1240+1860,boundary_type='transmission')
