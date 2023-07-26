@@ -249,7 +249,7 @@ dea1t=openmc.ZPlane(300.0+30.0+10.8,boundary_type='transmission') #1250 ATO 2500
 dea2=openmc.ZPlane(300.0+100.0,boundary_type='transmission')
 dea2t=openmc.ZPlane(300.0+100.0+10.8,boundary_type='transmission')
 dea3=openmc.ZPlane(300.0+200.0,boundary_type='transmission') 
-dea3t=openmc.ZPlane(300.0+200.0+10.8,boundary_type='transmission')
+dea3t=openmc.ZPlane(300.0+200.0+10.8,boundary_type='vacuum')
 
 deta1= +dea1 & -dea1t & -deau & +deas & +deab & -deat
 deta2= +dea2 & -dea2t & -deau & +deas & +deab & -deat
@@ -258,11 +258,28 @@ deta3= +dea3 & -dea3t & -deau & +deas & +deab & -deat
 deta1cell=openmc.Cell(fill=air2,region=deta1)
 deta2cell=openmc.Cell(fill=air2,region=deta2)
 deta3cell=openmc.Cell(fill=air2,region=deta3)
+
 #void1cell = openmc.Cell(fill=air, region= (-datascell.region) & (-dt1cell.region) & (-dt2cell.region) & (-dt3cell.region) & (-db1cell.region) & (-db2cell.region) & (-db3cell.region) & (-du1cell.region) & (-du2cell.region) & (-ds1cell.region))
-void1= +z0 & -dea3t \
+
+ymax=openmc.YPlane(1100,boundary_type='vacuum')
+ymin=openmc.YPlane(-1100,boundary_type='vacuum')
+xmax=openmc.XPlane(945,boundary_type='vacuum')
+xmin=openmc.XPlane(-945,boundary_type='vacuum')
+
+zmin=openmc.ZPlane(-550,boundary_type='vacuum')
+zmaxx=openmc.ZPlane(550,boundary_type='vacuum')
+void1= +zmin & -zmaxx \
+    & +ymin & -ymax & +xmin & -xmax\
     & ~dt1cell.region & ~dt2cell.region & ~dt3cell.region \
         & ~db1cell.region & ~db2cell.region & ~db3cell.region \
-            & ~du1cell.region & ~du2cell.region & ~ds1cell.region
+            & ~du1cell.region & ~du2cell.region & ~ds1cell.region\
+            & ~ppbcell.region & ~pbpecell.region & ~ppb2cell.region\
+            & ~datascell.region & ~dbawcell.region & ~dattecell.region\
+            & ~detb1cell.region & ~detb2cell.region & ~detb3cell.region\
+            & ~detub1cell.region & ~detub2cell.region & ~detub3cell.region\
+            & ~detut1cell.region & ~detut2cell.region & ~detut3cell.region\
+            & ~dett1cell.region & ~dett2cell.region & ~dett3cell.region\
+            & ~deta1cell.region & ~deta2cell.region & ~deta3cell.region\
 
 void1cell = openmc.Cell(fill=air, region=void1)
 
@@ -301,7 +318,7 @@ def sposi(d,rot):
 
 ###############################################
 #        Input (linac distance,rotation)      #
-linacuvw, linacxyz=sposi(1000,270)
+linacuvw, linacxyz=sposi(100,270)
 ###############################################
 print(linacuvw, linacxyz)
 
@@ -309,7 +326,7 @@ print(linacuvw, linacxyz)
 ###############################################
 #            Penampil Geometri                #
 ###############################################
-univ.plot(width=(1800,2100),basis='xy',color_by='material',colors=colors)
+univ.plot(width=(2700,3050),basis='xy',color_by='material',colors=colors)
 plt.savefig('xyRSHS.png')
 univ.plot(width=(1400,1040),basis='xz',color_by='material',colors=colors)
 plt.savefig('xzRSHS.png')
@@ -342,9 +359,8 @@ source.energy = openmc.stats.Discrete([10e6],[1]) #10MeV
 #Sepertinya Resource
 source.particle = 'photon'
 settings.source = source
-settings.batches= 11
-settings.inactive=1
-settings.particles = 1000
+settings.batches= 5
+settings.particles = 10_000_000
 settings.run_mode = 'fixed source'
 settings.photon_transport = True
 settings.export_to_xml()
@@ -360,10 +376,10 @@ settings.export_to_xml()
 tally = openmc.Tallies()
 #filter_cell = openmc.CellFilter((c15, c16,c23, c22,c24,c25, c18,c21, c27))
 mesh = openmc.RegularMesh() # type: ignore
-mesh.dimension = [100, 100]
+mesh.dimension = [500, 500]
 
-xlen = 1400
-ylen = 1400
+xlen = 2000
+ylen = 2000
 mesh.lower_left = [-xlen/2, -xlen/2]
 mesh.upper_right = [ylen/2, ylen/2]
 mesh_filter = openmc.MeshFilter(mesh)
