@@ -259,7 +259,7 @@ deta1cell=openmc.Cell(fill=air2,region=deta1)
 deta2cell=openmc.Cell(fill=air2,region=deta2)
 deta3cell=openmc.Cell(fill=air2,region=deta3)
 #void1cell = openmc.Cell(fill=air, region= (-datascell.region) & (-dt1cell.region) & (-dt2cell.region) & (-dt3cell.region) & (-db1cell.region) & (-db2cell.region) & (-db3cell.region) & (-du1cell.region) & (-du2cell.region) & (-ds1cell.region))
-void1= +z0 & -zmax \
+void1= +z0 & -dea3t \
     & ~dt1cell.region & ~dt2cell.region & ~dt3cell.region \
         & ~db1cell.region & ~db2cell.region & ~db3cell.region \
             & ~du1cell.region & ~du2cell.region & ~ds1cell.region
@@ -285,7 +285,7 @@ colors= {}
 colors[lead]='black'
 colors[bpe]='lightblue'
 colors[concrete]='grey'
-colors[air]='white'
+colors[air]='green'
 colors[air2]='blue'
 ###############################################
 #                Rotation
