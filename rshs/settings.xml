@@ -1,15 +1,15 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <settings>
   <run_mode>fixed source</run_mode>
-  <particles>5000</particles>
+  <particles>10000</particles>
   <batches>11</batches>
   <inactive>1</inactive>
   <source particle="photon" strength="1.0" type="independent">
     <space type="point">
-      <parameters>-111.60459464712113 -44.5 23.43819506325049</parameters>
+      <parameters>-1000.0 0 1239.9999999999998</parameters>
     </space>
     <angle reference_uvw="-1.0 0.0 0.0" type="mu-phi">
-      <mu parameters="0.989 1.0" type="uniform"/>
+      <mu parameters="0.989 1" type="uniform"/>
       <phi parameters="0.0 6.283185307179586" type="uniform"/>
     </angle>
     <energy type="discrete">

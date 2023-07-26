@@ -259,7 +259,10 @@ deta1cell=openmc.Cell(fill=air2,region=deta1)
 deta2cell=openmc.Cell(fill=air2,region=deta2)
 deta3cell=openmc.Cell(fill=air2,region=deta3)
 #void1cell = openmc.Cell(fill=air, region= (-datascell.region) & (-dt1cell.region) & (-dt2cell.region) & (-dt3cell.region) & (-db1cell.region) & (-db2cell.region) & (-db3cell.region) & (-du1cell.region) & (-du2cell.region) & (-ds1cell.region))
-void1= +z0 & -zmax & ~dt1cell.region & ~dt2cell.region & ~dt3cell.region & ~db1cell.region & ~db2cell.region & ~db3cell.region & ~du1cell.region & ~du2cell.region & ~ds1cell.region
+void1= +z0 & -zmax \
+    & ~dt1cell.region & ~dt2cell.region & ~dt3cell.region \
+        & ~db1cell.region & ~db2cell.region & ~db3cell.region \
+            & ~du1cell.region & ~du2cell.region & ~ds1cell.region
 
 void1cell = openmc.Cell(fill=air, region=void1)
 
@@ -267,7 +270,13 @@ univ=openmc.Universe(cells=[dt1cell,dt2cell,dt3cell,
                             db1cell,db2cell,db3cell,
                             du1cell,du2cell,ds1cell,
                             ppbcell,pbpecell,ppb2cell,
-                            datascell,dbawcell,void1cell])
+                            datascell,dbawcell,dattecell,
+                            void1cell,
+                            detub1cell,detub2cell,detub3cell,
+                            detut1cell,detut2cell,detut3cell,
+                            dett1cell,dett2cell,dett3cell,
+                            detb1cell,detb2cell,detb3cell,
+                            deta1cell,deta2cell,deta3cell])
 geometry=openmc.Geometry(univ)
 geometry.export_to_xml()
 

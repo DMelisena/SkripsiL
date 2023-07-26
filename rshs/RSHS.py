@@ -12,7 +12,7 @@ air.add_element('Fe',0.001)
 air.add_element('Si',0.001)
 air.add_element('Mn',0.001)
 
-air2=openmc.Material(name='Air 2')
+air2=openmc.Material(name='Air')
 air2.set_density('g/cm3',0.001205)
 air2.add_nuclide('N14',0.7)
 air2.add_nuclide('O16',0.3)
@@ -21,6 +21,10 @@ air2.add_element('C',0.002)
 air2.add_element('Fe',0.001)
 air2.add_element('Si',0.001)
 air2.add_element('Mn',0.001)
+
+
+
+
 
 soft=openmc.Material(name='Soft Tissue')
 soft.set_density('g/cm3',1.0)
@@ -94,8 +98,8 @@ s3=openmc.YPlane(-1900,boundary_type='transmission')
 
 #z total tinggi = 6000, lantai 1 setebal 480
 
-zm1=openmc.ZPlane(-3000,boundary_type='vacuum')
-zmax=openmc.ZPlane(3000,boundary_type='vacuum')
+zm1=openmc.ZPlane(-3000,boundary_type='reflective')
+zmax=openmc.ZPlane(3000,boundary_type='reflective')
 z3=openmc.ZPlane(-3000+480+1240+1860+1170+1250,boundary_type='transmission')#1250 ATO 2500???
 z2=openmc.ZPlane(-3000+480+1240+1860+1170,boundary_type='transmission')
 z1=openmc.ZPlane(-3000+480+1240+1860,boundary_type='transmission')
@@ -160,30 +164,30 @@ dbawcell=openmc.Cell(fill=concrete,region=dbaw)
 
 
 ###############################################
-#                Detektor                     #
+#                Detektor/Tally               #
 #                          Utara              #
-du1=openmc.YPlane (1900+2500+1200+1850+810+300,boundary_type='transmission')
-du1t=openmc.YPlane(1900+2500+1200+1850+810+300+500,boundary_type='transmission') #+tebal detektor
-du2=openmc.YPlane (1900+2500+1200+1850+810+1000,boundary_type='transmission')
-du2t=openmc.YPlane(1900+2500+1200+1850+810+1000+500,boundary_type='transmission')
-du3=openmc.YPlane (1900+2500+1200+1850+810+2000,boundary_type='transmission')
-du3t=openmc.YPlane(1900+2500+1200+1850+810+2000+500,boundary_type='transmission')
+deu1=openmc.YPlane (1900+2500+1200+1850+810+300,boundary_type='transmission')
+deu1t=openmc.YPlane(1900+2500+1200+1850+810+300+108,boundary_type='transmission') #+tebal detektor
+deu2=openmc.YPlane (1900+2500+1200+1850+810+1000,boundary_type='transmission')
+deu2t=openmc.YPlane(1900+2500+1200+1850+810+1000+108,boundary_type='transmission')
+deu3=openmc.YPlane (1900+2500+1200+1850+810+2000,boundary_type='transmission')
+deu3t=openmc.YPlane(1900+2500+1200+1850+810+2000+108,boundary_type='transmission')
 
-duz0=openmc.ZPlane(-3000+480+1000,boundary_type='transmission')#Tinggi detektor, default untuk semua detektor kecuali atas
-duz1=openmc.ZPlane(-3000+480+1000+2000,boundary_type='transmission')
+deuz0=openmc.ZPlane(-3000+480+1000,boundary_type='transmission')#Tinggi detektor, default untuk semua detektor kecuali atas
+deuz1=openmc.ZPlane(-3000+480+1000+2000,boundary_type='transmission')
 
-dubb=openmc.XPlane(-6320+765+2505+1000,boundary_type='transmission') #Koordinat x nya masih ngasal
-dubt=openmc.XPlane(-6320+765+2505+1000+500,boundary_type='transmission')
+deubb=openmc.XPlane(-6320+765+2505+1000,boundary_type='transmission') #Koordinat x nya masih ngasal
+deubt=openmc.XPlane(-6320+765+2505+1000+500,boundary_type='transmission')
 
-ducb=openmc.XPlane(2500,boundary_type='transmission') #koordinat x nya masih ngasal
-duct=openmc.XPlane(2500+500,boundary_type='transmission')
+deucb=openmc.XPlane(2500,boundary_type='transmission') #koordinat x nya masih ngasal
+deuct=openmc.XPlane(2500+500,boundary_type='transmission')
 
-detb1= +du1 & -du1t & +duz0 & -duz1 & +dubb & -dubt #detektor utara barat, x nya ngasal
-detb2= +du2 & -du2t & +duz0 & -duz1 & +dubb & -dubt 
-detb3= +du3 & -du3t & +duz0 & -duz1 & +dubb & -dubt
-dett1= +du1 & -du1t & +duz0 & -duz1 & +ducb & -duct #detektor utara timur, x nya ngasal
-dett2= +du2 & -du2t & +duz0 & -duz1 & +ducb & -duct
-dett3= +du3 & -du3t & +duz0 & -duz1 & +ducb & -duct
+detb1= +deu1 & -deu1t & +deuz0 & -deuz1 & +deubb & -deubt #detektor utara barat, x nya ngasal
+detb2= +deu2 & -deu2t & +deuz0 & -deuz1 & +deubb & -deubt 
+detb3= +deu3 & -deu3t & +deuz0 & -deuz1 & +deubb & -deubt
+dett1= +deu1 & -deu1t & +deuz0 & -deuz1 & +deucb & -deuct #detektor utara timur, x nya ngasal
+dett2= +deu2 & -deu2t & +deuz0 & -deuz1 & +deucb & -deuct
+dett3= +deu3 & -deu3t & +deuz0 & -deuz1 & +deucb & -deuct
 
 #Detektor
 detub1cell=openmc.Cell(fill=air2,region=detb1) #sel detektor barat 1
@@ -195,19 +199,19 @@ detut3cell=openmc.Cell(fill=air2,region=dett3)
 
 
 #                          Timur              #
-dt1=openmc.XPlane(6320+300,boundary_type='transmission')
-dt1t=openmc.XPlane(6320+300+500,boundary_type='transmission')
-dt2=openmc.XPlane(6320+1000,boundary_type='transmission')
-dt2t=openmc.XPlane(6320+1000+500,boundary_type='transmission')
-dt3=openmc.XPlane(6320+2000,boundary_type='transmission')
-dt3t=openmc.XPlane(6320+2000+500,boundary_type='transmission')
+det1=openmc.XPlane(6320+300,boundary_type='transmission')
+det1t=openmc.XPlane(6320+300+108,boundary_type='transmission')
+det2=openmc.XPlane(6320+1000,boundary_type='transmission')
+det2t=openmc.XPlane(6320+1000+108,boundary_type='transmission')
+det3=openmc.XPlane(6320+2000,boundary_type='transmission')
+det3t=openmc.XPlane(6320+2000+108,boundary_type='transmission')
 
-dtu=openmc.YPlane(250,boundary_type='transmission')
-dts=openmc.YPlane(-250,boundary_type='transmission')
+detu=openmc.YPlane(250,boundary_type='transmission')
+dets=openmc.YPlane(-250,boundary_type='transmission')
 
-dett1= +dt1 & -dt1t & +duz0 & -duz1 & -dtu & +dts
-dett2= +dt2 & -dt2t & +duz0 & -duz1 & -dtu & +dts
-dett3= +dt3 & -dt3t & +duz0 & -duz1 & -dtu & +dts
+dett1= +det1 & -det1t & +deuz0 & -deuz1 & -detu & +dets
+dett2= +det2 & -det2t & +deuz0 & -deuz1 & -detu & +dets
+dett3= +det3 & -det3t & +deuz0 & -deuz1 & -detu & +dets
 
 dett1cell=openmc.Cell(fill=air2,region=dett1)
 dett2cell=openmc.Cell(fill=air2,region=dett2)
@@ -215,42 +219,41 @@ dett3cell=openmc.Cell(fill=air2,region=dett3)
 
 #                          Barat              #
 
-db1=openmc.XPlane(-6320+765+2505-158-1020-158-300,boundary_type='transmission')
-db1t=openmc.XPlane(-6320+765+2505-158-1020-158-300-500,boundary_type='transmission')
-db2=openmc.XPlane(-6320+765+2505-158-1020-158-1000,boundary_type='transmission')
-db2t=openmc.XPlane(-6320+765+2505-158-1020-158-1000-500,boundary_type='transmission')
-db3=openmc.XPlane(-6320+765+2505-158-1020-158-2000,boundary_type='transmission')
-db3t=openmc.XPlane(-6320+765+2505-158-1020-158-2000-500,boundary_type='transmission')
+deb1=openmc.XPlane(-6320+765+2505-158-1020-158-300,boundary_type='transmission')
+deb1t=openmc.XPlane(-6320+765+2505-158-1020-158-300-108,boundary_type='transmission')
+deb2=openmc.XPlane(-6320+765+2505-158-1020-158-1000,boundary_type='transmission')
+deb2t=openmc.XPlane(-6320+765+2505-158-1020-158-1000-108,boundary_type='transmission')
+deb3=openmc.XPlane(-6320+765+2505-158-1020-158-2000,boundary_type='transmission')
+deb3t=openmc.XPlane(-6320+765+2505-158-1020-158-2000-108,boundary_type='transmission')
 
-pu=openmc.YPlane(1900+2500+1200+1850+400,boundary_type='transmission') 
-dbu=openmc.YPlane(1900+2500+1200+1850-675,boundary_type='transmission') 
-dbs=openmc.YPlane(1900+2500+1200+1850-675-500,boundary_type='transmission') 
+debu=openmc.YPlane(1900+2500+1200+1850-675,boundary_type='transmission') 
+debs=openmc.YPlane(1900+2500+1200+1850-675-500,boundary_type='transmission') 
 
-detb1= -db1 & +db1t & +duz0 & -duz1 & -dbu & +dbs
-detb2= -db2 & +db2t & +duz0 & -duz1 & -dbu & +dbs
-detb3= -db3 & +db3t & +duz0 & -duz1 & -dbu & +dbs
+detb1= -deb1 & +deb1t & +deuz0 & -deuz1 & -debu & +debs
+detb2= -deb2 & +deb2t & +deuz0 & -deuz1 & -debu & +debs
+detb3= -deb3 & +deb3t & +deuz0 & -deuz1 & -debu & +debs
 
 detb1cell=openmc.Cell(fill=air2,region=detb1)
 detb2cell=openmc.Cell(fill=air2,region=detb2)
 detb3cell=openmc.Cell(fill=air2,region=detb3)
 
 #                          Atas               #
-dau=openmc.XPlane(250,boundary_type='transmission')
-das=openmc.XPlane(-250,boundary_type='transmission')
+deau=openmc.XPlane(250,boundary_type='transmission')
+deas=openmc.XPlane(-250,boundary_type='transmission')
 
-dat=openmc.YPlane(250,boundary_type='transmission')
-dab=openmc.YPlane(-250,boundary_type='transmission')
+deat=openmc.YPlane(250,boundary_type='transmission')
+deab=openmc.YPlane(-250,boundary_type='transmission')
 
-da1=openmc.ZPlane(-3000+480+1240+1860+1170+1250+300,boundary_type='transmission') #1250 ATO 2500???
-da1t=openmc.ZPlane(-3000+480+1240+1860+1170+1250+300+500,boundary_type='transmission') #1250 ATO 2500???
-da2=openmc.ZPlane(-3000+480+1240+1860+1170+1250+1000,boundary_type='transmission')
-da2t=openmc.ZPlane(-3000+480+1240+1860+1170+1250+1000+500,boundary_type='transmission')
-da3=openmc.ZPlane(-3000+480+1240+1860+1170+1250+2000,boundary_type='transmission') 
-da3t=openmc.ZPlane(-3000+480+1240+1860+1170+1250+2000+500,boundary_type='transmission')
+dea1=openmc.ZPlane(3000+300,boundary_type='transmission') #1250 ATO 2500???
+dea1t=openmc.ZPlane(3000+300+108,boundary_type='transmission') #1250 ATO 2500???
+dea2=openmc.ZPlane(3000+1000,boundary_type='transmission')
+dea2t=openmc.ZPlane(3000+1000+108,boundary_type='transmission')
+dea3=openmc.ZPlane(3000+2000,boundary_type='transmission') 
+dea3t=openmc.ZPlane(3000+2000+108,boundary_type='transmission')
 
-deta1= +da1 & -da1t & -dau & +das & +dab & -dat
-deta2= +da2 & -da2t & -dau & +das & +dab & -dat
-deta3= +da3 & -da3t & -dau & +das & +dab & -dat
+deta1= +dea1 & -dea1t & -deau & +deas & +deab & -deat
+deta2= +dea2 & -dea2t & -deau & +deas & +deab & -deat
+deta3= +dea3 & -dea3t & -deau & +deas & +deab & -deat
 
 deta1cell=openmc.Cell(fill=air2,region=deta1)
 deta2cell=openmc.Cell(fill=air2,region=deta2)
@@ -260,7 +263,7 @@ deta3cell=openmc.Cell(fill=air2,region=deta3)
 
 box=openmc.rectangular_prism(18000,22000,boundary_type='vacuum')
 #void1cell = openmc.Cell(fill=air, region= (-datascell.region) & (-dt1cell.region) & (-dt2cell.region) & (-dt3cell.region) & (-db1cell.region) & (-db2cell.region) & (-db3cell.region) & (-du1cell.region) & (-du2cell.region) & (-ds1cell.region))
-void1= +z0 & -zmax & -box & ~detb1cell.region & ~detb2cell.region & ~detb3cell.region & ~dett1cell.region & ~dett2cell.region & ~dett3cell.region & ~dt1cell.region & ~dt2cell.region & ~dt3cell.region & ~db1cell.region & ~db2cell.region & ~db3cell.region & ~du1cell.region & ~du2cell.region & ~ds1cell.region
+void1= +z0 & -zmax  & ~detb1cell.region & ~detb2cell.region & ~detb3cell.region & ~dett1cell.region & ~dett2cell.region & ~dett3cell.region & ~dt1cell.region & ~dt2cell.region & ~dt3cell.region & ~db1cell.region & ~db2cell.region & ~db3cell.region & ~du1cell.region & ~du2cell.region & ~ds1cell.region
 
 void1cell = openmc.Cell(fill=air, region=void1)
 
@@ -304,11 +307,11 @@ print(linacpos)
 ###############################################
 #            Penampil Geometri                #
 ###############################################
-univ.plot(width=(18000,22000),basis='xy',color_by='material',colors=colors)
+univ.plot(width=(18000,21000),basis='xy',color_by='material',colors=colors)
 plt.savefig('xyRSHS.png')
-univ.plot(width=(14000,6500),basis='xz',color_by='material',colors=colors)
+univ.plot(width=(14000,10400),basis='xz',color_by='material',colors=colors)
 plt.savefig('xzRSHS.png')
-univ.plot(width=(18000,6500),basis='yz',color_by='material',colors=colors)
+univ.plot(width=(18000,10400),basis='yz',color_by='material',colors=colors)
 plt.savefig('yzRSHS.png')
 plt.show()
 
@@ -336,7 +339,8 @@ source.particle = 'photon'
 settings.source = source
 settings.batches= 11
 settings.inactive=1
-settings.particles = 1000000
+settings.particles=10000 
+
 settings.run_mode = 'fixed source'
 settings.photon_transport = True
 settings.export_to_xml()
@@ -352,7 +356,7 @@ settings.export_to_xml()
 tally = openmc.Tallies()
 #filter_cell = openmc.CellFilter((c15, c16,c23, c22,c24,c25, c18,c21, c27))
 mesh = openmc.RegularMesh() # type: ignore
-mesh.dimension = [1000, 1000]
+mesh.dimension = [100, 100]
 xdet=50
 ydet=50
 

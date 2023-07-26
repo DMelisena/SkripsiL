@@ -6,7 +6,7 @@ sp = openmc.StatePoint('./statepoint.11.h5')
 meshtally = sp.tallies[1]
 dosevalues = meshtally.get_values()
 
-dosevalues.shape = (1000,1000)
+dosevalues.shape = (100,100)
 
 fig, ax = plt.subplots()
 cs = ax.imshow(dosevalues, cmap='coolwarm', norm=LogNorm()) # type: ignore
