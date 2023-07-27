@@ -326,7 +326,7 @@ print(linacuvw, linacxyz)
 ###############################################
 #            Penampil Geometri                #
 ###############################################
-univ.plot(width=(2700,3050),basis='xy',color_by='material',colors=colors)
+univ.plot(width=(2000,2500),basis='xy',color_by='material',colors=colors)
 plt.savefig('xyRSHS.png')
 univ.plot(width=(1400,1040),basis='xz',color_by='material',colors=colors)
 plt.savefig('xzRSHS.png')
