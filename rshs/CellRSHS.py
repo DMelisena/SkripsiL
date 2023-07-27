@@ -360,7 +360,7 @@ source.energy = openmc.stats.Discrete([10e6],[1]) #10MeV
 source.particle = 'photon'
 settings.source = source
 settings.batches= 5
-settings.particles = 10_000_000
+settings.particles = 10_000
 settings.run_mode = 'fixed source'
 settings.photon_transport = True
 settings.export_to_xml()
@@ -374,7 +374,12 @@ settings.export_to_xml()
 # Tally #
 ################################################################################
 tally = openmc.Tallies()
-#filter_cell = openmc.CellFilter((c15, c16,c23, c22,c24,c25, c18,c21, c27))
+filter_cell = openmc.CellFilter((detb1cell,detb2cell,detb3cell,\
+                            detub1cell,detub2cell,detub3cell,\
+                            detut1cell,detut2cell,detut3cell,\
+                            dett1cell,dett2cell,dett3cell,\
+                            deta1cell,deta2cell,deta3cell]))
+
 mesh = openmc.RegularMesh() # type: ignore
 mesh.dimension = [500, 500]
 
