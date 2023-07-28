@@ -94,8 +94,8 @@ s3=openmc.YPlane(-190.0,boundary_type='transmission')
 
 #z total tinggi = 6000, lantai 1 setebal 480
 
-zm1=openmc.ZPlane(-300.0,boundary_type='vacuum')
-zmax=openmc.ZPlane(300.0,boundary_type='vacuum')
+zm1=openmc.ZPlane(-300.0,boundary_type='transmission')
+zmax=openmc.ZPlane(300.0,boundary_type='transmission')
 z3=openmc.ZPlane(-300.0+48.0+124.0+186.0+117.0+125.0,boundary_type='transmission')#1250 ATO 2500???
 z2=openmc.ZPlane(-300.0+48.0+124.0+186.0+117.0,boundary_type='transmission')
 z1=openmc.ZPlane(-300.0+48.0+124.0+186.0,boundary_type='transmission')
@@ -245,7 +245,7 @@ dea1t=openmc.ZPlane(300.0+30.0+10.8,boundary_type='transmission') #1250 ATO 2500
 dea2=openmc.ZPlane(300.0+100.0,boundary_type='transmission')
 dea2t=openmc.ZPlane(300.0+100.0+10.8,boundary_type='transmission')
 dea3=openmc.ZPlane(300.0+200.0,boundary_type='transmission') 
-dea3t=openmc.ZPlane(300.0+200.0+10.8,boundary_type='vacuum')
+dea3t=openmc.ZPlane(300.0+200.0+10.8,boundary_type='transmission')
 
 deta1= +dea1 & -dea1t & -deau & +deas & +deab & -deat
 deta2= +dea2 & -dea2t & -deau & +deas & +deab & -deat
@@ -257,13 +257,14 @@ deta3cell=openmc.Cell(fill=air2,region=deta3)
 
 #void1cell = openmc.Cell(fill=air, region= (-datascell.region) & (-dt1cell.region) & (-dt2cell.region) & (-dt3cell.region) & (-db1cell.region) & (-db2cell.region) & (-db3cell.region) & (-du1cell.region) & (-du2cell.region) & (-ds1cell.region))
 
+#Kotak Udara Pembatas
 ymax=openmc.YPlane(1100,boundary_type='vacuum')
 ymin=openmc.YPlane(-1100,boundary_type='vacuum')
 xmax=openmc.XPlane(945,boundary_type='vacuum')
 xmin=openmc.XPlane(-945,boundary_type='vacuum')
-
 zmin=openmc.ZPlane(-550,boundary_type='vacuum')
 zmaxx=openmc.ZPlane(550,boundary_type='vacuum')
+
 void1= +zmin & -zmaxx \
     & +ymin & -ymax & +xmin & -xmax\
     & ~dt1cell.region & ~dt2cell.region & ~dt3cell.region \
@@ -322,7 +323,7 @@ print(linacuvw, linacxyz)
 ###############################################
 #            Penampil Geometri                #
 ###############################################
-univ.plot(width=(2700,3050),basis='xy',color_by='material',colors=colors)
+univ.plot(width=(2500,2700),basis='xy',color_by='material',colors=colors)
 plt.savefig('xyRSHS.png')
 univ.plot(width=(1400,1040),basis='xz',color_by='material',colors=colors)
 plt.savefig('xzRSHS.png')
@@ -353,7 +354,9 @@ source.particle = 'photon'
 #source.particle = 'neutron'
 settings.source = source
 settings.batches= 5
-settings.particles = 10_000
+settings.particles = 100_000_000
+#Asumsi 36e7 partikel pada mula, pada 600MU=600cGy/m=6Gy/m=6Sv/m=6e6uSv/m=360e6uSv/h
+#maka, apabila 
 settings.run_mode = 'fixed source'
 settings.photon_transport = True
 settings.export_to_xml()
@@ -391,5 +394,6 @@ tally2.filters = [filter_cell, particle2]
 tally2.scores = ['flux']
 tally.append(tally2)
 
+exit()
 tally.export_to_xml()
 openmc.run()
