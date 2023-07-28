@@ -334,7 +334,10 @@ univ.plot(width=(1800,1040),basis='yz',color_by='material',colors=colors)
 plt.savefig('yzRSHS.png')
 plt.show()
 
-
+vox_plot=openmc.Plot()
+vox_plot.type='voxel'
+vox_plot.type='voxel'
+vox_plot.width=(2700,3050,100)
 ###############################################
 #                 Setting                     #
 ###############################################
