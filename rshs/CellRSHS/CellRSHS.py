@@ -22,10 +22,6 @@ air2.add_element('Fe',0.001)
 air2.add_element('Si',0.001)
 air2.add_element('Mn',0.001)
 
-
-
-
-
 soft=openmc.Material(name='Soft Tissue')
 soft.set_density('g/cm3',1.0)
 soft.add_element('H', 10.4472, percent_type='ao')#1
@@ -345,21 +341,16 @@ source.space=openmc.stats.Point(xyz=linacxyz)
 #phi2=openmc.stats.Isotropic() #isotropic ato uniform?
 #phi1=openmc.stats.Monodirectional((0,0,1))
 phi =openmc.stats.Uniform(0.0,2*pi)
+#mu= distribution of the cosine of the polar angle
+#phi=distribution of the azimuthal angle in radians
 
 #tan theta = r/SAD=20/1000; theta = atan(20/100)=0.19739555984988; cos theta=0.98058
 mu=openmc.stats.Uniform(0.98058,1)
 
-
-
-
-#source.particle = 'neutron'
 source.angle = openmc.stats.PolarAzimuthal(mu,phi,reference_uvw=linacuvw)
-#mu= distribution of the cosine of the polar angle
-#phi=distribution of the azimuthal angle in radians
-
 source.energy = openmc.stats.Discrete([10e6],[1]) #10MeV
-#Sepertinya Resource
 source.particle = 'photon'
+#source.particle = 'neutron'
 settings.source = source
 settings.batches= 5
 settings.particles = 10_000
@@ -370,11 +361,6 @@ settings.export_to_xml()
 ###############################################
 #                 Tallies                     #
 ###############################################
-
-
-################################################################################
-# Tally #
-################################################################################
 tally = openmc.Tallies()
 filter_cell = openmc.CellFilter((detb1cell,detb2cell,detb3cell,\
                             detub1cell,detub2cell,detub3cell,\
@@ -407,7 +393,3 @@ tally.append(tally2)
 
 tally.export_to_xml()
 openmc.run()
-
-#tan theta = r/SAD=20/1000; theta = atan(20/100)=0.19739555984988; cos theta=0.98058
-#tan theta = r/SAD=20/1000; theta = atan(20/100)=0.19739555984988; cos theta=0.98058
-#10 MeV = 
