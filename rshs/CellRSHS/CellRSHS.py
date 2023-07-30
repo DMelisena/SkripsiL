@@ -265,7 +265,7 @@ detaxzb=openmc.ZPlane(-20,boundary_type='transmission')
 
 detax= -detaxu & +detaxs & -detaxt & +detaxb & -detaxza & +detaxzb
 
-
+detaxcell=openmc.Cell(fill=water,region=detax)
 
 #Kotak Udara Pembatas
 ymax=openmc.YPlane(1100,boundary_type='vacuum')
