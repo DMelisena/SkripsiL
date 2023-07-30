@@ -262,12 +262,23 @@ deta2cell=openmc.Cell(fill=air2,region=deta2)
 deta3cell=openmc.Cell(fill=air2,region=deta3)
 
 #Water Phantom 40x40x10
+phantom_rotation=270
+pr=phantom_rotation
 detaxu=openmc.XPlane(20,boundary_type='transmission')
 detaxs=openmc.XPlane(-20,boundary_type='transmission')
-detaxt=openmc.YPlane(5,boundary_type='transmission')
-detaxb=openmc.YPlane(-5,boundary_type='transmission')
-detaxza=openmc.ZPlane(20,boundary_type='transmission')
-detaxzb=openmc.ZPlane(-20,boundary_type='transmission')
+
+if pr==0 or pr==180:
+    detaxt=openmc.YPlane(5,boundary_type='transmission')
+    detaxb=openmc.YPlane(-5,boundary_type='transmission')
+    detaxza=openmc.ZPlane(20,boundary_type='transmission')
+    detaxzb=openmc.ZPlane(-20,boundary_type='transmission')
+elif pr==90 or pr==270:
+    detaxt=openmc.ZPlane(5,boundary_type='transmission')
+    detaxb=openmc.ZPlane(-5,boundary_type='transmission')
+    detaxza=openmc.YPlane(20,boundary_type='transmission')
+    detaxzb=openmc.YPlane(-20,boundary_type='transmission')
+else:
+    print('Phantom Rotation Error, benarkan kode pr')
 
 detax= -detaxu & +detaxs & -detaxt & +detaxb & -detaxza & +detaxzb
 
