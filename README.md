@@ -14,7 +14,12 @@ File Tree Directory :
 linac  -> File JIH
 openmc -> File Eksperimental
 rshs   -> Simulasi RSHS
-Program untuk NCRP no.151
+Program untuk NCRP no.151:
+RSHSPrimer.py
+RSHSSekunder.py
+auto2darray.py
+RSHSPintu.py
+
 
 ########## Update 300723
 Hasil Dosis nya aneh, beda jauh. Sepertinya masalah di konversi flux ke dose rate. Harus buat 
