@@ -319,7 +319,7 @@ univ=openmc.Universe(cells=[dt1cell,dt2cell,dt3cell,
                             detub1cell,detub2cell,detub3cell,
                             detut1cell,detut2cell,detut3cell,
                             dett1cell,dett2cell,dett3cell,
-                            deta1cell,deta2cell,deta3cell
+                            deta1cell,deta2cell,deta3cell,
                             detaxcell])
 geometry=openmc.Geometry(univ)
 
