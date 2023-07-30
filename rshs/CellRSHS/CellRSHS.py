@@ -255,10 +255,17 @@ deta1cell=openmc.Cell(fill=air2,region=deta1)
 deta2cell=openmc.Cell(fill=air2,region=deta2)
 deta3cell=openmc.Cell(fill=air2,region=deta3)
 
+#Water Phantom 40x40x10
 detaxu=openmc.XPlane(20,boundary_type='transmission')
 detaxs=openmc.XPlane(-20,boundary_type='transmission')
-detaxt=openmc.YPlane(20,boundary_type='transmission')
-detaxb=openmc.YPlane(-20,boundary_type='transmission')
+detaxt=openmc.YPlane(5,boundary_type='transmission')
+detaxb=openmc.YPlane(-5,boundary_type='transmission')
+detaxza=openmc.ZPlane(20,boundary_type='transmission')
+detaxzb=openmc.ZPlane(-20,boundary_type='transmission')
+
+detax= -detaxu & +detaxs & -detaxt & +detaxb & -detaxza & +detaxzb
+
+
 
 #Kotak Udara Pembatas
 ymax=openmc.YPlane(1100,boundary_type='vacuum')
