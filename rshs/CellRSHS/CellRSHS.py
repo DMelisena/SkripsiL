@@ -255,7 +255,10 @@ deta1cell=openmc.Cell(fill=air2,region=deta1)
 deta2cell=openmc.Cell(fill=air2,region=deta2)
 deta3cell=openmc.Cell(fill=air2,region=deta3)
 
-#void1cell = openmc.Cell(fill=air, region= (-datascell.region) & (-dt1cell.region) & (-dt2cell.region) & (-dt3cell.region) & (-db1cell.region) & (-db2cell.region) & (-db3cell.region) & (-du1cell.region) & (-du2cell.region) & (-ds1cell.region))
+detaxu=openmc.XPlane(20,boundary_type='transmission')
+detaxs=openmc.XPlane(-20,boundary_type='transmission')
+detaxt=openmc.YPlane(20,boundary_type='transmission')
+detaxb=openmc.YPlane(-20,boundary_type='transmission')
 
 #Kotak Udara Pembatas
 ymax=openmc.YPlane(1100,boundary_type='vacuum')
@@ -264,6 +267,8 @@ xmax=openmc.XPlane(945,boundary_type='vacuum')
 xmin=openmc.XPlane(-945,boundary_type='vacuum')
 zmin=openmc.ZPlane(-550,boundary_type='vacuum')
 zmaxx=openmc.ZPlane(550,boundary_type='vacuum')
+
+#void1cell = openmc.Cell(fill=air, region= (-datascell.region) & (-dt1cell.region) & (-dt2cell.region) & (-dt3cell.region) & (-db1cell.region) & (-db2cell.region) & (-db3cell.region) & (-du1cell.region) & (-du2cell.region) & (-ds1cell.region))
 
 void1= +zmin & -zmaxx \
     & +ymin & -ymax & +xmin & -xmax\
@@ -301,6 +306,7 @@ colors[bpe]='lightblue'
 colors[concrete]='grey'
 colors[air]='green'
 colors[air2]='blue'
+
 ###############################################
 #                Rotation
 ###############################################
@@ -394,6 +400,5 @@ tally2.filters = [filter_cell, particle2]
 tally2.scores = ['flux']
 tally.append(tally2)
 
-exit()
 tally.export_to_xml()
 openmc.run()
