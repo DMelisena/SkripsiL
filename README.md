@@ -1,6 +1,29 @@
 # SkripsiL
 Perhitungan analitik dan openmc untuk skripsi
 
+Todolist:
+-Ngetes kode cell filter dose
+    -Masih kurang paham bentuk output openmc
+-Post Processing Cell Filter
+-Pembandingan dengan nilai deteksi
+-Pembuatan formula laju dosis analitik
+-Pembandingan hasil perhitungan laju dosis dengan nilai deteksi
+-Penulisan pembahasan untuk simulasi dan perhitungan
+
+########## Update 300723
+Hasil Dosis nya aneh, beda jauh. Sepertinya masalah di konversi flux ke dose rate. Harus buat 
+branch baru :
+1. Bikin Tally di tengah (Buat tally grid juga)
+2. Cek Dose ratenya sesuai dari ICRP atau tidak
+3. Run simulation 3mil particles 2 batch (Simpan Hasil)
+4. Bandngkan dengan dosis analitik
+5. Konsul ke Mbak Oksel soal s_rate
+BUAT : cek dosis analitik
+Haruskah buat fungsi untuk nentuin sumbu x?
+
+########## Update 270723
+Simulasi sudah benar, tapi belum dicoba untuk cell tally. Konversi flux ke dose rate sudah dilakukan.
+
 ########## Update 280623 ##########
 Saat ini nilai2 yang dimasukkan ke berkasnya sudah menghasilkan hasil yang benar
 Should I just make it load an external txt file instead so i would be able to make it automatically convert the value on the text?
