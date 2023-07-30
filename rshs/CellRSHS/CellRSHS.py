@@ -322,7 +322,7 @@ univ=openmc.Universe(cells=[dt1cell,dt2cell,dt3cell,
                             deta1cell,deta2cell,deta3cell,
                             detaxcell])
 geometry=openmc.Geometry(univ)
-
+e
 geometry.export_to_xml()
 
 colors= {}
@@ -396,11 +396,6 @@ settings.export_to_xml()
 #                 Tallies                     #
 ###############################################
 tally = openmc.Tallies()
-filter_cell = openmc.CellFilter((detb1cell,detb2cell,detb3cell,\
-                            detub1cell,detub2cell,detub3cell,\
-                            detut1cell,detut2cell,detut3cell,\
-                            dett1cell,dett2cell,dett3cell,\
-                            deta1cell,deta2cell,deta3cell))
 
 mesh = openmc.RegularMesh() # type: ignore
 mesh.dimension = [500, 500]
@@ -410,14 +405,26 @@ mesh.lower_left = [-xlen/2, -xlen/2]
 mesh.upper_right = [ylen/2, ylen/2]
 mesh_filter = openmc.MeshFilter(mesh)
 
-
-tally1 = openmc.Tally(name = 'dose')
-particle1 = openmc.ParticleFilter('photon')
+tally1 = openmc.Tally(name = 'Room Dose Distribution')
 tally1.scores = ['flux']
+particle1 = openmc.ParticleFilter('photon')
 energy, dose = openmc.data.dose_coefficients('photon', 'RLAT')
 dose_filter = openmc.EnergyFunctionFilter(energy, dose)
+tally1.filters=[mesh_filter,particle1,dose_filter]
+tally.append(tally1)
+
+
+
+
 tally1.filters = [filter_cell, particle1, dose_filter]
 tally.append(tally1)
+
+filter_cell = openmc.CellFilter((detb1cell,detb2cell,detb3cell,\
+                            detub1cell,detub2cell,detub3cell,\
+                            detut1cell,detut2cell,detut3cell,\
+                            dett1cell,dett2cell,dett3cell,\
+                            deta1cell,deta2cell,deta3cell))
+
 
 tally2 = openmc.Tally(name = 'flux')
 particle2 = openmc.ParticleFilter('photon')
