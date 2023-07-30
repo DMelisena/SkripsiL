@@ -68,7 +68,7 @@ concrete.add_element('Ca', 0.01, percent_type='ao')#20
 concrete.add_element('Fe', 0.01, percent_type='ao')#26
 concrete.add_element('Pb', 0.01, percent_type='ao')#82
 
-materials=openmc.Materials([air,air2,soft,bpe,lead,concrete])
+materials=openmc.Materials([air,air2,water,soft,bpe,lead,concrete])
 materials.export_to_xml()
 
 ################################################
