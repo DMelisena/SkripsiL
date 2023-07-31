@@ -53,7 +53,7 @@ phandosestddev = phantally.std_dev
 phandosevalues.shape = phandosevalues.shape[0]
 phandosestddev.shape = phandosestddev.shape[0]
 
-vcell=10*40*40
+vcell=5*40*40
 
 phandosevalues = phandosevalues * s_rate / vcell *1000*3600
 phandosestddev = phandosestddev * s_rate / vcell
