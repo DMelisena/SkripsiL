@@ -13,7 +13,8 @@ meshtally = sp.tallies[1]
 
 x=500#harus sama dengan resolusi pada file utama
 y=500
-s_rate=4.87805e7
+#s_rate=4.87805e7 #source rate ICRP 116
+s_rate=34.52580998
 v=(2000/x)*(2000/y)*300 #volume of room dose distribution
 dosevalues=meshtally.get_values()
 dosevalues.shape=(x,y)
@@ -23,7 +24,7 @@ fig, ax = plt.subplots()
 cs = ax.imshow(dose, cmap='coolwarm', norm=LogNorm()) # type: ignore
 cb = plt.colorbar(cs)
 ax.set_title('Power density (kW/cm$^3$)') #type: ignore
-plt.savefig('RoomDoseDistribution.png')
+plt.savefig('RoomDoseDistribution.png',dpi=3000)
 # plt.axis('off')
 
 
