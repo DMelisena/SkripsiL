@@ -40,7 +40,10 @@ celldosevalues = celldosevalues * s_rate / vcell *1000*3600
 celldosestddev = celldosestddev * s_rate / vcell
 
 for v,s in zip(celldosevalues,celldosestddev):
+    f=open("output.txt","a")
     print(f'{v} +- {s}')
+    f.write(str(f'\n{v} +- {s}'))
+    f.close()
     
 
 phantally = sp.tallies[3]
@@ -56,7 +59,10 @@ phandosevalues = phandosevalues * s_rate / vcell *1000*3600
 phandosestddev = phandosestddev * s_rate / vcell
 
 for v,s in zip(phandosevalues,phandosestddev):
+    f=open("output.txt","a")
     print(f'{v} +- {s}')
+    f.write(str(f'\n{v} +- {s}'))
+    f.close()
 
 plt.show()
 #dosevalues = dosevalues*s_rate/v #picosieverts/s
