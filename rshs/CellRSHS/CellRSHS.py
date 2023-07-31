@@ -426,6 +426,7 @@ tally2 = openmc.Tally(name = 'flux')
 particle2 = openmc.ParticleFilter('photon')
 tally2.filters = [filter_cell, particle2, dose_filter]
 tally2.scores = ['flux']
+tally.append(tally2)
 
 #Tally Water Phantom
 wphantom_cell=openmc.CellFilter(detaxcell)
