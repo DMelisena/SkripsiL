@@ -24,11 +24,12 @@ RSHSPintu.py
 ########## Update 300723
 Hasil Dosis nya aneh, beda jauh. Sepertinya masalah di konversi flux ke dose rate. Harus buat 
 branch baru :
-1. Bikin Tally di tengah (Buat tally grid juga)
-2. Cek Dose ratenya sesuai dari ICRP atau tidak
-3. Run simulation 3mil particles 2 batch (Simpan Hasil)
-4. Bandngkan dengan dosis analitik
-5. Konsul ke Mbak Oksel soal s_rate
+1. Bikin Tally di tengah (Buat tally grid juga) V
+2. Buat Post Processing
+3. Cek Dose ratenya sesuai dari ICRP atau tidak 
+4. Run simulation 3mil particles 2 batch (Simpan Hasil)
+5. Bandngkan dengan dosis analitik
+6. Konsul ke Mbak Oksel soal s_rate
 BUAT : cek dosis analitik
 Haruskah buat fungsi untuk nentuin sumbu x?
 
