@@ -432,6 +432,8 @@ tally.append(tally2)
 wphantom_cell=openmc.CellFilter(detaxcell)
 tally3=openmc.Tally(name='wphantom')
 particle3= openmc.ParticleFilter('photon')
+tally3.filters=[wphantom_cell,particle3]
+#Energy_filter = openmc.EnergyFilter([1e-3, 1e13])
 tally3.filters=[wphantom_cell,particle3,dose_filter]
 tally3.scores = ['flux']
 tally.append(tally3)
