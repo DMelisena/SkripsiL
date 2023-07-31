@@ -3,6 +3,11 @@ import matplotlib.pyplot as plt
 from matplotlib.colors import LogNorm
 
 sp = openmc.StatePoint('./statepoint.5.h5')
+
+f=open("output.txt","w")
+f.write(str(sp.tallies))
+f.close()
+
 meshtally = sp.tallies[1]
 
 
