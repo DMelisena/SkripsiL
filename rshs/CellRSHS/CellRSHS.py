@@ -264,19 +264,20 @@ deta3cell=openmc.Cell(fill=air2,region=deta3)
 #Water Phantom 40x40x10
 phantom_rotation=270
 pr=phantom_rotation
-detaxu=openmc.XPlane(20,boundary_type='transmission')
-detaxs=openmc.XPlane(-20,boundary_type='transmission')
+detaxu=openmc.YPlane(20,boundary_type='transmission')
+detaxs=openmc.YPlane(-20,boundary_type='transmission')
 
 if pr==0 or pr==180:
-    detaxt=openmc.YPlane(5,boundary_type='transmission')
-    detaxb=openmc.YPlane(-5,boundary_type='transmission')
-    detaxza=openmc.ZPlane(20,boundary_type='transmission')
-    detaxzb=openmc.ZPlane(-20,boundary_type='transmission')
+    detaxt=openmc.XPlane(20,boundary_type='transmission')
+    detaxb=openmc.XPlane(-20,boundary_type='transmission')
+    detaxza=openmc.ZPlane(-128+5,boundary_type='transmission')
+    detaxzb=openmc.ZPlane(-128-5,boundary_type='transmission')
 elif pr==90 or pr==270:
-    detaxt=openmc.ZPlane(5,boundary_type='transmission')
-    detaxb=openmc.ZPlane(-5,boundary_type='transmission')
-    detaxza=openmc.YPlane(20,boundary_type='transmission')
-    detaxzb=openmc.YPlane(-20,boundary_type='transmission')
+    detaxza=openmc.XPlane(5,boundary_type='transmission')
+    detaxzb=openmc.XPlane(-5,boundary_type='transmission')
+    detaxt=openmc.ZPlane(-128+20,boundary_type='transmission')
+    detaxb=openmc.ZPlane(-128-20,boundary_type='transmission')
+    
 else:
     print('Phantom Rotation Error, benarkan kode pr')
 
@@ -385,7 +386,7 @@ source.particle = 'photon'
 #source.particle = 'neutron'
 settings.source = source
 settings.batches= 5
-settings.particles = 100_000_000
+settings.particles = 1_000_000
 #Asumsi 36e7 partikel pada mula, pada 600MU=600cGy/m=6Gy/m=6Sv/m=6e6uSv/m=360e6uSv/h
 #maka, apabila 
 settings.run_mode = 'fixed source'
