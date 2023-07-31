@@ -270,11 +270,11 @@ detaxs=openmc.YPlane(-20,boundary_type='transmission')
 if pr==0 or pr==180:
     detaxt=openmc.XPlane(20,boundary_type='transmission')
     detaxb=openmc.XPlane(-20,boundary_type='transmission')
-    detaxza=openmc.ZPlane(-128+5,boundary_type='transmission')
-    detaxzb=openmc.ZPlane(-128-5,boundary_type='transmission')
+    detaxza=openmc.ZPlane(-128+2.5,boundary_type='transmission')
+    detaxzb=openmc.ZPlane(-128-2.5,boundary_type='transmission')
 elif pr==90 or pr==270:
-    detaxza=openmc.XPlane(5,boundary_type='transmission')
-    detaxzb=openmc.XPlane(-5,boundary_type='transmission')
+    detaxza=openmc.XPlane(2.5,boundary_type='transmission')
+    detaxzb=openmc.XPlane(-2.5,boundary_type='transmission')
     detaxt=openmc.ZPlane(-128+20,boundary_type='transmission')
     detaxb=openmc.ZPlane(-128-20,boundary_type='transmission')
     
