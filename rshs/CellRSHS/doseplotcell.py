@@ -61,7 +61,7 @@ phandosestddev.shape = phandosestddev.shape[0]
 
 vcell=5*40*40
 
-phandosevalues = phandosevalues * s_rate / vcell /1000000*3600
+#phandosevalues = phandosevalues * s_rate / vcell /1000000*3600
 phandosestddev = phandosestddev * s_rate / vcell
 
 for v,s in zip(phandosevalues,phandosestddev):
