@@ -30,7 +30,7 @@ cs = ax.imshow(dose, cmap='coolwarm', norm=LogNorm()) # type: ignore
 cb = plt.colorbar(cs)
 ax.set_title('Power density (kW/cm$^3$)') #type: ignore
 plt.savefig('RoomDoseDistribution.png',dpi=900 )
- plt.axis('off')
+plt.axis('off')
 
 phantally = sp.tallies[3]
 phandosevalues = phantally.get_values()#pSvcm3/src
@@ -78,7 +78,7 @@ for v,s in zip(dose,dosestddev):
     f.write(str(f'\n{v} +- {s}'))
     f.close()
  
- plt.show()
+plt.show()
 #dosevalues = dosevalues*s_rate/v #picosieverts/s
 
 """
