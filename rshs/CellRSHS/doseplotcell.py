@@ -29,12 +29,38 @@ fig, ax = plt.subplots()
 cs = ax.imshow(dose, cmap='coolwarm', norm=LogNorm()) # type: ignore
 cb = plt.colorbar(cs)
 ax.set_title('Power density (kW/cm$^3$)') #type: ignore
-#plt.savefig('RoomDoseDistribution.png',dpi=3000 )
-# plt.axis('off')
+plt.savefig('RoomDoseDistribution.png',dpi=900 )
+ plt.axis('off')
 
+phantally = sp.tallies[3]
+phandosevalues = phantally.get_values()#pSvcm3/src
+phandosestddev = phantally.std_dev 
+
+phandosevalues.shape = phandosevalues.shape[0]
+phandosestddev.shape = phandosestddev.shape[0]
+
+axvcell=5*40*40#cm3
+mu=1e11#pSv/s
+s_rate=mu*axvcell/phandosevalues #src/s
+factorMU = 60/1e10 # pSv/s -> MU/min
+factoruSv = 3600/1e6 # pSv/s -> uSv/h
+
+print(f"source rate *phantomdosevaluse/v cell axis= mu\n{s_rate}x{phandosevalues}/{axvcell}={mu}\n=")
+print(f"{phandosevalues*s_rate/axvcell} pSv/s")
+print(f"{phandosevalues*s_rate/axvcell*60/1e10} MU")#pSv/sec*(src/s)/cm3
+#phandosevalues = phandosevalues * s_rate / axvcell /1000000*3600 #
+#phandosestddev = phandosestddev * s_rate / axvcell
+
+phandosevalues *= factoruSv
+phandosestddev *= factoruSv
+for v,s in zip(phandosevalues,phandosestddev):
+    f=open("output.txt","a")
+    print(f'{v} +- {s}')
+    f.write(str(f'\n{v} +- {s}'))
+    f.close()
 
 celltally = sp.tallies[2]
-celldosevalues = celltally.get_values()
+celldosevalues = celltally.get_values() #pSvcm3/src;dosevolume per source
 celldosestddev = celltally.std_dev 
 
 celldosevalues.shape = celldosevalues.shape[0]
@@ -42,35 +68,17 @@ celldosestddev.shape = celldosestddev.shape[0]
 
 vcell=10.8*50*200
 
-celldosevalues = celldosevalues * s_rate / vcell /1000000*3600
-celldosestddev = celldosestddev * s_rate / vcell
+dose = celldosevalues *s_rate/ vcell #pSvcm3/src * (src/s) / cm3= pSv/s
+dose=dose/1e6*3600 #pSv/s -> uSv/h
+dosestddev = (celldosestddev * s_rate / vcell) *(1e6/3600) 
 
-for v,s in zip(celldosevalues,celldosestddev):
+for v,s in zip(dose,dosestddev):
     f=open("output.txt","a")
     print(f'{v} +- {s}')
     f.write(str(f'\n{v} +- {s}'))
     f.close()
-    
-
-phantally = sp.tallies[3]
-phandosevalues = phantally.get_values()
-phandosestddev = phantally.std_dev 
-
-phandosevalues.shape = phandosevalues.shape[0]
-phandosestddev.shape = phandosestddev.shape[0]
-
-vcell=5*40*40
-
-#phandosevalues = phandosevalues * s_rate / vcell /1000000*3600
-phandosestddev = phandosestddev * s_rate / vcell
-
-for v,s in zip(phandosevalues,phandosestddev):
-    f=open("output.txt","a")
-    print(f'{v} +- {s}')
-    f.write(str(f'\n{v} +- {s}'))
-    f.close()
-
-plt.show()
+ 
+ plt.show()
 #dosevalues = dosevalues*s_rate/v #picosieverts/s
 
 """
