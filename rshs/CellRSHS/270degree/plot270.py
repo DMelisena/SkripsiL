@@ -51,7 +51,7 @@ for v,s in zip(celldosevalues,celldosestddev):
     f.write(str(f'\n{v} +- {s}'))
     f.close()
     
-
+"""
 phantally = sp.tallies[3]
 phandosevalues = phantally.get_values()
 phandosestddev = phantally.std_dev 
@@ -69,7 +69,7 @@ for v,s in zip(phandosevalues,phandosestddev):
     print(f'{v} +- {s}')
     f.write(str(f'\n{v} +- {s}'))
     f.close()
-
+"""
 plt.show()
 #dosevalues = dosevalues*s_rate/v #picosieverts/s
 
