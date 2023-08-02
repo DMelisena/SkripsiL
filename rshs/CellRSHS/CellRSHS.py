@@ -264,24 +264,24 @@ deta3cell=openmc.Cell(fill=air2,region=deta3)
 #Water Phantom 40x40x10
 phantom_rotation=270
 pr=phantom_rotation
-detaxu=openmc.YPlane(20,boundary_type='transmission')
-detaxs=openmc.YPlane(-20,boundary_type='transmission')
+detaxu=openmc.YPlane(5,boundary_type='transmission')
+detaxs=openmc.YPlane(-5,boundary_type='transmission')
 
 if pr==0 or pr==180:
-    detaxt=openmc.XPlane(20,boundary_type='transmission')
-    detaxb=openmc.XPlane(-20,boundary_type='transmission')
+    detaxt=openmc.XPlane(5,boundary_type='transmission')
+    detaxb=openmc.XPlane(5,boundary_type='transmission')
     detaxza=openmc.ZPlane(-128+100+2.5,boundary_type='transmission')
     detaxzb=openmc.ZPlane(-128+100-2.5,boundary_type='transmission')
 if pr==180:
-    detaxt=openmc.XPlane(20,boundary_type='transmission')
-    detaxb=openmc.XPlane(-20,boundary_type='transmission')
+    detaxt=openmc.XPlane(5,boundary_type='transmission')
+    detaxb=openmc.XPlane(-5,boundary_type='transmission')
     detaxza=openmc.ZPlane(-128-100+2.5,boundary_type='transmission')
     detaxzb=openmc.ZPlane(-128-100-2.5,boundary_type='transmission')
 elif pr==90 or pr==270:
     detaxza=openmc.XPlane(2.5,boundary_type='transmission')
     detaxzb=openmc.XPlane(-2.5,boundary_type='transmission')
-    detaxt=openmc.ZPlane(-128+20,boundary_type='transmission')
-    detaxb=openmc.ZPlane(-128-20,boundary_type='transmission')
+    detaxt=openmc.ZPlane(-128+5,boundary_type='transmission')
+    detaxb=openmc.ZPlane(-128-5,boundary_type='transmission')
     
 else:
     print('Phantom Rotation Error, benarkan kode pr')
@@ -390,8 +390,8 @@ source.energy = openmc.stats.Discrete([10e6],[1]) #10MeV
 source.particle = 'photon'
 #source.particle = 'neutron'
 settings.source = source
-settings.batches= 5
-settings.particles = 1_000_000
+settings.batches= 10000
+settings.particles = 100_000
 #Asumsi 36e7 partikel pada mula, pada 600MU=600cGy/m=6Gy/m=6Sv/m=6e6uSv/m=360e6uSv/h
 #maka, apabila 
 settings.run_mode = 'fixed source'
@@ -415,8 +415,8 @@ tally1 = openmc.Tally(name = 'Room Dose Distribution')
 tally1.scores = ['flux']
 particle1 = openmc.ParticleFilter('photon')
 
-energy, dose = openmc.data.dose_coefficients('photon', 'RLAT')
-dose_filter = openmc.EnergyFunctionFilter(energy, dose)
+energy, dose = openmc.data.dose_coefficients('photon', 'RLAT') #Data konve
+dose_filter = openmc.EnergyFunctionFilter(energy, dose) #konvert partikel energi tertentu ke deskripsi icrp116 partikelcm/src->pSvcm3/srcwphantom_cell,particle3,dose_filter
 
 tally1.filters=[mesh_filter,particle1,dose_filter]
 tally.append(tally1)
@@ -437,9 +437,9 @@ tally.append(tally2)
 wphantom_cell=openmc.CellFilter(detaxcell)
 tally3=openmc.Tally(name='wphantom')
 particle3= openmc.ParticleFilter('photon')
-tally3.filters=[wphantom_cell,particle3]
+#tally3.filters=[wphantom_cell,particle3]
 #Energy_filter = openmc.EnergyFilter([1e-3, 1e13])
-tally3.filters=[wphantom_cell,particle3,dose_filter]
+tally3.filters=[wphantom_cell,particle3,dose_filter]  #output pSvcm3/src 
 tally3.scores = ['flux']
 tally.append(tally3)
 
