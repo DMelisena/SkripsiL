@@ -262,6 +262,7 @@ deta2cell=openmc.Cell(fill=air2,region=deta2)
 deta3cell=openmc.Cell(fill=air2,region=deta3)
 
 #Water Phantom 40x40x10
+"""
 phantom_rotation=270
 pr=phantom_rotation
 detaxu=openmc.YPlane(20,boundary_type='transmission')
@@ -289,7 +290,7 @@ else:
 detax= -detaxu & +detaxs & -detaxt & +detaxb & -detaxza & +detaxzb
 
 detaxcell=openmc.Cell(fill=water,region=detax)
-
+"""
 #Kotak Udara Pembatas
 ymax=openmc.YPlane(1100,boundary_type='vacuum')
 ymin=openmc.YPlane(-1100,boundary_type='vacuum')
@@ -325,8 +326,7 @@ univ=openmc.Universe(cells=[dt1cell,dt2cell,dt3cell,
                             detub1cell,detub2cell,detub3cell,
                             detut1cell,detut2cell,detut3cell,
                             dett1cell,dett2cell,dett3cell,
-                            deta1cell,deta2cell,deta3cell,
-                            detaxcell])
+                            deta1cell,deta2cell,deta3cell])
 geometry=openmc.Geometry(univ)
 e
 geometry.export_to_xml()
@@ -433,6 +433,7 @@ tally2.filters = [filter_cell, particle2, dose_filter]
 tally2.scores = ['flux']
 tally.append(tally2)
 
+"""
 #Tally Water Phantom
 wphantom_cell=openmc.CellFilter(detaxcell)
 tally3=openmc.Tally(name='wphantom')
@@ -442,6 +443,6 @@ tally3.filters=[wphantom_cell,particle3]
 tally3.filters=[wphantom_cell,particle3,dose_filter]
 tally3.scores = ['flux']
 tally.append(tally3)
-
+"""
 tally.export_to_xml()
 openmc.run()
