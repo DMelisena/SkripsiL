@@ -29,7 +29,7 @@ fig, ax = plt.subplots()
 cs = ax.imshow(dose, cmap='coolwarm', norm=LogNorm()) # type: ignore
 cb = plt.colorbar(cs)
 ax.set_title('Power density (kW/cm$^3$)') #type: ignore
-#plt.savefig('RoomDoseDistribution.png',dpi=3000 )
+plt.savefig('RoomDoseDistribution.png',dpi=1200 )
 # plt.axis('off')
 
 
@@ -51,20 +51,18 @@ for v,s in zip(celldosevalues,celldosestddev):
     f.write(str(f'\n{v} +- {s}'))
     f.close()
     
-"""
-phantally = sp.tallies[3]
-phandosevalues = phantally.get_values()
-phandosestddev = phantally.std_dev 
 
-phandosevalues.shape = phandosevalues.shape[0]
-phandosestddev.shape = phandosestddev.shape[0]
+neuttally = sp.tallies[3]
+neutdosevalues = neuttally.get_values()
+neutdosestddev = neuttally.std_dev 
 
-vcell=5*40*40
+neutdosevalues.shape = neutdosevalues.shape[0]
+neutdosestddev.shape = neutdosestddev.shape[0]
 
 #phandosevalues = phandosevalues * s_rate / vcell /1000000*3600
-phandosestddev = phandosestddev * s_rate / vcell
+neutdosestddev = neutdosestddev * s_rate / vcell
 
-for v,s in zip(phandosevalues,phandosestddev):
+for v,s in zip(neutdosevalues,neutdosestddev):
     f=open("output.txt","a")
     print(f'{v} +- {s}')
     f.write(str(f'\n{v} +- {s}'))
@@ -78,8 +76,4 @@ plt.show()
 plt.savefig('figlogdoseplot.png')
 plt.show()
 # plt.close()
-# plt.clf()
-"""
-
-
 # plt.clf()
