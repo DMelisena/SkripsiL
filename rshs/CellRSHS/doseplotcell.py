@@ -2,7 +2,7 @@ import openmc
 import matplotlib.pyplot as plt
 from matplotlib.colors import LogNorm
 
-sp = openmc.StatePoint('./statepoint.5.h5')
+sp = openmc.StatePoint('./statepoint.10000.h5')
 
 f=open("output.txt","w")
 f.write(str(sp.tallies))
@@ -39,7 +39,7 @@ phandosestddev = phantally.std_dev
 phandosevalues.shape = phandosevalues.shape[0]
 phandosestddev.shape = phandosestddev.shape[0]
 
-axvcell=5*40*40#cm3
+axvcell=5*10*10#cm3
 mu=1e11#pSv/s
 s_rate=mu*axvcell/phandosevalues #src/s
 factorMU = 60/1e10 # pSv/s -> MU/min
