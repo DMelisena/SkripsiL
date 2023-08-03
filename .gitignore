@@ -4,3 +4,6 @@
 *.png
 /linac
 openmc/.ipynb_checkpoints/
+rshs/CellRSHS/90degree
+rshs/CellRSHS/180degree
+rshs/CellRSHS/0degree
