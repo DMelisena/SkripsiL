@@ -158,7 +158,6 @@ ds1cell=openmc.Cell(fill=concrete,region=ds1)
 
 ppbcell=openmc.Cell(fill=lead,region=ppb)
 pbpecell=openmc.Cell(fill=bpe,region=pbpe)
-ppb2cell=openmc.Cell(fill=lead,region=ppb2)
 
 datascell=openmc.Cell(fill=concrete,region=datas)
 dattecell=openmc.Cell(fill=concrete,region=datte)
@@ -305,7 +304,7 @@ void1= +zmin & -zmaxx \
     & ~dt1cell.region & ~dt2cell.region & ~dt3cell.region \
         & ~db1cell.region & ~db2cell.region & ~db3cell.region \
             & ~du1cell.region & ~du2cell.region & ~ds1cell.region\
-            & ~ppbcell.region & ~pbpecell.region & ~ppb2cell.region\
+            & ~ppbcell.region & ~pbpecell.region\
             & ~datascell.region & ~dbawcell.region & ~dattecell.region\
             & ~detb1cell.region & ~detb2cell.region & ~detb3cell.region\
             & ~detub1cell.region & ~detub2cell.region & ~detub3cell.region\
@@ -318,7 +317,7 @@ void1cell = openmc.Cell(fill=air, region=void1)
 univ=openmc.Universe(cells=[dt1cell,dt2cell,dt3cell,
                             db1cell,db2cell,db3cell,
                             du1cell,du2cell,ds1cell,
-                            ppbcell,pbpecell,ppb2cell,
+                            ppbcell,pbpecell,
                             datascell,dbawcell,dattecell,
                             void1cell,
                             detb1cell,detb2cell,detb3cell,
