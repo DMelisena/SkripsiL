@@ -1,6 +1,6 @@
 import openmc
 import matplotlib.pyplot as plt
-from math import *
+from math import * #type: ignore
 
 air=openmc.Material(name='Air')
 air.set_density('g/cm3',0.001205)
@@ -328,7 +328,6 @@ univ=openmc.Universe(cells=[dt1cell,dt2cell,dt3cell,
                             deta1cell,deta2cell,deta3cell,
                             detaxcell])
 geometry=openmc.Geometry(univ)
-e
 geometry.export_to_xml()
 
 colors= {}
@@ -383,7 +382,7 @@ phi =openmc.stats.Uniform(0.0,2*pi) # type: ignore
 #phi=distribution of the azimuthal angle in radians
 
 #tan theta = r/SAD=20/1000; theta = atan(20/100)=0.19739555984988; cos theta=0.98058
-mu=openmc.stats.Uniform(0.98058,1)
+mu=openmc.stats.Uniform(0.98058,1) # type: ignore
 
 source.angle = openmc.stats.PolarAzimuthal(mu,phi,reference_uvw=linacuvw) # type: ignore
 source.energy = openmc.stats.Discrete([10e6],[1]) #10MeV # type: ignore
