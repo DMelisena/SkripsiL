@@ -328,7 +328,6 @@ univ=openmc.Universe(cells=[dt1cell,dt2cell,dt3cell,
                             dett1cell,dett2cell,dett3cell,
                             deta1cell,deta2cell,deta3cell])
 geometry=openmc.Geometry(univ)
-e
 geometry.export_to_xml()
 
 colors= {}
@@ -375,18 +374,18 @@ plt.show()
 settings=openmc.Settings()
 source  =openmc.Source()
 #source.space=openmc.stats.Points(xyz=)
-source.space=openmc.stats.Point(xyz=linacxyz)
+source.space=openmc.stats.Point(xyz=linacxyz) # type: ignore
 #phi2=openmc.stats.Isotropic() #isotropic ato uniform?
 #phi1=openmc.stats.Monodirectional((0,0,1))
-phi =openmc.stats.Uniform(0.0,2*pi)
+phi =openmc.stats.Uniform(0.0,2*pi) # type: ignore
 #mu= distribution of the cosine of the polar angle
 #phi=distribution of the azimuthal angle in radians
 
 #tan theta = r/SAD=20/1000; theta = atan(20/100)=0.19739555984988; cos theta=0.98058
-mu=openmc.stats.Uniform(0.98058,1)
+mu=openmc.stats.Uniform(0.98058,1) # type: ignore
 
-source.angle = openmc.stats.PolarAzimuthal(mu,phi,reference_uvw=linacuvw)
-source.energy = openmc.stats.Discrete([10e6],[1]) #10MeV
+source.angle = openmc.stats.PolarAzimuthal(mu,phi,reference_uvw=linacuvw) # type: ignore
+source.energy = openmc.stats.Discrete([10e6],[1]) #10MeV # type: ignore
 source.particle = 'photon'
 #source.particle = 'neutron'
 settings.source = source
@@ -415,7 +414,7 @@ tally1 = openmc.Tally(name = 'Room Dose Distribution')
 tally1.scores = ['flux']
 particle1 = openmc.ParticleFilter('photon')
 
-energy, dose = openmc.data.dose_coefficients('photon', 'RLAT')
+energy, dose = openmc.data.dose_coefficients('photon', 'RLAT') # type: ignore
 dose_filter = openmc.EnergyFunctionFilter(energy, dose)
 
 tally1.filters=[mesh_filter,particle1,dose_filter]
@@ -433,16 +432,15 @@ tally2.filters = [filter_cell, particle2, dose_filter]
 tally2.scores = ['flux']
 tally.append(tally2)
 
-"""
 #Tally Water Phantom
-wphantom_cell=openmc.CellFilter(detaxcell)
+neutron_cell=openmc.CellFilter((detb1cell,detb2cell,detb3cell))
 tally3=openmc.Tally(name='wphantom')
-particle3= openmc.ParticleFilter('photon')
-tally3.filters=[wphantom_cell,particle3]
+particle3= openmc.ParticleFilter('neutron')
+tally3.filters=[neutron_cell,particle3]
 #Energy_filter = openmc.EnergyFilter([1e-3, 1e13])
-tally3.filters=[wphantom_cell,particle3,dose_filter]
+tally3.filters=[neutron_cell,particle3,dose_filter]
 tally3.scores = ['flux']
 tally.append(tally3)
-"""
+
 tally.export_to_xml()
 openmc.run()
