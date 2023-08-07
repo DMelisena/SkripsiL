@@ -45,9 +45,8 @@ s_rate=mu*axvcell/phandosevalues #src/s
 factorMU = 60/1e10 # pSv/s -> MU/min
 factoruSv = 3600/1e6 # pSv/s -> uSv/h
 
-print(f"source rate *phantomdosevaluse/v cell axis= mu\n{s_rate}x{phandosevalues}/{axvcell}={mu}\n=")
-print(f"{phandosevalues*s_rate/axvcell} pSv/s")
-print(f"{phandosevalues*s_rate/axvcell*60/1e10} MU")#pSv/sec*(src/s)/cm3
+print(f"source rate *phantomdosevaluse/v cell axis= mu\n{s_rate}x{phandosevalues}/{axvcell}={mu}\n={phandosevalues*s_rate/axvcell} pSv/s")
+print(f"={phandosevalues*s_rate/axvcell*60/1e10} MU")#pSv/sec*(src/s)/cm3
 #phandosevalues = phandosevalues * s_rate / axvcell /1000000*3600 #
 #phandosestddev = phandosestddev * s_rate / axvcell
 
@@ -62,20 +61,20 @@ for v,s in zip(phandosevalues,phandosestddev):
 celltally = sp.tallies[2]
 celldosevalues = celltally.get_values() #pSvcm3/src;dosevolume per source
 celldosestddev = celltally.std_dev 
-
+print(celltally)
 celldosevalues.shape = celldosevalues.shape[0]
 celldosestddev.shape = celldosestddev.shape[0]
 
 vcell=10.8*50*200
 
 dose = celldosevalues *s_rate/ vcell #pSvcm3/src * (src/s) / cm3= pSv/s
-dose=dose/1e6*3600 #pSv/s -> uSv/h
+dose=(dose/1e6)*3600 #pSv/s -> uSv/h 3.6e9
 dosestddev = (celldosestddev * s_rate / vcell) *(1e6/3600) 
 
 for v,s in zip(dose,dosestddev):
     f=open("output.txt","a")
-    print(f'{v} +- {s}')
-    f.write(str(f'\n{v} +- {s}'))
+    print(f'{v:.7e} +- {s:.7e}uSv/h')
+    f.write(str(f'\n{v} +- {s} uSv/h'))
     f.close()
  
 plt.show()
