@@ -108,15 +108,14 @@ z1=openmc.ZPlane(-300.0+48.0+124.0+186.0,boundary_type='transmission')
 z0=openmc.ZPlane(-300.0+48.0,boundary_type='transmission')
 
 #pintu utara, pintu barat, pintu selatan geometri nya
-pu=openmc.YPlane(190.0+250.0+120.0+215,boundary_type='transmission') 
+pu=openmc.YPlane(190.0+250.0+120.0+185.0+40.0,boundary_type='transmission') 
 #                                    ^^^ asumsi pintu lebih lebar 40cm dibandingkan lubang pintunya
 pb0=b5
-pb1=openmc.XPlane(-632.0+76.5+250.5-2,boundary_type='transmission') #Angkanya ini masih ngarang karena gatau tebal pintu, ada kemungkinan formulanya di RHSPintu.py salah
-pb2=openmc.XPlane(-632.0+76.5+250.5-2-15,boundary_type='transmission')
+pb1=openmc.XPlane(-632.0+76.5+250.5-15.8,boundary_type='transmission') #Angkanya ini masih ngarang karena gatau tebal pintu, ada kemungkinan formulanya di RHSPintu.py salah
+pb2=openmc.XPlane(-632.0+76.5+250.5-15.8-102.0,boundary_type='transmission')
 pb3=openmc.XPlane(-632.0+76.5+250.5-15.8-102.0-15.8,boundary_type='transmission')
 ps=u3
-pz0=z0
-pz1=245
+
 
 ###############################################
 dt1 = -t1 & +t2 & +s3 & -u5 & +z0 & -z2  
@@ -137,8 +136,9 @@ datte= +b4 & -t4 & -u5 & +s3 & +z1 & -z2 #linac's middle wall
 dbaw = +b1 & -t1 & +s1 & -u1 & +zm1 & -z0 #flooring
 ###############################################
 #pintu
-ppb = -pu & +ps & -pb0 & +pb1 & +z0 & -pz1#pintu Pb
-pbpe= -pu & +ps & -pb1 & +pb2 & +z0 & -pz1#pintu BPE
+ppb = -pu & +ps & -pb0 & +pb1 & +z0 & -z2#pintu Pb
+pbpe= -pu & +ps & -pb1 & +pb2 & +z0 & -z2#pintu BPE
+ppb2= -pu & +ps & -pb2 & +pb3 & +z0 & -z2#pintu Pb
 
 #Udara
 #void1= -dt1 & +dt2 & -dt3 & +db1 & -db2 & +db3 & -du1 & +du2 & -ds1 & +ppb & -pbpe & +ppb2 & +datas & -dbaw 
@@ -158,6 +158,7 @@ ds1cell=openmc.Cell(fill=concrete,region=ds1)
 
 ppbcell=openmc.Cell(fill=lead,region=ppb)
 pbpecell=openmc.Cell(fill=bpe,region=pbpe)
+ppb2cell=openmc.Cell(fill=lead,region=ppb2)
 
 datascell=openmc.Cell(fill=concrete,region=datas)
 dattecell=openmc.Cell(fill=concrete,region=datte)
@@ -260,7 +261,7 @@ deta1cell=openmc.Cell(fill=air2,region=deta1)
 deta2cell=openmc.Cell(fill=air2,region=deta2)
 deta3cell=openmc.Cell(fill=air2,region=deta3)
 
-#Water Phantom 40x40x10
+#Water Phantom 10x10x5
 phantom_rotation=270
 pr=phantom_rotation
 detaxu=openmc.YPlane(5,boundary_type='transmission')
@@ -304,7 +305,7 @@ void1= +zmin & -zmaxx \
     & ~dt1cell.region & ~dt2cell.region & ~dt3cell.region \
         & ~db1cell.region & ~db2cell.region & ~db3cell.region \
             & ~du1cell.region & ~du2cell.region & ~ds1cell.region\
-            & ~ppbcell.region & ~pbpecell.region\
+            & ~ppbcell.region & ~pbpecell.region & ~ppb2cell.region\
             & ~datascell.region & ~dbawcell.region & ~dattecell.region\
             & ~detb1cell.region & ~detb2cell.region & ~detb3cell.region\
             & ~detub1cell.region & ~detub2cell.region & ~detub3cell.region\
@@ -317,7 +318,7 @@ void1cell = openmc.Cell(fill=air, region=void1)
 univ=openmc.Universe(cells=[dt1cell,dt2cell,dt3cell,
                             db1cell,db2cell,db3cell,
                             du1cell,du2cell,ds1cell,
-                            ppbcell,pbpecell,
+                            ppbcell,pbpecell,ppb2cell,
                             datascell,dbawcell,dattecell,
                             void1cell,
                             detb1cell,detb2cell,detb3cell,
