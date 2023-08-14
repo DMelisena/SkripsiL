@@ -262,11 +262,10 @@ deta2cell=openmc.Cell(fill=air2,region=deta2)
 deta3cell=openmc.Cell(fill=air2,region=deta3)
 
 #Water Phantom 10x10x5
-pr=27 #phantom rotation
+phantom_rotation=270 #phantom rotation
+pr=phantom_rotation
 detaxu=openmc.YPlane(5,boundary_type='transmission')
 detaxs=openmc.YPlane(-5,boundary_type='transmission')
-
-
 
 if pr==0 or pr==180:
     detaxt=openmc.XPlane(5,boundary_type='transmission')
@@ -390,8 +389,8 @@ source.energy = openmc.stats.Discrete([10e6],[1]) #10MeV # type: ignore
 source.particle = 'photon'
 #source.particle = 'neutron'
 settings.source = source
-settings.batches= 10
-settings.particles = 1_000
+settings.batches= 10000
+settings.particles = 100_000
 #Asumsi 36e7 partikel pada mula, pada 600MU=600cGy/m=6Gy/m=6Sv/m=6e6uSv/m=360e6uSv/h
 #maka, apabila 
 settings.run_mode = 'fixed source'
@@ -422,23 +421,11 @@ tally1.filters=[mesh_filter,particle1,dose_filter]
 tally.append(tally1)
 
 #Tally Detektor
-cells = []
-cells.append(detb1cell)
-cells.append(detb2cell)
-cells.append(detb3cell)
-cells.append(detub1cell)
-cells.append(detub2cell)
-cells.append(detub3cell)
-cells.append(detut1cell)
-cells.append(detut2cell)
-cells.append(detut3cell)
-cells.append(dett1cell)
-cells.append(dett2cell)
-cells.append(dett3cell)
-cells.append(deta1cell)
-cells.append(deta2cell)
-cells.append(deta3cell)
-filter_cell = openmc.CellFilter(cells)
+filter_cell = openmc.CellFilter((detb1cell,detb2cell,detb3cell,\
+                            detub1cell,detub2cell,detub3cell,\
+                            detut1cell,detut2cell,detut3cell,\
+                            dett1cell,dett2cell,dett3cell,\
+                            deta1cell,deta2cell,deta3cell))
 tally2 = openmc.Tally(name = 'flux')
 particle2 = openmc.ParticleFilter('photon')
 tally2.filters = [filter_cell, particle2, dose_filter]
