@@ -4,7 +4,7 @@ import openmc
 #Harapannya agar terbuat detaxz1=-2.4, detaxz2=-2.3, dst
 # 2. Declare geometri volume cell
 #detax1-45
-# 3. Declare cell
+# 3. Declare cell (Fill)
 # 4. Masukin ke Universe
 # 5. Masukin ke Tally
 
@@ -15,15 +15,25 @@ detaxzb=openmc.XPlane(-2.5,boundary_type='transmission')
 detaxt=openmc.ZPlane(-128+5,boundary_type='transmission')
 detaxb=openmc.ZPlane(-128-5,boundary_type='transmission')
 
+
+water=openmc.Material(name='Water')
+water.set_density('g/cm3',1.0)
+water.add_nuclide('H1',2.0)
+water.add_nuclide('O16',1.0)
+water.add_s_alpha_beta('c_H_in_H2O')
+
 detaxz0=detaxzb
 
 varnamearr=[detaxz0]
 varvalarr=[]
 geoarr=[]
 geovalarr=[]
+cellarr=[]
+cellvalarr=[]
 
-
-for i in range(1,51):  # Loop from 1 to 50 (inclusive)
+for i in range(1,51):  #
+    
+    #X Plane Maker
     varname = f"detaxz{i}"  # Generate variable name
     varval = f"openmc.XPlane(-2.5+{i*0.1},boundary_type='transmission')"  # Define the calculation expression 
     varnamearr.append(varname)
@@ -31,13 +41,20 @@ for i in range(1,51):  # Loop from 1 to 50 (inclusive)
     # Create the variable dynamically using exec()
     exec(f"{varname} = {varval}")
 
+    #Cell volume geometry maker
     geoname=f"detax{i}"
     geoval =f"-detaxu & +detaxs & -detaxt & +detaxb & -detaxz{i-1} & +detaxz{i}" 
     geoarr.append(geoname)
     geovalarr.append(geoval)
     exec(f"{geoname} = {geoval}")
 
+    cellname=f"detaxcell{i}"
+    cellval=f"openmc.Cell(fill=water,region={geoname})"
+    cellarr.append(cellname)
+    cellvalarr.append(cellval)
+    exec(f"{cellname} = {cellval}")
 
 for i in range (0,50):
     print(f"test :{varnamearr[i]} = {(varvalarr[i])}")
     print(f"test :{geoarr[i]} = {(geovalarr[i])}")
+    print(f"test :{cellarr[i]} = {(cellvalarr[i])}")
