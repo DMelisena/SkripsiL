@@ -33,28 +33,31 @@ cellvalarr=[]
 
 for i in range(1,51):  #
     
-    #X Plane Maker
-    varname = f"detaxz{i}"  # Generate variable name
-    varval = f"openmc.XPlane(-2.5+{i*0.1},boundary_type='transmission')"  # Define the calculation expression 
+    #x plane maker
+    varname = f"detaxz{i}"  # generate variable name
+    varval = f"openmc.XPlane(-2.5+{i*0.1},boundary_type='transmission')"  # define the calculation expression 
     varnamearr.append(varname)# type: ignore
     varvalarr.append(varval)
-    # Create the variable dynamically using exec()
+    # create the variable dynamically using exec()
+    print(f"{varname} = {varval}")
     exec(f"{varname} = {varval}")
 
-    #Cell volume geometry maker
+    #cell volume geometry maker
     geoname=f"detax{i}"
     geoval =f"-detaxu & +detaxs & -detaxt & +detaxb & -detaxz{i-1} & +detaxz{i}" 
     geoarr.append(geoname)
     geovalarr.append(geoval)
+    print(f"{geoname} = {geoval}")
     exec(f"{geoname} = {geoval}")
-
+    
     cellname=f"detaxcell{i}"
     cellval=f"openmc.Cell(fill=water,region={geoname})"
     cellarr.append(cellname)
     cellvalarr.append(cellval)
+    print(f"{cellname} = {cellval}")
     exec(f"{cellname} = {cellval}")
 
-for i in range (0,50):
+for i in range (1,50):
     print(f"test :{varnamearr[i]} = {(varvalarr[i])}")
     print(f"test :{geoarr[i]} = {(geovalarr[i])}")
     print(f"test :{cellarr[i]} = {(cellvalarr[i])}")
@@ -62,7 +65,7 @@ for i in range (0,50):
 #univ.cells.append({detaxcell{i}})
 for i in range (1,51):
     #exec(f"univ.cells.append(detaxcell{i})")
-    print(f"univ.cells.append(detaxcell{i})")
+    print(f"::::univ.cells.append(detaxcell{i})")
 
 
 #Tally Water Phantom
@@ -76,8 +79,8 @@ tally3=openmc.Tally(name='wphantom')
 particle3= openmc.ParticleFilter('photon')
 #tally3.filters=[wphantom_cell,particle3]
 #Energy_filter = openmc.EnergyFilter([1e-3, 1e13])
-tally3.filters=[wphantom_cell,particle3,dose_filter]  #output pSvcm3/src 
-tally3.scores = ['flux']
-tally.append(tally3)
-tally.export_to_xml()
-openmc.run()
+#tally3.filters=[wphantom_cell,particle3,dose_filter]  #output pSvcm3/src 
+#tally3.scores = ['flux']
+#tally.append(tally3)
+#tally.export_to_xml()
+#openmc.run()
