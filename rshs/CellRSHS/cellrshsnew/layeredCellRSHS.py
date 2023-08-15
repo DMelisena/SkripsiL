@@ -1,3 +1,4 @@
+from re import L
 import openmc
 import matplotlib.pyplot as plt
 from math import * #type: ignore
@@ -266,8 +267,6 @@ pr=270 #phantom rotation
 detaxu=openmc.YPlane(5,boundary_type='transmission')
 detaxs=openmc.YPlane(-5,boundary_type='transmission')
 
-
-
 if pr==0 or pr==180:
     detaxt=openmc.XPlane(5,boundary_type='transmission')
     detaxb=openmc.XPlane(5,boundary_type='transmission')
@@ -283,7 +282,7 @@ elif pr==90 or pr==270:
     detaxzb=openmc.XPlane(-2.5,boundary_type='transmission')
     detaxt=openmc.ZPlane(-128+5,boundary_type='transmission')
     detaxb=openmc.ZPlane(-128-5,boundary_type='transmission')
-    
+
 else:
     print('Phantom Rotation Error, benarkan kode pr')
 
@@ -316,18 +315,48 @@ void1= +zmin & -zmaxx \
 
 void1cell = openmc.Cell(fill=air, region=void1)
 
-univ=openmc.Universe(cells=[dt1cell,dt2cell,dt3cell,
-                            db1cell,db2cell,db3cell,
-                            du1cell,du2cell,ds1cell,
-                            ppbcell,pbpecell,ppb2cell,
-                            datascell,dbawcell,dattecell,
-                            void1cell,
-                            detb1cell,detb2cell,detb3cell,
-                            detub1cell,detub2cell,detub3cell,
-                            detut1cell,detut2cell,detut3cell,
-                            dett1cell,dett2cell,dett3cell,
-                            deta1cell,deta2cell,deta3cell,
-                            detaxcell])
+detaxz0=detaxzb
+detaxz50=detaxza
+varnamearr=[detaxz0]
+varvalarr=[]
+geoarr=[]
+geovalarr=[]
+cellarr=[]
+cellvalarr=[]
+
+for i in range(1,51):
+    varname=f"detaxz{i}"
+    varval=f"openmc.XPlane(-2.5+{i*0.1},boundary_type='transmission')"
+    exec(f"{varname}={varval}")
+
+    geoname=f"detax{i}"
+    geoval=f"-detaxu & +detaxs & -detaxt & +detaxb & -detaxz{i-1} & +detaxz{1}"
+    exec(f"{geoname}={geoval}")
+
+    cellname=f"detaxcell{i}"
+    cellval=f"openmc.Cell(fill=water,region={geoname})"
+    exec(f"{cellname}= {cellval}")
+
+suniv='univ=openmc.Universe(cells=[dt1cell,dt2cell,dt3cell,\
+                            db1cell,db2cell,db3cell,\
+                            du1cell,du2cell,ds1cell,\
+                            ppbcell,pbpecell,ppb2cell,\
+                            datascell,dbawcell,dattecell,\
+                            void1cell,\
+                            detb1cell,detb2cell,detb3cell,\
+                            detub1cell,detub2cell,detub3cell,\
+                            detut1cell,detut2cell,detut3cell,\
+                            dett1cell,dett2cell,dett3cell,\
+                            deta1cell,deta2cell,deta3cell,\
+                            detaxcell'
+
+for i in range(1,51):
+    suniv+=f",detaxcell{i}"
+suniv+='])'
+
+exec(suniv)
+
+
 geometry=openmc.Geometry(univ)
 geometry.export_to_xml()
 
@@ -422,23 +451,11 @@ tally1.filters=[mesh_filter,particle1,dose_filter]
 tally.append(tally1)
 
 #Tally Detektor
-cells = []
-cells.append(detb1cell)
-cells.append(detb2cell)
-cells.append(detb3cell)
-cells.append(detub1cell)
-cells.append(detub2cell)
-cells.append(detub3cell)
-cells.append(detut1cell)
-cells.append(detut2cell)
-cells.append(detut3cell)
-cells.append(dett1cell)
-cells.append(dett2cell)
-cells.append(dett3cell)
-cells.append(deta1cell)
-cells.append(deta2cell)
-cells.append(deta3cell)
-filter_cell = openmc.CellFilter(cells)
+filter_cell = openmc.CellFilter((detb1cell,detb2cell,detb3cell,\
+                            detub1cell,detub2cell,detub3cell,\
+                            detut1cell,detut2cell,detut3cell,\
+                            dett1cell,dett2cell,dett3cell,\
+                            deta1cell,deta2cell,deta3cell))
 tally2 = openmc.Tally(name = 'flux')
 particle2 = openmc.ParticleFilter('photon')
 tally2.filters = [filter_cell, particle2, dose_filter]
@@ -446,7 +463,13 @@ tally2.scores = ['flux']
 tally.append(tally2)
 
 #Tally Water Phantom
-wphantom_cell=openmc.CellFilter(detaxcell)
+s="wphantom_cell=openmc.CellFilter(("
+for i in range(1,51):
+    s+=f"detaxcell{i}"
+    if i<50:
+        s+=','
+s+="))"
+exec(s)
 tally3=openmc.Tally(name='wphantom')
 particle3= openmc.ParticleFilter('photon')
 #tally3.filters=[wphantom_cell,particle3]
