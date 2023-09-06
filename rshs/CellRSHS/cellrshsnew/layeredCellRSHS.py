@@ -1,4 +1,3 @@
-from re import L
 import openmc
 import matplotlib.pyplot as plt
 from math import * #type: ignore
