@@ -1,3 +1,19 @@
+Directory Guide:
+-Perhitungan Analitik
+    - Primer
+    - Sekunder
+    - Pintu
+-Simulasi OPENMC
+    - Kalibrasi Ukuran
+    - 
+    -
+    -
+    -
+    -
+
+
+
+
 # SkripsiL
 Perhitungan analitik dan openmc untuk skripsi
 
