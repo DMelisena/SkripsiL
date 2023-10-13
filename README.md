@@ -4,12 +4,13 @@ Directory Guide:
     - Sekunder
     - Pintu
 -Simulasi OPENMC
-    - Kalibrasi Ukuran
-    - 
-    -
-    -
-    -
-    -
+    - Kalibrasi dmax water phantom
+    (u/ mengkalibrasi partikel ke dosis)
+    (Output : Kalibrasi particle -> Sieverts)
+    -Sudut 0
+    -Sudut 90
+    -Sudut 180
+    -Sudut 270
 
 
 
