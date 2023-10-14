@@ -2,18 +2,24 @@ import numpy as np
 import math
 from math import *
 from tabulate import tabulate
-#========Beban Kerja
+#========Beban Kerja==============================================================
 pasienperhari=70
 gyperpasien=4
 hariperminggu=5
-
 W=hariperminggu*gyperpasien*pasienperhari #1.400 Sv
 print("\nPerhitungan Nilai - Nilai standar keamanan menurt SRS dan NCRP ",W)
 print("W = ",W)
-dsca=1 #jarak sumber ke pasien 1 meter
+#============================================================
+
+
+dsca=1 
+#jarak sumber ke pasien 1 meter
 #F=pi*((41/2)**2) #Kenapa 41? luas lapangan radiasi 41cm2, bukannya harusnya meter?
 F=40*40
-#========Pembatas Dosis======
+
+
+#========Pembatas Dosis============================================================
+
 #Dikali setengah agar aman menurut ncrp
 brp=20/2/50/1000 #batas radiasi pekerja,   (20mSv/tahun)*setengah/50 minggu/tahun
 brm=1/2/50/1000   #batas radiasi masyarakat,(1mSv/tahun*setengah/50 minggu/tahun
@@ -25,16 +31,14 @@ TVL = 0.305 #m
 HVL=TVL*log10(2)
 print("HVL = ",HVL)
 
-#Scatter Fraction sudut x pada energi 10MV
-x30, y30 = 30, 0.00318
+#Scatter Fraction sudut x pada energi 10MV=========================================
+x30, y30 = 30, 0.00318 #Data masing-masing derajat
 x45, y45 = 45, 0.00135
-x60, y60 = 60, 0.000746 #60 derajat
-x90, y90 = 90, 0.000381 #90 derajat
-
-#========Mencari Fungsi ax+b========
+x60, y60 = 60, 0.000746 
+x90, y90 = 90, 0.000381 
 #Data berdasarkan sudut dan scatter fraction pada energi 10MV
-
-# cari slope 60 90
+#========Mencari Fungsi ax+b========
+# cari slope 60-90 dan 30-45
 print (f"\n===========  Scatter Fractions  ==============")
 slope = (y90 - y60) / (x90 - x60) ; print("slope 6090 = ",slope)
 intercept = y60 - slope * x60 ; print("intercept 6090 = ",intercept)
@@ -45,6 +49,7 @@ print(f"Fungsi y = {slope}x +{intercept}")
 print(f"Fungsi y2 = {slope2}x +{intercept2}")
 print (f"==============================================\n")
 
+#======= Pembuatan Fungsi 
 def atanrad(dsec): #Fungsi didalam atandeg, dipisahin biar gampang dibaca aja
     dsca=1
     return atan(dsec/dsca) #nyari nilai pi
