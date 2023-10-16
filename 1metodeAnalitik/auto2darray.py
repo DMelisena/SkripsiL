@@ -11,12 +11,10 @@ print("\nPerhitungan Nilai - Nilai standar keamanan menurt SRS dan NCRP ",W)
 print("W = ",W)
 #============================================================
 
-
 dsca=1 
 #jarak sumber ke pasien 1 meter
 #F=pi*((41/2)**2) #Kenapa 41? luas lapangan radiasi 41cm2, bukannya harusnya meter?
 F=40*40
-
 
 #========Pembatas Dosis============================================================
 
@@ -79,7 +77,6 @@ arrbleak=["B leak"]
 arrnbleak=["n leak"]
 arrshleak=["Leakage\nShield"]
 
-formulas=[]
 with open("SekunderLatex.txt", "w") as file:
         file.write("==========Formula Latex========\n")
 
@@ -115,8 +112,11 @@ def scatter(Nama,P,dsec,T): # (dsec = jarak pasien ke titik pengukuran ; a= Frak
     shps = r"$$Barrier ="+ str(n) +r"\times"+ str(TVL)+ r"+" +str(HVL) + "=" + str(sh) + r"$$"
     # Open a text file in write mode
     with open("SekunderLatex.txt", "a") as file:
+        file.write("Formula B_ps\n")
         file.write(bps+"\n")
+        file.write("Formula n\n")
         file.write(nps+"\n")
+        file.write("Formula Tebal Barrier\n")
         file.write(shps+"\n")
     return sh
 
@@ -206,4 +206,6 @@ tarray=obarray.T
 trarray=np.transpose(obarray)
 print("Data type:", trarray.dtype)
 print(tabulate(trarray,tablefmt="grid"))
-print(formulas)
+
+with open("SekunderLatex.txt", "a") as file:
+    file.write(tabulate(trarray,tablefmt="grid"))
