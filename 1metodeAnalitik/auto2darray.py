@@ -2,6 +2,8 @@ import numpy as np
 import math
 from math import *
 from tabulate import tabulate
+
+##############################  Parameter Awal  ##################################
 #========Beban Kerja==============================================================
 pasienperhari=70
 gyperpasien=4
@@ -16,7 +18,7 @@ dsca=1
 #F=pi*((41/2)**2) #Kenapa 41? luas lapangan radiasi 41cm2, bukannya harusnya meter?
 F=40*40
 
-#========Pembatas Dosis============================================================
+#========  Pembatas Dosis  ========================================================
 
 #Dikali setengah agar aman menurut ncrp
 brp=20/2/50/1000 #batas radiasi pekerja,   (20mSv/tahun)*setengah/50 minggu/tahun
@@ -28,14 +30,15 @@ TVLe= 0.370 #m
 TVL = 0.305 #m
 HVL=TVL*log10(2)
 print("HVL = ",HVL)
+#####################################################################################
 
-#Scatter Fraction sudut x pada energi 10MV=========================================
+############################# Sudut Radiasi #########################################
+#Scatter Fraction sudut x pada energi 10MV  =========================================
 x30, y30 = 30, 0.00318 #Data masing-masing derajat
 x45, y45 = 45, 0.00135
 x60, y60 = 60, 0.000746 
-x90, y90 = 90, 0.000381 
-#Data berdasarkan sudut dan scatter fraction pada energi 10MV
-#========Mencari Fungsi ax+b========
+x90, y90 = 90, 0.000381 #Data berdasarkan sudut dan scatter fraction pada energi 10MV
+#========  Mencari Fungsi ax+b   ====================================
 # cari slope 60-90 dan 30-45
 print (f"\n===========  Scatter Fractions  ==============")
 slope = (y90 - y60) / (x90 - x60) ; print("slope 6090 = ",slope)
@@ -46,13 +49,9 @@ intercept2 = y30 - slope2 * x30 ; print("intercept 3045 = ",intercept2)
 print(f"Fungsi y = {slope}x +{intercept}")
 print(f"Fungsi y2 = {slope2}x +{intercept2}")
 print (f"==============================================\n")
-
-#======= Pembuatan Fungsi 
-def atanrad(dsec): #Fungsi didalam atandeg, dipisahin biar gampang dibaca aja
-    dsca=1
-    return atan(dsec/dsca) #nyari nilai pi
+#======= Pembuatan Fungsi ===========================================================
 def atandeg(dsec): # Fungsi yang dipakek, terus scatter disudutnya di interpolasiin dari table b.4 antara 60 dan 90
-    return degrees(atanrad(dsec)) #nyari derajat dari nilai pi
+    return degrees(atan(dsec/dsca)) #nyari derajat dari nilai pi
 def a(dsec):
     degree = atandeg(dsec)
     #return slope * degree + intercept
@@ -62,9 +61,10 @@ def a(dsec):
         return slope2 * degree + intercept2
     else:
         return 0
+#####################################################################################
 
-#print(f"Nilai scatter fraction(a) pada dsec 3.15 = {a(3.15)}")
-
+##################################  Perhitungan  ####################################
+#================ Pembuatan Array =======================
 arrname= ["Na\nme"]
 arrdsec= ["dsec"]
 arrdeg=["Scatter\nDegree"]
@@ -77,9 +77,11 @@ arrbleak=["B leak"]
 arrnbleak=["n leak"]
 arrshleak=["Leakage\nShield"]
 
+#================ 
 with open("SekunderLatex.txt", "w") as file:
         file.write("==========Formula Latex========\n")
 
+#================ Fungsi Scatter =========================
 def scatter(Nama,P,dsec,T): # (dsec = jarak pasien ke titik pengukuran ; a= Fraksi hambur atau serapan dosis berkas primer yang terhambur dari pasien)
     #print(f"\nPada dinding {Nama} dengan dsec = {dsec}")
     
@@ -112,14 +114,13 @@ def scatter(Nama,P,dsec,T): # (dsec = jarak pasien ke titik pengukuran ; a= Frak
     shps = r"$$Barrier ="+ str(n) +r"\times"+ str(TVL)+ r"+" +str(HVL) + "=" + str(sh) + r"$$"
     # Open a text file in write mode
     with open("SekunderLatex.txt", "a") as file:
-        file.write("Formula B_ps\n")
-        file.write(bps+"\n")
-        file.write("Formula n\n")
-        file.write(nps+"\n")
-        file.write("Formula Tebal Barrier\n")
-        file.write(shps+"\n")
+        file.write(f"Nama={Nama} P={P} dsec={dsec}; T= {T}\n")
+        file.write(bps+"\n first")
+        file.write(nps+"\n second")
+        file.write(shps+"\n\n third")
     return sh
 
+#================ Fungsi Leakage ==========================
 def leakage(P,Dl,T):
     arrdl.append("%.5f"%Dl)
     B=(P*(Dl**2))/(0.001*W*T)
@@ -142,14 +143,16 @@ def leakage(P,Dl,T):
         file.write(nl+"\n")
         file.write(shl+"\n")
     return shleak
+
+
+#============= Fungsi Pythagoras ==============
 def c(a1,b1): #pythagoras c kemudian diubah dari mm ke m
     a=a1/1000
     b=b1/1000
     return (sqrt(a*a+b*b))
-
-
 #masih dalam mm, c nya diubah jadi bikin mm jadi m aja
 #Perubahan orientasi karena salah, utara harusnya barat
+#============= Statement Value Pythagoras =====
 dsecbd = c(1550+765+3240,1900+1850)
 dsecs = (1280+1900+1850)/1000
 dsecte = c(1550+765+3240,1900+1850)
@@ -166,11 +169,13 @@ dlu1 = c((1900+2500+125)/1000,1)*1000
 dlu2 = c((1900+2500+125+1850+810)/1000,1)*1000
 dlbl = c(c(1550+765+3240, 1900+2500+125),1)*1000
 
+#======= Deklarasi Fungsi Utama ========
 def sekunder(Nama,P,dsec,Dl,T):
     scatter(Nama,P,dsec,T)
     leakage(P,Dl,T)
     return
 
+# Penjalanan Fungsi
 sekunder("BD",brp ,dsecbd,dlbd,1  )
 sekunder("S" ,brm,dsecs ,dls ,0.2)
 sekunder("Te",brp ,dsecte,dlte,1  )
@@ -186,6 +191,8 @@ print("U1 P=",brp,"P = " ,dsecu1, "Dl= ",dlu1,"T = ",1  )
 print("U2 P=",brp,"P = " ,dsecu2, "Dl= ",dlu2,"T = ",1  )
 print("BL P=",brp,"P = " ,dsecbl, "Dl= ",dlbl,"T = ",1  )
 
+
+#=============== Pembuatan Tabel===========================
 array=[]
 array.append(arrname)
 array.append(arrdsec)
@@ -206,6 +213,6 @@ tarray=obarray.T
 trarray=np.transpose(obarray)
 print("Data type:", trarray.dtype)
 print(tabulate(trarray,tablefmt="grid"))
-
+#================ Pencetakan Tabel pada .txt ================
 with open("SekunderLatex.txt", "a") as file:
     file.write(tabulate(trarray,tablefmt="grid"))
