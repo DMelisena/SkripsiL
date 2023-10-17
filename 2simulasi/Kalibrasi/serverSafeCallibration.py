@@ -388,13 +388,13 @@ print(linacuvw, linacxyz)
 ###############################################
 #            Penampil Geometri                #
 ###############################################
-univ.plot(width=(2500,2700),basis='xy',color_by='material',colors=colors)
-plt.savefig('xyRSHS.png')
-univ.plot(width=(1400,1040),basis='xz',color_by='material',colors=colors)
-plt.savefig('xzRSHS.png')
-univ.plot(width=(1800,1040),basis='yz',color_by='material',colors=colors)
-plt.savefig('yzRSHS.png')
-plt.show()
+#univ.plot(width=(2500,2700),basis='xy',color_by='material',colors=colors)
+#plt.savefig('xyRSHS.png')
+#univ.plot(width=(1400,1040),basis='xz',color_by='material',colors=colors)
+#plt.savefig('xzRSHS.png')
+#univ.plot(width=(1800,1040),basis='yz',color_by='material',colors=colors)
+#plt.savefig('yzRSHS.png')
+#plt.show()
 
 
 ###############################################
@@ -419,7 +419,7 @@ source.particle = 'photon'
 #source.particle = 'neutron'
 settings.source = source
 settings.batches= 10
-settings.particles = 1_000
+settings.particles = 3_600_000_000
 #Asumsi 36e8 partikel pada mula, pada 600MU=600cGy/m=6Gy/m=6Sv/m=6e6uSv/m=360e6uSv/h
 #maka, apabila dosis yang diekspektasi pada dinding sekitar 0.1uSv/h. Maka perlu 36e8 agar dapat muncul
 #36e8; 3.600.000.000
