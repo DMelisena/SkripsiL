@@ -421,7 +421,8 @@ settings.source = source
 settings.batches= 10
 settings.particles = 1_000
 #Asumsi 36e7 partikel pada mula, pada 600MU=600cGy/m=6Gy/m=6Sv/m=6e6uSv/m=360e6uSv/h
-#maka, apabila 
+#maka, apabila dosis yang diekspektasi pada dinding sekitar 0.1uSv/h. Maka perlu 36e7 agar dapat muncul
+#36e7; 360.000.000
 settings.run_mode = 'fixed source'
 settings.photon_transport = True
 settings.export_to_xml()
