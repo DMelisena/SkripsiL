@@ -8,3 +8,6 @@ unfiltered/CellRSHS
 .vscode
 rshs/CellRSHS/output.txt
 2simulasi/Default/
+2simulasi/Kalibrasi/layer.py
+2simulasi/Kalibrasi/output.txt
+unfiltered/
