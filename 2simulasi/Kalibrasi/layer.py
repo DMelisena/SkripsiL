@@ -8,6 +8,7 @@ import openmc
 # 4. Masukin ke Universe
 # 5. Masukin ke Tally
 
+# FILE INI HANYA BERISIKAN PEMBUATAN GEOMETRI SEL PER SEL
 detaxu=openmc.YPlane(5,boundary_type='transmission')
 detaxs=openmc.YPlane(-5,boundary_type='transmission')
 detaxza=openmc.XPlane(2.5,boundary_type='transmission')
