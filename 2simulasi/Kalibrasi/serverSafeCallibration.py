@@ -418,7 +418,7 @@ source.energy = openmc.stats.Discrete([10e6],[1]) #10MeV # type: ignore
 source.particle = 'photon'
 #source.particle = 'neutron'
 settings.source = source
-settings.batches= 10
+settings.batches= 5
 settings.particles = 3_600_000_000
 #Asumsi 36e8 partikel pada mula, pada 600MU=600cGy/m=6Gy/m=6Sv/m=6e6uSv/m=360e6uSv/h
 #maka, apabila dosis yang diekspektasi pada dinding sekitar 0.1uSv/h. Maka perlu 36e8 agar dapat muncul
