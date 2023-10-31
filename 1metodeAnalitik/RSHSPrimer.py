@@ -74,8 +74,13 @@ def primer(P,dsad,T):
     WeekDR(P,dsad,T)
     InstDR(P,dsad)
 
-primer(brp,8.04,1)
-primer(brp,8.04,1)
+###### Nilai Input ###################
+######################################
+primer(brp,8.04,1)  ##################
+primer(brp,8.04,1)  ##################
+######################################
+
+
 
 array=[]
 array.append(arrdsad)
