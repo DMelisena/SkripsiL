@@ -54,20 +54,7 @@ def WeekDR( P , dsad , T ): #W dan U dah ada, dsad ini di ncrp dpri, jarak dari 
     print("$$n=-log(",b,")=",n,"$$")
     print ("$$t_{barrier}=(",TVL1,"+(",n,"-1)\\times",TVLe,"=",sh,"$$")
     return sh
-"""
-def bWeekDR( P , dsad , T ): #W dan U dah ada, dsad ini di ncrp dpri, jarak dari xray target ke titik perlindungan, kok rasanya beda ama dsad yang kuitung ya?
-    b=(P * dsad **2 ) / (W *U *T )
 
-    #return n*TVL #return TVL1+(n-1)TVLe
-    return b
-
-def nWeekDR( P , dsad , T ): #W dan U dah ada, dsad ini di ncrp dpri, jarak dari xray target ke titik perlindungan, kok rasanya beda ama dsad yang kuitung ya?
-    b=(P * dsad **2 ) / (W *U *T )
-    n=-log10(b)
-
-    #return n*TVL #return TVL1+(n-1)TVLe
-    return n
-"""
 
 def InstDR(P,dsad):
     b=(P/40/1000)*(dsad**2)/DR #Dibagi 1000 karena dirubah dari mSv ke Sv
@@ -78,47 +65,10 @@ def InstDR(P,dsad):
     sh =TVL1+(TVLe*(n-1)) 
     arrish.append("%.5f"%sh)
     print("==================================================================")
-    print("$$B_{IDR}=\\frac {",P,"(",dsad,"^{2})}{",DR,"}=",b,"$$") #tinggal dihapus jarak \ dan f jadi langsung latex
+    print("$$B_{IDR}=\\frac {",P,"(",dsad,"^{2})}{",DR,"}=",b,"$$") #tinggal dihapus jarak \ dan f jadi langsung latex, formatting issues
     print("$$n=-log(",b,")=",n,"$$")
     print ("$$t_{barrier}=(",TVL1,"+(",n,"-1)\\times",TVLe,"=",sh,"$$")
     return sh
-"""
-def bInstDR(P,dsad):
-    b=(P/40/1000)*(dsad**2)/DR #Dibagi 1000 karena dirubah dari mSv ke Sv
-    print("$$B_{IDR}=\ frac {",P,"(",dsad,"^{2})}{",DR,"}=",b,"$$") #tinggal dihapus jarak \ dan f jadi langsung latex
-    return b 
-def nInstDR(P,dsad):
-    b=(P/40/1000)*(dsad**2)/DR #Dibagi 1000 karena dirubah dari mSv ke Sv
-    n=-log10(b)
-    #return n*TVL 
-    return n
-
-data=[
-     ["B",
-      bWeekDR(brp,8.04,1),
-      nWeekDR(brp,8.04,1),
-      WeekDR(brp,8.04,1),
-      WeekDR(brp,8.04,1)+(2*HVL),
-      bInstDR(brp,8.04),
-      nInstDR(brp,8.04),
-      InstDR(brp,8.04),
-      InstDR(brp,8.04)+(2*HVL)],
-     ["T", 
-      bWeekDR(brp,8.04,1),
-      nWeekDR(brp,8.04,1),
-      WeekDR(brp,8.04,1),
-      WeekDR(brp,8.04,1)+(2*HVL),
-      bInstDR(brp,8.04),
-      nInstDR(brp,8.04),
-      InstDR(brp,8.04),
-      InstDR(brp,8.04)+(2*HVL)],
-        ]
-
-#Nilai dsad 7.32 = 1 + 3.240 + 3.080
-
-head=["Dinding", "Bpri","n","WeekB", "WeekB+2HVL","bInstB","nInstB","InstB","InstB+2HVL"]
-print(tabulate(data,headers=head,tablefmt="grid"))
-"""
 
 def primer(P,dsad,T):
     WeekDR(P,dsad,T)
@@ -137,12 +87,6 @@ array.append(arrib)
 array.append(arrin)
 array.append(arrish)
 
-"""
-array=np.array(array)
-print("Data type:", array.dtype)
-tarray=np.transpose(array)
-print(tabulate(tarray,tablefmt="grid"))
-"""
 nparray=np.array(array)
 obarray=np.array(nparray,dtype=object)
 tarray=obarray.T
