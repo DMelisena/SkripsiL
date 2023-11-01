@@ -11,6 +11,8 @@ hariperminggu=5
 W=hariperminggu*gyperpasien*pasienperhari
 U=0.33
 
+txtwrite=open("Hasil3AnalitikPintu.txt","w")
+
 ###############################################################
 ####### 1 Dosis Ekivalen Total scatter dan leakage ############
 ###############################################################
@@ -32,6 +34,12 @@ dz=7.105-2.350 #Panjang labirin ke pintu (m)
 
 HS=(W*U*a0*A0*az*Az)/((dH*dr*dz)**2) 
 print("$$H_{S}=\\frac{",W,"\\times",U,"\\times", a0,"\\times","%.5f"%A0,"\\times",az,"\\times",Az,"}{(",dH,"\\times",dr,"\\times","%.5f"%dz,")^{2}}=",HS,"$$")
+hsres = f"$$H_{{S}}=\\frac{{{W}\\times{U}\\times{a0}\\times{A0:.5f}\\times{az}\\times{Az}}}{{({dH}\\times{dr}\\times{dz:.5f})^{{2}}}}={HS}$$"
+with open("Hasil3AnalitikPintu.txt","a") as file:
+    file.write(hsres)
+
+#print(hsres)
+#txtwrite.write(hsres)
 #print("HS = ",HS)
 
 ################ 1.b Hamburan Pasien ###########################
