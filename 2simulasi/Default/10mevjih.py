@@ -358,7 +358,7 @@ source.particle = 'photon'
 settings.source = source
 settings.batches = 11
 settings.inactive = 1
-settings.particles = 5_000 #2_000_000
+settings.particles = 1_000_000 #2_000_000
 settings.run_mode = 'fixed source'
 settings.photon_transport = True
 settings.export_to_xml()
