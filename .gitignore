@@ -7,7 +7,6 @@ openmc/.ipynb_checkpoints/
 unfiltered/CellRSHS
 .vscode
 rshs/CellRSHS/output.txt
-2simulasi/Default/
 2simulasi/Kalibrasi/layer.py
 2simulasi/Kalibrasi/output.txt
 unfiltered/
@@ -20,13 +19,13 @@ openmcTest/
 1metodeAnalitik/Hasil3AnalitikPintu.txt
 2simulasi/Kalibrasi/others/endfb-vii.1-hdf5/
 Hasil3AnalitikPintu.txt
-        2simulasi/CellRSHS/0degree/
-        2simulasi/CellRSHS/180degree/
-        2simulasi/CellRSHS/270degree/statepoint.5.h5
-        2simulasi/CellRSHS/270degree/summary.h5
-        2simulasi/CellRSHS/90degree/
-        2simulasi/CellRSHS/output.txt
-        2simulasi/CellRSHS/statepoint.10000.h5
-        2simulasi/CellRSHS/statepoint.5.h5
-        2simulasi/CellRSHS/summary.h5
-        2simulasi/Kalibrasi/serverResult/Callibration/
+2simulasi/CellRSHS/0degree/
+2simulasi/CellRSHS/180degree/
+2simulasi/CellRSHS/270degree/statepoint.5.h5
+2simulasi/CellRSHS/270degree/summary.h5
+2simulasi/CellRSHS/90degree/
+2simulasi/CellRSHS/output.txt
+2simulasi/CellRSHS/statepoint.10000.h5
+2simulasi/CellRSHS/statepoint.5.h5
+2simulasi/CellRSHS/summary.h5
+2simulasi/Kalibrasi/serverResult/Callibration/
