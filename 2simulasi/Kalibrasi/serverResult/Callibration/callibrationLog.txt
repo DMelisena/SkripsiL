@@ -1,0 +1,132 @@
+Unable to init server: Could not connect: Connection refused
+Unable to init server: Could not connect: Connection refused
+
+(serverSafeCallibration.py:2592): Gdk-CRITICAL **: 15:53:12.284: gdk_cursor_new_for_display: assertion 'GDK_IS_DISPLAY (display)' failed
+/usr/local/lib/python3.8/dist-packages/openmc/mixin.py:67: IDWarning: Another Filter instance already exists with id=2.
+  warn(msg, IDWarning)
+(1.0, 0, 1.8369701987210297e-16) (-100.0, 0, -128.00000000000003)
+                                %%%%%%%%%%%%%%%
+                           %%%%%%%%%%%%%%%%%%%%%%%%
+                        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                      %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                                    %%%%%%%%%%%%%%%%%%%%%%%%
+                                     %%%%%%%%%%%%%%%%%%%%%%%%
+                 ###############      %%%%%%%%%%%%%%%%%%%%%%%%
+                ##################     %%%%%%%%%%%%%%%%%%%%%%%
+                ###################     %%%%%%%%%%%%%%%%%%%%%%%
+                ####################     %%%%%%%%%%%%%%%%%%%%%%
+                #####################     %%%%%%%%%%%%%%%%%%%%%
+                ######################     %%%%%%%%%%%%%%%%%%%%
+                #######################     %%%%%%%%%%%%%%%%%%
+                 #######################     %%%%%%%%%%%%%%%%%
+                 ######################     %%%%%%%%%%%%%%%%%
+                  ####################     %%%%%%%%%%%%%%%%%
+                    #################     %%%%%%%%%%%%%%%%%
+                     ###############     %%%%%%%%%%%%%%%%
+                       ############     %%%%%%%%%%%%%%%
+                          ########     %%%%%%%%%%%%%%
+                                      %%%%%%%%%%%
+
+                 | The OpenMC Monte Carlo Code
+       Copyright | 2011-2022 MIT, UChicago Argonne LLC, and contributors
+         License | https://docs.openmc.org/en/latest/license.html
+         Version | 0.13.1-dev
+       Date/Time | 2023-10-19 14:16:27
+  OpenMP Threads | 8
+
+ Reading settings XML file...
+ Reading cross sections XML file...
+ Reading materials XML file...
+ Reading geometry XML file...
+ Reading N14 from /home/hanif/endfb-vii.1-hdf5/neutron/N14.h5
+ Reading N from /home/hanif/endfb-vii.1-hdf5/photon/N.h5 
+ Reading O16 from /home/hanif/endfb-vii.1-hdf5/neutron/O16.h5
+ Reading O from /home/hanif/endfb-vii.1-hdf5/photon/O.h5 
+ Reading C0 from /home/hanif/endfb-vii.1-hdf5/neutron/C0.h5
+ Reading C from /home/hanif/endfb-vii.1-hdf5/photon/C.h5 
+ Reading Fe54 from /home/hanif/endfb-vii.1-hdf5/neutron/Fe54.h5
+ Reading Fe from /home/hanif/endfb-vii.1-hdf5/photon/Fe.h5 
+ Reading Fe56 from /home/hanif/endfb-vii.1-hdf5/neutron/Fe56.h5
+ Reading Fe57 from /home/hanif/endfb-vii.1-hdf5/neutron/Fe57.h5
+ Reading Fe58 from /home/hanif/endfb-vii.1-hdf5/neutron/Fe58.h5
+ Reading Si28 from /home/hanif/endfb-vii.1-hdf5/neutron/Si28.h5
+ Reading Si from /home/hanif/endfb-vii.1-hdf5/photon/Si.h5 
+ Reading Si29 from /home/hanif/endfb-vii.1-hdf5/neutron/Si29.h5
+ Reading Si30 from /home/hanif/endfb-vii.1-hdf5/neutron/Si30.h5
+ Reading Mn55 from /home/hanif/endfb-vii.1-hdf5/neutron/Mn55.h5
+ Reading Mn from /home/hanif/endfb-vii.1-hdf5/photon/Mn.h5 
+ Reading H1 from /home/hanif/endfb-vii.1-hdf5/neutron/H1.h5
+ Reading H from /home/hanif/endfb-vii.1-hdf5/photon/H.h5 
+ Reading H2 from /home/hanif/endfb-vii.1-hdf5/neutron/H2.h5
+ Reading N15 from /home/hanif/endfb-vii.1-hdf5/neutron/N15.h5
+ Reading O17 from /home/hanif/endfb-vii.1-hdf5/neutron/O17.h5
+ Reading Na23 from /home/hanif/endfb-vii.1-hdf5/neutron/Na23.h5
+ Reading Na from /home/hanif/endfb-vii.1-hdf5/photon/Na.h5 
+ Reading Mg24 from /home/hanif/endfb-vii.1-hdf5/neutron/Mg24.h5
+ Reading Mg from /home/hanif/endfb-vii.1-hdf5/photon/Mg.h5 
+ Reading Mg25 from /home/hanif/endfb-vii.1-hdf5/neutron/Mg25.h5
+ Reading Mg26 from /home/hanif/endfb-vii.1-hdf5/neutron/Mg26.h5
+ Reading S32 from /home/hanif/endfb-vii.1-hdf5/neutron/S32.h5
+ Reading S from /home/hanif/endfb-vii.1-hdf5/photon/S.h5 
+ Reading S33 from /home/hanif/endfb-vii.1-hdf5/neutron/S33.h5
+ Reading S34 from /home/hanif/endfb-vii.1-hdf5/neutron/S34.h5
+ Reading S36 from /home/hanif/endfb-vii.1-hdf5/neutron/S36.h5
+ Reading Cl35 from /home/hanif/endfb-vii.1-hdf5/neutron/Cl35.h5
+ Reading Cl from /home/hanif/endfb-vii.1-hdf5/photon/Cl.h5 
+ Reading Cl37 from /home/hanif/endfb-vii.1-hdf5/neutron/Cl37.h5
+ Reading K39 from /home/hanif/endfb-vii.1-hdf5/neutron/K39.h5
+ Reading K from /home/hanif/endfb-vii.1-hdf5/photon/K.h5 
+ Reading K40 from /home/hanif/endfb-vii.1-hdf5/neutron/K40.h5
+ Reading K41 from /home/hanif/endfb-vii.1-hdf5/neutron/K41.h5
+ Reading Ca40 from /home/hanif/endfb-vii.1-hdf5/neutron/Ca40.h5
+ Reading Ca from /home/hanif/endfb-vii.1-hdf5/photon/Ca.h5 
+ Reading Ca42 from /home/hanif/endfb-vii.1-hdf5/neutron/Ca42.h5
+ Reading Ca43 from /home/hanif/endfb-vii.1-hdf5/neutron/Ca43.h5
+ Reading Ca44 from /home/hanif/endfb-vii.1-hdf5/neutron/Ca44.h5
+ Reading Ca46 from /home/hanif/endfb-vii.1-hdf5/neutron/Ca46.h5
+ Reading Ca48 from /home/hanif/endfb-vii.1-hdf5/neutron/Ca48.h5
+ Reading B10 from /home/hanif/endfb-vii.1-hdf5/neutron/B10.h5
+ Reading B from /home/hanif/endfb-vii.1-hdf5/photon/B.h5 
+ Reading B11 from /home/hanif/endfb-vii.1-hdf5/neutron/B11.h5
+ Reading Pb204 from /home/hanif/endfb-vii.1-hdf5/neutron/Pb204.h5
+ Reading Pb from /home/hanif/endfb-vii.1-hdf5/photon/Pb.h5 
+ Reading Pb206 from /home/hanif/endfb-vii.1-hdf5/neutron/Pb206.h5
+ Reading Pb207 from /home/hanif/endfb-vii.1-hdf5/neutron/Pb207.h5
+ Reading Pb208 from /home/hanif/endfb-vii.1-hdf5/neutron/Pb208.h5
+ Reading Al27 from /home/hanif/endfb-vii.1-hdf5/neutron/Al27.h5
+ Reading Al from /home/hanif/endfb-vii.1-hdf5/photon/Al.h5 
+ Reading c_H_in_H2O from /home/hanif/endfb-vii.1-hdf5/neutron/c_H_in_H2O.h5
+ Minimum neutron data temperature: 250 K
+ Maximum neutron data temperature: 2500 K
+ Reading tallies XML file...
+ Preparing distributed cell instances...
+ Reading plot XML file...
+ Writing summary.h5 file...
+ Maximum neutron transport energy: 20000000 eV for Fe58
+
+ ===============>     FIXED SOURCE TRANSPORT SIMULATION     <===============
+
+ Simulating batch 1
+Traceback (most recent call last):
+  File "serverSafeCallibration.py", line 482, in <module>
+    openmc.run()
+  File "/usr/local/lib/python3.8/dist-packages/openmc/executor.py", line 276, in run
+    _run(args, output, cwd)
+  File "/usr/local/lib/python3.8/dist-packages/openmc/executor.py", line 116, in _run
+    raise RuntimeError(error_msg)
+RuntimeError: OpenMC aborted unexpectedly.
+.
+ only          = 5.8870e+01 seconds
+   Time in active batches          = 5.9666e+01 seconds
+   Time accumulating tallies       = 7.3758e-01 seconds
+   Time writing statepoints        = 5.7911e-02 seconds
+ Total time for finalization       = 7.0290e+00 seconds
+ Total time elapsed                = 1.0831e+02 seconds
+ Calculation Rate (active)         = 3016.8 particles/second
+
+ ============================>     RESULTS     <============================
+
+ Leakage Fraction            = 0.00001 +/- 0.00001
+
