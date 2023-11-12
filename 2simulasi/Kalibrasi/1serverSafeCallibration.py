@@ -2,6 +2,9 @@ import openmc
 import matplotlib.pyplot as plt
 from math import * #type: ignore
 
+particles=10000
+
+
 air=openmc.Material(name='Air')
 air.set_density('g/cm3',0.001205)
 air.add_nuclide('N14',0.7)
@@ -419,7 +422,7 @@ source.particle = 'photon'
 #source.particle = 'neutron'
 settings.source = source
 settings.batches= 5
-settings.particles = 3_600_000_000
+settings.particles = particles
 #Asumsi 36e8 partikel pada mula, pada 600MU=600cGy/m=6Gy/m=6Sv/m=6e6uSv/m=360e6uSv/h
 #maka, apabila dosis yang diekspektasi pada dinding sekitar 0.1uSv/h. Maka perlu 36e8 agar dapat muncul
 #36e8; 3.600.000.000
@@ -470,11 +473,11 @@ for i in range(1,51):
         s+=','
 s+="))"
 exec(s)
+print(s)
 tally3=openmc.Tally(name='wphantom')
-particle3= openmc.ParticleFilter('photon')
 #tally3.filters=[wphantom_cell,particle3]
 #Energy_filter = openmc.EnergyFilter([1e-3, 1e13])
-tally3.filters=[wphantom_cell,particle3,dose_filter]  #output pSvcm3/src 
+tally3.filters=[wphantom_cell,particle2,dose_filter]  #output pSvcm3/src 
 tally3.scores = ['flux']
 tally.append(tally3)
 
