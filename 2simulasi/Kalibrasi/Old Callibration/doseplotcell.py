@@ -49,22 +49,22 @@ y=500
 #s_rate=34.52580998
 #dose=dosevalues*1000*3600 #microsieverts/hour
 
-
+s_rate=1.1379153390987711e+20
 v=(2000/x)*(2000/y)*300 #volume of room dose distribution
 dosevalues=meshtally.get_values() #Nilai perpixel dari grid 500x500
 dosevalues.shape=(x,y)
 #pSvcm3/src*(src/s)/cm3=pSv/s
+s_rate=6.967475822858894e+18
 dosevalues = dosevalues*s_rate/v #pSv/s
 dose=(dosevalues/1_000_000)*3600 #pSv/s -> uSv/hour
 
 fig, ax = plt.subplots()
 cs = ax.imshow(dose, cmap='coolwarm', norm=LogNorm()) # type: ignore
 cb = plt.colorbar(cs)
-ax.set_title('Distribusi Dosis Ruangan uSv/hour)') #type: ignore
+ax.set_title('Distribusi Dosis Ruangan (uSv/hour)') #type: ignore
 plt.savefig('RoomDoseDistribution.png',dpi=900 )
 plt.axis('off')
 
-plt.show()
 #################################################################
 
 
@@ -85,9 +85,14 @@ celldosestddev.shape = celldosestddev.shape[0]
 
 vcell=10.8*50*200
 
-dose = celldosevalues *s_rate/ vcell #pSvcm3/src * (src/s) / cm3= pSv/s
-dose=(dose/1e6)*3600 #pSv/s -> uSv/h 3.6e9
-dosestddev = (celldosestddev * s_rate / vcell) *(1e6/3600) 
+#dose = celldosevalues *s_rate/ vcell #pSvcm3/src * (src/s) / cm3= pSv/s
+#dose=(dose/1e6)*3600 #pSv/s -> uSv/h 3.6e9
+#dosestddev = (celldosestddev * s_rate / vcell) *(1e6/3600) 
+k=2457897.1324533457
+dose=k*celldosevalues*600/vcell
+dosestddev = (k*celldosevalues*600/vcell) *(1e6/3600) 
+
+
 print(dose)
 for v,s in zip(dose,dosestddev):
     f=open("output.txt","a")
@@ -95,6 +100,7 @@ for v,s in zip(dose,dosestddev):
     f.write(str(f'\n{v} +- {s} uSv/h'))
     f.close()
  
+plt.show()
 #dosevalues = dosevalues*s_rate/v #picosieverts/s
 
 """
