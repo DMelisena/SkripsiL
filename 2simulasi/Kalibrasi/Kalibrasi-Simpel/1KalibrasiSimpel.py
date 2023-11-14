@@ -4,6 +4,11 @@ import matplotlib.pyplot as plt
 import openmc.stats, openmc.data
 from math import cos, atan2, pi
 
+batches = 100
+inactive = 10
+particles =10_000_000
+
+
 # Material 
 # {{{
 air=openmc.Material(name='Air')
@@ -26,14 +31,14 @@ materials = openmc.Materials([air,water])
 materials.export_to_xml()
 # }}}
 
-SSD = 10.0
-l = 10.0
-d = 5.0
-padd = 10.0
+SSD = 100.0 #Source to Skin Distance
+l = 6.0 # panjang dan lebar WP
+d = 10.0 #kedalaman WP
+padd = 10.0 #padding terhadap source dan detektor
 
 # {{{
 
-n = 100;
+n = 100
 phantom_cells = []
 dx = d/n
 for i in range(n):
@@ -84,9 +89,9 @@ plots.export_to_xml()
 # }}}
 
 # {{{
-batches = 100
-inactive = 10
-particles = 200_000
+batches= batches
+inactive = inactive 
+particles = particles
 
 particle_filter = openmc.ParticleFilter('photon')
 # energy, dose = openmc.data.dose_coefficients('photon', 'AP')
@@ -114,13 +119,27 @@ source.particle = 'photon'
 settings = openmc.Settings()
 settings.batches = batches
 settings.inactive = inactive
-settings.particles = particles
-settings.run_mode = 'fixed source'
-settings.photon_transport = True
-settings.export_to_xml()
-# }}}
 
-openmc.run()
-# {{{
-# }}}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
