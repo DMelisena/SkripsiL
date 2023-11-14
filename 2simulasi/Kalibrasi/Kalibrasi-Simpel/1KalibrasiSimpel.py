@@ -119,27 +119,3 @@ source.particle = 'photon'
 settings = openmc.Settings()
 settings.batches = batches
 settings.inactive = inactive
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
