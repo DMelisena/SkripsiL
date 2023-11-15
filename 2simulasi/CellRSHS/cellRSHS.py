@@ -390,8 +390,8 @@ source.energy = openmc.stats.Discrete([10e6],[1]) #10MeV # type: ignore
 source.particle = 'photon'
 #source.particle = 'neutron'
 settings.source = source
-settings.batches= 10000+rotationDegree
-settings.particles = 100_000
+settings.batches= 100
+settings.particles = 10_000_000
 #Asumsi 36e7 partikel pada mula, pada 600MU=600cGy/m=6Gy/m=6Sv/m=6e6uSv/m=360e6uSv/h
 #maka, apabila 
 settings.run_mode = 'fixed source'
