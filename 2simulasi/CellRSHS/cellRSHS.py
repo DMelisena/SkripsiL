@@ -73,7 +73,7 @@ materials.export_to_xml()
 
 ################################################
 print(f" Harap masukkan sudut rotasi LINAC")
-rotationDegree=input()
+rotationDegree=int(input())
 ############# Geometry ########################
 #x
 t1=openmc.XPlane(632,boundary_type='transmission')
@@ -390,7 +390,7 @@ source.energy = openmc.stats.Discrete([10e6],[1]) #10MeV # type: ignore
 source.particle = 'photon'
 #source.particle = 'neutron'
 settings.source = source
-settings.batches= 10000
+settings.batches= 10000+rotationDegree
 settings.particles = 100_000
 #Asumsi 36e7 partikel pada mula, pada 600MU=600cGy/m=6Gy/m=6Sv/m=6e6uSv/m=360e6uSv/h
 #maka, apabila 
