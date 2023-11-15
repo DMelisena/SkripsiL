@@ -1,0 +1,15 @@
+{1: Tally
+	ID             =	1
+	Name           =	Room Dose Distribution
+	Filters        =	MeshFilter, ParticleFilter, EnergyFunctionFilter
+	Nuclides       =	total
+	Scores         =	['flux']
+	Estimator      =	tracklength
+	Multiply dens. =	True, 2: Tally
+	ID             =	2
+	Name           =	wphantom
+	Filters        =	CellFilter, ParticleFilter
+	Nuclides       =	total
+	Scores         =	['flux']
+	Estimator      =	tracklength
+	Multiply dens. =	True}
