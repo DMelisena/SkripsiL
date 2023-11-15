@@ -72,7 +72,8 @@ materials=openmc.Materials([air,air2,water,soft,bpe,lead,concrete])
 materials.export_to_xml()
 
 ################################################
-
+print(f" Harap masukkan sudut rotasi LINAC")
+rotationDegree=input()
 ############# Geometry ########################
 #x
 t1=openmc.XPlane(632,boundary_type='transmission')
@@ -351,7 +352,7 @@ def sposi(d,rot):
 
 ###############################################
 #        Input (linac distance,rotation)      #
-linacuvw, linacxyz=sposi(100,270)
+linacuvw, linacxyz=sposi(100,rotationDegree)
 ###############################################
 print(linacuvw, linacxyz)
 
@@ -359,13 +360,13 @@ print(linacuvw, linacxyz)
 ###############################################
 #            Penampil Geometri                #
 ###############################################
-univ.plot(width=(2500,2700),basis='xy',color_by='material',colors=colors)
-plt.savefig('xyRSHS.png')
-univ.plot(width=(1400,1040),basis='xz',color_by='material',colors=colors)
-plt.savefig('xzRSHS.png')
-univ.plot(width=(1800,1040),basis='yz',color_by='material',colors=colors)
-plt.savefig('yzRSHS.png')
-plt.show()
+#univ.plot(width=(2500,2700),basis='xy',color_by='material',colors=colors)
+#plt.savefig('xyRSHS.png')
+#univ.plot(width=(1400,1040),basis='xz',color_by='material',colors=colors)
+#plt.savefig('xzRSHS.png')
+#univ.plot(width=(1800,1040),basis='yz',color_by='material',colors=colors)
+#plt.savefig('yzRSHS.png')
+#plt.show()
 
 
 ###############################################
@@ -431,7 +432,7 @@ particle2 = openmc.ParticleFilter('photon')
 tally2.filters = [filter_cell, particle2, dose_filter]
 tally2.scores = ['flux']
 tally.append(tally2)
-
+"""
 #Tally Water Phantom
 wphantom_cell=openmc.CellFilter(detaxcell)
 tally3=openmc.Tally(name='wphantom')
@@ -441,6 +442,6 @@ particle3= openmc.ParticleFilter('photon')
 tally3.filters=[wphantom_cell,particle3,dose_filter]  #output pSvcm3/src 
 tally3.scores = ['flux']
 tally.append(tally3)
-
+"""
 tally.export_to_xml()
 openmc.run()
