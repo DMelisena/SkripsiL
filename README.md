@@ -1,4 +1,4 @@
-Directory Guide:
+#Directory Guide:
 -Perhitungan Analitik
     - Primer
     - Sekunder
