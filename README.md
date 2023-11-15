@@ -1,36 +1,21 @@
 #Directory Guide:
--Perhitungan Analitik
+- Perhitungan Analitik
     - Primer
     - Sekunder
     - Pintu
--Simulasi OPENMC
+- Simulasi OPENMC
     - CellRSHS (Listing final deteksi rotasi linac)
-        -cellRSHSFIX.py
-        -doseplotcell.py
+        - cellRSHSFIX.py
+        - doseplotcell.py
     - Kalibrasi (600 MU/min to uSv/h pada dmax water phantom)
-        -kalibrasiSimpel
-            -1kalibrasiSimpel.py
-            -reader.py
+        - kalibrasiSimpel
+            - 1kalibrasiSimpel.py
+            - reader.py
 -   - hasilServer (Output dari running server)
         -Kalibrasi
             -reader.py
         -270deg
             -doseplotcell.py
-
-
-    (u/ mengkalibrasi partikel ke dosis)
-    (Output : Kalibrasi particle -> Sieverts)
-        - Old Callibration (Still have the water phantom and building)
-        - Kalibrasi Simpel (Only source and Water Phantom)
-        - HasilServer
-    
-    -Sudut 0
-    -Sudut 90
-    -Sudut 180
-    -Sudut 270
-
-
-
 
 # SkripsiL
 Perhitungan analitik dan openmc untuk skripsi
