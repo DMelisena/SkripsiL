@@ -2,6 +2,7 @@ import math
 from math import *
 from tabulate import tabulate
 import numpy as np
+import pandas as pd
 
 #========Beban Kerja
 pasienperhari=70
@@ -76,8 +77,8 @@ def primer(P,dsad,T):
 
 ###### Nilai Input ###################
 ######################################
-primer(brp,8.04,1)  ##################
-primer(brp,8.04,1)  ##################
+primer(brp,7.32,1)  ##################
+primer(brp,7.32,1)  ##################
 ######################################
 
 
@@ -98,3 +99,9 @@ tarray=obarray.T
 trarray=np.transpose(obarray)
 print("Data type:", trarray.dtype)
 print(tabulate(trarray,tablefmt="grid"))
+
+#================ Pencetakan Tabel pada .csv ================
+df = pd.DataFrame(trarray)
+
+# Export the DataFrame to a CSV file
+df.to_csv('hasilPrimer.csv', index=False, header=False)
