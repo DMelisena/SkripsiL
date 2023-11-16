@@ -2,7 +2,7 @@ import numpy as np
 import math
 from math import *
 from tabulate import tabulate
-
+import pandas as pd
 ##############################  Parameter Awal  ##################################
 #========Beban Kerja==============================================================
 pasienperhari=70
@@ -216,3 +216,9 @@ print(tabulate(trarray,tablefmt="grid"))
 #================ Pencetakan Tabel pada .txt ================
 with open("SekunderLatex.txt", "a") as file:
     file.write(tabulate(trarray,tablefmt="grid"))
+
+#================ Pencetakan Tabel pada .csv ================
+df = pd.DataFrame(trarray)
+
+# Export the DataFrame to a CSV file
+df.to_csv('hasilSekunder.csv', index=False, header=False)
