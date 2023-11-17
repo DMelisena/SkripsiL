@@ -4,9 +4,9 @@ import matplotlib.pyplot as plt
 import openmc.stats, openmc.data
 from math import cos, atan2, pi
 
-batches = 100
+batches = 10
 inactive = 10
-particles =10_000_000
+particles = int(input('Enter number of particle (It was 1e8)\n= ')) #1_000_000_000
 
 
 # Material 
