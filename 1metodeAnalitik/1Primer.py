@@ -39,6 +39,11 @@ arrin=["Inst n"]
 arrish=["inst \nShield"]
 
 
+
+def rounde(unrounded):
+    roundede="{:.4e}".format(unrounded)
+    return roundede
+
 def WeekDR( P , dsad , T ): #W dan U dah ada, dsad ini di ncrp dpri, jarak dari xray target ke titik perlindungan, kok rasanya beda ama dsad yang kuitung ya?
     arrdsad.append(dsad)
     b=(P * dsad **2 ) / (W *U *T )
@@ -51,9 +56,9 @@ def WeekDR( P , dsad , T ): #W dan U dah ada, dsad ini di ncrp dpri, jarak dari 
     shhvl=sh+2*HVL
     arrwshvl.append("%.5f"%shhvl)
     print("==================================================================")
-    print("$$B_{pri}=\\frac{",P," \\times",dsad,"^{2}}{",W,"\\times",U,"\\times",T,"} =",b,"$$")
-    print("$$n=-log(",b,")=",n,"$$")
-    print ("$$t_{barrier}=(",TVL1,"+(",n,"-1)\\times",TVLe,"=",sh,"$$")
+    print("$$B_{pri}=\\frac{",P," \\times",dsad,"^{2}}{",W,"\\times",U,"\\times",T,"} =",rounde(b),"$$")
+    print("$$n=-log(",rounde(b),")=",rounde(n),"$$")
+    print ("$$t_{barrier}=(",TVL1,"+(",rounde(n),"-1)\\times",TVLe,"=",rounde(sh),"$$")
     return sh
 
 
@@ -66,11 +71,10 @@ def InstDR(P,dsad):
     sh =TVL1+(TVLe*(n-1)) 
     arrish.append("%.5f"%sh)
     print("==================================================================")
-    print("$$B_{IDR}=\\frac {",P,"(",dsad,"^{2})}{",DR,"}=",b,"$$") #tinggal dihapus jarak \ dan f jadi langsung latex, formatting issues
-    print("$$n=-log(",b,")=",n,"$$")
-    print ("$$t_{barrier}=(",TVL1,"+(",n,"-1)\\times",TVLe,"=",sh,"$$")
+    print("$$B_{IDR}=\\frac {",P,"(",dsad,"^{2})}{",DR,"}=",rounde(b),"$$") #tinggal dihapus jarak \ dan f jadi langsung latex, formatting issues
+    print("$$n=-log(",rounde(b),")=",rounde(n),"$$")
+    print ("$$t_{barrier}=(",TVL1,"+(",rounde(n),"-1)\\times",TVLe,"=",rounde(sh),"$$")
     return sh
-
 def primer(P,dsad,T):
     WeekDR(P,dsad,T)
     InstDR(P,dsad)
