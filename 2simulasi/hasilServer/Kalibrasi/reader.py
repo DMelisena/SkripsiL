@@ -15,7 +15,7 @@ datay = tal.mean
 datax = np.linspace(0,d,n)
 datay.shape = (n,)
 # smooth datay
-datay = np.convolve(datay, np.ones(10)/10, mode='same')
+#datay = np.convolve(datay, np.ones(10)/10, mode='same')
 # find the index of the maximum value in datay
 max_index = np.argmax(datay)
 x_max = datax[max_index]
