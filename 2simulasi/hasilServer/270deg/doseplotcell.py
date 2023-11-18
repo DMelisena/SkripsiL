@@ -26,7 +26,8 @@ dosevalues.shape=(x,y)
 #dosevalues = dosevalues*s_rate/v #pSv/s = (pSv*cm3/src) *src/s /cm3
 #dose=(dosevalues/1_000_000)*3600 #pSv/s -> uSv/hour
 #k=116499529.9817541
-k=124276037.76335144
+k=124276037.76335144 #On smoothen graph, the dose goes even smaller
+#k = 104574651.0579673
 
 dose = dosevalues*k/v
 fig, ax = plt.subplots()
@@ -67,7 +68,7 @@ dosestddev=celldosestddev*k/vcell
 #dose=k*celldosevalues*600/vcell
 #dosestddev = (k*celldosevalues*600/vcell) *(1e6/3600) 
 
-
+print(f"k={k}")
 print(dose)
 for v,s in zip(dose,dosestddev):
     f=open("output.txt","a")
