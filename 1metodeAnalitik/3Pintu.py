@@ -13,6 +13,10 @@ U=0.33
 
 txtwrite=open("Hasil3AnalitikPintu.txt","w")
 
+def rounde(unrounded):
+    roundede="{:.4e}".format(unrounded)
+    return roundede
+
 ###############################################################
 ####### 1 Dosis Ekivalen Total scatter dan leakage ############
 ###############################################################
@@ -22,7 +26,7 @@ a0= 0.0021#Koefisien refleksi pada hamburan pertama, berdasarkan NCRP 151 tabel 
 az= 0.0080#refleksi pada refleksi kedua dari permukaan Az
 FA0= 0.4*0.4
 #Dengan jarak pasien ke primer sejarak 3.24 meter, dan luas field radiasi senilai 0.4*0.4
-#maka nilai 3.24 dikalikan jarak kuadrat. Ini adalah 
+#maka nilai 3.24 dikalikan :jarak kuadrat. Ini adalah 
 #A0=FA0*((3.24**2)) #Metode ini salah #Field size maksimum yang terproyeksi pada dinding A0(m2)
 A0= (0.4*(1+3.24))**2
 print("Nilai A0 =",A0)
@@ -33,8 +37,8 @@ dz=7.105-2.350 #Panjang labirin ke pintu (m)
 ##############################################################################################################################
 
 HS=(W*U*a0*A0*az*Az)/((dH*dr*dz)**2) 
-print("$$H_{S}=\\frac{",W,"\\times",U,"\\times", a0,"\\times","%.5f"%A0,"\\times",az,"\\times",Az,"}{(",dH,"\\times",dr,"\\times","%.5f"%dz,")^{2}}=",HS,"$$")
-hsres = f"$$H_{{S}}=\\frac{{{W}\\times{U}\\times{a0}\\times{A0:.5f}\\times{az}\\times{Az}}}{{({dH}\\times{dr}\\times{dz:.5f})^{{2}}}}={HS}$$"
+print("$$H_{S}=\\frac{",W,"\\cdot",U,"\\cdot", a0,"\\cdot","%.5f"%A0,"\\cdot",az,"\\cdot",Az,"}{(",dH,"\\cdot",dr,"\\cdot","%.5f"%dz,")^{2}}=",HS,"$$")
+hsres = f"$$H_{{S}}=\\frac{{{W}\\cdot{U}\\cdot{a0}\\cdot{A0:.5f}\\cdot{az}\\cdot{Az}}}{{({dH}\\cdot{dr}\\cdot{dz:.5f})^{{2}}}}={HS}$$"
 with open("Hasil3AnalitikPintu.txt","a") as file:
     file.write(hsres)
 
@@ -72,13 +76,13 @@ a1= 0.022#Koefisien refleksi dinding beton untuk hamburan pasien pada sudut 45°
 ##############################################################################################################################
 
 HPS = (a*W*U*(F/400)*a1*A1)/((dsca*dsec*dzz)**2)
-print(r"$$H_{ps}=\frac{",a,r"\times",W,r"\times",U,r"\times","(",F,"/400)",r"\times",a1,r"\times",A1,"}{(",dsca,r"\times",dsec,r"\times",dzz,")^{2}}=",HPS,"$$")
+print(r"$$H_{ps}=\frac{",a,r"\cdot",W,r"\cdot",U,r"\cdot","(",F,"/400)",r"\cdot",a1,r"\cdot",A1,"}{(",dsca,r"\cdot",dsec,r"\cdot",dzz,")^{2}}=",HPS,"$$")
 #print("HPS = ",HPS)
 
 ################ 1.c Kebocoran head dan dihamburkan oleh dinding
 
 HLS = (0.001*W*U*a1*A1)/((dsec*dzz)**2)
-print(r"$$H_{LS}=\frac{",0.001,r"\times",W,r"\times",U,r"\times",a1,r"\times",A1,"}{(",dsec,r"\times",dzz,")^{2}}=",HLS,"$$")
+print(r"$$H_{LS}=\frac{",0.001,r"\cdot",W,r"\cdot",U,r"\cdot",a1,r"\cdot",A1,"}{(",dsec,r"\cdot",dzz,")^{2}}=",HLS,"$$")
 #print("HLS = ",HLS)
 
 ################ 1.d Transmisi Radiasi bocor melalui dinding labirin
@@ -90,12 +94,12 @@ dl = r3#jarak dari sumber ke pintu masuk (m)
 ###############################################################
 
 HLT = (0.001*W*U*B)/(dl**2)
-print(r"$$H_{LT}=\frac{",0.001,r"\times",W,r"\times",U,r"\times",B,r"}{",dl,"^{2}}=",HLT,"$$")
+print(r"$$H_{LT}=\frac{",0.001,r"\cdot",W,r"\cdot",U,r"\cdot",B,r"}{",dl,"^{2}}=",HLT,"$$")
 
 ########################################
 Htot = 2.64*(HLT+HLS+HPS+(0.28*(HS)))###
 #print("Htot = ",Htot)###################
-print(r"$$H_{tot}=2.64\times((",HS,r"\times","0.28)+",HLS,"+",HPS,"+",HLT,")=",Htot,"$$")
+print(r"$$H_{tot}=2.64\cdot((",HS,r"\cdot","0.28)+",HLS,"+",HPS,"+",HLT,")=",Htot,"$$")
 
 ##########################################################################
 ####### 2 Dosis Ekivalen total dari Neutron Capture Gamma Rays ###########
@@ -126,22 +130,23 @@ sr=LDatas+LDS #Total luas permukaan dalam bunker, MINTOL SIAPA KEK, UDAH KEITUNG
 
 ################ 2.a Fluens Neutron ##########################
 b=1
+print("2a Fluens Neutron")
 ya=((b*qn)/(4*pi*d1*d1))+((5.4*b*qn)/(2*pi*sr))+((1.3*qn)/(2*pi*sr))
-print(r"$$\varphi_{A}=\frac{",b,r"\times",qn,r"}{4 \times \pi",d1,r"^{2}} \frac{5.4",b,r"\times",qn,"}{2\pi",r"\times",sr,r"} \frac{1.3 \times",qn,"}{2\pi",sr,"}=",ya,"$$")
+print(r"$$\varphi_{A}=\frac{",b,r"\cdot",qn,r"}{4 \cdot \pi",d1,r"^{2}} \frac{5.4",b,r"\cdot",qn,"}{2\pi",r"\cdot",sr,r"} \frac{1.3 \cdot",qn,"}{2\pi",sr,"}=",ya,"$$")
 #print("ya =",ya)
 
 ################ 2.b gamma capure di tiap beban kerja ########
-
+print("2b Gamma Capture di tiap beban kerja")
 TVD = 3 #(Tenth-Value Distance) jarak yang dibutuhkan untuk mereduksi
 #photon fluence menjadi 1/10 kali semula (bernilai 3 untuk 10 MV)
 d2 = 8.605-1.500-(2.350/2)#Jarak dari tengah labirin ke pintu (m)
 K=6.9*10**(-16)#Nilai berdasarkan pengukuran : 6.9 * 10e-16 Sv m2 (NCRP report no. 151)
 hy=K*ya*(10**(-d2/TVD)) #Dosis ekivalen hasil tangkapan gamma oleh Neutron (Sv/Gy)
-print(r"$$h_{\varphi}=",K,r"\times",ya,r"\times(10^{-(\frac{",d2,"}{",TVD,"})}=",hy,"$$")
+print(r"$$h_{\varphi}=",K,r"\cdot",ya,r"\cdot(10^{-(\frac{",d2,"}{",TVD,"})}=",hy,"$$")
 #print("hy =",hy)
 ################ 2.c Laju dosis neutron capture gamma rays####
 hcg=W*hy #hcg= #Perhitungan LAju Dosis Neutron Capture Gamma Rays
-print("$$H_{cg}=",W,r"\times",hy,"=",hcg,"$$")
+print("$$H_{cg}=",W,r"\cdot",hy,"=",hcg,"$$")
 #print ("hcg =", hcg)
 
 ##########################################################################
@@ -155,16 +160,17 @@ s1=2.350*4.270
 TVD= 2.06*sqrt(s1) #ini maksudnya udaranya kan ya? atau tvd dari timbal?
 
 ################ 3.a Laju Dosis neutron di setiap beban kerja #
-
+print('3a Laju Dosis neutron di setiap beban kerja')
 #s0/s1 = #Rasio luas penampang pintu masuk labirin dalam dengan luas penampang sepanjang labirin
 #TVD= Tenth Value Dose
 hnd1=2.4*10e-15*ya*sqrt(S0/S1)*(1.64*10**(-d2/1.9)+(10**-(d2/TVD)))#laju dosis neutron di setiap beban kerja
 print("hnd = ",hnd1)
-print(r"$$H_{n,D}=2.4 \times 10^{-15}",ya,r"\sqrt{\frac{",S0,"}{",S1,r"}}\begin{bmatrix}1.64 \times 10^{-\frac{",-d2,r"}{1.9}}+10^{-(\frac{",d2,"}{",TVD,"})}\end{bmatrix}=",hnd1,"$$")
+print(r"$$H_{n,D}=2.4 \cdot 10^{-15}",ya,r"\sqrt{\frac{",S0,"}{",S1,r"}}\begin{bmatrix}1.64 \cdot 10^{-\frac{",-d2,r"}{1.9}}+10^{-(\frac{",d2,"}{",TVD,"})}\end{bmatrix}=",hnd1,"$$")
 
 ################ 3.b Laju Dosis neutron #######################
+print("3b laju dosis neutron")
 hn=W*hnd1 #Perhitungan laju dosis neutron
-print("$$H_{n}=",W,r"\times",hnd1,"=",hn,"$$")
+print("$$H_{n}=",W,r"\cdot",hnd1,"=",hn,"$$")
 print("hn=",hn)
 
 ##########################################################################
@@ -184,7 +190,7 @@ print(r"$$n_{BPE}=log\frac{",hn1,"}{",P,"}=",nbpe,"$$")
 print("nbpe = ",nbpe)
 TVLbpe = 0.45
 xbpe=nbpe*TVLbpe
-print ("$$x_{bpe}=",nbpe,r"\times",TVLbpe,"=",xbpe,"$$")
+print ("$$x_{bpe}=",nbpe,r"\cdot",TVLbpe,"=",xbpe,"$$")
 print ("xbpe",xbpe)
 
 ##################### Perhitunggan Ketebalan Pb ##########################
@@ -198,5 +204,5 @@ print(r"$$n_{BPE}=log\frac{",Hy1,"}{",P,"}=",nhy,"$$")
 print("nhy = ",nhy)
 tvlpb=0.06
 xpb=nhy*tvlpb
-print ("$$x_{bpe}=",nbpe,r"\times",tvlpb,"=",xpb,"$$")
+print ("$$x_{bpe}=",nbpe,r"\cdot",tvlpb,"=",xpb,"$$")
 print("xpb = ",xpb)
