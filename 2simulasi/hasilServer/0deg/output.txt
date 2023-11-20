@@ -1,0 +1,28 @@
+{1: Tally
+	ID             =	1
+	Name           =	Room Dose Distribution
+	Filters        =	MeshFilter, ParticleFilter, EnergyFunctionFilter
+	Nuclides       =	total
+	Scores         =	['flux']
+	Estimator      =	tracklength, 2: Tally
+	ID             =	2
+	Name           =	flux
+	Filters        =	CellFilter, ParticleFilter, EnergyFunctionFilter
+	Nuclides       =	total
+	Scores         =	['flux']
+	Estimator      =	tracklength}
+281.7334139611854 +- 132.30947312306958 uSv/h
+364.1197753565369 +- 160.2509956280286 uSv/h
+1831.500984373911 +- 730.8134626452976 uSv/h
+1477.0786596732603 +- 570.5758147323811 uSv/h
+1991.0322595888617 +- 678.0855971099002 uSv/h
+3500.2358760452885 +- 786.3934336994024 uSv/h
+1591.9464858552544 +- 494.54670061715484 uSv/h
+926.6051116731801 +- 369.15648769030696 uSv/h
+3354.1122077597383 +- 809.2588755414157 uSv/h
+2628.596847001699 +- 699.2382721381555 uSv/h
+5305.6431648579855 +- 1246.9857169060103 uSv/h
+8260.806524083197 +- 1241.6814363206042 uSv/h
+0.0 +- 0.0 uSv/h
+0.0 +- 0.0 uSv/h
+0.0 +- 0.0 uSv/h
