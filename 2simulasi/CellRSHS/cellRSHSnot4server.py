@@ -2,6 +2,8 @@ import openmc
 import matplotlib.pyplot as plt
 from math import * #type: ignore
 
+particle=int(input('Particle number (\'twas 1e7)\n= '))
+
 air=openmc.Material(name='Air')
 air.set_density('g/cm3',0.001205)
 air.add_nuclide('N14',0.7)
@@ -72,8 +74,7 @@ materials=openmc.Materials([air,air2,water,soft,bpe,lead,concrete])
 materials.export_to_xml()
 
 ################################################
-print(f" Harap masukkan sudut rotasi LINAC")
-rotationDegree=int(input())
+rotationDegree=int(input("Harap masukkan sudut rotasi LINAC\n= "))
 ############# Geometry ########################
 #x
 t1=openmc.XPlane(632,boundary_type='transmission')
@@ -360,14 +361,17 @@ print(linacuvw, linacxyz)
 ###############################################
 #            Penampil Geometri                #
 ###############################################
+plt.rcParams.update({'font.size': 5})
 univ.plot(width=(2500,2700),basis='xy',color_by='material',colors=colors)
-plt.savefig('xyRSHS.png')
-univ.plot(width=(1400,1040),basis='xz',color_by='material',colors=colors)
-plt.savefig('xzRSHS.png')
-univ.plot(width=(1800,1040),basis='yz',color_by='material',colors=colors)
-plt.savefig('yzRSHS.png')
+plt.savefig('xyRSHS.png',dpi=500, bbox_inches='tight')
 plt.show()
-
+univ.plot(width=(1400,1040),basis='xz',color_by='material',colors=colors)
+plt.savefig('xzRSHS.png',dpi=500, bbox_inches='tight')
+plt.show()
+univ.plot(width=(1800,1040),basis='yz',color_by='material',colors=colors)
+plt.savefig('yzRSHS.png',dpi=500, bbox_inches='tight')
+plt.show()
+#Tidak terdapat library matplotlib pada server, sehingga  penampil geometri harus dimatikan untuk running server
 
 ###############################################
 #                 Setting                     #
@@ -391,7 +395,7 @@ source.particle = 'photon'
 #source.particle = 'neutron'
 settings.source = source
 settings.batches= 100
-settings.particles = 10_000_000
+settings.particles = particle
 #Asumsi 36e7 partikel pada mula, pada 600MU=600cGy/m=6Gy/m=6Sv/m=6e6uSv/m=360e6uSv/h
 #maka, apabila 
 settings.run_mode = 'fixed source'
@@ -432,6 +436,18 @@ particle2 = openmc.ParticleFilter('photon')
 tally2.filters = [filter_cell, particle2, dose_filter]
 tally2.scores = ['flux']
 tally.append(tally2)
+
+
+energy2, dose2 = openmc.data.dose_coefficients('neutron', 'AP') #Data konve # type: ignore
+dose_filter = openmc.EnergyFunctionFilter(energy2, dose2) #konvert partikel energi tertentu ke deskripsi icrp116 partikelcm/src->pSvcm3/srcwphantom_cell,particle3,dose_filter
+particle3=openmc.ParticleFilter('neutron')
+neutroncell = openmc.CellFilter((detb1cell,detb2cell,detb3cell))
+tally3= openmc.Tally(name='neutron')
+tally3.filters=[neutroncell,particle3,dose_filter]
+tally3.scores=['flux']
+tally.append(tally3)
+
+
 """
 #Tally Water Phantom
 wphantom_cell=openmc.CellFilter(detaxcell)
