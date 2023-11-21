@@ -336,7 +336,7 @@ colors= {}
 colors[lead]='black'
 colors[bpe]='lightblue'
 colors[concrete]='grey'
-colors[air]='green'
+colors[air]='white'
 colors[air2]='blue'
 
 ###############################################
@@ -364,14 +364,20 @@ print(linacuvw, linacxyz)
 plt.rcParams.update({'font.size': 5})
 univ.plot(width=(2500,2700),basis='xy',color_by='material',colors=colors)
 plt.savefig('xyRSHS.png',dpi=500, bbox_inches='tight')
-plt.show()
+#plt.show()
 univ.plot(width=(1400,1040),basis='xz',color_by='material',colors=colors)
 plt.savefig('xzRSHS.png',dpi=500, bbox_inches='tight')
-plt.show()
+#plt.show()
 univ.plot(width=(1800,1040),basis='yz',color_by='material',colors=colors)
 plt.savefig('yzRSHS.png',dpi=500, bbox_inches='tight')
-plt.show()
+#plt.show()
 #Tidak terdapat library matplotlib pada server, sehingga  penampil geometri harus dimatikan untuk running server
+###############################################
+#                 Plot Grid                   #
+###############################################
+#ax.set_title('Distribusi Dosis Ruangan (uSv/hour)') #type: ignore
+univ.plot(width=(2000,2000),basis='xy',color_by='material',colors=colors)
+plt.savefig('DoseDistributionMap.png',dpi=500, bbox_inches='tight')
 
 ###############################################
 #                 Setting                     #
