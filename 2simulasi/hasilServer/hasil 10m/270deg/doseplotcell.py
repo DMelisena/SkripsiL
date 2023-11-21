@@ -33,8 +33,9 @@ dose = dosevalues*k/v
 fig, ax = plt.subplots()
 cs = ax.imshow(dose, cmap='coolwarm', norm=LogNorm()) # type: ignore
 cb = plt.colorbar(cs)
-ax.set_title('Distribusi Dosis Ruangan (uSv/hour)') #type: ignore
-plt.savefig('RoomDoseDistribution.png',dpi=900 )
+plt.rcParams.update({'font.size': 5})
+#ax.set_title('Distribusi Dosis Ruangan (uSv/hour)') #type: ignore
+plt.savefig('RoomDoseDistribution.png',dpi=500, bbox_inches='tight')
 plt.axis('off')
 
 #################################################################
@@ -72,10 +73,15 @@ print(f"k={k}")
 print(dose)
 for v,s in zip(dose,dosestddev):
     f=open("output.txt","a")
-    print(f'{v:.7e} +- {s:.7e}uSv/h')
-    f.write(str(f'\n{v} +- {s} uSv/h'))
+    print(f'{v:.4e} +- {s:.7e}uSv/h')
+    # f.write(str(f'\n{v} +- {s} uSv/h'))
+    f.write(str(f'\n{v:.7f}'))
     f.close()
  
+
+def rounde(unrounded):
+    roundede="{:.4e}".format(unrounded)
+    return roundede
 plt.show()
 #dosevalues = dosevalues*s_rate/v #picosieverts/s
 
