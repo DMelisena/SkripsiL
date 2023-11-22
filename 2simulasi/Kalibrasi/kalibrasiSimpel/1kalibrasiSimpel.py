@@ -4,9 +4,7 @@ import matplotlib.pyplot as plt
 import openmc.stats, openmc.data
 from math import cos, atan2, pi
 
-batches = 10
 inactive = 10
-particles = int(input('Enter number of particle (It was 1e8)\n= ')) #1_000_000_000
 
 
 # Material 
@@ -32,14 +30,14 @@ materials.export_to_xml()
 # }}}
 
 SSD = 100.0 #Source to Skin Distance
-l = 10 
-ld= 6# panjang dan lebar WP
-d = 10.0 #kedalaman WP
+l = 15 
+ld= 10# panjang dan lebar WP
+d = 15.0 #kedalaman WP
 padd = 10.0 #padding terhadap source dan detektor
 
 # {{{
 
-n = 1000
+n = 1000_000
 phantom_cells = []
 dx = d/n
 for i in range(n):
@@ -68,12 +66,25 @@ r_air = r_x_air & r_y_air & r_z_air
 c_air = openmc.Cell(region=r_air & ~r_phantom)
 c_air.fill = air
 
-universe = openmc.Universe(cells=[c_air]+phantom_cells)
-geometry = openmc.Geometry()
-geometry.root_universe = universe
+univ = openmc.Universe(cells=[c_air]+phantom_cells)
+geometry = openmc.Geometry(univ)
+geometry.root_universe = univ
 geometry.export_to_xml()
 # }}}
 
+colors={}
+colors[air]='lightblue'
+colors[water]='blue'
+
+univ.plot(width=(300,300),basis='xy',color_by='material',colors=colors)
+plt.savefig('xyCall.png')
+plt.show()
+univ.plot(width=(300,300),basis='yz',color_by='material',colors=colors)
+plt.savefig('yzCall.png')
+plt.show()
+univ.plot(width=(300,300),basis='xz',color_by='material',colors=colors)
+plt.savefig('xzCall.png')
+plt.show()
 # {{{
 
 height = 300
@@ -99,14 +110,6 @@ particle_filter = openmc.ParticleFilter('photon')
 energy, dose = openmc.data.dose_coefficients('photon', 'RLAT')
 dose_filter = openmc.EnergyFunctionFilter(energy, dose) 
 
-tallies_file = openmc.Tallies()
-cell_filter = openmc.CellFilter(phantom_cells)
-tally = openmc.Tally(name='tally')
-tally.filters = [cell_filter, particle_filter, dose_filter]
-tally.scores = ['flux']
-tallies_file.append(tally)
-tallies_file.export_to_xml()
-
 source = openmc.Source() #type: ignore
 source.space = openmc.stats.Point((0,0,0))
 phi = openmc.stats.Uniform(0, 2*pi)
@@ -115,6 +118,27 @@ mu  = openmc.stats.Uniform(cos(atan2(40/2, SSD)), 1)
 source.angle = openmc.stats.PolarAzimuthal(mu,phi,reference_uvw=(1,0,0))
 source.energy = openmc.stats.Discrete([10e6],[1]) #10MeV
 source.particle = 'photon'
+
+tallies_file = openmc.Tallies()
+cell_filter = openmc.CellFilter(phantom_cells)
+
+tally = openmc.Tally(name='tally')
+tally.filters = [cell_filter, particle_filter, dose_filter]
+tally.scores = ['flux']
+tallies_file.append(tally)
+tallies_file.export_to_xml()
+
+mesh=openmc.RegularMesh()
+mesh.dimension=[500,500]
+xlen = 200;ylen=200
+mesh.lower_left = [-xlen/2, -ylen/2, -zlen/2]
+mesh.upper_right = [xlen/2, ylen/2, zlen/2]
+mesh_filter = openmc.MeshFilter(mesh)
+
+tally2=openmc.Tally(name='Room Dose Distribution')
+tally2.scores=['flux']
+particle2=openmc.ParticleFilter('photon')
+tally2.filters=[mesh_filter,particle2,dose_filter]
 
 
 settings = openmc.Settings()
