@@ -248,8 +248,8 @@ deas=openmc.XPlane(-25.0,boundary_type='transmission')
 deat=openmc.YPlane(25.0,boundary_type='transmission')
 deab=openmc.YPlane(-25.0,boundary_type='transmission')
 
-dea1=openmc.ZPlane(300.0+30.0,boundary_type='transmission') #1250 ATO 2500???
-dea1t=openmc.ZPlane(300.0+30.0+10.8,boundary_type='transmission') #1250 ATO 2500???
+dea1=openmc.ZPlane(300.0+50.0,boundary_type='transmission') #1250 ATO 2500???
+dea1t=openmc.ZPlane(300.0+50.0+10.8,boundary_type='transmission') #1250 ATO 2500???
 dea2=openmc.ZPlane(300.0+100.0,boundary_type='transmission')
 dea2t=openmc.ZPlane(300.0+100.0+10.8,boundary_type='transmission')
 dea3=openmc.ZPlane(300.0+200.0,boundary_type='transmission') 
