@@ -75,7 +75,7 @@ geometry.export_to_xml()
 colors={}
 colors[air]='lightblue'
 colors[water]='blue'
-
+"""
 univ.plot(width=(300,300),basis='xy',color_by='material',colors=colors)
 plt.savefig('xyCall.png')
 plt.show()
@@ -85,6 +85,7 @@ plt.show()
 univ.plot(width=(300,300),basis='xz',color_by='material',colors=colors)
 plt.savefig('xzCall.png')
 plt.show()
+"""
 # {{{
 
 height = 300
