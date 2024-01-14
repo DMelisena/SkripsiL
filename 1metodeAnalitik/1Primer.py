@@ -10,8 +10,8 @@ gyperpasien=4
 hariperminggu=5
 
 #======== Variabel Asumsi Konstan
-W=hariperminggu*gyperpasien*pasienperhari #dalam Sv
-print("W = ",W)
+W1=hariperminggu*gyperpasien*pasienperhari #dalam Sv
+print("W = ",W1)
 U=0.33 #karena dipakai 8 jam/24 jam??
 #Tf=1
 
@@ -44,7 +44,7 @@ def rounde(unrounded):
     roundede="{:.4e}".format(unrounded)
     return roundede
 
-def WeekDR( P , dsad , T ): #W dan U dah ada, dsad ini di ncrp dpri, jarak dari xray target ke titik perlindungan, kok rasanya beda ama dsad yang kuitung ya?
+def WeekDR( W , P , dsad , T ): #W dan U dah ada, dsad ini di ncrp dpri, jarak dari xray target ke titik perlindungan, kok rasanya beda ama dsad yang kuitung ya?
     arrdsad.append(dsad)
     b=(P * dsad **2 ) / (W *U *T )
     arrwb.append("%.5f"%b)
@@ -75,14 +75,15 @@ def InstDR(P,dsad):
     print("$$n=-log(",rounde(b),")=",rounde(n),"$$")
     print ("$$t_{barrier}=(",TVL1,"+(",rounde(n),"-1)\\times",TVLe,"=",rounde(sh),"$$")
     return sh
-def primer(P,dsad,T):
-    WeekDR(P,dsad,T)
+def primer(W, P,dsad,T):
+    WeekDR(W, P,dsad,T)
     InstDR(P,dsad)
 
 ###### Nilai Input ###################
 ######################################
-primer(brp,7.32,1)  ##################
-primer(brp,7.32,1)  ##################
+primer(1400,brp,7.32,1)  ##################
+primer(1400,brp,7.32,1)  ##################
+primer(3488,brp,7.62,0.5)
 ######################################
 
 
@@ -97,6 +98,7 @@ array.append(arrib)
 array.append(arrin)
 array.append(arrish)
 
+
 nparray=np.array(array)
 obarray=np.array(nparray,dtype=object)
 tarray=obarray.T
@@ -104,8 +106,49 @@ trarray=np.transpose(obarray)
 print("Data type:", trarray.dtype)
 print(tabulate(trarray,tablefmt="grid"))
 
+darrw=["W \nGy/week"] #dose array Workload
+darrdsad=["dsad \nmeter"] #dose array length from center to detection point
+darrsl=['Shield Length \n(meter)'] #shield length
+darrtvl=['TVL \nmeter'] #Tenth Value Length
+darrwhol=["Dose on length \nuSv/h"] #dose array workload per hour
+darrwh=['W hourly \n uSv/h']
+darrdoseop=['Dose After Shield\nuSv/h']
+darrn=['n']
+#sl=shieldLength
+def lajudosis(W,dsad,sl,TVL):
+    darrw.append(W)
+    darrdsad.append(dsad)
+    darrsl.append(sl)
+    darrtvl.append(TVL)
+    darrwh.append(W*1000000/40)
+    darrwhol.append(W*1000000/40/(dsad**2))
+    darrn.append(sl/TVL)
+    darrdoseop.append(W*1000000/40/(dsad**2)*(10**-(sl/TVL)))
+
+
+darray=[]
+darray.append(darrw)
+darray.append(darrwh)
+darray.append(darrdsad)
+darray.append(darrwhol)
+darray.append(darrsl)
+darray.append(darrtvl)
+darray.append(darrn)
+darray.append(darrdoseop)
+
+lajudosis(3488,7.32,3.08,0.389)
+
+npdarray=np.array(darray)
+obdarray=np.array(npdarray,dtype=object)
+tdarray=obdarray.T
+trdarray=np.transpose(obdarray)
+print("Data type:", trdarray.dtype)
+print(tabulate(trdarray,tablefmt="grid"))
 #================ Pencetakan Tabel pada .csv ================
-df = pd.DataFrame(trarray)
+df = pd.DataFrame(trdarray)
 
 # Export the DataFrame to a CSV file
 df.to_csv('hasilPrimer.csv', index=False, header=False)
+
+P1=0.0002*(10**4.7)
+print(f'ekspektasi dosis = {P1}')
