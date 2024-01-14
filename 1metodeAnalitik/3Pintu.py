@@ -8,7 +8,9 @@ gyperpasien=2
 hariperminggu=5
 
 #======== Variabel Asumsi Konstan
-W=hariperminggu*gyperpasien*pasienperhari
+# W=hariperminggu*gyperpasien*pasienperhari
+W=1744
+
 U=0.33
 
 txtwrite=open("Hasil3AnalitikPintu.txt","w")
@@ -100,6 +102,7 @@ print(r"$$H_{LT}=\frac{",0.001,r"\cdot",W,r"\cdot",U,r"\cdot",B,r"}{",dl,"^{2}}=
 Htot = 2.64*(HLT+HLS+HPS+(0.28*(HS)))###
 #print("Htot = ",Htot)###################
 print(r"$$H_{tot}=2.64\cdot((",HS,r"\cdot","0.28)+",HLS,"+",HPS,"+",HLT,")=",Htot,"$$")
+print("\n\n\n")
 
 ##########################################################################
 ####### 2 Dosis Ekivalen total dari Neutron Capture Gamma Rays ###########
@@ -116,16 +119,21 @@ r2=sqrt(x2**2+y2**2)
 d1=r2
 #d1 = #Jarak dari isocenter ke garis tengah labirin di pintu dengan arah sinar mengenai pinggir labirin
 ######################################################################
-LD1=1850*(8605-1500)
-LD2=125*2350
-LD3=2500*(6480+765+765)
-LD4=3800*6480
-LD5=1850*(6480+765+765)
-LDatas=(LD1+LD2+LD3+LD4+LD5)*2
-LDS=4270*(8605-1500+1850+125+2500+765+3800+765+1850+765+1850+6480
-          +765+1850+765+3800+765+2500+(2505+8605-1500-2350-1550)+125+11110-1500-2509+1850)
-sr=LDatas+LDS #Total luas permukaan dalam bunker, MINTOL SIAPA KEK, UDAH KEITUNG DI KERTAS
+# LD1=1850*(8605-1500)
+# LD2=125*2350
+# LD3=2500*(6480+765+765)
+# LD4=3800*6480
+# LD5=1850*(6480+765+765)
+# LDatas=(LD1+LD2+LD3+LD4+LD5)*2
+# LDS=4270*(8605-1500+1850+125+2500+765+3800+765+1850+765+1850+6480
+#           +765+1850+765+3800+765+2500+(2505+8605-1500-2350-1550)+125+11110-1500-2509+1850)
+# sr=LDatas+LDS #Total luas permukaan dalam bunker, MINTOL SIAPA KEK, UDAH KEITUNG DI KERTAS
 ######################################################################
+dl1=6.48
+dw1=8.2
+h=3.1
+sr=2*((dl1*dw1)+(dl1*h)+(h*dw1))
+print(r"$$S_{r}=2(d_{l}\times d_{w}+ d_{w}\times h+d_{l}\times h)")
 
 
 ################ 2.a Fluens Neutron ##########################
