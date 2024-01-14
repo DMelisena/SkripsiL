@@ -114,16 +114,32 @@ darrwhol=["Dose on length \nuSv/h"] #dose array workload per hour
 darrwh=['W hourly \n uSv/h']
 darrdoseop=['Dose After Shield\nuSv/h']
 darrn=['n']
+darrdoseop30=['on 30 cm']
+darrdoseop50=['on 50 cm']
+darrdoseop100=['on 100 cm']
+darrdoseop200=['on 200 cm']
 #sl=shieldLength
 def lajudosis(W,dsad,sl,TVL):
     darrw.append(W)
     darrdsad.append(dsad)
     darrsl.append(sl)
     darrtvl.append(TVL)
-    darrwh.append(W*1000000/40)
-    darrwhol.append(W*1000000/40/(dsad**2))
-    darrn.append(sl/TVL)
-    darrdoseop.append(W*1000000/40/(dsad**2)*(10**-(sl/TVL)))
+    wh=W*1000000/40
+    darrwh.append(wh)
+    whol=wh/(dsad**2)
+    darrwhol.append(whol)
+    n1=sl/TVL
+    darrn.append("%.5f"%n1)
+    doseop=wh*(10**-(sl/TVL))
+    darrdoseop.append(doseop)
+    doseop30=doseop*((dsad**2)/((dsad+0.3)**2))
+    darrdoseop30.append(doseop30)
+    doseop50=doseop*((dsad**2)/((dsad+0.5)**2))
+    darrdoseop50.append(doseop50)
+    doseop100=doseop*((dsad**2)/((dsad+1)**2))
+    darrdoseop100.append(doseop100)
+    doseop200=doseop*((dsad**2)/((dsad+2)**2))
+    darrdoseop200.append(doseop200)
 
 
 darray=[]
@@ -135,8 +151,13 @@ darray.append(darrsl)
 darray.append(darrtvl)
 darray.append(darrn)
 darray.append(darrdoseop)
+darray.append(darrdoseop30)
+darray.append(darrdoseop50)
+darray.append(darrdoseop100)
+darray.append(darrdoseop200)
 
 lajudosis(3488,7.32,3.08,0.389)
+lajudosis(1744,4.78,2.42,0.389)
 
 npdarray=np.array(darray)
 obdarray=np.array(npdarray,dtype=object)
@@ -144,11 +165,12 @@ tdarray=obdarray.T
 trdarray=np.transpose(obdarray)
 print("Data type:", trdarray.dtype)
 print(tabulate(trdarray,tablefmt="grid"))
+
 #================ Pencetakan Tabel pada .csv ================
-df = pd.DataFrame(trdarray)
-
+shieldcsv= pd.DataFrame(trarray)
+doseprimarycsv=pd.DataFrame(trdarray)
 # Export the DataFrame to a CSV file
-df.to_csv('hasilPrimer.csv', index=False, header=False)
-
+shieldcsv.to_csv('hasilPrimer.csv', index=False, header=False)
+doseprimarycsv.to_csv('dosisPrimer.csv',index=False,header=False)
 P1=0.0002*(10**4.7)
 print(f'ekspektasi dosis = {P1}')
