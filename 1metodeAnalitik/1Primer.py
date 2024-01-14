@@ -166,11 +166,13 @@ trdarray=np.transpose(obdarray)
 print("Data type:", trdarray.dtype)
 print(tabulate(trdarray,tablefmt="grid"))
 
+###save csv dose###
+doseprimarycsv=pd.DataFrame(trdarray)
+doseprimarycsv.to_csv('dosisPrimer.csv',index=False,header=False)
+
 #================ Pencetakan Tabel pada .csv ================
 shieldcsv= pd.DataFrame(trarray)
-doseprimarycsv=pd.DataFrame(trdarray)
 # Export the DataFrame to a CSV file
 shieldcsv.to_csv('hasilPrimer.csv', index=False, header=False)
-doseprimarycsv.to_csv('dosisPrimer.csv',index=False,header=False)
 P1=0.0002*(10**4.7)
 print(f'ekspektasi dosis = {P1}')
