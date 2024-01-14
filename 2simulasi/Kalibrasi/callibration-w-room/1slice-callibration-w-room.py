@@ -263,6 +263,20 @@ deta1cell=openmc.Cell(fill=air2,region=deta1)
 deta2cell=openmc.Cell(fill=air2,region=deta2)
 deta3cell=openmc.Cell(fill=air2,region=deta3)
 
+
+SSD = 100.0 #Source to Skin Distance
+l = 15 
+ld= 10# panjang dan lebar WP
+d = 15.0 #kedalaman WP
+padd = 10.0 #padding terhadap source dan detektor
+
+n=100_000
+dx=d/n
+for i in range(n):
+    x0=(i*dx)
+    x1=(i+1)*dx
+    # r_x=+openmc.XPlane(x0) & -openmc.X
+
 #Water Phantom 10x10x5
 phantom_rotation=270
 pr=phantom_rotation
@@ -361,13 +375,13 @@ print(linacuvw, linacxyz)
 ###############################################
 #            Penampil Geometri                #
 ###############################################
-# univ.plot(width=(2500,2700),basis='xy',color_by='material',colors=colors)
-# plt.savefig('xyRSHS.png')
-# univ.plot(width=(1400,1040),basis='xz',color_by='material',colors=colors)
-# plt.savefig('xzRSHS.png')
-# univ.plot(width=(1800,1040),basis='yz',color_by='material',colors=colors)
-# plt.savefig('yzRSHS.png')
-# plt.show()
+univ.plot(width=(2500,2700),basis='xy',color_by='material',colors=colors)
+plt.savefig('xyRSHS.png')
+univ.plot(width=(1400,1040),basis='xz',color_by='material',colors=colors)
+plt.savefig('xzRSHS.png')
+univ.plot(width=(1800,1040),basis='yz',color_by='material',colors=colors)
+plt.savefig('yzRSHS.png')
+plt.show()
 
 
 ###############################################
