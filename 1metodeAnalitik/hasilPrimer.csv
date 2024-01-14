@@ -1,5 +1,9 @@
-d+SAD,Weekly B,Weekly n,"Weekly 
-Shield",+2HVL,Inst B,Inst n,"inst 
-Shield"
-7.32,0.00002,4.63459,1.75480,1.98900,2.0296363636363637e-10,9.69258,3.62626
-7.32,0.00002,4.63459,1.75480,1.98900,2.0296363636363637e-10,9.69258,3.62626
+"W 
+Gy/week","W hourly 
+ uSv/h","dsad 
+meter","Dose on length 
+uSv/h","Shield Length 
+(meter)","TVL 
+meter",n,"Dose After Shield
+uSv/h"
+3488,87200000.0,7.32,1627400.0418047714,3.08,0.389,7.917737789203085,0.01966783397741995
