@@ -49,7 +49,7 @@ x_maxs = x_smooth[max_index]
 y_maxs=y_smooth[max_index]
 plt.plot(x_smooth, y_smooth,label='Smoothen')
 # draw line at x_max
-plt.axvline(x=x_maxs, color='r')
+# plt.axvline(x=x_maxs, color='r')
 # write x_max value on plot
 #print(f"Y Value on xmax={_max}")
 plt.savefig('KalibrationResult.png',dpi=300)
@@ -60,7 +60,8 @@ def rounde(unrounded):
 
 print(f"\nDosis = {rounde(y_max)}pSvcm3/src") 
 print(f"Dosis smoothen = {rounde(y_maxs)}pSvcm3/src\n")
-plt.title(f'x_max = {x_max}\ny_max = {y_max}')
+# plt.title(f'x_max = {x_max}\ny_max = {y_max}')
+plt.title(f'Hasil Kalibrasi Dosis LINAC\n')
 print(f"s_rate=mu*volume_wp/phandosevalues") # mu=
 #mu=1e11#600 MU/min = 10 cGy/s = 1e11 pSv/s 
 volume_wp=(d/nx)*6*6
@@ -79,3 +80,4 @@ print(f"k = {k}")
 print(f"k smoothen = {volume_wp/y_maxs*36e7}")
 plt.legend()
 plt.show()
+plt.savefig('KalibrationResult-2.png',dpi=300)
