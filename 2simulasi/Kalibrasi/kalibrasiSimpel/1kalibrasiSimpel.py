@@ -60,7 +60,6 @@ for i in range(n):
     r_z = +openmc.ZPlane(-ld/2.0) & -openmc.ZPlane(ld/2.0) #the width for area
 
     cell = openmc.Cell(region=r_x & r_y & r_z)
-    cell.fill = water
     phantom_cells.append(cell)
 
 r_x = +openmc.XPlane(SSD) & -openmc.XPlane(SSD+d)
