@@ -29,23 +29,35 @@ materials = openmc.Materials([air,water])
 materials.export_to_xml()
 # }}}
 
+
 SSD = 100.0 #Source to Skin Distance
 l = 15 
-ld= 10# panjang dan lebar WP
+ld= 40# panjang dan lebar WP
 d = 15.0 #kedalaman WP
 padd = 10.0 #padding terhadap source dan detektor
 
-# {{{
+#initial water phantom so that i dont fill it on each slice
 
+wp_x = +openmc.XPlane(SSD) & -openmc.XPlane(SSD+100)
+wp_y = +openmc.YPlane(-45/2) & -openmc.XPlane(45/2)
+wp_z = +openmc.ZPlane(-45/2) & -openmc.ZPlane(45/2)
+wp_cell=openmc.Cell(region=wp_x & wp_y & wp_z)
+wp_cell.fill=water
+
+
+
+
+# {{{
+#Slice for Depth Dose
 n = 1000_000
 phantom_cells = []
 dx = d/n
 for i in range(n):
-    x0 = SSD + i*dx
-    x1 = SSD +(i+1)*dx
-    r_x = +openmc.XPlane(x0) & -openmc.XPlane(x1)
-    r_y = +openmc.YPlane(-ld/2.0) & -openmc.YPlane(ld/2.0)
-    r_z = +openmc.ZPlane(-ld/2.0) & -openmc.ZPlane(ld/2.0)
+    x0 = SSD + i*dx #slice begin
+    x1 = SSD +(i+1)*dx #slice end
+    r_x = +openmc.XPlane(x0) & -openmc.XPlane(x1) #area between slices 
+    r_y = +openmc.YPlane(-ld/2.0) & -openmc.YPlane(ld/2.0) #the length for area
+    r_z = +openmc.ZPlane(-ld/2.0) & -openmc.ZPlane(ld/2.0) #the width for area
 
     cell = openmc.Cell(region=r_x & r_y & r_z)
     cell.fill = water
@@ -66,7 +78,7 @@ r_air = r_x_air & r_y_air & r_z_air
 c_air = openmc.Cell(region=r_air & ~r_phantom)
 c_air.fill = air
 
-univ = openmc.Universe(cells=[c_air]+phantom_cells)
+univ = openmc.Universe(cells=[c_air]+phantom_cells+wp_cell)
 geometry = openmc.Geometry(univ)
 geometry.root_universe = univ
 geometry.export_to_xml()
