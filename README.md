@@ -1,3 +1,9 @@
+To Do List :
+Make a lateral reading for LINAC callibration
+- Make a slice on x and y on a certain LINAC distancee
+Find a way to read phsp file?
+Find a way to modify the output of linac? using electron simulation?
+
 #Directory Guide:
 - Perhitungan Analitik
     - Primer
