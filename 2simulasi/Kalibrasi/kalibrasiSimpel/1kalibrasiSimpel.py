@@ -4,7 +4,9 @@ import matplotlib.pyplot as plt
 import openmc.stats, openmc.data
 from math import cos, atan2, pi
 
+batches = 10
 inactive = 10
+particles =10_000
 
 
 # Material 
@@ -37,7 +39,7 @@ padd = 10.0 #padding terhadap source dan detektor
 
 # {{{
 
-n = 1000_000
+n = 50_000
 phantom_cells = []
 dx = d/n
 for i in range(n):
@@ -131,7 +133,7 @@ tallies_file.export_to_xml()
 
 mesh=openmc.RegularMesh()
 mesh.dimension=[500,500]
-xlen = 200;ylen=200
+xlen = 200;ylen=200;zlen=250
 mesh.lower_left = [-xlen/2, -ylen/2, -zlen/2]
 mesh.upper_right = [xlen/2, ylen/2, zlen/2]
 mesh_filter = openmc.MeshFilter(mesh)
