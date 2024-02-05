@@ -4,7 +4,9 @@ import matplotlib.pyplot as plt
 import openmc.stats, openmc.data
 from math import cos, atan2, pi
 
+batches = 10
 inactive = 10
+particles =10_000
 
 
 # Material 
@@ -38,6 +40,7 @@ padd = 10.0 #padding terhadap source dan detektor
 
 #initial water phantom so that i dont fill it on each slice
 
+<<<<<<< HEAD
 wp_x = +openmc.XPlane(SSD) & -openmc.XPlane(SSD+100)
 wp_y = +openmc.YPlane(-45/2) & -openmc.XPlane(45/2)
 wp_z = +openmc.ZPlane(-45/2) & -openmc.ZPlane(45/2)
@@ -50,6 +53,9 @@ wp_cell.fill=water
 # {{{
 #Slice for Depth Dose
 n = 1000_000
+=======
+n = 50_000
+>>>>>>> main
 phantom_cells = []
 dx = d/n
 for i in range(n):
@@ -142,7 +148,7 @@ tallies_file.export_to_xml()
 
 mesh=openmc.RegularMesh()
 mesh.dimension=[500,500]
-xlen = 200;ylen=200
+xlen = 200;ylen=200;zlen=250
 mesh.lower_left = [-xlen/2, -ylen/2, -zlen/2]
 mesh.upper_right = [xlen/2, ylen/2, zlen/2]
 mesh_filter = openmc.MeshFilter(mesh)
