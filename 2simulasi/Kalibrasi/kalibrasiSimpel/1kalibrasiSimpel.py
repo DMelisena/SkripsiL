@@ -33,29 +33,21 @@ materials.export_to_xml()
 
 
 SSD = 100.0 #Source to Skin Distance
-l = 15 
-ld= 40# panjang dan lebar WP
-d = 15.0 #kedalaman WP
-padd = 10.0 #padding terhadap source dan detektor
 
 #initial water phantom so that i dont fill it on each slice
-
-<<<<<<< HEAD
-wp_x = +openmc.XPlane(SSD) & -openmc.XPlane(SSD+100)
+# 45x45x100 volume on the SSD distance
+wp_x = +openmc.XPlane(SSD) & -openmc.XPlane(SSD+40)
 wp_y = +openmc.YPlane(-45/2) & -openmc.XPlane(45/2)
 wp_z = +openmc.ZPlane(-45/2) & -openmc.ZPlane(45/2)
 wp_cell=openmc.Cell(region=wp_x & wp_y & wp_z)
 wp_cell.fill=water
 
+ld= 40 # panjang dan lebar WP
+d = 40 #kedalaman WP
+padd = 10.0 #padding terhadap source dan detektor
 
-
-
-# {{{
 #Slice for Depth Dose
-n = 1000_000
-=======
-n = 50_000
->>>>>>> main
+n =50_000 
 phantom_cells = []
 dx = d/n
 for i in range(n):
@@ -64,7 +56,6 @@ for i in range(n):
     r_x = +openmc.XPlane(x0) & -openmc.XPlane(x1) #area between slices 
     r_y = +openmc.YPlane(-ld/2.0) & -openmc.YPlane(ld/2.0) #the length for area
     r_z = +openmc.ZPlane(-ld/2.0) & -openmc.ZPlane(ld/2.0) #the width for area
-
     cell = openmc.Cell(region=r_x & r_y & r_z)
     phantom_cells.append(cell)
 

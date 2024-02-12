@@ -1,3 +1,14 @@
+lateral-cal update :
+Water phantom dimension creation 
+1.  PDD on 40x40x50 for 50_000 slice
+2.  Through the center of water phantom
+    1.  X (50x0.1x0.1) on 1 2.5 5 10 15 20 25 30
+    2.  Y (50x0.1x0.1) on 1 2.5 5 10 15 20 25 30
+    3.  X (50x50x0.1) on 1 2.5 5 10 15 20 25 30
+    4.  Y (50x50x0.1) on 1 2.5 5 10 15 20 25 30
+3.  Heatmap on  1 2.5 5 10 15 20 25 30
+
+
 To Do List :
 Make a lateral reading for LINAC callibration
 - Make a slice on x and y on a certain LINAC distancee
