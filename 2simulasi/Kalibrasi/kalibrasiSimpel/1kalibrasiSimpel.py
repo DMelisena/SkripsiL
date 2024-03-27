@@ -33,14 +33,14 @@ materials.export_to_xml()
 
 
 SSD = 100.0 #Source to Skin Distance
-l = 15 
-ld= 10# panjang dan lebar WP
-d = 15.0 #kedalaman WP
-padd = 10.0 #padding terhadap source dan detektor
 
 # {{{
 
 n = 50_000
+watery= 20
+waterz= 20
+water_depth = 40
+padd = 10.0 #padding terhadap source dan detektor
 phantom_cells = []
 dx = d/n
 for i in range(n):
