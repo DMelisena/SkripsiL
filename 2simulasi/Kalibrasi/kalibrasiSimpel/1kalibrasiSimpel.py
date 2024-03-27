@@ -1,4 +1,4 @@
-# vim:foldmethod=marker
+# vim:fotallies_widthmethod=marker
 import openmc
 import matplotlib.pyplot as plt
 import openmc.stats, openmc.data
@@ -30,6 +30,7 @@ water.add_s_alpha_beta('c_H_in_H2O')
 materials = openmc.Materials([air,water])
 materials.export_to_xml()
 # }}}
+
 
 SSD = 100.0 #Source to Skin Distance
 l = 15 
