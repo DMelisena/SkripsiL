@@ -40,15 +40,14 @@ n = 50_000
 watery= 20
 waterz= 20
 water_depth = 40
+wp_x = +openmc.XPlane(SSD) & -openmc.XPlane(SSD+water_depth)
+wp_y = +openmc.YPlane(-watery /2) & -openmc.XPlane(watery /2)
+wp_z = +openmc.ZPlane(-waterz /2) & -openmc.ZPlane(waterz /2)
+wp_cell=openmc.Cell(region=wp_x & wp_y & wp_z)
 padd = 10.0 #padding terhadap source dan detektor
 phantom_cells = []
 dx = d/n
 for i in range(n):
-    x0 = SSD + i*dx
-    x1 = SSD +(i+1)*dx
-    r_x = +openmc.XPlane(x0) & -openmc.XPlane(x1)
-    r_y = +openmc.YPlane(-ld/2.0) & -openmc.YPlane(ld/2.0)
-    r_z = +openmc.ZPlane(-ld/2.0) & -openmc.ZPlane(ld/2.0)
 
     cell = openmc.Cell(region=r_x & r_y & r_z)
     cell.fill = water
