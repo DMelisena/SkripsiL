@@ -34,7 +34,15 @@ materials.export_to_xml()
 
 SSD = 100.0 #Source to Skin Distance
 
-# {{{
+# TODO: Check the drop on PDD and the file that will be sent by Mbak Oksel to ensure the WP depth
+ 
+# TODO: MAKE 50 X 50 X 40 Water Cells
+# TODO: Line up tally on (depth : 5,10,20,30) for 10x10 and 40x30.
+# TODO: Tally size = 0.5 x 0.5 x 0.1 cm
+# TODO: Make Vertical tallies for PDD 
+# TODO: Make y tallies for lateral
+# TODO: Make x tallies for lateral
+#
 
 n = 50_000
 ########### WATER CELLS #############
