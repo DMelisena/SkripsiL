@@ -37,8 +37,9 @@ SSD = 100.0 #Source to Skin Distance
 # {{{
 
 n = 50_000
-watery= 20
-waterz= 20
+########### WATER CELLS #############
+watery= 50
+waterz= 50
 water_depth = 40
 wp_x = +openmc.XPlane(SSD) & -openmc.XPlane(SSD+water_depth)
 wp_y = +openmc.YPlane(-watery /2) & -openmc.XPlane(watery /2)
