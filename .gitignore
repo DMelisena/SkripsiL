@@ -1,4 +1,5 @@
 .h5
+.python-version
 *.xml
 *.out
 *.png
