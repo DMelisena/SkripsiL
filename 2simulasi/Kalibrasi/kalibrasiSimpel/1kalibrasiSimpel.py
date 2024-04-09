@@ -1,4 +1,4 @@
-# vim:fotallies_widthmethod=marker
+# vim:foldmethod=marker
 import openmc
 import matplotlib.pyplot as plt
 import openmc.stats, openmc.data
