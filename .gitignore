@@ -2,7 +2,6 @@
 .python-version
 *.xml
 *.out
-*.png
 /linac
 openmc/.ipynb_checkpoints/
 unfiltered/CellRSHS
