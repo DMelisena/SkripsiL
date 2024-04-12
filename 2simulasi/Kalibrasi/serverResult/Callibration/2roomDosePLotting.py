@@ -2,7 +2,7 @@ import openmc
 import matplotlib.pyplot as plt
 from matplotlib.colors import LogNorm
 
-sp = openmc.StatePoint('./statepoint.10.h5')
+sp = openmc.StatePoint('./statepoint.5.h5')
 meshtally = sp.tallies[1]
 dosevalues = meshtally.get_values()
 x=500 #harus sama dengan resolusi pada file utama
