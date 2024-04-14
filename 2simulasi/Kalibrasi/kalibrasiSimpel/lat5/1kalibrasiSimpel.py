@@ -1,12 +1,11 @@
 # vim:foldmethod=marker
-import openmc
 import matplotlib.pyplot as plt
 import openmc.stats, openmc.data
 from math import cos, atan2, pi
 
 batches = 10
 inactive = 10
-particles =10_000
+particles =10_000_000
 
 
 # Material 
@@ -42,9 +41,7 @@ SSD = 100.0 #Source to Skin Distance
 # TODO: Make Vertical tallies for PDD 
 # TODO: Make y tallies for lateral
 # TODO: Make x tallies for lateral
-#
 
-n = 50_000
 ########### WATER CELLS #############
 watery= 50
 waterz= 50
