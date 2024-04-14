@@ -30,14 +30,14 @@ water.add_s_alpha_beta('c_H_in_H2O')
 materials = openmc.Materials([air,water])
 materials.export_to_xml()
 # }}}
-
 SSD = 100.0 #Source to Skin Distance
 l = 10 
 ld= 6# panjang dan lebar WP
+td= 1
 d = 10.0 #kedalaman WP
 padd = 10.0 #padding terhadap source dan detektor
 
-# {{{
+# geometry {{{
 
 n = 1000
 phantom_cells = []
@@ -48,10 +48,12 @@ for i in range(n):
     r_x = +openmc.XPlane(x0) & -openmc.XPlane(x1)
     r_y = +openmc.YPlane(-ld/2.0) & -openmc.YPlane(ld/2.0)
     r_z = +openmc.ZPlane(-ld/2.0) & -openmc.ZPlane(ld/2.0)
-
     cell = openmc.Cell(region=r_x & r_y & r_z)
     cell.fill = water
-    phantom_cells.append(cell)
+    rt_y = +openmc.YPlane(-ld/2.0) & -openmc.YPlane(ld/2.0)
+    rt_z = +openmc.ZPlane(-ld/2.0) & -openmc.ZPlane(ld/2.0)
+    celltally=openmc.Cell(region=r_x & rt_y & rt_z)
+    phantom_cells.append(celltally)
 
 r_x = +openmc.XPlane(SSD) & -openmc.XPlane(SSD+d)
 r_y = +openmc.YPlane(-ld/2.0) & -openmc.YPlane(ld/2.0)
