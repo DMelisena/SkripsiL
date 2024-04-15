@@ -56,14 +56,16 @@ for i in range(n):
 
     r_y = +openmc.YPlane(-ld/2.0) & -openmc.YPlane(ld/2.0)
     r_z = +openmc.ZPlane(-ld/2.0) & -openmc.ZPlane(ld/2.0)
-    cell = openmc.Cell(region=r_x & r_y & r_z)
+    cell = openmc.Cell(region=r_x & r_y & r_z & ~rt_y & ~rt_z)
     cell.fill = water
     water_cells.append(cell)
 
 r_x = +openmc.XPlane(SSD) & -openmc.XPlane(SSD+d)
 r_y = +openmc.YPlane(-ld/2.0) & -openmc.YPlane(ld/2.0)
 r_z = +openmc.ZPlane(-ld/2.0) & -openmc.ZPlane(ld/2.0)
-r_phantom = r_x & r_y & r_z
+r_phantom = r_x & r_y & r_z & ~rt_y & ~rt_z
+r_celltally = r_x & rt_y & rt_z
+
 
 r_x_air = +openmc.XPlane(-padd, boundary_type='vacuum')\
     & -openmc.XPlane(SSD+d+padd, boundary_type='vacuum')
@@ -72,7 +74,7 @@ r_y_air = +openmc.YPlane(-l/2.0-padd, boundary_type='vacuum')\
 r_z_air = +openmc.ZPlane(-l/2.0-padd, boundary_type='vacuum')\
     & -openmc.ZPlane(l/2.0+padd, boundary_type='vacuum')
 r_air = r_x_air & r_y_air & r_z_air
-c_air = openmc.Cell(region=r_air & ~r_phantom)
+c_air = openmc.Cell(region=r_air & ~r_phantom & ~r_celltally)
 c_air.fill = air
 
 universe = openmc.Universe(cells=[c_air]+phantom_cells+water_cells)
