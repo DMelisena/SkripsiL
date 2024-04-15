@@ -46,14 +46,14 @@ for i in range(n):
     x0 = SSD + i*dx
     x1 = SSD +(i+1)*dx
     r_x = +openmc.XPlane(x0) & -openmc.XPlane(x1)
+    rt_y = +openmc.YPlane(-td/2.0) & -openmc.YPlane(td/2.0)
+    rt_z = +openmc.ZPlane(-td/2.0) & -openmc.ZPlane(td/2.0)
+    celltally=openmc.Cell(region=r_x & rt_y & rt_z)
+    phantom_cells.append(celltally)
     r_y = +openmc.YPlane(-ld/2.0) & -openmc.YPlane(ld/2.0)
     r_z = +openmc.ZPlane(-ld/2.0) & -openmc.ZPlane(ld/2.0)
     cell = openmc.Cell(region=r_x & r_y & r_z)
     cell.fill = water
-    rt_y = +openmc.YPlane(-ld/2.0) & -openmc.YPlane(ld/2.0)
-    rt_z = +openmc.ZPlane(-ld/2.0) & -openmc.ZPlane(ld/2.0)
-    celltally=openmc.Cell(region=r_x & rt_y & rt_z)
-    phantom_cells.append(celltally)
 
 r_x = +openmc.XPlane(SSD) & -openmc.XPlane(SSD+d)
 r_y = +openmc.YPlane(-ld/2.0) & -openmc.YPlane(ld/2.0)
