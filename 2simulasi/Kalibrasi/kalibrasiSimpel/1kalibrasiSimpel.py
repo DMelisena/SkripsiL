@@ -64,6 +64,7 @@ padd = 10.0 #padding terhadap source dan detektor
 #Slice for Depth Dose
 n = 1000
 phantom_cells = []
+s_water_cells = []
 dx = water_depth/n #
 for i in range(n):
     x0 = SSD + i*dx #slice begin
@@ -74,11 +75,17 @@ for i in range(n):
     cell = openmc.Cell(region=r_x & r_y & r_z)
     cell.fill=water
     phantom_cells.append(cell)
+    
 
-r_x = +openmc.XPlane(SSD) & -openmc.XPlane(SSD+water_depth)
-r_y = +openmc.YPlane(-tallies_width/2.0) & -openmc.YPlane(tallies_width/2.0)
-r_z = +openmc.ZPlane(-tallies_width/2.0) & -openmc.ZPlane(tallies_width/2.0)
-r_phantom = r_x & r_y & r_z
+
+wp_x = +openmc.XPlane(SSD) & -openmc.XPlane(SSD+water_depth)
+wp_y = +openmc.YPlane(-watery/2.0) & -openmc.YPlane(watery/2.0)
+wp_z = +openmc.ZPlane(-waterz/2.0) & -openmc.ZPlane(waterz/2.0)
+tallies_y = +openmc.YPlane(-tallies_width/2.0) & -openmc.YPlane(tallies_width/2.0)
+tallies_z = +openmc.ZPlane(-tallies_width/2.0) & -openmc.ZPlane(tallies_width/2.0)
+rs_phantom = wp_x & wp_y & wp_z & -tallies_y & -tallies_z
+rs_phantom.fill=water
+r_phantom = wp_x & wp_y & wp_z 
 
 r_x_air = +openmc.XPlane(-padd, boundary_type='vacuum')\
         & -openmc.XPlane(SSD+water_depth+padd, boundary_type='vacuum')
@@ -87,11 +94,10 @@ r_y_air = +openmc.YPlane(-watery/2.0-padd, boundary_type='vacuum')\
 r_z_air = +openmc.ZPlane(-waterz/2.0-padd, boundary_type='vacuum')\
         & -openmc.ZPlane(waterz/2.0+padd, boundary_type='vacuum')
 r_air = r_x_air & r_y_air & r_z_air
-c_air = openmc.Cell(region=r_air & ~r_phantom)
+c_air = openmc.Cell(region=r_air & ~r_phantom & ~rs_phantom)
 c_air.fill = air
 
-#univ = openmc.Universe(cells=[c_air]+phantom_cells+wp_cell)
-univ = openmc.Universe(cells=[c_air]+phantom_cells)
+univ = openmc.Universe(cells=[c_air]+phantom_cells+rs_phantom)
 geometry = openmc.Geometry()
 geometry.root_universe = univ
 geometry.export_to_xml()
