@@ -6,12 +6,12 @@ from math import cos, atan2, pi
 
 batches = 10
 inactive = 10
-particles =10_000
+particles = int(input('Enter number of particle (It was 1e8)\n= ')) #1_000_000_000
 
 
 # Material 
-# {{{
-air=openmc.Material(name='Air')
+# {{{ 
+# air=openmc.Material(name='Air')
 air.set_density('g/cm3',0.001205)
 air.add_nuclide('N14',0.7)
 air.add_nuclide('O16',0.3)
@@ -32,9 +32,7 @@ materials.export_to_xml()
 # }}}
 
 
-SSD = 100.0 #Source to Skin Distance
-
-# TODO: Check the drop on PDD and the file that will be sent by Mbak Oksel to ensure the WP depth
+# {{{# TODO: Check the drop on PDD and the file that will be sent by Mbak Oksel to ensure the WP depth
  
 # TODO: MAKE 50 X 50 X 40 Water Cells
 # TODO: Line up tally on (depth : 5,10,20,30) for 10x10 and 40x30.
@@ -42,54 +40,59 @@ SSD = 100.0 #Source to Skin Distance
 # TODO: Make Vertical tallies for PDD 
 # TODO: Make y tallies for lateral
 # TODO: Make x tallies for lateral
-#
+#}}}
 
-n = 50_000
+
 ########### WATER CELLS #############
+SSD = 100.0 #Source to Skin Distance
+water_depth = 10
 watery= 50
 waterz= 50
-water_depth = 40
+
+#{{{
 wp_x = +openmc.XPlane(SSD) & -openmc.XPlane(SSD+water_depth)
 wp_y = +openmc.YPlane(-watery /2) & -openmc.XPlane(watery /2)
 wp_z = +openmc.ZPlane(-waterz /2) & -openmc.ZPlane(waterz /2)
 wp_cell=openmc.Cell(region=wp_x & wp_y & wp_z)
 wp_cell.fill=water
-
+#}}}
 ########### Vertical Tallies  ############
-tallies_depth = 40
-tallies_width= 0.5 # panjang dan lebar WP
+tallies_depth = 10
+tallies_width= 1 # panjang dan lebar WP
 padd = 10.0 #padding terhadap source dan detektor
 
 #Slice for Depth Dose
-n = 400
+n = 1000
 phantom_cells = []
-dx = water_depth/n
+dx = water_depth/n #
 for i in range(n):
     x0 = SSD + i*dx #slice begin
-    x1 = SSD +(i+0.1)*dx #slice end
+    x1 = SSD +(i+1)*dx #slice end
     r_x = +openmc.XPlane(x0) & -openmc.XPlane(x1) #area between slices 
     r_y = +openmc.YPlane(-tallies_width/2.0) & -openmc.YPlane(tallies_width/2.0) #the length for area
     r_z = +openmc.ZPlane(-tallies_width/2.0) & -openmc.ZPlane(tallies_width/2.0) #the width for area
     cell = openmc.Cell(region=r_x & r_y & r_z)
+    cell.fill=water
     phantom_cells.append(cell)
 
-r_x = +openmc.XPlane(SSD) & -openmc.XPlane(SSD+d)
+r_x = +openmc.XPlane(SSD) & -openmc.XPlane(SSD+water_depth)
 r_y = +openmc.YPlane(-tallies_width/2.0) & -openmc.YPlane(tallies_width/2.0)
 r_z = +openmc.ZPlane(-tallies_width/2.0) & -openmc.ZPlane(tallies_width/2.0)
 r_phantom = r_x & r_y & r_z
 
 r_x_air = +openmc.XPlane(-padd, boundary_type='vacuum')\
-    & -openmc.XPlane(SSD+d+padd, boundary_type='vacuum')
-r_y_air = +openmc.YPlane(-l/2.0-padd, boundary_type='vacuum')\
-    & -openmc.YPlane(l/2.0+padd, boundary_type='vacuum')
-r_z_air = +openmc.ZPlane(-l/2.0-padd, boundary_type='vacuum')\
-    & -openmc.ZPlane(l/2.0+padd, boundary_type='vacuum')
+        & -openmc.XPlane(SSD+water_depth+padd, boundary_type='vacuum')
+r_y_air = +openmc.YPlane(-watery/2.0-padd, boundary_type='vacuum')\
+        & -openmc.YPlane(watery/2.0+padd, boundary_type='vacuum')
+r_z_air = +openmc.ZPlane(-waterz/2.0-padd, boundary_type='vacuum')\
+        & -openmc.ZPlane(waterz/2.0+padd, boundary_type='vacuum')
 r_air = r_x_air & r_y_air & r_z_air
 c_air = openmc.Cell(region=r_air & ~r_phantom)
 c_air.fill = air
 
-univ = openmc.Universe(cells=[c_air]+phantom_cells+wp_cell)
-geometry = openmc.Geometry(univ)
+#univ = openmc.Universe(cells=[c_air]+phantom_cells+wp_cell)
+univ = openmc.Universe(cells=[c_air]+phantom_cells)
+geometry = openmc.Geometry()
 geometry.root_universe = univ
 geometry.export_to_xml()
 # }}}
@@ -114,7 +117,7 @@ height = 300
 plotXZ = openmc.Plot()
 plotXZ.filename = f'img'
 plotXZ.basis = 'xy'
-plotXZ.width = ((SSD+d+padd)*2, (SSD+d+padd)*2)
+plotXZ.width = ((SSD+water_depth+padd)*2, (SSD+water_depth+padd)*2)
 plotXZ.origin = (0,0,SSD)
 plotXZ.color_by = 'material'
 plotXZ.pixels = (200, 200)
