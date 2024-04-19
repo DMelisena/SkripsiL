@@ -98,7 +98,7 @@ r_air = r_x_air & r_y_air & r_z_air
 c_air = openmc.Cell(region=r_air & ~r_phantom & ~rs_phantom)
 c_air.fill = air
 
-univ = openmc.Universe(cells=[c_air]+phantom_cells+rs_phantom)
+univ = openmc.Universe(cells=[c_air]+phantom_cells+[rs_phantomcell])
 geometry = openmc.Geometry()
 geometry.root_universe = univ
 geometry.export_to_xml()
