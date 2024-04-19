@@ -136,6 +136,14 @@ particle_filter = openmc.ParticleFilter('photon')
 energy, dose = openmc.data.dose_coefficients('photon', 'RLAT')
 dose_filter = openmc.EnergyFunctionFilter(energy, dose) 
 
+tallies_file = openmc.Tallies()
+cell_filter = openmc.CellFilter(phantom_cells)
+tally = openmc.Tally(name='tally')
+tally.filters = [cell_filter, particle_filter, dose_filter]
+tally.scores = ['flux']
+tallies_file.append(tally)
+tallies_file.export_to_xml()
+
 source = openmc.Source() #type: ignore
 source.space = openmc.stats.Point((0,0,0))
 phi = openmc.stats.Uniform(0, 2*pi)
@@ -145,15 +153,7 @@ source.angle = openmc.stats.PolarAzimuthal(mu,phi,reference_uvw=(1,0,0))
 source.energy = openmc.stats.Discrete([10e6],[1]) #10MeV
 source.particle = 'photon'
 
-tallies_file = openmc.Tallies()
-cell_filter = openmc.CellFilter(phantom_cells)
-
-tally = openmc.Tally(name='tally')
-tally.filters = [cell_filter, particle_filter, dose_filter]
-tally.scores = ['flux']
-tallies_file.append(tally)
-tallies_file.export_to_xml()
-
+"""
 mesh=openmc.RegularMesh()
 mesh.dimension=[500,500]
 xlen = 200;ylen=200;zlen=250
@@ -165,6 +165,7 @@ tally2=openmc.Tally(name='Room Dose Distribution')
 tally2.scores=['flux']
 particle2=openmc.ParticleFilter('photon')
 tally2.filters=[mesh_filter,particle2,dose_filter]
+"""
 
 
 settings = openmc.Settings()
