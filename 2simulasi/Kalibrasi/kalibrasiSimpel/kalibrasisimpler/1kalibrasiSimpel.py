@@ -11,7 +11,7 @@ particles = int(input('Enter number of particle (It was 1e8)\n= ')) #1_000_000_0
 
 # Material 
 # {{{ 
-# air=openmc.Material(name='Air')
+air=openmc.Material(name='Air')
 air.set_density('g/cm3',0.001205)
 air.add_nuclide('N14',0.7)
 air.add_nuclide('O16',0.3)
