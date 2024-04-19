@@ -83,7 +83,7 @@ wp_y = +openmc.YPlane(-watery/2.0) & -openmc.YPlane(watery/2.0)
 wp_z = +openmc.ZPlane(-waterz/2.0) & -openmc.ZPlane(waterz/2.0)
 tallies_y = +openmc.YPlane(-tallies_width/2.0) & -openmc.YPlane(tallies_width/2.0)
 tallies_z = +openmc.ZPlane(-tallies_width/2.0) & -openmc.ZPlane(tallies_width/2.0)
-rs_phantom = wp_x & wp_y & wp_z & -tallies_y & -tallies_z
+rs_phantom = wp_x & wp_y & wp_z & ~tallies_y & ~tallies_z
 rs_phantom.fill=water
 r_phantom = wp_x & wp_y & wp_z 
 
