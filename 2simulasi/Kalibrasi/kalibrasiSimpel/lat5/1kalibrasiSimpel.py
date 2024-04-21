@@ -42,6 +42,7 @@ SSD = 100.0 #Source to Skin Distance
 # TODO: Make y tallies for lateral
 # TODO: Make x tallies for lateral
 
+
 ########### WATER CELLS #############
 watery= 50
 waterz= 50
@@ -53,41 +54,125 @@ wp_cell=openmc.Cell(region=wp_x & wp_y & wp_z)
 wp_cell.fill=water
 
 ########### Vertical Tallies  ############
+# TODO: check tallies appending on old codes
 tallies_depth = 40
 tallies_width= 0.5 # panjang dan lebar WP
 padd = 10.0 #padding terhadap source dan detektor
-
-#Slice for Depth Dose
-n = 400
-phantom_cells = []
-dx = water_depth/n
-for i in range(n):
-    x0 = SSD + i*dx #slice begin
-    x1 = SSD +(i+0.1)*dx #slice end
-    r_x = +openmc.XPlane(x0) & -openmc.XPlane(x1) #area between slices 
-    r_y = +openmc.YPlane(-tallies_width/2.0) & -openmc.YPlane(tallies_width/2.0) #the length for area
-    r_z = +openmc.ZPlane(-tallies_width/2.0) & -openmc.ZPlane(tallies_width/2.0) #the width for area
-    cell = openmc.Cell(region=r_x & r_y & r_z)
-    phantom_cells.append(cell)
-
-r_x = +openmc.XPlane(SSD) & -openmc.XPlane(SSD+d)
+r_x = +openmc.XPlane(SSD) & -openmc.XPlane(SSD+tallies_depth)
 r_y = +openmc.YPlane(-tallies_width/2.0) & -openmc.YPlane(tallies_width/2.0)
 r_z = +openmc.ZPlane(-tallies_width/2.0) & -openmc.ZPlane(tallies_width/2.0)
 r_phantom = r_x & r_y & r_z
 
+#Slice for Depth Dose
+n = 400
+dpp_cells = []
+dx = tallies_depth/n
+for i in range(n):
+    x0 = SSD + i*dx #slice begin
+    x1 = SSD +(i+1)*dx #slice end
+    r_x = +openmc.XPlane(x0) & -openmc.XPlane(x1) #area between slices 
+    r_y = +openmc.YPlane(-tallies_width/2.0) & -openmc.YPlane(tallies_width/2.0) #the length for area
+    r_z = +openmc.ZPlane(-tallies_width/2.0) & -openmc.ZPlane(tallies_width/2.0) #the width for area
+    cell = openmc.Cell(region=r_x & r_y & r_z)
+    dpp_cells.append(cell)
+
+
+########### Y Lateral Tallies ##########
+
+ylat0= []
+ylat5= []
+ylat10= []
+ylat15= []
+ylat20= []
+dy = 0.2
+lattallies_width=0.5
+lattallies_depth=0.2
+ny = 100
+dis5=SSD+5
+
+for i in range(ny):
+    y0 = -25+ i*dy #slice begin
+    y1 = -25+(i+1)*dy #slice end
+
+    r_x = +openmc.XPlane(SSD-lattallies_depth/2.0) & -openmc.XPlane(SSD+lattallies_depth/2.0) #the length for area
+    r_y = +openmc.YPlane(y0) & -openmc.YPlane(y1) #area between slices 
+    r_z = +openmc.ZPlane(-lattallies_width/2.0) & -openmc.ZPlane(lattallies_width/2.0) #the width for area
+    cell= openmc.Cell(region=r_x & r_y & r_z)
+    ylat0.append(cell)
+
+    r_x = +openmc.XPlane(SSD+5-lattallies_depth/2.0) & -openmc.XPlane(SSD+5+lattallies_depth/2.0) #the length for area
+    cell= openmc.Cell(region=r_x & r_y & r_z)
+    ylat5.append(cell)
+
+    r_x = +openmc.XPlane(SSD+10-lattallies_depth/2.0) & -openmc.XPlane(SSD+10+lattallies_depth/2.0) #the length for area
+    cell= openmc.Cell(region=r_x & r_y & r_z)
+    ylat10.append(cell)
+
+    r_x = +openmc.XPlane(SSD+15-lattallies_depth/2.0) & -openmc.XPlane(SSD+15+lattallies_depth/2.0) #the length for area
+    cell= openmc.Cell(region=r_x & r_y & r_z)
+    ylat15.append(cell)
+
+    r_x = +openmc.XPlane(SSD+20-lattallies_depth/2.0) & -openmc.XPlane(SSD+20+lattallies_depth/2.0) #the length for area
+    cell= openmc.Cell(region=r_x & r_y & r_z)
+    ylat20.append(cell)
+
+########### Z Lateral Tallies ##########
+
+zlat0= []
+zlat5= []
+zlat10= []
+zlat15= []
+zlat20= []
+dz = 0.2
+lattallies_width=0.5
+lattallies_depth=0.2
+nz = 100
+dis5=SSD+5
+
+for i in range(nz):
+    z0 = -25+ i*dz #slice begin
+    z1 = -25+(i+1)*dz #slice end
+
+    r_x = +openmc.XPlane(SSD-lattallies_depth/2.0) & -openmc.XPlane(SSD+lattallies_depth/2.0) #the length for area
+    r_y = +openmc.YPlane(-lattallies_width/2.0) & -openmc.YPlane(lattallies_width/2.0) #the width for area
+    r_z = +openmc.ZPlane(z0) & -openmc.ZPlane(z1) #area between slices 
+    cell= openmc.Cell(region=r_x & r_y & r_z)
+    zlat0.append(cell)
+
+    r_x = +openmc.XPlane(SSD+5-lattallies_depth/2.0) & -openmc.XPlane(SSD+5+lattallies_depth/2.0) #the length for area
+    cell= openmc.Cell(region=r_x & r_y & r_z)
+    zlat5.append(cell)
+
+    r_x = +openmc.XPlane(SSD+10-lattallies_depth/2.0) & -openmc.XPlane(SSD+10+lattallies_depth/2.0) #the length for area
+    cell= openmc.Cell(region=r_x & r_y & r_z)
+    zlat10.append(cell)
+
+    r_x = +openmc.XPlane(SSD+15-lattallies_depth/2.0) & -openmc.XPlane(SSD+15+lattallies_depth/2.0) #the length for area
+    cell= openmc.Cell(region=r_x & r_y & r_z)
+    zlat15.append(cell)
+
+    r_x = +openmc.XPlane(SSD+20-lattallies_depth/2.0) & -openmc.XPlane(SSD+20+lattallies_depth/2.0) #the length for area
+    cell= openmc.Cell(region=r_x & r_y & r_z)
+    zlat20.append(cell)
+
+# HACK: Air cells are unchecked
+
+########### Air cells  ###########
 r_x_air = +openmc.XPlane(-padd, boundary_type='vacuum')\
-    & -openmc.XPlane(SSD+d+padd, boundary_type='vacuum')
-r_y_air = +openmc.YPlane(-l/2.0-padd, boundary_type='vacuum')\
-    & -openmc.YPlane(l/2.0+padd, boundary_type='vacuum')
-r_z_air = +openmc.ZPlane(-l/2.0-padd, boundary_type='vacuum')\
-    & -openmc.ZPlane(l/2.0+padd, boundary_type='vacuum')
+    & -openmc.XPlane(SSD+tallies_depth+padd, boundary_type='vacuum')
+r_y_air = +openmc.YPlane(-tallies_width/2.0-padd, boundary_type='vacuum')\
+    & -openmc.YPlane(tallies_width/2.0+padd, boundary_type='vacuum')
+r_z_air = +openmc.ZPlane(-tallies_width/2.0-padd, boundary_type='vacuum')\
+    & -openmc.ZPlane(tallies_width/2.0+padd, boundary_type='vacuum')
 r_air = r_x_air & r_y_air & r_z_air
 c_air = openmc.Cell(region=r_air & ~r_phantom)
 c_air.fill = air
 
-univ = openmc.Universe(cells=[c_air]+phantom_cells+wp_cell)
-geometry = openmc.Geometry(univ)
-geometry.root_universe = univ
+# HACK: Final geometry unchecked
+################## FINAL GEOMETRY #####################
+universe = openmc.Universe(cells=[c_air]+dpp_cells+ylat0+ylat5+ylat10+ylat15+ylat20+zlat5+zlat0+zlat10+zlat15+zlat20)
+geometry = openmc.Geometry()
+geometry.root_universe = universe
 geometry.export_to_xml()
 # }}}
 
@@ -111,7 +196,7 @@ height = 300
 plotXZ = openmc.Plot()
 plotXZ.filename = f'img'
 plotXZ.basis = 'xy'
-plotXZ.width = ((SSD+d+padd)*2, (SSD+d+padd)*2)
+plotXZ.width = ((SSD+tallies_depth+padd)*2, (SSD+tallies_depth++padd)*2)
 plotXZ.origin = (0,0,SSD)
 plotXZ.color_by = 'material'
 plotXZ.pixels = (200, 200)
@@ -140,17 +225,31 @@ source.energy = openmc.stats.Discrete([10e6],[1]) #10MeV
 source.particle = 'photon'
 
 tallies_file = openmc.Tallies()
-cell_filter = openmc.CellFilter(phantom_cells)
+dpp_cell_filter= openmc.CellFilter(dpp_cells)
+ylat0_cell_filter= openmc.CellFilter(ylat0)
+ylat5_cell_filter= openmc.CellFilter(ylat5)
+ylat10_cell_filter= openmc.CellFilter(ylat10)
+ylat15_cell_filter= openmc.CellFilter(ylat15)
+ylat20_cell_filter= openmc.CellFilter(ylat20)
+zlat0_cell_filter= openmc.CellFilter(zlat0)
+zlat5_cell_filter= openmc.CellFilter(zlat5)
+zlat10_cell_filter= openmc.CellFilter(zlat10)
+zlat15_cell_filter= openmc.CellFilter(zlat15)
+zlat20_cell_filter= openmc.CellFilter(zlat20)
 
 tally = openmc.Tally(name='tally')
-tally.filters = [cell_filter, particle_filter, dose_filter]
+#tally.filters = [ylat0_cell_filter, ylat5_cell_filter, ylat10_cell_filter, ylat15_cell_filter, ylat20_cell_filter, 
+#                 zlat0_cell_filter, zlat5_cell_filter, zlat10_cell_filter, zlat15_cell_filter, zlat20_cell_filter, 
+#                 dpp_cell_filter, particle_filter, dose_filter]
+tally.filters = [dpp_cell_filter,ylat5_cell_filter,zlat5_cell_filter, particle_filter, dose_filter]
+
 tally.scores = ['flux']
 tallies_file.append(tally)
 tallies_file.export_to_xml()
-
+"""
 mesh=openmc.RegularMesh()
 mesh.dimension=[500,500]
-xlen = 200;ylen=200;zlen=250
+
 mesh.lower_left = [-xlen/2, -ylen/2, -zlen/2]
 mesh.upper_right = [xlen/2, ylen/2, zlen/2]
 mesh_filter = openmc.MeshFilter(mesh)
@@ -159,7 +258,7 @@ tally2=openmc.Tally(name='Room Dose Distribution')
 tally2.scores=['flux']
 particle2=openmc.ParticleFilter('photon')
 tally2.filters=[mesh_filter,particle2,dose_filter]
-
+"""
 
 settings = openmc.Settings()
 settings.batches = batches
