@@ -45,19 +45,12 @@ materials.export_to_xml()
 
 ########### WATER CELLS #############
 SSD = 100.0 #Source to Skin Distance
-waterDepth = 10
+waterDepth = 50
 watery= 50
 waterz= 50
 
-#{{{
-wp_x = +openmc.XPlane(SSD) & -openmc.XPlane(SSD+waterDepth)
-wp_y = +openmc.YPlane(-watery /2) & -openmc.XPlane(watery /2)
-wp_z = +openmc.ZPlane(-waterz /2) & -openmc.ZPlane(waterz /2)
-wp_cell=openmc.Cell(region=wp_x & wp_y & wp_z)
-wp_cell.fill=water
-#}}}
 ########### Vertical Tallies  ############
-wpDepth = 10
+wpDepth = 50
 tallies_width= 1 # panjang dan lebar WP
 padd = 10.0 #padding terhadap source dan detektor
 
@@ -83,9 +76,15 @@ for i in range(n):
     
 
 #TODO: make this into only on 5 cm depth with height of tallies
-wp_x = +openmc.XPlane(SSD) & -openmc.XPlane(SSD+waterDepth)
+#Upper and under tallies water phantom
+wp_x1 = +openmc.XPlane(SSD) & -openmc.XPlane(SSD+lattaliesDepth-(lattaliesSide/2.0))
+wp_x3 = +openmc.XPlane(SSD+lattaliesDepth+(lattaliesSide/2.0)) & -openmc.XPlane(SSD+wpDepth)
 wp_y = +openmc.YPlane(-watery/2.0) & -openmc.YPlane(watery/2.0)
 wp_z = +openmc.ZPlane(-waterz/2.0) & -openmc.ZPlane(waterz/2.0)
+wp1 = wp_x1 & wp_y & wp_z
+wp3 = wp_x3 & wp_y & wp_z
+wp1cell=openmc.Cell(fill=water,region=wp1)
+wp3cell=openmc.Cell(fill=water,region=wp3)
 tallies_y = +openmc.YPlane(-tallies_width/2.0) & -openmc.YPlane(tallies_width/2.0)
 tallies_z = +openmc.ZPlane(-tallies_width/2.0) & -openmc.ZPlane(tallies_width/2.0)
 rs_phantom = wp_x & wp_y & wp_z
@@ -110,7 +109,7 @@ c_air.fill = air
 #NOTE: optional : Make a dpp on the water tallies also
 
 #TODO: Add all the added geometry into univ
-univ = openmc.Universe(cells=[c_air]+phantom_cells+[rs_phantomcell]:
+univ = openmc.Universe(cells=[c_air]+phantom_cells+[rs_phantomcell]+[wp1cell]+[wp3cell])
 geometry = openmc.Geometry()
 geometry.root_universe = univ
 geometry.export_to_xml()
