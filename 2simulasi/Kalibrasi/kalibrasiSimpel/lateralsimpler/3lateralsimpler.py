@@ -129,9 +129,8 @@ plt.show()
 univ.plot(width=(300,300),basis='xz',color_by='material',colors=colors)
 plt.savefig('xzCall.png')
 plt.show()
-"""
-# {{{
 
+# {{{
 height = 300
 plotXZ = openmc.Plot()
 plotXZ.filename = f'img'
@@ -142,9 +141,9 @@ plotXZ.color_by = 'material'
 plotXZ.pixels = (200, 200)
 plots = openmc.Plots([plotXZ])
 plots.export_to_xml()
+"""
 # openmc.plot_geometry()
 # }}}
-
 # {{{
 batches= batches
 inactive = inactive 
