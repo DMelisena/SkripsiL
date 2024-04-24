@@ -45,19 +45,19 @@ materials.export_to_xml()
 
 ########### WATER CELLS #############
 SSD = 100.0 #Source to Skin Distance
-water_depth = 10
+waterDepth = 10
 watery= 50
 waterz= 50
 
 #{{{
-wp_x = +openmc.XPlane(SSD) & -openmc.XPlane(SSD+water_depth)
+wp_x = +openmc.XPlane(SSD) & -openmc.XPlane(SSD+waterDepth)
 wp_y = +openmc.YPlane(-watery /2) & -openmc.XPlane(watery /2)
 wp_z = +openmc.ZPlane(-waterz /2) & -openmc.ZPlane(waterz /2)
 wp_cell=openmc.Cell(region=wp_x & wp_y & wp_z)
 wp_cell.fill=water
 #}}}
 ########### Vertical Tallies  ############
-tallies_depth = 10
+wpDepth = 10
 tallies_width= 1 # panjang dan lebar WP
 padd = 10.0 #padding terhadap source dan detektor
 
@@ -66,21 +66,24 @@ padd = 10.0 #padding terhadap source dan detektor
 n = 1000
 phantom_cells = []
 s_water_cells = []
-dx = water_depth/n #
-#TODO: Changing the loop to horizontal on Y 5cm depth, and 
+dx = watery/n #
+lattaliesSide=1
+lattaliesDepth=5
 for i in range(n):
-    x0 = SSD + i*dx #slice begin
-    x1 = SSD +(i+1)*dx #slice end
-    r_x = +openmc.XPlane(x0) & -openmc.XPlane(x1) #area between slices 
-    r_y = +openmc.YPlane(-tallies_width/2.0) & -openmc.YPlane(tallies_width/2.0) #the length for area
-    r_z = +openmc.ZPlane(-tallies_width/2.0) & -openmc.ZPlane(tallies_width/2.0) #the width for area
+    y0 = -watery + i*dx #slice begin
+    y1 = -watery +(i+1)*dx #slice end
+
+    
+    r_y = +openmc.XPlane(y0) & -openmc.XPlane(y1) #area between slices 
+    r_x = +openmc.YPlane(SSD+lattaliesDepth-(lattaliesSide/2.0)) & -openmc.YPlane(SSD+lattaliesDepth+(lattaliesSide/2.0)) #the length for area
+    r_z = +openmc.ZPlane(-lattaliesSide/2.0) & -openmc.ZPlane(lattaliesSide/2.0) #the width for area
     cell = openmc.Cell(region=r_x & r_y & r_z)
     cell.fill=water
     phantom_cells.append(cell)
     
 
 #TODO: make this into only on 5 cm depth with height of tallies
-wp_x = +openmc.XPlane(SSD) & -openmc.XPlane(SSD+water_depth)
+wp_x = +openmc.XPlane(SSD) & -openmc.XPlane(SSD+waterDepth)
 wp_y = +openmc.YPlane(-watery/2.0) & -openmc.YPlane(watery/2.0)
 wp_z = +openmc.ZPlane(-waterz/2.0) & -openmc.ZPlane(waterz/2.0)
 tallies_y = +openmc.YPlane(-tallies_width/2.0) & -openmc.YPlane(tallies_width/2.0)
@@ -95,7 +98,7 @@ rs_phantomcell=openmc.Cell(fill=water,region=rs_phantom & ~r_phantom)
 #TODO: Create water phantom on (5-1/2 tally height) until 40 cm
 
 r_x_air = +openmc.XPlane(-padd, boundary_type='vacuum')\
-        & -openmc.XPlane(SSD+water_depth+padd, boundary_type='vacuum')
+        & -openmc.XPlane(SSD+waterDepth+padd, boundary_type='vacuum')
 r_y_air = +openmc.YPlane(-watery/2.0-padd, boundary_type='vacuum')\
         & -openmc.YPlane(watery/2.0+padd, boundary_type='vacuum')
 r_z_air = +openmc.ZPlane(-waterz/2.0-padd, boundary_type='vacuum')\
