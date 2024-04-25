@@ -95,13 +95,6 @@ tallyGeo= t_x & t_y & r_z #the geometry that would overlaps with tally
 tallySurr = t_x & t_y & t_z #The whole water cells
 rs_phantomcell=openmc.Cell(fill=water,region=tallySurr& ~tallyGeo)
 
-wp_x2= +openmc.XPlane(SSD+lattaliesDepth-(lattaliesSide/2.0)) & -openmc.XPlane(SSD+lattaliesDepth+(lattaliesSide/2.0))
-tallies_y = +openmc.YPlane(-tallies_width/2.0) & -openmc.YPlane(tallies_width/2.0)
-tallies_z = +openmc.ZPlane(-tallies_width/2.0) & -openmc.ZPlane(tallies_width/2.0)
-rs_phantom = wp_x1 & wp_y & wp_z
-r_phantom = wp_x1 & tallies_y & tallies_z 
-#rs_phantom.fill=water
-rs_phantomcell=openmc.Cell(fill=water,region=rs_phantom & ~r_phantom)
 
 #TODO: Create water phantom on 0 til (5-1/2 tally height) w/ 50x50 width
 
