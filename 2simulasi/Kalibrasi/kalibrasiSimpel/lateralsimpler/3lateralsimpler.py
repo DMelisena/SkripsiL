@@ -119,6 +119,7 @@ c_air = openmc.Cell(region=r_air & ~r_phantom & ~rs_phantom)
 c_air.fill = air
 
 #NOTE: optional : Make a dpp on the water tallies also
+#Can also be only added for the 0 to (5-tallies_width/2)
 
 #TODO: Add all the added geometry into univ
 univ = openmc.Universe(cells=[c_air]+phantom_cells+[rs_phantomcell]+[wp1cell]+[wp3cell])
