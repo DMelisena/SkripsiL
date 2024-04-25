@@ -105,8 +105,7 @@ r_y_air = +openmc.YPlane(-watery/2.0-padd, boundary_type='vacuum')\
 r_z_air = +openmc.ZPlane(-waterz/2.0-padd, boundary_type='vacuum')\
         & -openmc.ZPlane(waterz/2.0+padd, boundary_type='vacuum')
 r_air = r_x_air & r_y_air & r_z_air
-#FIX:The new geometries aren't made yet
-c_air = openmc.Cell(region=r_air & ~r_phantom & ~rs_phantom)
+c_air = openmc.Cell(region=r_air & ~tallySurr & ~wp1 & ~wp3)
 c_air.fill = air
 
 #NOTE: optional : Make a dpp on the water tallies also
