@@ -77,6 +77,8 @@ for i in range(n):
 
 #TODO: make this into only on 5 cm depth with height of tallies
 #Upper and under tallies water phantom
+#TODO: Create water phantom on 0 til (5-1/2 tally height) w/ 50x50 width
+#TODO: Create water phantom on (5-1/2 tally height) until 40 cm
 wp_x1 = +openmc.XPlane(SSD) & -openmc.XPlane(SSD+lattaliesDepth-(lattaliesSide/2.0))
 wp_x3 = +openmc.XPlane(SSD+lattaliesDepth+(lattaliesSide/2.0)) & -openmc.XPlane(SSD+wpDepth)
 wp_y = +openmc.YPlane(-watery/2.0) & -openmc.YPlane(watery/2.0)
@@ -95,10 +97,6 @@ tallyGeo= t_x & t_y & r_z #the geometry that would overlaps with tally
 tallySurr = t_x & t_y & t_z #The whole water cells
 rs_phantomcell=openmc.Cell(fill=water,region=tallySurr& ~tallyGeo)
 
-
-#TODO: Create water phantom on 0 til (5-1/2 tally height) w/ 50x50 width
-
-#TODO: Create water phantom on (5-1/2 tally height) until 40 cm
 
 r_x_air = +openmc.XPlane(-padd, boundary_type='vacuum')\
         & -openmc.XPlane(SSD+waterDepth+padd, boundary_type='vacuum')
