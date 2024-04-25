@@ -90,6 +90,7 @@ wp3cell=openmc.Cell(fill=water,region=wp3)
 t_x = +openmc.YPlane(SSD+lattaliesDepth-(lattaliesSide/2.0)) & -openmc.YPlane(SSD+lattaliesDepth+(lattaliesSide/2.0)) #the length for area
 t_y = +openmc.XPlane(-watery/2) & -openmc.XPlane(watery/2) #area between slices 
 t_z = +openmc.ZPlane(-lattaliesSide/2.0) & -openmc.ZPlane(lattaliesSide/2.0) #the width for area
+#FIX: WHY SURROUND AND GEO THE SAME?
 tallyGeo= t_x & t_y & t_z #the geometry that overlaps with tally
 tallySurr = t_x & t_y & t_z #The surrounding water cells
 rs_phantomcell=openmc.Cell(fill=water,region=tallySurr& ~tallyGeo)
@@ -113,6 +114,7 @@ r_y_air = +openmc.YPlane(-watery/2.0-padd, boundary_type='vacuum')\
 r_z_air = +openmc.ZPlane(-waterz/2.0-padd, boundary_type='vacuum')\
         & -openmc.ZPlane(waterz/2.0+padd, boundary_type='vacuum')
 r_air = r_x_air & r_y_air & r_z_air
+#FIX:The new geometries aren't made yet
 c_air = openmc.Cell(region=r_air & ~r_phantom & ~rs_phantom)
 c_air.fill = air
 
