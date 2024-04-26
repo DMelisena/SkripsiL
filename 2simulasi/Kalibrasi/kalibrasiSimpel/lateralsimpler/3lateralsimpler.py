@@ -62,14 +62,13 @@ s_water_cells = []
 dx = watery/n #
 lattaliesSide=1
 lattaliesDepth=5
-#FIX: Synchronize the X and Y tallies so that it fits it's name
 for i in range(n):
     y0 = -watery + i*dx #slice begin
     y1 = -watery +(i+1)*dx #slice end
 
     
-    r_y = +openmc.XPlane(y0) & -openmc.XPlane(y1) #area between slices 
-    r_x = +openmc.YPlane(SSD+lattaliesDepth-(lattaliesSide/2.0)) & -openmc.YPlane(SSD+lattaliesDepth+(lattaliesSide/2.0)) #the length for area
+    r_y = +openmc.YPlane(y0) & -openmc.YPlane(y1) #area between slices 
+    r_x = +openmc.XPlane(SSD+lattaliesDepth-(lattaliesSide/2.0)) & -openmc.XPlane(SSD+lattaliesDepth+(lattaliesSide/2.0)) #the length for area
     r_z = +openmc.ZPlane(-lattaliesSide/2.0) & -openmc.ZPlane(lattaliesSide/2.0) #the width for area
     cell = openmc.Cell(region=r_x & r_y & r_z)
     cell.fill=water
@@ -90,9 +89,9 @@ wp1cell=openmc.Cell(fill=water,region=wp1)
 wp3cell=openmc.Cell(fill=water,region=wp3)
 
 #TODO:create the one that overlaps with water phantom 
-t_x = +openmc.YPlane(SSD+lattaliesDepth-(lattaliesSide/2.0)) & -openmc.YPlane(SSD+lattaliesDepth+(lattaliesSide/2.0)) #the length for area
-t_y = +openmc.XPlane(-watery/2) & -openmc.XPlane(watery/2) #area between slices 
-t_z = +openmc.XPlane(-waterz/2) & -openmc.XPlane(waterz/2) #area between slices 
+t_x = +openmc.XPlane(SSD+lattaliesDepth-(lattaliesSide/2.0)) & -openmc.XPlane(SSD+lattaliesDepth+(lattaliesSide/2.0)) #the length for area
+t_y = +openmc.YPlane(-watery/2) & -openmc.YPlane(watery/2) #area between slices 
+t_z = +openmc.ZPlane(-waterz/2) & -openmc.ZPlane(waterz/2) #area between slices 
 r_z = +openmc.ZPlane(-lattaliesSide/2.0) & -openmc.ZPlane(lattaliesSide/2.0) #the width for area
 tallyGeo= t_x & t_y & r_z #the geometry that would overlaps with tally
 tallySurr = t_x & t_y & t_z #The whole water cells
