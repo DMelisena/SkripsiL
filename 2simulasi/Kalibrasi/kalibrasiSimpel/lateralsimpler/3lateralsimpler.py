@@ -64,10 +64,8 @@ lattaliesSide=1
 lattaliesDepth=5
 #BUG: (Loops started before the C_air)
 for i in range(n):
-    y0 = -watery + i*dx #slice begin
-    y1 = -watery +(i+1)*dx #slice end
-
-    
+    y0 = (-watery/2) + i*dx #slice begin
+    y1 = (-watery/2) +(i+1)*dx #slice end
     r_y = +openmc.YPlane(y0) & -openmc.YPlane(y1) #area between slices 
     r_x = +openmc.XPlane(SSD+lattaliesDepth-(lattaliesSide/2.0)) & -openmc.XPlane(SSD+lattaliesDepth+(lattaliesSide/2.0)) #the length for area
     r_z = +openmc.ZPlane(-lattaliesSide/2.0) & -openmc.ZPlane(lattaliesSide/2.0) #the width for area
@@ -106,8 +104,9 @@ r_y_air = +openmc.YPlane(-watery/2.0-padd, boundary_type='vacuum')\
 r_z_air = +openmc.ZPlane(-waterz/2.0-padd, boundary_type='vacuum')\
         & -openmc.ZPlane(waterz/2.0+padd, boundary_type='vacuum')
 r_air = r_x_air & r_y_air & r_z_air
-c_air = openmc.Cell(region=r_air & ~tallySurr & ~wp1 & ~wp3)
-c_air.fill = air
+wp_x4 = +openmc.XPlane(SSD) & -openmc.XPlane(SSD+waterDepth)
+waterphantom = wp_x4 & t_y & t_z #The whole water cells
+c_air = openmc.Cell(fill=air,region=r_air & ~waterphantom)
 
 #NOTE: optional : Make a dpp on the water tallies also
 #Can also be only added for the 0 to (5-tallies_width/2)
