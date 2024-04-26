@@ -62,6 +62,7 @@ s_water_cells = []
 dx = watery/n #
 lattaliesSide=1
 lattaliesDepth=5
+#FIX: Synchronize the X and Y tallies so that it fits it's name
 for i in range(n):
     y0 = -watery + i*dx #slice begin
     y1 = -watery +(i+1)*dx #slice end
