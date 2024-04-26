@@ -91,8 +91,8 @@ wp3cell=openmc.Cell(fill=water,region=wp3)
 t_x = +openmc.XPlane(SSD+lattaliesDepth-(lattaliesSide/2.0)) & -openmc.XPlane(SSD+lattaliesDepth+(lattaliesSide/2.0)) #the length for area
 t_y = +openmc.YPlane(-watery/2) & -openmc.YPlane(watery/2) #area between slices 
 t_z = +openmc.ZPlane(-waterz/2) & -openmc.ZPlane(waterz/2) #area between slices 
-r_z = +openmc.ZPlane(-lattaliesSide/2.0) & -openmc.ZPlane(lattaliesSide/2.0) #the width for area
-tallyGeo= t_x & t_y & r_z #the geometry that would overlaps with tally
+t_z2 = +openmc.ZPlane(-lattaliesSide/2.0) & -openmc.ZPlane(lattaliesSide/2.0) #the width for area
+tallyGeo= t_x & t_y & t_z2 #the geometry that would overlaps with tally
 tallySurr = t_x & t_y & t_z #The whole water cells
 rs_phantomcell=openmc.Cell(fill=water,region=tallySurr& ~tallyGeo)
 
