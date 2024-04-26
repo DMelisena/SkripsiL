@@ -117,6 +117,7 @@ geometry = openmc.Geometry()
 geometry.root_universe = univ
 geometry.export_to_xml()
 # }}}
+#FIX: After particle 25030230 crossed surface 6002 it could not be located in any cell and it did not leak.
 
 colors={}
 colors[air]='lightblue'
