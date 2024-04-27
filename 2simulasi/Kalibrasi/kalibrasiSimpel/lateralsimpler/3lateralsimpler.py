@@ -56,11 +56,11 @@ padd = 10.0 #padding terhadap source dan detektor
 
 
 #Slice for Depth Dose
-n = 50 
+n = 200
 phantom_cells = []
 s_water_cells = []
 dx = watery/n #
-lattaliesSide=1
+lattaliesSide=watery/n
 lattaliesDepth=5
 #BUG: (Loops started before the C_air)
 for i in range(n):
