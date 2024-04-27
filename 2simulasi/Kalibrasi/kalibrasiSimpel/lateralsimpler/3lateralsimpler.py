@@ -56,7 +56,7 @@ padd = 10.0 #padding terhadap source dan detektor
 
 
 #Slice for Depth Dose
-n = 1000
+n = 50 
 phantom_cells = []
 s_water_cells = []
 dx = watery/n #
