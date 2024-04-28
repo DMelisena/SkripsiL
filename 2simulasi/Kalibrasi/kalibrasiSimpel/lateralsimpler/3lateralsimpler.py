@@ -168,7 +168,7 @@ source = openmc.Source() #type: ignore
 source.space = openmc.stats.Point((0,0,0))
 phi = openmc.stats.Uniform(0, 2*pi)
 #mu  = openmc.stats.Uniform(cos(atan2(l/2, SSD)), 1)
-mu  = openmc.stats.Uniform(cos(atan2(40/2, SSD)), 1)
+mu  = openmc.stats.Uniform(cos(atan2(10/2, SSD)), 1)
 source.angle = openmc.stats.PolarAzimuthal(mu,phi,reference_uvw=(1,0,0))
 source.energy = openmc.stats.Discrete([10e6],[1]) #10MeV
 source.particle = 'photon'
