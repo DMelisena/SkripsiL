@@ -51,7 +51,6 @@ waterz= 50
 
 ########### Vertical Tallies  ############
 wpDepth = 50
-tallies_width= 1 # panjang dan lebar WP
 padd = 10.0 #padding terhadap source dan detektor
 
 
@@ -79,7 +78,7 @@ for i in range(n):
 #TODO: Create water phantom on 0 til (5-1/2 tally height) w/ 50x50 width
 #TODO: Create water phantom on (5-1/2 tally height) until 40 cm
 wp_x1 = +openmc.XPlane(SSD) & -openmc.XPlane(SSD+lattaliesDepth-(lattaliesSide/2.0))
-wp_x3 = +openmc.XPlane(SSD+lattaliesDepth+(lattaliesSide/2.0)) & -openmc.XPlane(SSD+wpDepth)
+wp_x3 = +openmc.XPlane(SSD+lattaliesDepth+(lattaliesSide/2.0)) & -openmc.XPlane(SSD+waterDepth)
 wp_y = +openmc.YPlane(-watery/2.0) & -openmc.YPlane(watery/2.0)
 wp_z = +openmc.ZPlane(-waterz/2.0) & -openmc.ZPlane(waterz/2.0)
 wp1 = wp_x1 & wp_y & wp_z
