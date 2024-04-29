@@ -60,8 +60,7 @@ phantom_cells = []
 s_water_cells = []
 dx = watery/n #
 lattaliesSide=watery/n
-lattaliesDepth=5
-#BUG: (Loops started before the C_air)
+lattaliesDepth=2
 for i in range(n):
     y0 = (-watery/2) + i*dx #slice begin
     y1 = (-watery/2) +(i+1)*dx #slice end
