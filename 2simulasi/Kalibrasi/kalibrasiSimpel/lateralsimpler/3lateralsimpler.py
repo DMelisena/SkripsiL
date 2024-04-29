@@ -164,11 +164,12 @@ tallies_file.append(tally)
 tallies_file.export_to_xml()
 
 source = openmc.Source() #type: ignore
-source.space = openmc.stats.Point((0,0,0))
-phi = openmc.stats.Uniform(0, 2*pi)
-#mu  = openmc.stats.Uniform(cos(atan2(l/2, SSD)), 1)
-mu  = openmc.stats.Uniform(cos(atan2(10/2, SSD)), 1)
-source.angle = openmc.stats.PolarAzimuthal(mu,phi,reference_uvw=(1,0,0))
+#source.space = openmc.stats.Point((0,0,0))
+#phi = openmc.stats.Uniform(0, 2*pi)
+#mu  = openmc.stats.Uniform(cos(atan2(10/2, SSD)), 1)
+#source.angle = openmc.stats.PolarAzimuthal(mu,phi,reference_uvw=(1,0,0))
+source.space=openmc.stats.Box(lower_left=[99.9,-10,-10],upper_right=[100,10,10])
+source.angle=openmc.stats.Monodirectional(reference_uvw=(1.0,0,0))
 source.energy = openmc.stats.Discrete([10e6],[1]) #10MeV
 source.particle = 'photon'
 
