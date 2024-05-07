@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import openmc.stats, openmc.data
 from math import cos, atan2, pi
 
-batches = 20
+batches = 30
 inactive = 10
 particles = int(input('Enter number of particle (It was 1e8)\n= ')) #1_000_000_000
 
