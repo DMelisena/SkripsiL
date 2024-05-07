@@ -32,17 +32,6 @@ materials.export_to_xml()
 # }}}
 
 
-# {{{# TODO: Check the drop on PDD and the file that will be sent by Mbak Oksel to ensure the WP depth
- 
-# TODO: MAKE 50 X 50 X 40 Water Cells
-# TODO: Line up tally on (depth : 5,10,20,30) for 10x10 and 40x30.
-# TODO: Tally size = 0.5 x 0.5 x 0.1 cm
-# TODO: Make Vertical tallies for PDD 
-# TODO: Make y tallies for lateral
-# TODO: Make x tallies for lateral
-#}}}
-
-
 ########### WATER CELLS #############
 SSD = 100.0 #Source to Skin Distance
 waterDepth = 50
@@ -72,10 +61,8 @@ for i in range(n):
     phantom_cells.append(cell)
     
 
-#TODO: make this into only on 5 cm depth with height of tallies
-#Upper and under tallies water phantom
-#TODO: Create water phantom on 0 til (5-1/2 tally height) w/ 50x50 width
-#TODO: Create water phantom on (5-1/2 tally height) until 40 cm
+#NOTE: Create water phantom on 0 til (tallies depth-(1/2 tally height)) w/ 50x50 width
+#NOTE: Create water phantom on (tallies depth + (1/2 tally height)) until 40 cm
 wp_x1 = +openmc.XPlane(SSD) & -openmc.XPlane(SSD+lattaliesDepth-(lattaliesSide/2.0))
 wp_x3 = +openmc.XPlane(SSD+lattaliesDepth+(lattaliesSide/2.0)) & -openmc.XPlane(SSD+waterDepth)
 wp_y = +openmc.YPlane(-watery/2.0) & -openmc.YPlane(watery/2.0)
@@ -85,7 +72,7 @@ wp3 = wp_x3 & wp_y & wp_z
 wp1cell=openmc.Cell(fill=water,region=wp1)
 wp3cell=openmc.Cell(fill=water,region=wp3)
 
-#TODO:create the one that overlaps with water phantom 
+#NOTE:create the one that overlaps with water phantom 
 t_x = +openmc.XPlane(SSD+lattaliesDepth-(lattaliesSide/2.0)) & -openmc.XPlane(SSD+lattaliesDepth+(lattaliesSide/2.0)) #the length for area
 t_y = +openmc.YPlane(-watery/2) & -openmc.YPlane(watery/2) #area between slices 
 t_z = +openmc.ZPlane(-waterz/2) & -openmc.ZPlane(waterz/2) #area between slices 
@@ -109,13 +96,12 @@ c_air = openmc.Cell(fill=air,region=r_air & ~waterphantom)
 #NOTE: optional : Make a dpp on the water tallies also
 #Can also be only added for the 0 to (5-tallies_width/2)
 
-#TODO: Add all the added geometry into univ
+#NOTE: Add all the added geometry into univ
 univ = openmc.Universe(cells=[c_air]+phantom_cells+[rs_phantomcell]+[wp1cell]+[wp3cell])
 geometry = openmc.Geometry()
 geometry.root_universe = univ
 geometry.export_to_xml()
 # }}}
-#FIX: After particle 25030230 crossed surface 6002 it could not be located in any cell and it did not leak.
 
 colors={}
 colors[air]='lightblue'
@@ -163,6 +149,7 @@ tally.scores = ['flux']
 tallies_file.append(tally)
 tallies_file.export_to_xml()
 
+#TODO: ADDING Mesh Tallies
 source = openmc.Source() #type: ignore
 #source.space = openmc.stats.Point((0,0,0))
 #phi = openmc.stats.Uniform(0, 2*pi)
