@@ -147,9 +147,22 @@ tally = openmc.Tally(name='tally')
 tally.filters = [cell_filter, particle_filter, dose_filter]
 tally.scores = ['flux']
 tallies_file.append(tally)
-tallies_file.export_to_xml()
 
 #TODO: ADDING Mesh Tallies
+mesh = openmc.RegularMesh() # type: ignore
+mesh.dimension=[0,320,320]
+meshlength=320
+mesh.lower_left=[-meshlength/2,-meshlength/2]
+mesh.upper_right=[meshlength/2,meshlength/2]
+
+mesh_filter=openmc.MeshFilter(mesh)
+meshtally = openmc.Tally(name='2d mesh dose distribution')
+meshtally.scores=['flux']
+meshtally.filters=[mesh_filter,particle_filter,dose_filter]
+tallies_file.append(meshtally)
+
+tallies_file.export_to_xml()
+
 source = openmc.Source() #type: ignore
 #source.space = openmc.stats.Point((0,0,0))
 #phi = openmc.stats.Uniform(0, 2*pi)
