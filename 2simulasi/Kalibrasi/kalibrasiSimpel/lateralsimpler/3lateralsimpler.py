@@ -173,21 +173,6 @@ source.angle=openmc.stats.Monodirectional(reference_uvw=(1.0,0,0))
 source.energy = openmc.stats.Discrete([10e6],[1]) #10MeV
 source.particle = 'photon'
 
-"""
-mesh=openmc.RegularMesh()
-mesh.dimension=[500,500]
-xlen = 200;ylen=200;zlen=250
-mesh.lower_left = [-xlen/2, -ylen/2, -zlen/2]
-mesh.upper_right = [xlen/2, ylen/2, zlen/2]
-mesh_filter = openmc.MeshFilter(mesh)
-
-tally2=openmc.Tally(name='Room Dose Distribution')
-tally2.scores=['flux']
-particle2=openmc.ParticleFilter('photon')
-tally2.filters=[mesh_filter,particle2,dose_filter]
-"""
-
-
 settings = openmc.Settings()
 settings.batches = batches
 settings.inactive = inactive
