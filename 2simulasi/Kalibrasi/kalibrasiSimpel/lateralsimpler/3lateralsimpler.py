@@ -150,10 +150,10 @@ tallies_file.append(tally)
 
 #TODO: ADDING Mesh Tallies
 mesh = openmc.RegularMesh() # type: ignore
-mesh.dimension=[0,320,320]
+mesh.dimension=[320,1,320]
 meshlength=320
-mesh.lower_left=[-meshlength/2,-meshlength/2]
-mesh.upper_right=[meshlength/2,meshlength/2]
+mesh.lower_left=[-meshlength/2,-20,-meshlength/2]
+mesh.upper_right=[meshlength/2,20,meshlength/2]
 
 mesh_filter=openmc.MeshFilter(mesh)
 meshtally = openmc.Tally(name='2d mesh dose distribution')
