@@ -55,7 +55,8 @@ s_z = +openmc.ZPlane(-waterz/2) & -openmc.ZPlane(waterz/2) #area between slices
 s_z2 = +openmc.ZPlane(-fieldSize/2.0) & -openmc.ZPlane(fieldSize/2.0) #the width for area
 secollHole= s_x & s_y2 & s_z2 #the geometry that would overlaps with tally
 secollSurr = s_x & s_y & s_z #The whole water cells
-secoll=openmc.Cell(fill=tungsten ,region=secollSurr& ~secollHole)
+secollreg = secollSurr & ~secollHole
+secoll=openmc.Cell(fill=tungsten ,region=secollreg)
 
 #Slice for Depth Dose
 n = 500
@@ -105,13 +106,12 @@ r_z_air = +openmc.ZPlane(-waterz/2.0-padd, boundary_type='vacuum')\
 r_air = r_x_air & r_y_air & r_z_air
 wp_x4 = +openmc.XPlane(SSD) & -openmc.XPlane(SSD+waterDepth)
 waterphantom = wp_x4 & t_y & t_z #The whole water cells
-c_air = openmc.Cell(fill=air,region=r_air & ~waterphantom)
-
+c_air = openmc.Cell(fill=air,region=r_air & ~waterphantom & ~secollreg)
 #NOTE: optional : Make a dpp on the water tallies also
 #Can also be only added for the 0 to (5-tallies_width/2)
 
 #NOTE: Add all the added geometry into univ
-univ = openmc.Universe(cells=[c_air]+phantom_cells+[rs_phantomcell]+[wp1cell]+[wp3cell])
+univ = openmc.Universe(cells=[c_air]+phantom_cells+[rs_phantomcell]+[wp1cell]+[wp3cell]+[secoll])
 geometry = openmc.Geometry()
 geometry.root_universe = univ
 geometry.export_to_xml()
