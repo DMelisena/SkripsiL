@@ -2,6 +2,7 @@ import openmc
 import matplotlib.pyplot as plt
 import numpy as np
 from scipy.signal import savgol_filter
+import pandas as pd
 ##
 
 sp = openmc.StatePoint('statepoint.30.h5')
@@ -10,7 +11,19 @@ sp = openmc.StatePoint('statepoint.30.h5')
 n = 500
 d = 50
 tal = sp.tallies[1]
+print(sp.tallies[1])
+#print(sp.tallies[2])
+
 datay = tal.mean
+talstd= tal.std_dev
+datay.shape=datay.shape[0]
+talstd.shape=talstd.shape[0]
+stdpercent=talstd/datay
+print(stdpercent," %")
+#print("std mean = ",)
+DF = pd.DataFrame(stdpercent) 
+# save the dataframe as a csv file 
+DF.to_csv("data1.csv")
 # datax is linspace between 0 and 50
 datax = np.linspace(0,d,n)
 datay.shape = (n,)
@@ -26,6 +39,21 @@ y_max=datay[max_index]
 plt.axvline(x=x_max, color='r')
 plt.plot(datax, datay)
 
+#TODO: Add program to printout std dev
+talval=tal.get_values()
+talstd=tal.std_dev
+#making it into an array
+talval.shape=talval.shape[0]
+talstd.shape=talstd.shape[0]
+print("tal std dev = ",talstd)
+dose =talval
+dosestddev=talstd
+
+for v,s in zip(dose,dosestddev):
+    f=open("output.txt","a")
+    print(f'{v:.7e} +- {s:.7e}uSv/h')
+    f.write(str(f'\n{v} +- {s} uSv/h'))
+    f.close()
 
 tal = sp.tallies[1]
 datay = tal.mean
