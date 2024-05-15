@@ -48,11 +48,11 @@ padd = 10.0 #padding terhadap source dan detektor
 secollDis= 47 #Secondary Collimator distance from target
 secollLength = 7.8 #Secondary Collimator distance
 fieldSize = 30 
-s_x = +openmc.XPlane(secollDis-(secollLength/2.0)) & -openmc.XPlane(secollDis+(secollLength/2.0) #the length for area
+s_x = +openmc.XPlane(secollDis-(secollLength/2.0)) & -openmc.XPlane(secollDis+(secollLength/2.0)) #the length for area
 s_y = +openmc.YPlane(-watery/2) & -openmc.YPlane(watery/2) #area between slices 
 s_y2 = +openmc.YPlane(-fieldSize/2.0) & -openmc.YPlane(fieldSize/2.0) #the width for area
 s_z = +openmc.ZPlane(-waterz/2) & -openmc.ZPlane(waterz/2) #area between slices 
-s_y2 = +openmc.ZPlane(-fieldSize/2.0) & -openmc.ZPlane(fieldSize/2.0) #the width for area
+s_z2 = +openmc.ZPlane(-fieldSize/2.0) & -openmc.ZPlane(fieldSize/2.0) #the width for area
 secollHole= s_x & s_y2 & s_z2 #the geometry that would overlaps with tally
 secollSurr = s_x & s_y & s_z #The whole water cells
 secoll=openmc.Cell(fill=tungsten ,region=secollSurr& ~secollHole)
