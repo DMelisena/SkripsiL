@@ -56,10 +56,11 @@ source.energy = openmc.stats.Discrete([10e6], [1])
 source.particle = 'photon'
 
 ## tally
+tallysize=0.1
 mesh = openmc.Mesh()
-mesh.dimension = [1, 1, 100]
-mesh.lower_left = [-PHANTOM_SIZE/2, -PHANTOM_SIZE/2, -PHANTOM_SIZE/2] #type: ignore
-mesh.upper_right = [PHANTOM_SIZE/2, PHANTOM_SIZE/2, PHANTOM_SIZE/2] #type: ignore
+mesh.dimension = [1, 1, 500]
+mesh.lower_left = [(-PHANTOM_SIZE/2)+2.5, -tallysize/2, -PHANTOM_SIZE/2] #type: ignore
+mesh.upper_right = [(-PHANTOM_SIZE/2)+2.5+tallysize, tallysize/2, PHANTOM_SIZE/2] #type: ignore
 mesh_filter = openmc.MeshFilter(mesh)
 
 particle_filter = openmc.ParticleFilter(['photon'])
