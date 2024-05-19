@@ -63,6 +63,19 @@ mesh.lower_left = [(-PHANTOM_SIZE/2)+2.5, -tallysize/2, -PHANTOM_SIZE/2] #type: 
 mesh.upper_right = [(-PHANTOM_SIZE/2)+2.5+tallysize, tallysize/2, PHANTOM_SIZE/2] #type: ignore
 mesh_filter = openmc.MeshFilter(mesh)
 
+mesh5 = openmc.Mesh()
+mesh5.dimension = [1, 1, 500]
+mesh5.lower_left = [(-PHANTOM_SIZE/2)+5, -tallysize/2, -PHANTOM_SIZE/2] #type: ignore
+mesh5.upper_right = [(-PHANTOM_SIZE/2)+5+tallysize, tallysize/2, PHANTOM_SIZE/2] #type: ignore
+mesh5_filter = openmc.MeshFilter(mesh5)
+
+mesh10 = openmc.Mesh()
+mesh10.dimension = [1, 1, 500]
+mesh10.lower_left = [(-PHANTOM_SIZE/2)+10, -tallysize/2, -PHANTOM_SIZE/2] #type: ignore
+mesh10.upper_right = [(-PHANTOM_SIZE/2)+10+tallysize, tallysize/2, PHANTOM_SIZE/2] #type: ignore
+mesh10_filter = openmc.MeshFilter(mesh10)
+
+
 particle_filter = openmc.ParticleFilter(['photon'])
 energy, dose = openmc.data.dose_coefficients('photon', 'RLAT')
 dose_filter = openmc.EnergyFunctionFilter(energy, dose)
@@ -71,8 +84,21 @@ tally = openmc.Tally()
 tally.filters = [mesh_filter, particle_filter, dose_filter]
 tally.scores = ['flux']
 
+tally5 = openmc.Tally()
+tally5.filters = [mesh5_filter, particle_filter, dose_filter]
+tally5.scores = ['flux']
+
+tally10 = openmc.Tally()
+tally10.filters = [mesh10_filter, particle_filter, dose_filter]
+tally10.scores = ['flux']
+
+
 tallies = openmc.Tallies()
+
 tallies.append(tally)
+tallies.append(tally5)
+tallies.append(tally10)
+
 tallies.export_to_xml()
 
 particles = int(input('Enter number of particle (It was 1e8)\n= ')) #1_000_000_000
