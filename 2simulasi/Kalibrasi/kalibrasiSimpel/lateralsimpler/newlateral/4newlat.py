@@ -74,11 +74,13 @@ tallies = openmc.Tallies()
 tallies.append(tally)
 tallies.export_to_xml()
 
+particles = int(input('Enter number of particle (It was 1e8)\n= ')) #1_000_000_000
+
 ## settings
 settings = openmc.Settings()
 settings.run_mode = 'fixed source'
-settings.particles = 100000
-settings.batches = 100
+settings.particles = particles
+settings.batches = 20
 settings.inactive = 0
 settings.source = source
 settings.export_to_xml()
