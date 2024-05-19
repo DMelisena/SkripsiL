@@ -1,8 +1,8 @@
 import openmc, openmc.model, openmc.stats, openmc.data
 
 ROOM_SIZE = 100
-SOURCE_SIZE = 20
-PHANTOM_SIZE = 30
+SOURCE_SIZE = 30
+PHANTOM_SIZE = 50
 
 air = openmc.Material(name='air')
 air.set_density('g/cm3', 0.001)
