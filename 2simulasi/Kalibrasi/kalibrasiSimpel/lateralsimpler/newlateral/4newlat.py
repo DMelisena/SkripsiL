@@ -75,6 +75,11 @@ mesh10.lower_left = [(-PHANTOM_SIZE/2)+10, -tallysize/2, -PHANTOM_SIZE/2] #type:
 mesh10.upper_right = [(-PHANTOM_SIZE/2)+10+tallysize, tallysize/2, PHANTOM_SIZE/2] #type: ignore
 mesh10_filter = openmc.MeshFilter(mesh10)
 
+meshv = openmc.Mesh()
+meshv.dimension = [300, 1, 1]
+meshv.lower_left = [(-PHANTOM_SIZE/2), -tallysize/2, -tallysize/2] #type: ignore
+meshv.upper_right = [(-PHANTOM_SIZE/2)+30, tallysize/2, tallysize/2] #type: ignore
+meshv_filter = openmc.MeshFilter(meshv)
 
 particle_filter = openmc.ParticleFilter(['photon'])
 energy, dose = openmc.data.dose_coefficients('photon', 'RLAT')
@@ -92,12 +97,16 @@ tally10 = openmc.Tally()
 tally10.filters = [mesh10_filter, particle_filter, dose_filter]
 tally10.scores = ['flux']
 
+tallyv = openmc.Tally()
+tallyv.filters = [meshv_filter, particle_filter, dose_filter]
+tallyv.scores = ['flux']
 
 tallies = openmc.Tallies()
 
 tallies.append(tally)
 tallies.append(tally5)
 tallies.append(tally10)
+tallies.append(tallyv)
 
 tallies.export_to_xml()
 
