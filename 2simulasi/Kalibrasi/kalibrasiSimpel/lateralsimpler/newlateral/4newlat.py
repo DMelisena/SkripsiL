@@ -85,19 +85,19 @@ particle_filter = openmc.ParticleFilter(['photon'])
 energy, dose = openmc.data.dose_coefficients('photon', 'RLAT')
 dose_filter = openmc.EnergyFunctionFilter(energy, dose)
 
-tally = openmc.Tally()
+tally = openmc.Tally(name="2.5 depth tally")
 tally.filters = [mesh_filter, particle_filter, dose_filter]
 tally.scores = ['flux']
 
-tally5 = openmc.Tally()
+tally5 = openmc.Tally(name="5 depth tally")
 tally5.filters = [mesh5_filter, particle_filter, dose_filter]
 tally5.scores = ['flux']
 
-tally10 = openmc.Tally()
+tally10 = openmc.Tally(name="10 depth tally")
 tally10.filters = [mesh10_filter, particle_filter, dose_filter]
 tally10.scores = ['flux']
 
-tallyv = openmc.Tally()
+tallyv = openmc.Tally(name="depth dose tally")
 tallyv.filters = [meshv_filter, particle_filter, dose_filter]
 tallyv.scores = ['flux']
 
