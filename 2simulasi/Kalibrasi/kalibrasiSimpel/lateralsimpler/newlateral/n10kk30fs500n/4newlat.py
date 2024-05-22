@@ -2,7 +2,7 @@ import openmc, openmc.model, openmc.stats, openmc.data
 
 ROOM_SIZE = 100
 SOURCE_SIZE = 30
-PHANTOM_SIZE = 50
+PHANTOM_SIZE = 30
 
 air = openmc.Material(name='air')
 air.set_density('g/cm3', 0.001)
@@ -56,11 +56,10 @@ source.energy = openmc.stats.Discrete([10e6], [1])
 source.particle = 'photon'
 
 ## tally
-tallysize=0.1
 mesh = openmc.Mesh()
 mesh.dimension = [1, 1, 500]
-mesh.lower_left = [(-PHANTOM_SIZE/2)+2.5, -tallysize/2, -PHANTOM_SIZE/2] #type: ignore
-mesh.upper_right = [(-PHANTOM_SIZE/2)+2.5+tallysize, tallysize/2, PHANTOM_SIZE/2] #type: ignore
+mesh.lower_left = [-PHANTOM_SIZE/2, -PHANTOM_SIZE/2, -PHANTOM_SIZE/2] #type: ignore
+mesh.upper_right = [PHANTOM_SIZE/2, PHANTOM_SIZE/2, PHANTOM_SIZE/2] #type: ignore
 mesh_filter = openmc.MeshFilter(mesh)
 
 particle_filter = openmc.ParticleFilter(['photon'])
@@ -75,13 +74,11 @@ tallies = openmc.Tallies()
 tallies.append(tally)
 tallies.export_to_xml()
 
-particles = int(input('Enter number of particle (It was 1e8)\n= ')) #1_000_000_000
-
 ## settings
 settings = openmc.Settings()
 settings.run_mode = 'fixed source'
-settings.particles = particles
-settings.batches = 20
+settings.particles = 100000
+settings.batches = 100
 settings.inactive = 0
 settings.source = source
 settings.export_to_xml()

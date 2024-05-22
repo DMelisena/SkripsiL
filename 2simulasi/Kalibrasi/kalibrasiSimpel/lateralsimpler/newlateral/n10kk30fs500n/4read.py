@@ -14,3 +14,4 @@ scaled=data/data_max*100
 x = np.linspace(-25, 25, len(scaled))
 plt.plot(x, data)
 plt.savefig('flux.png')
+plt.show()
