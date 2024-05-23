@@ -63,8 +63,8 @@ geom.export_to_xml()
 
 
 ## source
-d = 10
-t = 1
+d = 100#distance between linac and water phantom
+t = 1 #thickness
 source = openmc.Source()
 source.space = openmc.stats.Box((-PHANTOM_SIZE/2-d, -SOURCE_SIZE/2, -SOURCE_SIZE/2), (-PHANTOM_SIZE/2-d-t, SOURCE_SIZE/2, SOURCE_SIZE/2))
 source.angle = openmc.stats.Monodirectional((1, 0, 0))
