@@ -1,6 +1,7 @@
 import openmc, openmc.model, openmc.stats, openmc.data
 
-ROOM_SIZE = 100
+ROOM_SIZE = 60 
+LINAC_DIRECTION= 130 
 SOURCE_SIZE = 30
 PHANTOM_SIZE = 50
 
@@ -23,7 +24,7 @@ materials = openmc.Materials([air, water,tungsten])
 materials.export_to_xml()
 
 # create the room
-roomX0 = openmc.XPlane(x0=-ROOM_SIZE/2, boundary_type='vacuum')
+roomX0 = openmc.XPlane(x0=-LINAC_DIRECTION, boundary_type='vacuum')
 roomX1 = openmc.XPlane(x0= ROOM_SIZE/2, boundary_type='vacuum')
 roomY0 = openmc.YPlane(y0=-ROOM_SIZE/2, boundary_type='vacuum')
 roomY1 = openmc.YPlane(y0= ROOM_SIZE/2, boundary_type='vacuum')
