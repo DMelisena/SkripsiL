@@ -103,6 +103,13 @@ meshvLarge.dimension = [300, 1, 1]
 meshvLarge.lower_left = [(-PHANTOM_SIZE/2), -PHANTOM_SIZE/2, -PHANTOM_SIZE/2] #type: ignore
 meshvLarge.upper_right = [(-PHANTOM_SIZE/2)+30, PHANTOM_SIZE/2, PHANTOM_SIZE/2] #type: ignore
 meshvLarge_filter = openmc.MeshFilter(meshvLarge)
+
+meshL = openmc.Mesh()
+meshL.dimension = [1, 1, 500]
+meshL.lower_left = [(-PHANTOM_SIZE/2), -PHANTOM_SIZE/2, -PHANTOM_SIZE/2] #type: ignore
+meshL.upper_right = [(-PHANTOM_SIZE/2)+PHANTOM_SIZE, PHANTOM_SIZE/2, PHANTOM_SIZE/2] #type: ignore
+meshL_filter = openmc.MeshFilter(meshL)
+
 particle_filter = openmc.ParticleFilter(['photon'])
 energy, dose = openmc.data.dose_coefficients('photon', 'RLAT')
 dose_filter = openmc.EnergyFunctionFilter(energy, dose)
@@ -127,12 +134,17 @@ tallyvLarge = openmc.Tally(name="depth dose (Bigger slice)")
 tallyvLarge.filters = [meshvLarge_filter, particle_filter, dose_filter]
 tallyvLarge.scores = ['flux']
 
+tallyL = openmc.Tally(name="depth dose (Bigger slice)")
+tallyL.filters = [meshL_filter, particle_filter, dose_filter]
+tallyL.scores = ['flux']
+
 tallies = openmc.Tallies()
 tallies.append(tally)
 tallies.append(tally5)
 tallies.append(tally10)
 tallies.append(tallyv)
 tallies.append(tallyvLarge)
+tallies.append(tallyL)
 
 tallies.export_to_xml()
 
