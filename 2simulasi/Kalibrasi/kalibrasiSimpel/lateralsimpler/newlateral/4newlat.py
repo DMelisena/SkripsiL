@@ -15,7 +15,11 @@ water.add_element('H', 2)
 water.add_element('O', 1)
 water.add_s_alpha_beta('c_H_in_H2O')
 
-materials = openmc.Materials([air, water])
+tungsten = openmc.Material(name='Collimator')
+tungsten.set_density('g/cm3', 17)
+tungsten.add_nuclide('W184', 1, 'ao')
+
+materials = openmc.Materials([air, water,tungsten])
 materials.export_to_xml()
 
 # create the room
@@ -35,13 +39,25 @@ phantomZ0 = openmc.ZPlane(z0=-PHANTOM_SIZE/2)
 phantomZ1 = openmc.ZPlane(z0= PHANTOM_SIZE/2)
 phantomRegion = +phantomX0 & -phantomX1 & +phantomY0 & -phantomY1 & +phantomZ0 & -phantomZ1
 
+secollDis= 47 #Secondary Collimator distance from target
+secollLength = 7.8 #Secondary Collimator distance
+s_x = +openmc.XPlane(secollDis-(secollLength/2.0)) & -openmc.XPlane(secollDis+(secollLength/2.0)) #the length for area
+s_y = +openmc.YPlane(-PHANTOM_SIZE/2) & -openmc.YPlane(PHANTOM_SIZE) #area between slices 
+s_z = +openmc.ZPlane(-PHANTOM_SIZE/2) & -openmc.ZPlane(PHANTOM_SIZE/2) #area between slices 
+
+s_y2 = +openmc.YPlane(-SOURCE_SIZE/2.0) & -openmc.YPlane(SOURCE_SIZE/2.0) #the width for area
+s_z2 = +openmc.ZPlane(-SOURCE_SIZE/2.0) & -openmc.ZPlane(SOURCE_SIZE/2.0) #the width for area
+secollHole= s_x & s_y2 & s_z2 #the geometry that would overlaps with tally
+secollSurr = s_x & s_y & s_z #The whole water cells
+secollRegion = secollSurr & ~secollHole
+secoll=openmc.Cell(fill=tungsten ,region=secollRegion)
 roomTotalRegion = +roomX0 & -roomX1 & +roomY0 & -roomY1 & +roomZ0 & -roomZ1
-roomRegion = roomTotalRegion & ~phantomRegion
+roomRegion = roomTotalRegion & ~phantomRegion & ~secollRegion
 
 roomCell = openmc.Cell(region=roomRegion, fill=air)
 phantomCell = openmc.Cell(region=phantomRegion, fill=water)
 
-universe = openmc.Universe(cells=[roomCell, phantomCell])
+universe = openmc.Universe(cells=[roomCell, phantomCell secoll])
 geom = openmc.Geometry(universe)
 geom.export_to_xml()
 
