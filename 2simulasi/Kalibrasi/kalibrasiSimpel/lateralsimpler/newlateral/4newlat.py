@@ -134,7 +134,7 @@ tallyvLarge = openmc.Tally(name="depth dose (Bigger slice)")
 tallyvLarge.filters = [meshvLarge_filter, particle_filter, dose_filter]
 tallyvLarge.scores = ['flux']
 
-tallyL = openmc.Tally(name="depth dose (Bigger slice)")
+tallyL = openmc.Tally(name="lateral (Bigger slice)")
 tallyL.filters = [meshL_filter, particle_filter, dose_filter]
 tallyL.scores = ['flux']
 
