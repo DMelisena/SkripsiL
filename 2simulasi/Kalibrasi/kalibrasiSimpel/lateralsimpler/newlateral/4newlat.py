@@ -58,7 +58,7 @@ roomRegion = roomTotalRegion & ~phantomRegion & ~secollRegion
 roomCell = openmc.Cell(region=roomRegion, fill=air)
 phantomCell = openmc.Cell(region=phantomRegion, fill=water)
 
-universe = openmc.Universe(cells=[roomCell, phantomCell secoll])
+universe = openmc.Universe(cells=[roomCell, phantomCell, secoll])
 geom = openmc.Geometry(universe)
 geom.export_to_xml()
 
