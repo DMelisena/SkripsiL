@@ -106,9 +106,13 @@ plt.show()
 d = 100#distance between linac and water phantom
 t = 1 #thickness
 source = openmc.Source()
-source.space = openmc.stats.Box((-PHANTOM_SIZE/2-d, -SOURCE_SIZE/2, -SOURCE_SIZE/2), (-PHANTOM_SIZE/2-d-t, SOURCE_SIZE/2, SOURCE_SIZE/2))
-source.angle = openmc.stats.Monodirectional((1, 0, 0))
-source.energy = openmc.stats.Discrete([10e6], [1])
+source.space = openmc.stats.Point((-PHANTOM_SIZE/2-d,0,0))
+phi = openmc.stats.Uniform(0,2*pi)
+mu  = openmc.stats.Uniform(cos(atan2(50/2, 100)), 1)
+source.angle = openmc.stats.PolarAzimuthal(mu,phi,reference_uvw=(1,0,0))
+#source.space = openmc.stats.Box((-PHANTOM_SIZE/2-d, -SOURCE_SIZE/2, -SOURCE_SIZE/2), (-PHANTOM_SIZE/2-d-t, SOURCE_SIZE/2, SOURCE_SIZE/2))
+#source.angle = openmc.stats.Monodirectional((1, 0, 0))
+source.energy = openmc.stats.Discrete([1e6], [1])
 source.particle = 'photon'
 
 ## tally
