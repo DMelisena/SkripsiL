@@ -22,7 +22,12 @@ tungsten.add_nuclide('W184', 0.905, 'ao')
 tungsten.add_element('Ni', 0.065, 'ao')
 tungsten.add_nuclide('Fe56', 0.03, 'ao')
 
-materials = openmc.Materials([air, water,tungsten])
+copper=openmc.Material(name='Copper')
+copper.add_nuclide('Cu63', 30.83, 'ao')
+copper.add_nuclide('Cu65', 69.17, 'ao')
+copper.set_density('g/cm3',8.92)
+
+materials = openmc.Materials([air, water,tungsten,copper])
 materials.export_to_xml()
 
 # create the room
