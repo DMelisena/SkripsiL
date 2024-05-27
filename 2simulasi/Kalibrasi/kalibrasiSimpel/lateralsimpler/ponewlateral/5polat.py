@@ -92,6 +92,8 @@ ffcyl=openmc.Cell(fill=copper,region=ffcylGeo)
 
 universe = openmc.Universe(cells=[roomCell, phantomCell, secoll, ffcone, ffcyl])
 geom = openmc.Geometry(universe)
+universe.plot(width=(300,100),basis='xz',colors=colors)
+plt.show()
 geom.export_to_xml()
 
 colors={}
@@ -100,9 +102,18 @@ colors[air]='green'
 colors[copper]='black'
 colors[tungsten]='grey'
 print(colors)
+plot= openmc.Plot()
+plot.basis = 'xz'
+plot.origin = (-60, 0, 0)
+plot.width = (200., 100.)
+plot.pixels = (1200, 600)
+plot.color_by='material'
+plot.colors={
+    water:'blue',
+    air:'green'
+}
+plot.to_ipython_image()
 
-universe.plot(width=(300,100),basis='xz',colors=colors)
-plt.show()
 
 ## source
 d = 100#distance between linac and water phantom
