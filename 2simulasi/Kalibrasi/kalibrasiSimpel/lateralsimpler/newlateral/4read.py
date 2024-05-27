@@ -132,3 +132,68 @@ plt.legend(loc='best')
 plt.title("filtered result comparison")
 plt.savefig("filtered result comparison")
 plt.show()
+
+tal = statepoint.tallies[4]
+fluxv = tal.get_slice(scores=['flux'])
+print("tal = ",tal)
+datay = fluxv.mean.flatten()
+xv=np.linspace(0,30,len(datay))
+ymaxv=np.max(datay)
+yflatv=datay/ymaxv*100
+plt.plot(xv,yflatv,label="dpp")
+
+n = len(datay)
+print(len(datay))
+d=30
+datax = np.linspace(0,d,n)
+x_smooth=datax
+y_smooth = np.interp(x_smooth, datax, datay)
+# print (f"datay =\n {datay}")
+# print (f"ysmooth=\n{y_smooth}")
+
+# Apply Savitzky-Golay filter for smoothing
+window_size = 20
+poly_order =5
+#y_smooth = savgol_filter(y_smooth, window_size, poly_order)
+
+max_index=np.argmax(y_smooth)
+x_maxs = x_smooth[max_index]
+y_maxs=y_smooth[max_index]
+plt.plot(x_smooth, datay)
+plt.savefig("depth dose.png")
+plt.show()
+
+tal = statepoint.tallies[5]
+fluxv = tal.get_slice(scores=['flux'])
+print("tal = ",tal)
+datay = fluxv.mean.flatten()
+xv=np.linspace(0,30,len(datay))
+ymaxv=np.max(datay)
+yflatv=datay/ymaxv*100
+plt.plot(xv,yflatv,label="dpp")
+
+n = len(datay)
+print(len(datay))
+d=30
+datax = np.linspace(0,d,n)
+x_smooth=datax
+y_smooth = np.interp(x_smooth, datax, datay)
+# print (f"datay =\n {datay}")
+# print (f"ysmooth=\n{y_smooth}")
+
+# Apply Savitzky-Golay filter for smoothing
+window_size = 20
+poly_order =5
+#y_smooth = savgol_filter(y_smooth, window_size, poly_order)
+
+max_index=np.argmax(y_smooth)
+x_maxs = x_smooth[max_index]
+y_maxs=y_smooth[max_index]
+
+print(y_max)
+plt.axvline(x=x_maxs,color='r',label='peak')
+
+plt.plot(x_smooth, datay)
+plt.title("depth dose widetally.png")
+plt.savefig("depth dose widetally.png")
+plt.show()
