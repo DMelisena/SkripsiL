@@ -18,7 +18,9 @@ water.add_s_alpha_beta('c_H_in_H2O')
 
 tungsten = openmc.Material(name='Collimator')
 tungsten.set_density('g/cm3', 17)
-tungsten.add_nuclide('W184', 1, 'ao')
+tungsten.add_nuclide('W184', 0.905, 'ao')
+tungsten.add_element('Ni', 0.065, 'ao')
+tungsten.add_nuclide('Fe56', 0.03, 'ao')
 
 materials = openmc.Materials([air, water,tungsten])
 materials.export_to_xml()
