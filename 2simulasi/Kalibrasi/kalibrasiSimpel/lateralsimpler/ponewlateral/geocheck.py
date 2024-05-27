@@ -70,20 +70,28 @@ ffr=1.905 #FF cone radius
 ffh=1.89 #FF height
 ffr2=1.905*1.905/1.89
 ffconeShape=openmc.XCone(x0=-125+ffd,r2=ffr2)#FIX:Is this inward or outward, whats r2
-ffcylup=openmc.XPlane(x0=-125+ffd+ffh)
 ffconeup=openmc.XPlane(x0=-125+ffd)
+ffcylup=openmc.XPlane(x0=-125+ffd+ffh)
 ffconeGeo= -ffcylup & -ffconeShape & +ffconeup
 
-roomRegion = roomTotalRegion & ~phantomRegion & ~secollRegion &~ffconeGeo
+# create FF Cylinderr
+ffdr=3 #ffradius
+ffdh=0.05 #ffdownheight FF cylinder down part height
+ffcyl=openmc.XCylinder(r=ffdr) #FIX,: Is this inward or outward
+ffcylup=openmc.XPlane(x0=-125+ffd+ffh)
+ffcyldown=openmc.XPlane(x0=-125+ffd+ffh+ffdh)
+ffcylGeo = -ffcyl & +ffcylup & -ffcyldown
+
+
+roomRegion = roomTotalRegion & ~phantomRegion & ~secollRegion &~ffconeGeo & ~ffcylGeo
 
 roomCell = openmc.Cell(region=roomRegion, fill=air)
 phantomCell = openmc.Cell(region=phantomRegion, fill=water)
 secoll=openmc.Cell(region=secollRegion,fill=tungsten)
 ffcone=openmc.Cell(fill=copper,region=ffconeGeo)
+ffcyl=openmc.Cell(fill=copper,region=ffcylGeo)
 
-#universe = openmc.Universe(cells=[roomCell, phantomCell, secoll, ffcone, ffcyl])
-universe = openmc.Universe(cells=[roomCell,phantomCell,secoll,ffcone])
-#universe = openmc.Universe(cells=[roomCell,phantomCell])
+universe = openmc.Universe(cells=[roomCell, phantomCell, secoll, ffcone, ffcyl])
 
 colors={}
 colors[water]='lightblue'
