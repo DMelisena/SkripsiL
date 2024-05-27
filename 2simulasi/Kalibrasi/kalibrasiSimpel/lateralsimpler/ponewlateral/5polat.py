@@ -1,4 +1,6 @@
 import openmc, openmc.model, openmc.stats, openmc.data
+from math import pi, atan2, cos
+import matplotlib.pyplot as plt
 
 ROOM_SIZE = 60 
 LINAC_DIRECTION= 130 
