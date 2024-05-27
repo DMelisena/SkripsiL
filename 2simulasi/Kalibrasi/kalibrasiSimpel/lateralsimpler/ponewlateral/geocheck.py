@@ -64,21 +64,31 @@ sz2 = +openmc.ZPlane(-SOURCE_SIZE/2.0) & -openmc.ZPlane(SOURCE_SIZE/2.0) #the wi
 secollHole= +sx0 & -sx1 & sy2 & sz2
 secollRegion= secollOuter & ~secollHole
 
+#create FF Cone
+ffd=7.91 #FF Distance from target
+ffr=1.905 #FF cone radius
+ffh=1.89 #FF height
+ffr2=1.905*1.905/1.89
+ffconeShape=openmc.XCone(x0=-125+ffd,r2=ffr2)#FIX:Is this inward or outward, whats r2
+ffcylup=openmc.XPlane(x0=-125+ffd+ffh)
+ffconeup=openmc.XPlane(x0=-125+ffd)
+ffconeGeo= -ffcylup & -ffconeShape & +ffconeup
 
-roomRegion = roomTotalRegion & ~phantomRegion & ~secollRegion 
+roomRegion = roomTotalRegion & ~phantomRegion & ~secollRegion &~ffconeGeo
 
 roomCell = openmc.Cell(region=roomRegion, fill=air)
 phantomCell = openmc.Cell(region=phantomRegion, fill=water)
 secoll=openmc.Cell(region=secollRegion,fill=tungsten)
+ffcone=openmc.Cell(fill=copper,region=ffconeGeo)
 
 #universe = openmc.Universe(cells=[roomCell, phantomCell, secoll, ffcone, ffcyl])
-universe = openmc.Universe(cells=[roomCell,phantomCell,secoll])
+universe = openmc.Universe(cells=[roomCell,phantomCell,secoll,ffcone])
 #universe = openmc.Universe(cells=[roomCell,phantomCell])
 
 colors={}
 colors[water]='lightblue'
 colors[air]='green'
-#colors[copper]='black'
+colors[copper]='black'
 colors[tungsten]='grey'
 print(colors)
 
