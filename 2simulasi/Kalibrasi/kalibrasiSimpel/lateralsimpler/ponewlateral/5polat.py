@@ -37,6 +37,7 @@ roomY0 = openmc.YPlane(y0=-ROOM_SIZE/2, boundary_type='vacuum')
 roomY1 = openmc.YPlane(y0= ROOM_SIZE/2, boundary_type='vacuum')
 roomZ0 = openmc.ZPlane(z0=-ROOM_SIZE/2, boundary_type='vacuum')
 roomZ1 = openmc.ZPlane(z0= ROOM_SIZE/2, boundary_type='vacuum')
+roomTotalRegion = +roomX0 & -roomX1 & +roomY0 & -roomY1 & +roomZ0 & -roomZ1
 
 # create the phantom
 phantomX0 = openmc.XPlane(x0=-PHANTOM_SIZE/2)
@@ -47,28 +48,59 @@ phantomZ0 = openmc.ZPlane(z0=-PHANTOM_SIZE/2)
 phantomZ1 = openmc.ZPlane(z0= PHANTOM_SIZE/2)
 phantomRegion = +phantomX0 & -phantomX1 & +phantomY0 & -phantomY1 & +phantomZ0 & -phantomZ1
 
+# create secondary Collimator
 secollDis= 47 #Secondary Collimator distance from target
 secollLength = 7.8 #Secondary Collimator distance
-s_x = +openmc.XPlane(secollDis-(secollLength/2.0)) & -openmc.XPlane(secollDis+(secollLength/2.0)) #the length for area
-s_y = +openmc.YPlane(-PHANTOM_SIZE/2) & -openmc.YPlane(PHANTOM_SIZE) #area between slices 
-s_z = +openmc.ZPlane(-PHANTOM_SIZE/2) & -openmc.ZPlane(PHANTOM_SIZE/2) #area between slices 
 
-s_y2 = +openmc.YPlane(-SOURCE_SIZE/2.0) & -openmc.YPlane(SOURCE_SIZE/2.0) #the width for area
-s_z2 = +openmc.ZPlane(-SOURCE_SIZE/2.0) & -openmc.ZPlane(SOURCE_SIZE/2.0) #the width for area
-secollHole= s_x & s_y2 & s_z2 #the geometry that would overlaps with tally
-secollSurr = s_x & s_y & s_z #The whole water cells
-secollRegion = secollSurr & ~secollHole
-secoll=openmc.Cell(fill=tungsten ,region=secollRegion)
-roomTotalRegion = +roomX0 & -roomX1 & +roomY0 & -roomY1 & +roomZ0 & -roomZ1
-roomRegion = roomTotalRegion & ~phantomRegion & ~secollRegion
+sx0 = openmc.XPlane(-125+secollDis-(secollLength/2.0)) 
+sx1 = openmc.XPlane(-125+secollDis+(secollLength/2.0)) #the length for area
+secollOuter= +sx0 & -sx1 & +phantomY0 & -phantomY1 & +phantomZ0 & -phantomZ1
+
+sy2 = +openmc.YPlane(-SOURCE_SIZE/2.0) & -openmc.YPlane(SOURCE_SIZE/2.0) #the width for area
+sz2 = +openmc.ZPlane(-SOURCE_SIZE/2.0) & -openmc.ZPlane(SOURCE_SIZE/2.0) #the width for area
+secollHole= +sx0 & -sx1 & sy2 & sz2
+secollRegion= secollOuter & ~secollHole
+
+#create FF Cone
+ffd=7.91 #FF Distance from target
+ffr=1.905 #FF cone radius
+ffh=1.89 #FF height
+ffr2=1.905*1.905/1.89
+ffconeShape=openmc.XCone(x0=-125+ffd,r2=ffr2)#FIX:Is this inward or outward, whats r2
+ffconeup=openmc.XPlane(x0=-125+ffd)
+ffcylup=openmc.XPlane(x0=-125+ffd+ffh)
+ffconeGeo= -ffcylup & -ffconeShape & +ffconeup
+
+# create FF Cylinderr
+ffdr=3 #ffradius
+ffdh=0.05 #ffdownheight FF cylinder down part height
+ffcyl=openmc.XCylinder(r=ffdr) #FIX,: Is this inward or outward
+ffcylup=openmc.XPlane(x0=-125+ffd+ffh)
+ffcyldown=openmc.XPlane(x0=-125+ffd+ffh+ffdh)
+ffcylGeo = -ffcyl & +ffcylup & -ffcyldown
+
+
+roomRegion = roomTotalRegion & ~phantomRegion & ~secollRegion &~ffconeGeo & ~ffcylGeo
 
 roomCell = openmc.Cell(region=roomRegion, fill=air)
 phantomCell = openmc.Cell(region=phantomRegion, fill=water)
+secoll=openmc.Cell(region=secollRegion,fill=tungsten)
+ffcone=openmc.Cell(fill=copper,region=ffconeGeo)
+ffcyl=openmc.Cell(fill=copper,region=ffcylGeo)
 
-universe = openmc.Universe(cells=[roomCell, phantomCell, secoll])
+universe = openmc.Universe(cells=[roomCell, phantomCell, secoll, ffcone, ffcyl])
 geom = openmc.Geometry(universe)
 geom.export_to_xml()
 
+colors={}
+colors[water]='lightblue'
+colors[air]='green'
+colors[copper]='black'
+colors[tungsten]='grey'
+print(colors)
+
+universe.plot(width=(300,100),basis='xz',colors=colors)
+plt.show()
 
 ## source
 d = 100#distance between linac and water phantom
