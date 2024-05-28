@@ -92,16 +92,19 @@ ffcyl=openmc.Cell(fill=copper,region=ffcylGeo)
 
 universe = openmc.Universe(cells=[roomCell, phantomCell, secoll, ffcone, ffcyl])
 geom = openmc.Geometry(universe)
-universe.plot(width=(300,100),basis='xz',colors=colors)
+
+colors1={}
+colors1[water]='lightblue'
+colors1[air]='green'
+colors1[copper]='black'
+colors1[tungsten]='grey'
+print(colors1)
+
+universe.plot(width=(300,100),basis='xz',colors=colors1)
 plt.show()
 geom.export_to_xml()
 
-colors={}
-colors[water]='lightblue'
-colors[air]='green'
-colors[copper]='black'
-colors[tungsten]='grey'
-print(colors)
+
 plot= openmc.Plot()
 plot.basis = 'xz'
 plot.origin = (-60, 0, 0)
