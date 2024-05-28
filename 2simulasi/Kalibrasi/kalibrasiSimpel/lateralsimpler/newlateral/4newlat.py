@@ -62,6 +62,17 @@ universe = openmc.Universe(cells=[roomCell, phantomCell, secoll])
 geom = openmc.Geometry(universe)
 geom.export_to_xml()
 
+plot= openmc.Plot()
+plot.basis = 'xz'
+plot.origin = (-60, 0, 0)
+plot.width = (200., 100.)
+plot.pixels = (1200, 600)
+plot.color_by='material'
+plot.colors={
+    water:'blue',
+    air:'green'
+}
+plot.to_ipython_image()
 
 ## source
 d = 100#distance between linac and water phantom
