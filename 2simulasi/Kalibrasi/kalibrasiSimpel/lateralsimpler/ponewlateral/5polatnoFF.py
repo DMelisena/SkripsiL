@@ -105,8 +105,8 @@ colors[air]='green'
 colors[tungsten]='grey'
 print(colors)
 
-universe.plot(width=(300,100),basis='xz',colors=colors)
-plt.show()
+#universe.plot(width=(300,100),basis='xz',colors=colors)
+#plt.show()
 
 plot= openmc.Plot()
 plot.basis = 'xz'
