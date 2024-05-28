@@ -1,4 +1,4 @@
-import openmc, openmc.model, openmc.stats, openmc.data
+import openmc, openmc.model, openmc.stats, openmc.data #type: ignore
 from math import pi, atan2, cos
 import matplotlib.pyplot as plt
 

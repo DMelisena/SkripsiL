@@ -1,4 +1,4 @@
-import openmc
+import openmc #type: ignore
 import numpy as np
 from scipy.signal import savgol_filter
 import matplotlib.ticker as mtick
