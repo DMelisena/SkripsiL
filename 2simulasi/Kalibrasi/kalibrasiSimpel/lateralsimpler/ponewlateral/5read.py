@@ -161,39 +161,15 @@ yflatv=datay/ymaxv*100
 plt.plot(xv,yflatv,label="dpp")
 plt.ylabel("Relative Dose (%)")
 plt.xlabel("Position (cm)")
-plt.savefig("dpthdose")
-plt.savefig("depth dose.png")
+plt.legend(loc='best')
+plt.title("depth dose raw")
 plt.xlim(0,30)
 plt.ylim(0,105)
+plt.savefig("depth dose raw.png")
 plt.show()
 
-n = len(datay)
-print(len(datay))
-d=30
-datax = np.linspace(0,d,n)
-x_smooth=datax
-y_smooth = np.interp(x_smooth, datax, datay)
-# print (f"datay =\n {datay}")
-# print (f"ysmooth=\n{y_smooth}")
 
-# Apply Savitzky-Golay filter for smoothing
-window_size = 20
-poly_order =5
-#y_smooth = savgol_filter(y_smooth, window_size, poly_order)
-
-max_index=np.argmax(y_smooth)
-x_maxs = x_smooth[max_index]
-y_maxs=y_smooth[max_index]
-plt.plot(x_smooth, datay)
-plt.title("depth dose")
-plt.ylabel("Relative Dose (%)")
-plt.xlabel("Position (cm)")
-plt.savefig("depth dose.png")
-plt.xlim(0,30)
-plt.ylim(0,105)
-plt.show()
-
-tal = statepoint.tallies[5]
+tal = statepoint.tallies[5] # {{{
 fluxv = tal.get_slice(scores=['flux'])
 print("tal = ",tal)
 datay = fluxv.mean.flatten()
@@ -232,3 +208,4 @@ plt.xlabel("Position (cm)")
 plt.title("depth dose widetally.png")
 plt.savefig("depth dose widetally.png",dpi=200)
 plt.show()
+# }}}
