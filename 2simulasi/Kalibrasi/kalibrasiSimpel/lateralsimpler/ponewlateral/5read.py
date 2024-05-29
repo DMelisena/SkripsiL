@@ -6,7 +6,7 @@ import matplotlib.ticker as mtick
 statepoint = openmc.StatePoint('statepoint.20.h5')
 tallies = statepoint.tallies
 
-tally = tallies[1]
+tally = tallies[1] #{{{
 import matplotlib.pyplot as plt
 
 flux = tally.get_slice(scores=['flux'])
@@ -29,23 +29,26 @@ xticks = mtick.FormatStrFormatter(fmt)
 plt.plot(x, yflat,label="raw")
 
 ysmooth=np.interp(x,x,yflat)
-window_size=300
+window_size=500
 poly_order=10
-start=100
-end=400
+start=0
+end=500
 area_tofilter=yflat[start:end]
 filtered=savgol_filter(area_tofilter,window_size,poly_order)
 ysmooth[start:end]=filtered
 plt.plot(x,ysmooth,label="savgol filter")
 plt.legend(loc='best')
-plt.xlabel("Relative Dose (%)")
-plt.ylabel("Position (cm)")
+plt.ylabel("Relative Dose (%)")
+plt.xlabel("Position (cm)")
+plt.xlim(-25,25)
+plt.ylim(0,105)
 
 plt.title('2.5 depth.png')
 plt.savefig('2.5 depth.png')
 plt.show()
+#}}}
 
-tally5 = tallies[2]
+tally5 = tallies[2]#{{{
 
 flux5 = tally5.get_slice(scores=['flux'])
 data5 = flux5.mean.flatten()
@@ -74,14 +77,14 @@ plt.plot(x5,ysmooth5,label="savgol filter")
 plt.legend(loc='best')
 plt.xlim(-25,25)
 plt.ylim(0,105)
-plt.xlabel("Relative Dose (%)")
-plt.ylabel("Position (cm)")
+plt.ylabel("Relative Dose (%)")
+plt.xlabel("Position (cm)")
 plt.title('5 depth.png')
 plt.savefig('5 depth.png')
 plt.show()
+#}}}
 
-
-tally10 = tallies[3]
+tally10 = tallies[3]#{{{
 import matplotlib.pyplot as plt
 
 flux10 = tally10.get_slice(scores=['flux'])
@@ -107,24 +110,25 @@ ysmooth10=np.interp(x10,x10,yflat10)
 area_tofilter10=yflat10[start:end]
 filtered10=savgol_filter(area_tofilter10,window_size,poly_order)
 ysmooth10[start:end]=filtered10
-plt.xlabel("Relative Dose (%)")
-plt.ylabel("Position (cm)")
+plt.ylabel("Relative Dose (%)")
+plt.xlabel("Position (cm)")
 plt.plot(x10,ysmooth10,label="savgol filter")
 plt.legend(loc='best')
 
 plt.xlim(-25,25)
 plt.ylim(0,105)
-plt.xlabel("Relative Dose (%)")
-plt.ylabel("Position (cm)")
-plt.title('10 depth.png')
+plt.ylabel("Relative Dose (%)")
+plt.xlabel("Position (cm)")
+plt.title('10 depth')
 plt.savefig('10 depth.png')
 plt.show()
+#}}}
 
 plt.plot(x, yflat,label="2.5 cm raw")
 plt.plot(x5, yflat5,label="5 cm raw")
 plt.plot(x10, yflat10,label="10 cm raw")
-plt.xlabel("Relative Dose (%)")
-plt.ylabel("Position (cm)")
+plt.ylabel("Relative Dose (%)")
+plt.xlabel("Position (cm)")
 plt.xlim(-25,25)
 plt.ylim(0,105)
 plt.legend(loc='best')
@@ -135,8 +139,8 @@ plt.show()
 plt.plot(x,ysmooth,label="2.5 cm filtered")
 plt.plot(x5,ysmooth5,label="5 cm filtered")
 plt.plot(x10,ysmooth10,label="10 cm filtered")
-plt.xlabel("Relative Dose (%)")
-plt.ylabel("Position (cm)")
+plt.ylabel("Relative Dose (%)")
+plt.xlabel("Position (cm)")
 plt.xlim(-25,25)
 plt.ylim(0,105)
 plt.legend(loc='best')
