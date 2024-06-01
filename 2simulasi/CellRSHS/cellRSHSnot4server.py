@@ -82,6 +82,7 @@ t2=openmc.XPlane(632-76.5,boundary_type='transmission')
 t3=openmc.XPlane(632-76.5-155,boundary_type='transmission')
 t4=openmc.XPlane(632-76.5-155-76.5,boundary_type='transmission')
 t5=openmc.XPlane(632-76.5-155-76.5,boundary_type='transmission')
+t6=openmc.XPlane(632-76.5-155-235,boundary_type='transmission')
 
 b1=openmc.XPlane(-632,boundary_type='transmission')
 b2=openmc.XPlane(-632+76.5,boundary_type='transmission')
@@ -129,7 +130,7 @@ db2 = +b2 & -b3 & +s1 & -u3 & +z0 & -z2
 db3 = +b3 & -b4 & +s3 & -u5 & +z0 & -z2
 
 du1 = +b5 & -t3 & -u1 & +u2 & +z0 & -z2
-du2 = +b3 & -t5 & -u3 & +u4 & +z0 & -z2
+du2 = +b3 & -t6 & -u3 & +u4 & +z0 & -z2
 
 ds1 = +b3 & -t3 & +s1 & -s2 & +z0 & -z2
 
@@ -364,13 +365,13 @@ print(linacuvw, linacxyz)
 plt.rcParams.update({'font.size': 5})
 univ.plot(width=(2500,2700),basis='xy',color_by='material',colors=colors)
 plt.savefig('xyRSHS.png',dpi=500, bbox_inches='tight')
-#plt.show()
+plt.show()
 univ.plot(width=(1400,1040),basis='xz',color_by='material',colors=colors)
 plt.savefig('xzRSHS.png',dpi=500, bbox_inches='tight')
-#plt.show()
+plt.show()
 univ.plot(width=(1800,1040),basis='yz',color_by='material',colors=colors)
 plt.savefig('yzRSHS.png',dpi=500, bbox_inches='tight')
-#plt.show()
+plt.show()
 #Tidak terdapat library matplotlib pada server, sehingga  penampil geometri harus dimatikan untuk running server
 ###############################################
 #                 Plot Grid                   #
