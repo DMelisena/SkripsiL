@@ -384,24 +384,24 @@ plt.show()
 #                 Plot Grid                   #
 ###############################################
 #ax.set_title('Distribusi Dosis Ruangan (uSv/hour)') #type: ignore
-univ.plot(width=(2000,2000),basis='xy',color_by='material',colors=colors)
-plt.savefig('DoseDistributionMap.png',dpi=500, bbox_inches='tight')
+#univ.plot(width=(2000,2000),basis='xy',color_by='material',colors=colors)
+#plt.savefig('DoseDistributionMap.png',dpi=500, bbox_inches='tight')
 
 ###############################################
 #                 Setting                     #
 ###############################################
 settings=openmc.Settings()
 source  =openmc.Source()
+"""
 #source.space=openmc.stats.Points(xyz=)
 source.space=openmc.stats.Point(xyz=linacxyz) # type: ignore
 #phi2=openmc.stats.Isotropic() #isotropic ato uniform?
 #phi1=openmc.stats.Monodirectional((0,0,1))
-phi =openmc.stats.Uniform(0.0,2*pi) # type: ignore
+phi =openmc.stats.Uniform(0.0,2*pi) # type: ignore #phi=distribution of the azimuthal angle in radians
 #mu= distribution of the cosine of the polar angle
-#phi=distribution of the azimuthal angle in radians
 
 #tan theta = r/SAD=20/1000; theta = atan(20/100)=0.19739555984988; cos theta=0.98058
-mu=openmc.stats.Uniform(0.98058,1) # type: ignore
+mu=openmc.stats.Uniform(0.98058,1) # type: ignore #mu= distribution of the cosine of the polar angle
 
 source.angle = openmc.stats.PolarAzimuthal(mu,phi,reference_uvw=linacuvw) # type: ignore
 source.energy = openmc.stats.Discrete([10e6],[1]) #10MeV # type: ignore
