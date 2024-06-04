@@ -357,13 +357,14 @@ def sposi(d,rot):
         xyz1= ( d*(sin(radians(rot))) )+0.1, 20, -128+ ( d*(cos(radians(rot)) )+20)
         xyz2= ( d*(sin(radians(rot))) ), -20, -128+ ( d*(cos(radians(rot)) )-20)
     return uvw, xyz,xyz1,xyz2 
+    #asumsi tinggi pasien 75
 ###############################################
 #        Input (linac distance,rotation)      #
-linacuvw, linacxyz=sposi(100,rotationDegree)
+linacuvw, linacxyz,linacxyzn1,linacxyzn2=sposi(100,rotationDegree)
 ###############################################
-print(linacuvw, linacxyz)
+print("linacuvw,linacxyz,linacuvwn1,linacuvwn2",linacuvw, linacxyz,linacxyzn1,linacxyzn2)
 
-
+"""
 ###############################################
 #            Penampil Geometri                #
 ###############################################
@@ -378,6 +379,7 @@ univ.plot(width=(1800,1040),basis='yz',color_by='material',colors=colors)
 plt.savefig('yzRSHS.png',dpi=500, bbox_inches='tight')
 plt.show()
 #Tidak terdapat library matplotlib pada server, sehingga  penampil geometri harus dimatikan untuk running server
+"""
 ###############################################
 #                 Plot Grid                   #
 ###############################################
