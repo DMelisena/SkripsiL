@@ -405,13 +405,19 @@ mu=openmc.stats.Uniform(0.98058,1) # type: ignore #mu= distribution of the cosin
 
 source.angle = openmc.stats.PolarAzimuthal(mu,phi,reference_uvw=linacuvw) # type: ignore
 source.energy = openmc.stats.Discrete([10e6],[1]) #10MeV # type: ignore
+"""
+#source.space=openmc.stats.Point(xyz=linacxyz) # type: ignore
+#source.space = openmc.stats.Box((-PHANTOM_SIZE/2-d, -SOURCE_SIZE/2, -SOURCE_SIZE/2), (-PHANTOM_SIZE/2-d-t, SOURCE_SIZE/2, SOURCE_SIZE/2))
+source.space = openmc.stats.Box((linacxyzn1), (linacxyzn2))
+source.angle = openmc.stats.Monodirectional(linacuvw)
+source.energy = openmc.stats.Discrete([10e6], [1])
+
 source.particle = 'photon'
 #source.particle = 'neutron'
 settings.source = source
 settings.batches= 100
 settings.particles = particle
 #Asumsi 36e7 partikel pada mula, pada 600MU=600cGy/m=6Gy/m=6Sv/m=6e6uSv/m=360e6uSv/h
-#maka, apabila 
 settings.run_mode = 'fixed source'
 settings.photon_transport = True
 settings.export_to_xml()
