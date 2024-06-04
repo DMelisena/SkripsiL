@@ -349,9 +349,14 @@ def sposi(d,rot):
     w= (-cos(radians(rot))) #source position
     uvw = (u,v,w)
     xyz = ( d*(sin(radians(rot))) ), 0, -128+ ( d*(cos(radians(rot)) ))
-    return uvw, xyz
-    #asumsi tinggi pasien 75cm
-
+    xyz = xyz
+    if rot==0 or rot==180:
+        xyz1= ( d*(sin(radians(rot))) )+20, 20, -128+ ( d*(cos(radians(rot)) )+0.1)
+        xyz2= ( d*(sin(radians(rot))) )-20, -20, -128+ ( d*(cos(radians(rot)) ))
+    else:
+        xyz1= ( d*(sin(radians(rot))) )+0.1, 20, -128+ ( d*(cos(radians(rot)) )+20)
+        xyz2= ( d*(sin(radians(rot))) ), -20, -128+ ( d*(cos(radians(rot)) )-20)
+    return uvw, xyz,xyz1,xyz2 
 ###############################################
 #        Input (linac distance,rotation)      #
 linacuvw, linacxyz=sposi(100,rotationDegree)
