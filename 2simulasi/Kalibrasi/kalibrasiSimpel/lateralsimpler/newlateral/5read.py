@@ -1,4 +1,4 @@
-import openmc
+import openmc #type: ignore
 import numpy as np
 from scipy.signal import savgol_filter
 import matplotlib.ticker as mtick
@@ -6,7 +6,7 @@ import matplotlib.ticker as mtick
 statepoint = openmc.StatePoint('statepoint.20.h5')
 tallies = statepoint.tallies
 
-tally = tallies[1]
+tally = tallies[1] # {{{
 import matplotlib.pyplot as plt
 
 flux = tally.get_slice(scores=['flux'])
@@ -42,9 +42,10 @@ plt.legend(loc='best')
 plt.title('2.5 depth.png')
 plt.savefig('2.5 depth.png')
 plt.show()
+#}}}
 
-tally5 = tallies[2]
 import matplotlib.pyplot as plt
+tally5 = tallies[2]# {{{
 
 flux5 = tally5.get_slice(scores=['flux'])
 data5 = flux5.mean.flatten()
@@ -76,9 +77,9 @@ plt.ylim(0,105)
 plt.title('5 depth.png')
 plt.savefig('5 depth.png')
 plt.show()
+#}}}
 
-
-tally10 = tallies[3]
+tally10 = tallies[3]# {{{
 import matplotlib.pyplot as plt
 
 flux10 = tally10.get_slice(scores=['flux'])
@@ -112,7 +113,9 @@ plt.ylim(0,105)
 plt.title('10 depth.png')
 plt.savefig('10 depth.png')
 plt.show()
+#}}}
 
+# lateral mixer {{{
 plt.plot(x, yflat,label="2.5 cm raw")
 plt.plot(x5, yflat5,label="5 cm raw")
 plt.plot(x10, yflat10,label="10 cm raw")
@@ -132,8 +135,10 @@ plt.legend(loc='best')
 plt.title("filtered result comparison")
 plt.savefig("filtered result comparison")
 plt.show()
+# }}}
 
-tal = statepoint.tallies[4]
+
+tal = statepoint.tallies[4] #{{{
 fluxv = tal.get_slice(scores=['flux'])
 print("tal = ",tal)
 datay = fluxv.mean.flatten()
@@ -163,7 +168,8 @@ plt.plot(x_smooth, datay)
 plt.savefig("depth dose.png")
 plt.show()
 
-tal = statepoint.tallies[5]
+
+tal = statepoint.tallies[5] # {{{
 fluxv = tal.get_slice(scores=['flux'])
 print("tal = ",tal)
 datay = fluxv.mean.flatten()
@@ -197,3 +203,4 @@ plt.plot(x_smooth, datay)
 plt.title("depth dose widetally.png")
 plt.savefig("depth dose widetally.png")
 plt.show()
+# }}}
