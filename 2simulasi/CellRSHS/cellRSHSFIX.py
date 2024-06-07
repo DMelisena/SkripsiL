@@ -82,6 +82,7 @@ t2=openmc.XPlane(632-76.5,boundary_type='transmission')
 t3=openmc.XPlane(632-76.5-155,boundary_type='transmission')
 t4=openmc.XPlane(632-76.5-155-76.5,boundary_type='transmission')
 t5=openmc.XPlane(632-76.5-155-76.5,boundary_type='transmission')
+t6=openmc.XPlane(632-76.5-155-235,boundary_type='transmission')
 
 b1=openmc.XPlane(-632,boundary_type='transmission')
 b2=openmc.XPlane(-632+76.5,boundary_type='transmission')
@@ -129,7 +130,7 @@ db2 = +b2 & -b3 & +s1 & -u3 & +z0 & -z2
 db3 = +b3 & -b4 & +s3 & -u5 & +z0 & -z2
 
 du1 = +b5 & -t3 & -u1 & +u2 & +z0 & -z2
-du2 = +b3 & -t5 & -u3 & +u4 & +z0 & -z2
+du2 = +b3 & -t6 & -u3 & +u4 & +z0 & -z2
 
 ds1 = +b3 & -t3 & +s1 & -s2 & +z0 & -z2
 
@@ -248,8 +249,8 @@ deas=openmc.XPlane(-25.0,boundary_type='transmission')
 deat=openmc.YPlane(25.0,boundary_type='transmission')
 deab=openmc.YPlane(-25.0,boundary_type='transmission')
 
-dea1=openmc.ZPlane(300.0+50.0,boundary_type='transmission') #1250 ATO 2500???
-dea1t=openmc.ZPlane(300.0+50.0+10.8,boundary_type='transmission') #1250 ATO 2500???
+dea1=openmc.ZPlane(300.0+30.0,boundary_type='transmission') #1250 ATO 2500???
+dea1t=openmc.ZPlane(300.0+30.0+10.8,boundary_type='transmission') #1250 ATO 2500???
 dea2=openmc.ZPlane(300.0+100.0,boundary_type='transmission')
 dea2t=openmc.ZPlane(300.0+100.0+10.8,boundary_type='transmission')
 dea3=openmc.ZPlane(300.0+200.0,boundary_type='transmission') 
@@ -336,7 +337,7 @@ colors= {}
 colors[lead]='black'
 colors[bpe]='lightblue'
 colors[concrete]='grey'
-colors[air]='green'
+colors[air]='white'
 colors[air2]='blue'
 
 ###############################################
@@ -348,53 +349,75 @@ def sposi(d,rot):
     w= (-cos(radians(rot))) #source position
     uvw = (u,v,w)
     xyz = ( d*(sin(radians(rot))) ), 0, -128+ ( d*(cos(radians(rot)) ))
-    return uvw, xyz
-    #asumsi tinggi pasien 75cm
-
+    xyz = xyz
+    if rot==0 or rot==180:
+        xyz1= ( d*(sin(radians(rot))) )+20, 20, -128+ ( d*(cos(radians(rot)) )+0.1)
+        xyz2= ( d*(sin(radians(rot))) )-20, -20, -128+ ( d*(cos(radians(rot)) ))
+    else:
+        xyz1= ( d*(sin(radians(rot))) )+0.1, 20, -128+ ( d*(cos(radians(rot)) )+20)
+        xyz2= ( d*(sin(radians(rot))) ), -20, -128+ ( d*(cos(radians(rot)) )-20)
+    return uvw, xyz,xyz1,xyz2 
+    #asumsi tinggi pasien 75
 ###############################################
 #        Input (linac distance,rotation)      #
-linacuvw, linacxyz=sposi(100,rotationDegree)
+linacuvw, linacxyz,linacxyzn1,linacxyzn2=sposi(100,rotationDegree)
 ###############################################
-print(linacuvw, linacxyz)
+print("linacuvw,linacxyz,linacuvwn1,linacuvwn2",linacuvw, linacxyz,linacxyzn1,linacxyzn2)
 
-
+"""
 ###############################################
 #            Penampil Geometri                #
 ###############################################
-# univ.plot(width=(2500,2700),basis='xy',color_by='material',colors=colors)
-# plt.savefig('xyRSHS.png')
-# univ.plot(width=(1400,1040),basis='xz',color_by='material',colors=colors)
-# plt.savefig('xzRSHS.png')
-# univ.plot(width=(1800,1040),basis='yz',color_by='material',colors=colors)
-# plt.savefig('yzRSHS.png')
-# plt.show()
-
+plt.rcParams.update({'font.size': 5})
+univ.plot(width=(2500,2700),basis='xy',color_by='material',colors=colors)
+plt.savefig('xyRSHS.png',dpi=500, bbox_inches='tight')
+plt.show()
+univ.plot(width=(1400,1040),basis='xz',color_by='material',colors=colors)
+plt.savefig('xzRSHS.png',dpi=500, bbox_inches='tight')
+plt.show()
+univ.plot(width=(1800,1040),basis='yz',color_by='material',colors=colors)
+plt.savefig('yzRSHS.png',dpi=500, bbox_inches='tight')
+plt.show()
+#Tidak terdapat library matplotlib pada server, sehingga  penampil geometri harus dimatikan untuk running server
+"""
+###############################################
+#                 Plot Grid                   #
+###############################################
+#ax.set_title('Distribusi Dosis Ruangan (uSv/hour)') #type: ignore
+#univ.plot(width=(2000,2000),basis='xy',color_by='material',colors=colors)
+#plt.savefig('DoseDistributionMap.png',dpi=500, bbox_inches='tight')
 
 ###############################################
 #                 Setting                     #
 ###############################################
 settings=openmc.Settings()
 source  =openmc.Source()
+"""
 #source.space=openmc.stats.Points(xyz=)
 source.space=openmc.stats.Point(xyz=linacxyz) # type: ignore
 #phi2=openmc.stats.Isotropic() #isotropic ato uniform?
 #phi1=openmc.stats.Monodirectional((0,0,1))
-phi =openmc.stats.Uniform(0.0,2*pi) # type: ignore
+phi =openmc.stats.Uniform(0.0,2*pi) # type: ignore #phi=distribution of the azimuthal angle in radians
 #mu= distribution of the cosine of the polar angle
-#phi=distribution of the azimuthal angle in radians
 
 #tan theta = r/SAD=20/1000; theta = atan(20/100)=0.19739555984988; cos theta=0.98058
-mu=openmc.stats.Uniform(0.98058,1) # type: ignore
+mu=openmc.stats.Uniform(0.98058,1) # type: ignore #mu= distribution of the cosine of the polar angle
 
 source.angle = openmc.stats.PolarAzimuthal(mu,phi,reference_uvw=linacuvw) # type: ignore
 source.energy = openmc.stats.Discrete([10e6],[1]) #10MeV # type: ignore
+"""
+#source.space=openmc.stats.Point(xyz=linacxyz) # type: ignore
+#source.space = openmc.stats.Box((-PHANTOM_SIZE/2-d, -SOURCE_SIZE/2, -SOURCE_SIZE/2), (-PHANTOM_SIZE/2-d-t, SOURCE_SIZE/2, SOURCE_SIZE/2))
+source.space = openmc.stats.Box((linacxyzn1), (linacxyzn2))
+source.angle = openmc.stats.Monodirectional(linacuvw)
+source.energy = openmc.stats.Discrete([10e6], [1])
+
 source.particle = 'photon'
 #source.particle = 'neutron'
 settings.source = source
 settings.batches= 100
 settings.particles = particle
 #Asumsi 36e7 partikel pada mula, pada 600MU=600cGy/m=6Gy/m=6Sv/m=6e6uSv/m=360e6uSv/h
-#maka, apabila 
 settings.run_mode = 'fixed source'
 settings.photon_transport = True
 settings.export_to_xml()
