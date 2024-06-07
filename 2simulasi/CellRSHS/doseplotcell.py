@@ -49,19 +49,19 @@ print(celltally)
 celldosevalues.shape = celldosevalues.shape[0]
 celldosestddev.shape = celldosestddev.shape[0]
 
-vcell= 10.8*50*200 #cm3
-cres = 3957773114754357.0
-#dose_psvs=celldosevalues * s_rate / vcell
-#usvh_dose=(dose_psvs/1e6)*3600
+vcell=10.8*50*200 #cm3
 
-#stddev_psvs=celldosestddev*s_rate/vcell
-#usvh_stddev=(stddev_psvs/1e6)*3600
+dose_psvs=celldosevalues * s_rate / vcell
+usvh_dose=(dose_psvs/1e6)*3600
 
-#dose=usvh_dose
-#dosestddev=usvh_stddev
+stddev_psvs=celldosestddev*s_rate/vcell
+usvh_stddev=(stddev_psvs/1e6)*3600
 
-dose= celldosevalues*cres/vcell
-dosestddev=celldosestddev*cres/vcell
+dose=usvh_dose
+dosestddev=usvh_stddev
+
+dose= celldosevalues*cfac*60/vcell
+stddev_psvs=celldosestddev*cfac*60/vcell
 
 DF=pd.DataFrame(dose,dosestddev)
 
