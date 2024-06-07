@@ -162,6 +162,10 @@ df.to_csv("fluxanddose.csv")
 datay = fluxv.mean.flatten()
 datay = flux.mean.flatten()
 
+datanew=(datay,dosev)
+df=pd.DataFrame(datanew)
+df.to_csv("fluxanddose123.csv")
+
 
 x = np.linspace(-25, 25, len(datay))
 
