@@ -156,6 +156,7 @@ dosev = tal.mean
 datanew=(fluxv,dosev)
 df=pd.DataFrame(datanew)
 df.to_csv("fluxanddose.csv")
+#TODO: Take flux value into consideration for dose conversion
 
 
 #print("tal = ",tal)

@@ -427,6 +427,7 @@ settings.export_to_xml()
 ###############################################
 tally = openmc.Tallies()
 
+#TODO: Change Tally size to smaller actual tally size value
 #Tally Dose Distribution
 mesh = openmc.RegularMesh() # type: ignore
 mesh.dimension = [500, 500]
