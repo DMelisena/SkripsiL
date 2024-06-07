@@ -29,22 +29,25 @@ xticks = mtick.FormatStrFormatter(fmt)
 plt.plot(x, yflat,label="raw")
 
 ysmooth=np.interp(x,x,yflat)
-window_size=300
+window_size=500
 poly_order=10
-start=100
-end=400
+start=0
+end=500
 area_tofilter=yflat[start:end]
 filtered=savgol_filter(area_tofilter,window_size,poly_order)
 ysmooth[start:end]=filtered
 plt.plot(x,ysmooth,label="savgol filter")
 plt.legend(loc='best')
+plt.ylabel("Relative Dose (%)")
+plt.xlabel("Position (cm)")
+plt.xlim(-25,25)
+plt.ylim(0,105)
 
 plt.title('2.5 depth.png')
 plt.savefig('2.5 depth.png')
 plt.show()
 #}}}
 
-import matplotlib.pyplot as plt
 tally5 = tallies[2]# {{{
 
 flux5 = tally5.get_slice(scores=['flux'])
@@ -74,6 +77,8 @@ plt.plot(x5,ysmooth5,label="savgol filter")
 plt.legend(loc='best')
 plt.xlim(-25,25)
 plt.ylim(0,105)
+plt.ylabel("Relative Dose (%)")
+plt.xlabel("Position (cm)")
 plt.title('5 depth.png')
 plt.savefig('5 depth.png')
 plt.show()
@@ -105,12 +110,16 @@ ysmooth10=np.interp(x10,x10,yflat10)
 area_tofilter10=yflat10[start:end]
 filtered10=savgol_filter(area_tofilter10,window_size,poly_order)
 ysmooth10[start:end]=filtered10
+plt.ylabel("Relative Dose (%)")
+plt.xlabel("Position (cm)")
 plt.plot(x10,ysmooth10,label="savgol filter")
 plt.legend(loc='best')
 
 plt.xlim(-25,25)
 plt.ylim(0,105)
-plt.title('10 depth.png')
+plt.ylabel("Relative Dose (%)")
+plt.xlabel("Position (cm)")
+plt.title('10 depth')
 plt.savefig('10 depth.png')
 plt.show()
 #}}}
@@ -119,6 +128,8 @@ plt.show()
 plt.plot(x, yflat,label="2.5 cm raw")
 plt.plot(x5, yflat5,label="5 cm raw")
 plt.plot(x10, yflat10,label="10 cm raw")
+plt.ylabel("Relative Dose (%)")
+plt.xlabel("Position (cm)")
 plt.xlim(-25,25)
 plt.ylim(0,105)
 plt.legend(loc='best')
@@ -129,6 +140,8 @@ plt.show()
 plt.plot(x,ysmooth,label="2.5 cm filtered")
 plt.plot(x5,ysmooth5,label="5 cm filtered")
 plt.plot(x10,ysmooth10,label="10 cm filtered")
+plt.ylabel("Relative Dose (%)")
+plt.xlabel("Position (cm)")
 plt.xlim(-25,25)
 plt.ylim(0,105)
 plt.legend(loc='best')
@@ -146,7 +159,6 @@ xv=np.linspace(0,30,len(datay))
 ymaxv=np.max(datay)
 yflatv=datay/ymaxv*100
 plt.plot(xv,yflatv,label="dpp")
-
 n = len(datay)
 print(len(datay))
 d=30
@@ -166,6 +178,13 @@ x_maxs = x_smooth[max_index]
 y_maxs=y_smooth[max_index]
 plt.plot(x_smooth, datay)
 plt.savefig("depth dose.png")
+plt.ylabel("Relative Dose (%)")
+plt.xlabel("Position (cm)")
+plt.legend(loc='best')
+plt.title("depth dose raw")
+plt.xlim(0,30)
+plt.ylim(0,105)
+plt.savefig("depth dose raw.png")
 plt.show()
 
 
@@ -197,10 +216,15 @@ x_maxs = x_smooth[max_index]
 y_maxs=y_smooth[max_index]
 
 print(y_max)
-plt.axvline(x=x_maxs,color='r',label='peak')
+plt.axvline(x=x_maxs,color='r',label=f'peak{x_maxs}')
 
-plt.plot(x_smooth, datay)
+plt.plot(datax, datay)
+plt.xlim(0,30)
+plt.ylim(0,105)
+plt.legend(loc='best')
+plt.ylabel("Relative Dose (%)")
+plt.xlabel("Position (cm)")
 plt.title("depth dose widetally.png")
-plt.savefig("depth dose widetally.png")
+plt.savefig("depth dose widetally.png",dpi=200)
 plt.show()
 # }}}
