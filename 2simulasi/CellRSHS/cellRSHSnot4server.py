@@ -390,6 +390,11 @@ univ=openmc.Universe(cells=[dt1cell,dt2cell,dt3cell,
                             detut1cell,detut2cell,detut3cell,
                             dett1cell,dett2cell,dett3cell,
                             deta1cell,deta2cell,deta3cell,
+                            detb1scell,detb2scell,detb3scell,
+                            detub1scell,detub2scell,detub3scell,
+                            detut1scell,detut2scell,detut3scell,
+                            dett1scell,dett2scell,dett3scell,
+                            deta1scell,deta2scell,deta3scell,
                             detaxcell])
 geometry=openmc.Geometry(univ)
 geometry.export_to_xml()
@@ -487,7 +492,6 @@ settings.export_to_xml()
 #                 Tallies                     #
 ###############################################
 tally = openmc.Tallies()
-
 #TODO: Change Tally size to smaller actual tally size value
 #Tally Dose Distribution
 mesh = openmc.RegularMesh() # type: ignore
@@ -519,6 +523,15 @@ tally2.filters = [filter_cell, particle2, dose_filter]
 tally2.scores = ['flux']
 tally.append(tally2)
 
+filter_cell_small = openmc.CellFilter((detb1scell,detb2scell,detb3scell,\
+                            detub1scell,detub2scell,detub3scell,\
+                            detut1scell,detut2scell,detut3scell,\
+                            dett1scell,dett2scell,dett3scell,\
+                            deta1scell,deta2scell,deta3scell))
+tally4 = openmc.Tally(name = 'flux detektor small')
+tally4.filters = [filter_cell_small, particle2, dose_filter]
+tally4.scores = ['flux']
+tally4.append(tally4)
 
 energy2, dose2 = openmc.data.dose_coefficients('neutron', 'AP') #Data konve # type: ignore
 dose_filter = openmc.EnergyFunctionFilter(energy2, dose2) #konvert partikel energi tertentu ke deskripsi icrp116 partikelcm/src->pSvcm3/srcwphantom_cell,particle3,dose_filter
@@ -528,7 +541,6 @@ tally3= openmc.Tally(name='neutron')
 tally3.filters=[neutroncell,particle3,dose_filter]
 tally3.scores=['flux']
 tally.append(tally3)
-
 
 """
 #Tally Water Phantom
@@ -541,5 +553,6 @@ tally3.filters=[wphantom_cell,particle3,dose_filter]  #output pSvcm3/src
 tally3.scores = ['flux']
 tally.append(tally3)
 """
+
 tally.export_to_xml()
 openmc.run()
