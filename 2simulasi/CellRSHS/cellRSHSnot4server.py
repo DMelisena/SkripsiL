@@ -200,14 +200,14 @@ deucbs=openmc.XPlane(250.0-detd/2) #koordinat x nya masih ngasal
 deucts=openmc.XPlane(250.0+detd/2)
 
 detb1= +deu1 & -deu1t & +deuz0 & -deuz1 & +deubb & -deubt #detektor utara barat, x nya ngasal
-detb2= +deu2 & -deu2t & +deuz0 & -deuz1 & +deubb & -deubt 
+detb2= +deu2 & -deu2t & +deuz0 & -deuz1 & +deubb & -deubt
 detb3= +deu3 & -deu3t & +deuz0 & -deuz1 & +deubb & -deubt
 dett1= +deu1 & -deu1t & +deuz0 & -deuz1 & +deucb & -deuct #detektor utara timur, x nya ngasal
 dett2= +deu2 & -deu2t & +deuz0 & -deuz1 & +deucb & -deuct
 dett3= +deu3 & -deu3t & +deuz0 & -deuz1 & +deucb & -deuct
 
 detb1s= +deu1 & -deu1ts & +deuz0s & -deuz1s & +deubbs & -deubts #detektor utara barat, x nya ngasal
-detb2s= +deu2 & -deu2ts & +deuz0s & -deuz1s & +deubbs & -deubts 
+detb2s= +deu2 & -deu2ts & +deuz0s & -deuz1s & +deubbs & -deubts
 detb3s= +deu3 & -deu3ts & +deuz0s & -deuz1s & +deubbs & -deubts
 dett1s= +deu1 & -deu1ts & +deuz0s & -deuz1s & +deucbs & -deucts #detektor utara timur, x nya ngasal
 dett2s= +deu2 & -deu2ts & +deuz0s & -deuz1s & +deucbs & -deucts
@@ -215,15 +215,15 @@ dett3s= +deu3 & -deu3ts & +deuz0s & -deuz1s & +deucbs & -deucts
 
 #Detektor
 detub1cell=openmc.Cell(fill=air2,region=detb1) #sel detektor barat 1
-detub2cell=openmc.Cell(fill=air2,region=detb2) 
-detub3cell=openmc.Cell(fill=air2,region=detb3) 
+detub2cell=openmc.Cell(fill=air2,region=detb2)
+detub3cell=openmc.Cell(fill=air2,region=detb3)
 detut1cell=openmc.Cell(fill=air2,region=dett1)
 detut2cell=openmc.Cell(fill=air2,region=dett2)
 detut3cell=openmc.Cell(fill=air2,region=dett3)
 
 detub1scell=openmc.Cell(fill=air2,region=detb1s) #sel detektor barat 1
-detub2scell=openmc.Cell(fill=air2,region=detb2s) 
-detub3scell=openmc.Cell(fill=air2,region=detb3s) 
+detub2scell=openmc.Cell(fill=air2,region=detb2s)
+detub3scell=openmc.Cell(fill=air2,region=detb3s)
 detut1scell=openmc.Cell(fill=air2,region=dett1s)
 detut2scell=openmc.Cell(fill=air2,region=dett2s)
 detut3scell=openmc.Cell(fill=air2,region=dett3s)
@@ -430,7 +430,6 @@ linacuvw, linacxyz,linacxyzn1,linacxyzn2=sposi(100,rotationDegree)
 ###############################################
 print("linacuvw,linacxyz,linacuvwn1,linacuvwn2",linacuvw, linacxyz,linacxyzn1,linacxyzn2)
 
-"""
 ###############################################
 #            Penampil Geometri                #
 ###############################################
@@ -445,7 +444,7 @@ univ.plot(width=(1800,1040),basis='yz',color_by='material',colors=colors)
 plt.savefig('yzRSHS.png',dpi=500, bbox_inches='tight')
 plt.show()
 #Tidak terdapat library matplotlib pada server, sehingga  penampil geometri harus dimatikan untuk running server
-"""
+
 ###############################################
 #                 Plot Grid                   #
 ###############################################
@@ -531,7 +530,7 @@ filter_cell_small = openmc.CellFilter((detb1scell,detb2scell,detb3scell,\
 tally4 = openmc.Tally(name = 'flux detektor small')
 tally4.filters = [filter_cell_small, particle2, dose_filter]
 tally4.scores = ['flux']
-tally4.append(tally4)
+tally.append(tally4)
 
 energy2, dose2 = openmc.data.dose_coefficients('neutron', 'AP') #Data konve # type: ignore
 dose_filter = openmc.EnergyFunctionFilter(energy2, dose2) #konvert partikel energi tertentu ke deskripsi icrp116 partikelcm/src->pSvcm3/srcwphantom_cell,particle3,dose_filter
