@@ -433,6 +433,45 @@ print("linacuvw,linacxyz,linacuvwn1,linacuvwn2",linacuvw, linacxyz,linacxyzn1,li
 ###############################################
 #            Penampil Geometri                #
 ###############################################
+plot=openmc.Plot()
+plot.basis='xy'
+plot.origin=(0,200,0)
+plot.width=(2000,2000)
+plot.pixles=(2000,2000)
+plot.filename='xy_room'
+plot.colors={
+    lead:'black',
+    bpe:'lightblue',
+    concrete:'grey',
+    air:'white',
+    air2:'blue'
+}
+plot.color_by='material'
+plot_file=openmc.Plots([plot])
+plot_file.export_to_xml()
+openmc.plot_geometry()
+#!convert something.ppm something.png
+
+plot.to_ipython_image()
+
+plot.basis='yz'
+plot.filename='yz_room'
+plot.width=(2000,2000)
+plot_file=openmc.Plots([plot])
+plot_file.export_to_xml()
+openmc.plot_geometry()
+plot.to_ipython_image()
+
+plot.basis='xz'
+plot.filename='xz_room'
+plot.pixles=(2000,2000)
+plot.width=(2000,2000)
+plot.origin=(0,0,0)
+plot_file=openmc.Plots([plot])
+plot_file.export_to_xml()
+openmc.plot_geometry()
+plot.to_ipython_image()
+
 plt.rcParams.update({'font.size': 5})
 univ.plot(width=(2500,2700),basis='xy',color_by='material',colors=colors)
 plt.savefig('xyRSHS.png',dpi=500, bbox_inches='tight')
@@ -443,6 +482,9 @@ plt.show()
 univ.plot(width=(1800,1040),basis='yz',color_by='material',colors=colors)
 plt.savefig('yzRSHS.png',dpi=500, bbox_inches='tight')
 plt.show()
+
+
+
 #Tidak terdapat library matplotlib pada server, sehingga  penampil geometri harus dimatikan untuk running server
 
 ###############################################
