@@ -326,6 +326,9 @@ deta2scell=openmc.Cell(fill=air2,region=deta2s)
 deta3scell=openmc.Cell(fill=air2,region=deta3s)
 
 #Water Phantom 10x10x5
+#TODO: Water phantom dpp and lateral tallies, to get flux value and relative comparison to the dose.
+#make tally, search for the dose, search the corresponding flux, use it as the conversion rate for searching dose(sv/h)
+
 phantom_rotation=270 #phantom rotation
 pr=phantom_rotation
 detaxu=openmc.YPlane(5)
@@ -482,8 +485,6 @@ plt.show()
 univ.plot(width=(1800,1040),basis='yz',color_by='material',colors=colors)
 plt.savefig('yzRSHS.png',dpi=500, bbox_inches='tight')
 plt.show()
-
-
 
 #Tidak terdapat library matplotlib pada server, sehingga  penampil geometri harus dimatikan untuk running server
 
