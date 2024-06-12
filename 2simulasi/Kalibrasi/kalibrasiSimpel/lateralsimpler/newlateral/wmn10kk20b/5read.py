@@ -152,11 +152,13 @@ plt.show()
 
 tal = statepoint.tallies[4] # dpp 0.1 tally{{{
 fluxv = tal.get_slice(scores=['flux'])
-dosev = tal.mean
+dosev = tal.mean.flatten()
+"""
 datanew=(fluxv,dosev)
 df=pd.DataFrame(datanew)
 df.to_csv("fluxanddose.csv")
 
+"""
 
 #print("tal = ",tal)
 datay = fluxv.mean.flatten()
