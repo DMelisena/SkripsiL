@@ -6,7 +6,8 @@ import pandas as pd
 
 x=500#harus sama dengan resolusi pada file utama
 y=500
-s_rate=3.293648066139751e+17 #src/s
+#s_rate=3.293648066139751e+17 #src/s
+s_rate= 16368352439.27938
 v=(2000/x)*(2000/y)*1000 #volume of room dose distribution
 vcell=10.8*50*200 #cm3
 
@@ -21,10 +22,10 @@ celldosevalues.shape = celldosevalues.shape[0]
 celldosestddev.shape = celldosestddev.shape[0]
 
 dose_psvs=celldosevalues * s_rate / vcell
-usvh_dose=(dose_psvs/1e6)*3600
+usvh_dose=dose_psvs
 
 stddev_psvs=celldosestddev*s_rate/vcell
-usvh_stddev=(stddev_psvs/1e6)*3600
+usvh_stddev=stddev_psvs
 
 dose1=usvh_dose
 dosestddev1=usvh_stddev
@@ -42,10 +43,10 @@ celldosevalues.shape = celldosevalues.shape[0]
 celldosestddev.shape = celldosestddev.shape[0]
 
 dose_psvs=celldosevalues * s_rate / vcell
-usvh_dose=(dose_psvs/1e6)*3600
+usvh_dose=dose_psvs
 
 stddev_psvs=celldosestddev*s_rate/vcell
-usvh_stddev=(stddev_psvs/1e6)*3600
+usvh_stddev=stddev_psvs
 
 dose2=usvh_dose
 dosestddev2=usvh_stddev
@@ -63,10 +64,10 @@ celldosevalues.shape = celldosevalues.shape[0]
 celldosestddev.shape = celldosestddev.shape[0]
 
 dose_psvs=celldosevalues * s_rate / vcell
-usvh_dose=(dose_psvs/1e6)*3600
+usvh_dose=dose_psvs
 
 stddev_psvs=celldosestddev*s_rate/vcell
-usvh_stddev=(stddev_psvs/1e6)*3600
+usvh_stddev=stddev_psvs
 
 dose3=usvh_dose
 dosestddev3=usvh_stddev
@@ -84,10 +85,10 @@ celldosevalues.shape = celldosevalues.shape[0]
 celldosestddev.shape = celldosestddev.shape[0]
 
 dose_psvs=celldosevalues * s_rate / vcell
-usvh_dose=(dose_psvs/1e6)*3600
+usvh_dose=dose_psvs
 
 stddev_psvs=celldosestddev*s_rate/vcell
-usvh_stddev=(stddev_psvs/1e6)*3600
+usvh_stddev=stddev_psvs
 
 dose4=usvh_dose
 dosestddev4=usvh_stddev
