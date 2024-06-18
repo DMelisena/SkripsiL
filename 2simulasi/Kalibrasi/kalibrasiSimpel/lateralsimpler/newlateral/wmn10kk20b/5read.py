@@ -6,7 +6,7 @@ import pandas as pd
 
 statepoint = openmc.StatePoint('statepoint.20.h5')
 tallies = statepoint.tallies
-
+print(tallies)
 tally = tallies[1] #2.5 depth {{{
 import matplotlib.pyplot as plt
 
@@ -153,26 +153,20 @@ plt.show()
 tal = statepoint.tallies[4] # dpp 0.1 tally{{{
 fluxv = tal.get_slice(scores=['flux'])
 dosev = tal.mean.flatten()
-"""
-datanew=(fluxv,dosev)
-df=pd.DataFrame(datanew)
-df.to_csv("fluxanddose.csv")
-
-"""
-
-#print("tal = ",tal)
 datay = fluxv.mean.flatten()
-datay = flux.mean.flatten()
 
 datanew=(datay,dosev)
 df=pd.DataFrame(datanew)
 df.to_csv("fluxanddose123.csv")
-
-
 x = np.linspace(-25, 25, len(datay))
-
 max_index=np.argmax(datay)
 y_max_con = np.max(datay)
+
+v=0.1*0.1*0.1
+wpdose=y_max_con
+conversion = 36e7*v/wpdose
+print("conversion = ",conversion)
+
 #TODO: Search the value of flux on dose values
 print("=========================")
 print("search the value of flux")
@@ -215,6 +209,7 @@ n = len(datay)
 #print(len(datay))
 d=30
 datax = np.linspace(0,d,n)
+print("d/n = ",d/n)
 x_smooth=datax
 y_smooth = np.interp(x_smooth, datax, datay)
 # print (f"datay =\n {datay}")
@@ -260,10 +255,10 @@ plt.show()
 # 6e12pSv/min = dose * flux*src_rate /V
 # 1e11 pSv/s =dose * flux*src_rate /V
 # src_rate= (6e12pSv/min * V)/dose*flux5
-v=50*50*0.1
-volume_wp=(d/n)*6*6
-wpdose=y_max_con
-
+# 
+# 600 Mu/min = 600 cSv/min = 6e6uSv/min=36e7uSv/hr
+# 36uSv/hr = conversion*dosein/ v
+"""
 src_rate= 1e11*volume_wp/(wpdose*fluxymax)
 print(f"src_rate = 1e11 pSv/s * (volume_wp) cm3 / ({wpdose}pSv cm² * {fluxymax}p-cm/src) = {src_rate}src/sec")
 print(f"src_rate={src_rate}src/sec")
@@ -284,6 +279,7 @@ print("cres = ",cres)
 print(f"\ndose = x*cfac/v={wpdose*cfac/v}uSv/s\n")
 print(f"\ndose = (x*cfac/v)*(3.6e9)={wpdose*cfac/v}*{3600/1e6}={wpdose*cfac/v*3600/1e6}uSv/hr\n")
 print(f"\ndose = (x*cfac/v)*(3.6e9)={wpdose*cfac/v}*{60/1e10}={wpdose*cfac/v*60/1e10}MU/min\n")
+"""
 
 
 
