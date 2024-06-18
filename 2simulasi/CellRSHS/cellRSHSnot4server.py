@@ -1,4 +1,5 @@
-import openmc
+import openmc  #type: ignore
+
 import matplotlib.pyplot as plt
 from math import * #type: ignore
 
@@ -301,8 +302,8 @@ deab=openmc.YPlane(-25.0)
 deats=openmc.YPlane(detd/2)
 deabs=openmc.YPlane(-detd/2)
 
-dea1=openmc.ZPlane(300.0+30.0) #1250 ATO 2500???
-dea1t=openmc.ZPlane(300.0+30.0+10.8) #1250 ATO 2500???
+dea1=openmc.ZPlane(300.0+50.0) #1250 ATO 2500???
+dea1t=openmc.ZPlane(300.0+50.0+10.8) #1250 ATO 2500???
 dea1ts=openmc.ZPlane(300.0+30.0+detde) #1250 ATO 2500???
 dea2=openmc.ZPlane(300.0+100.0)
 dea2t=openmc.ZPlane(300.0+100.0+10.8)
@@ -474,7 +475,7 @@ plot_file=openmc.Plots([plot])
 plot_file.export_to_xml()
 openmc.plot_geometry()
 plot.to_ipython_image()
-
+"""
 plt.rcParams.update({'font.size': 5})
 univ.plot(width=(2500,2700),basis='xy',color_by='material',colors=colors)
 plt.savefig('xyRSHS.png',dpi=500, bbox_inches='tight')
@@ -485,6 +486,7 @@ plt.show()
 univ.plot(width=(1800,1040),basis='yz',color_by='material',colors=colors)
 plt.savefig('yzRSHS.png',dpi=500, bbox_inches='tight')
 plt.show()
+"""
 
 #Tidak terdapat library matplotlib pada server, sehingga  penampil geometri harus dimatikan untuk running server
 
