@@ -60,8 +60,8 @@ usvh_stddev=(stddev_psvs/1e6)*3600
 dose=usvh_dose
 dosestddev=usvh_stddev
 
-dose= celldosevalues*cfac*60/vcell
-stddev_psvs=celldosestddev*cfac*60/vcell
+dose= celldosevalues*cfac*60/6000000/vcell
+stddev_psvs=celldosestddev*cfac*60/60000/vcell
 
 DF=pd.DataFrame(dose,dosestddev)
 
