@@ -165,7 +165,7 @@ y_max_con = np.max(datay)
 v=0.1*0.1*0.1
 wpdose=y_max_con
 conversion = 36e7*v/wpdose
-print("conversion = ",conversion)
+print("\n\n\nconversion = ",conversion,"\n\n\n")
 
 #TODO: Search the value of flux on dose values
 print("=========================")
