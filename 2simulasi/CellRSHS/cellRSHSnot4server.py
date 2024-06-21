@@ -206,7 +206,7 @@ deu3t=openmc.YPlane (190.0+250.0+120.0+185.0+81.0+200.0+10.8)
 deu3ts=openmc.YPlane(190.0+250.0+120.0+185.0+81.0+200.0+detde)
 
 deuz0=openmc.ZPlane(-300.0+48.0+100.0)#Tinggi detektor, default untuk semua detektor kecuali atas
-deuz1=openmc.ZPlane(-300.0+48.0+100.0+200.0)
+deuz1=openmc.ZPlane(-300.0+48.0+100.0+50.0)
 deuz0s=openmc.ZPlane(-300.0+48.0+100.0-(detd/2))#Tinggi detektor, default untuk semua detektor kecuali atas
 deuz1s=openmc.ZPlane(-300.0+48.0+100.0+(detd/2))
 
@@ -235,19 +235,19 @@ dett2s= +deu2 & -deu2ts & +deuz0s & -deuz1s & +deucbs & -deucts
 dett3s= +deu3 & -deu3ts & +deuz0s & -deuz1s & +deucbs & -deucts
 
 #Detektor
-detub1cell=openmc.Cell(region=detb1) #sel detektor barat 1
-detub2cell=openmc.Cell(region=detb2)
-detub3cell=openmc.Cell(region=detb3)
-detut1cell=openmc.Cell(region=dett1)
-detut2cell=openmc.Cell(region=dett2)
-detut3cell=openmc.Cell(region=dett3)
+detub1cell=openmc.Cell(fill=air2,region=detb1) #sel detektor barat 1
+detub2cell=openmc.Cell(fill=air2,region=detb2)
+detub3cell=openmc.Cell(fill=air2,region=detb3)
+detut1cell=openmc.Cell(fill=air2,region=dett1)
+detut2cell=openmc.Cell(fill=air2,region=dett2)
+detut3cell=openmc.Cell(fill=air2,region=dett3)
 
-detub1scell=openmc.Cell(fill=air2,region=detb1s) #sel detektor barat 1
-detub2scell=openmc.Cell(fill=air2,region=detb2s)
-detub3scell=openmc.Cell(fill=air2,region=detb3s)
-detut1scell=openmc.Cell(fill=air2,region=dett1s)
-detut2scell=openmc.Cell(fill=air3,region=dett2s)
-detut3scell=openmc.Cell(fill=air3,region=dett3s)
+detub1scell=openmc.Cell(region=detb1s) #sel detektor barat 1
+detub2scell=openmc.Cell(region=detb2s)
+detub3scell=openmc.Cell(region=detb3s)
+detut1scell=openmc.Cell(region=dett1s)
+detut2scell=openmc.Cell(region=dett2s)
+detut3scell=openmc.Cell(region=dett3s)
 
 
 #                          Timur              #
@@ -274,12 +274,12 @@ dett1s= +det1 & -det1ts & +deuz0s & -deuz1s & -detus & +detss
 dett2s= +det2 & -det2ts & +deuz0s & -deuz1s & -detus & +detss
 dett3s= +det3 & -det3ts & +deuz0s & -deuz1s & -detus & +detss
 
-dett1cell=openmc.Cell(region=dett1)
-dett2cell=openmc.Cell(region=dett2)
-dett3cell=openmc.Cell(region=dett3)
-dett1scell=openmc.Cell(fill=air2,region=dett1s)
-dett2scell=openmc.Cell(fill=air2,region=dett2s)
-dett3scell=openmc.Cell(fill=air2,region=dett3s)
+dett1cell=openmc.Cell(fill=air2,region=dett1)
+dett2cell=openmc.Cell(fill=air2,region=dett2)
+dett3cell=openmc.Cell(fill=air2,region=dett3)
+dett1scell=openmc.Cell(region=dett1s)
+dett2scell=openmc.Cell(region=dett2s)
+dett3scell=openmc.Cell(region=dett3s)
 
 #                          Barat              #
 
@@ -305,13 +305,13 @@ detb1s= -deb1 & +deb1ts & +deuz0s & -deuz1s & -debus & +debss
 detb2s= -deb2 & +deb2ts & +deuz0s & -deuz1s & -debus & +debss
 detb3s= -deb3 & +deb3ts & +deuz0s & -deuz1s & -debus & +debss
 
-detb1cell=openmc.Cell(region=detb1)
-detb2cell=openmc.Cell(region=detb2)
-detb3cell=openmc.Cell(region=detb3)
+detb1cell=openmc.Cell(fill=air2,region=detb1)
+detb2cell=openmc.Cell(fill=air2,region=detb2)
+detb3cell=openmc.Cell(fill=air2,region=detb3)
 
-detb1scell=openmc.Cell(fill=air2,region=detb1s)
-detb2scell=openmc.Cell(fill=air2,region=detb2s)
-detb3scell=openmc.Cell(fill=air2,region=detb3s)
+detb1scell=openmc.Cell(region=detb1s)
+detb2scell=openmc.Cell(region=detb2s)
+detb3scell=openmc.Cell(region=detb3s)
 
 #                          Atas               #
 deau=openmc.XPlane(25.0)
@@ -341,12 +341,12 @@ deta1s= +dea1 & -dea1ts & -deaus & +deass & +deabs & -deats
 deta2s= +dea2 & -dea2ts & -deaus & +deass & +deabs & -deats
 deta3s= +dea3 & -dea3ts & -deaus & +deass & +deabs & -deats
 
-deta1cell=openmc.Cell(region=deta1)
-deta2cell=openmc.Cell(region=deta2)
-deta3cell=openmc.Cell(region=deta3)
-deta1scell=openmc.Cell(fill=air2,region=deta1s)
-deta2scell=openmc.Cell(fill=air2,region=deta2s)
-deta3scell=openmc.Cell(fill=air2,region=deta3s)
+deta1cell=openmc.Cell(fill=air2,region=deta1)
+deta2cell=openmc.Cell(fill=air2,region=deta2)
+deta3cell=openmc.Cell(fill=air2,region=deta3)
+deta1scell=openmc.Cell(region=deta1s)
+deta2scell=openmc.Cell(region=deta2s)
+deta3scell=openmc.Cell(region=deta3s)
 
 #Water Phantom 10x10x5
 #TODO: Water phantom dpp and lateral tallies, to get flux value and relative comparison to the dose.
