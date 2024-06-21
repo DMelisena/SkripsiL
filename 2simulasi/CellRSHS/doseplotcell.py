@@ -58,7 +58,7 @@ celldosevalues.shape = celldosevalues.shape[0]
 celldosestddev.shape = celldosestddev.shape[0]
 print(celldosevalues)
 
-vcell=10.8*50*200 #cm3
+vcell=10.8*50*50 #cm3
 
 dosesmall= celldosevalues*conversion/vcell
 dosestddevsmall=celldosestddev*conversion/vcell
