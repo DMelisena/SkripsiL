@@ -95,6 +95,7 @@ rotationDegree=int(input("Harap masukkan sudut rotasi LINAC\n= "))
 t1=openmc.XPlane(632)
 t2=openmc.XPlane(632-76.5)
 t3=openmc.XPlane(632-76.5-155)
+t3fe=openmc.XPlane(632-76.5-155-235)
 t4=openmc.XPlane(632-76.5-155-76.5)
 t5=openmc.XPlane(632-76.5-155-76.5)
 t6=openmc.XPlane(632-76.5-155-235)
@@ -108,6 +109,7 @@ b5=openmc.XPlane(-632+76.5+250.5)
 #y #Di berkas 125, tapi ga make sense jadi diubah ke 1200 biar masuk angkanya
 u1=openmc.YPlane(190.0+250.0+120.0+185.0+81.0)
 u2=openmc.YPlane(190.0+250.0+120.0+185.0)
+ufe=openmc.YPlane(190.0+250.0+120.0+185.0-10)
 u3=openmc.YPlane(190.0+250.0+120.0)
 u4=openmc.YPlane(190.0+250.0)
 u5=openmc.YPlane(190.0)
@@ -129,14 +131,15 @@ z0=openmc.ZPlane(-300.0+48.0)
 pu=openmc.YPlane(190.0+250.0+120.0+185.0+40.0) 
 #                                    ^^^ asumsi pintu lebih lebar 40cm dibandingkan lubang pintunya
 pb0=b5
-pb1=openmc.XPlane(-632.0+76.5+250.5-15.8) #Angkanya ini masih ngarang karena gatau tebal pintu, ada kemungkinan formulanya di RHSPintu.py salah
-pb2=openmc.XPlane(-632.0+76.5+250.5-15.8-102.0)
-pb3=openmc.XPlane(-632.0+76.5+250.5-15.8-102.0-15.8)
+pb1=openmc.XPlane(-632.0+76.5+250.5-1) #Angkanya ini masih ngarang karena gatau tebal pintu, ada kemungkinan formulanya di RHSPintu.py salah
+pb2=openmc.XPlane(-632.0+76.5+250.5-1-15)
+pb3=openmc.XPlane(-632.0+76.5+250.5-1-15-1)
+
 ps=u3
 
 
 ###############################################
-dt1 = -t1 & +t2 & +s3 & -u5 & +z0 & -z2  
+dt1 = -t1 & +t2 & +s3 & -u5 & +z0 & -z2   
 dt2 = -t2 & +t3 & +s1 & -u1 & +z0 & -z2
 dt3 = -t3 & +t4 & +s3 & -u5 & +z0 & -z2
 
@@ -148,6 +151,8 @@ du1 = +b5 & -t3 & -u1 & +u2 & +z0 & -z2
 du2 = +b3 & -t6 & -u3 & +u4 & +z0 & -z2
 
 ds1 = +b3 & -t3 & +s1 & -s2 & +z0 & -z2
+
+fe1 = -t3 & +t3fe & -u1 & +ufe & +z0 & -z2
 
 datas= +b1 & -t1 & +s1 & -u1 & +z2 & -z3 #celing
 datte= +b4 & -t4 & -u5 & +s3 & +z1 & -z2 #linac's middle wall
@@ -182,32 +187,33 @@ datascell=openmc.Cell(fill=concrete,region=datas)
 dattecell=openmc.Cell(fill=concrete,region=datte)
 dbawcell=openmc.Cell(fill=concrete,region=dbaw)
 
+fecell=openmc.Cell(fill=iron, region=fe1)
 
 ###############################################
 #                Detektor/Tally               #
 
 detd= 4.5
-detde=2
+detde=10
 #                          Utara              #
-deu1=openmc.YPlane (190.0+250.0+120.0+185.0+81.0+30.0)
-deu1t=openmc.YPlane(190.0+250.0+120.0+185.0+81.0+30.0+10.8) #+tebal detektor
+deu1=openmc.YPlane  (190.0+250.0+120.0+185.0+81.0+30.0)
+deu1t=openmc.YPlane (190.0+250.0+120.0+185.0+81.0+30.0+10.8) #+tebal detektor
 deu1ts=openmc.YPlane(190.0+250.0+120.0+185.0+81.0+30.0+detde) #+tebal detektor
-deu2=openmc.YPlane (190.0+250.0+120.0+185.0+81.0+100.0)
-deu2t=openmc.YPlane(190.0+250.0+120.0+185.0+81.0+100.0+10.8)
+deu2=openmc.YPlane  (190.0+250.0+120.0+185.0+81.0+100.0)
+deu2t=openmc.YPlane (190.0+250.0+120.0+185.0+81.0+100.0+10.8)
 deu2ts=openmc.YPlane(190.0+250.0+120.0+185.0+81.0+100.0+detde)
-deu3=openmc.YPlane (190.0+250.0+120.0+185.0+81.0+200.0)
-deu3t=openmc.YPlane(190.0+250.0+120.0+185.0+81.0+200.0+10.8)
+deu3=openmc.YPlane  (190.0+250.0+120.0+185.0+81.0+200.0)
+deu3t=openmc.YPlane (190.0+250.0+120.0+185.0+81.0+200.0+10.8)
 deu3ts=openmc.YPlane(190.0+250.0+120.0+185.0+81.0+200.0+detde)
 
 deuz0=openmc.ZPlane(-300.0+48.0+100.0)#Tinggi detektor, default untuk semua detektor kecuali atas
 deuz1=openmc.ZPlane(-300.0+48.0+100.0+200.0)
-deuz0s=openmc.ZPlane(-300.0+48.0+100.0-detd/2)#Tinggi detektor, default untuk semua detektor kecuali atas
-deuz1s=openmc.ZPlane(-300.0+48.0+100.0+detd/2)
+deuz0s=openmc.ZPlane(-300.0+48.0+100.0-(detd/2))#Tinggi detektor, default untuk semua detektor kecuali atas
+deuz1s=openmc.ZPlane(-300.0+48.0+100.0+(detd/2))
 
 deubb=openmc.XPlane(-632.0+76.5+250.5+100.0) #Koordinat x nya masih ngasal
 deubt=openmc.XPlane(-632.0+76.5+250.5+100.0+50.0)
-deubbs=openmc.XPlane(-632.0+76.5+250.5+100.0-detd/2) #Koordinat x nya masih ngasal
-deubts=openmc.XPlane(-632.0+76.5+250.5+100.0+detd/2)
+deubbs=openmc.XPlane(-632.0+76.5+250.5+100.0-(detd/2)) #Koordinat x nya masih ngasal
+deubts=openmc.XPlane(-632.0+76.5+250.5+100.0+(detd/2))
 
 deucb=openmc.XPlane(250.0) #koordinat x nya masih ngasal
 deuct=openmc.XPlane(250.0+50.0)
@@ -229,19 +235,19 @@ dett2s= +deu2 & -deu2ts & +deuz0s & -deuz1s & +deucbs & -deucts
 dett3s= +deu3 & -deu3ts & +deuz0s & -deuz1s & +deucbs & -deucts
 
 #Detektor
-detub1cell=openmc.Cell(fill=air2,region=detb1) #sel detektor barat 1
-detub2cell=openmc.Cell(fill=air2,region=detb2)
-detub3cell=openmc.Cell(fill=air2,region=detb3)
-detut1cell=openmc.Cell(fill=air2,region=dett1)
-detut2cell=openmc.Cell(fill=air2,region=dett2)
-detut3cell=openmc.Cell(fill=air2,region=dett3)
+detub1cell=openmc.Cell(region=detb1) #sel detektor barat 1
+detub2cell=openmc.Cell(region=detb2)
+detub3cell=openmc.Cell(region=detb3)
+detut1cell=openmc.Cell(region=dett1)
+detut2cell=openmc.Cell(region=dett2)
+detut3cell=openmc.Cell(region=dett3)
 
 detub1scell=openmc.Cell(fill=air2,region=detb1s) #sel detektor barat 1
 detub2scell=openmc.Cell(fill=air2,region=detb2s)
 detub3scell=openmc.Cell(fill=air2,region=detb3s)
 detut1scell=openmc.Cell(fill=air2,region=dett1s)
-detut2scell=openmc.Cell(fill=air2,region=dett2s)
-detut3scell=openmc.Cell(fill=air2,region=dett3s)
+detut2scell=openmc.Cell(fill=air3,region=dett2s)
+detut3scell=openmc.Cell(fill=air3,region=dett3s)
 
 
 #                          Timur              #
@@ -257,22 +263,23 @@ det3ts=openmc.XPlane(632.0+200.0+detde)
 
 detu=openmc.YPlane(25.0)
 dets=openmc.YPlane(-25.0)
-detus=openmc.YPlane(-detd/2)
-detss=openmc.YPlane(+detd/2)
+detus=openmc.YPlane((detd/2))
+detss=openmc.YPlane(-(detd/2))
 
 dett1= +det1 & -det1t & +deuz0 & -deuz1 & -detu & +dets
 dett2= +det2 & -det2t & +deuz0 & -deuz1 & -detu & +dets
 dett3= +det3 & -det3t & +deuz0 & -deuz1 & -detu & +dets
+dett3s= +det3 & -det3t & +deuz0 & -deuz1 & -detu & +dets
 dett1s= +det1 & -det1ts & +deuz0s & -deuz1s & -detus & +detss
 dett2s= +det2 & -det2ts & +deuz0s & -deuz1s & -detus & +detss
 dett3s= +det3 & -det3ts & +deuz0s & -deuz1s & -detus & +detss
 
-dett1cell=openmc.Cell(fill=air2,region=dett1)
-dett2cell=openmc.Cell(fill=air2,region=dett2)
-dett3cell=openmc.Cell(fill=air2,region=dett3)
-dett1scell=openmc.Cell(fill=air2,region=dett1)
-dett2scell=openmc.Cell(fill=air2,region=dett2)
-dett3scell=openmc.Cell(fill=air2,region=dett3)
+dett1cell=openmc.Cell(region=dett1)
+dett2cell=openmc.Cell(region=dett2)
+dett3cell=openmc.Cell(region=dett3)
+dett1scell=openmc.Cell(fill=air2,region=dett1s)
+dett2scell=openmc.Cell(fill=air2,region=dett2s)
+dett3scell=openmc.Cell(fill=air2,region=dett3s)
 
 #                          Barat              #
 
@@ -286,10 +293,10 @@ deb3=openmc.XPlane (-632.0+76.5+250.5-15.8-102.0-15.8-200.0)
 deb3t=openmc.XPlane(-632.0+76.5+250.5-15.8-102.0-15.8-200.0-10.8)
 deb3ts=openmc.XPlane(-632.0+76.5+250.5-15.8-102.0-15.8-200.0-detde)
 
-debu=openmc.YPlane(190.0+250.0+120.0+185.0-67.5) 
-debs=openmc.YPlane(190.0+250.0+120.0+185.0-67.5-50.0) 
-debus=openmc.YPlane(190.0+250.0+120.0+185.0-(67.5+detd/2))
-debss=openmc.YPlane(190.0+250.0+120.0+185.0-(67.5-detd/2)) 
+debu =openmc.YPlane(190.0+250.0+120.0+185.0-67.5) 
+debs =openmc.YPlane(190.0+250.0+120.0+185.0-67.5-50.0) 
+debus=openmc.YPlane(190.0+250.0+120.0+185.0-67.5+(detd/2))
+debss=openmc.YPlane(190.0+250.0+120.0+185.0-67.5-(detd/2)) 
 
 detb1= -deb1 & +deb1t & +deuz0 & -deuz1 & -debu & +debs
 detb2= -deb2 & +deb2t & +deuz0 & -deuz1 & -debu & +debs
@@ -298,9 +305,10 @@ detb1s= -deb1 & +deb1ts & +deuz0s & -deuz1s & -debus & +debss
 detb2s= -deb2 & +deb2ts & +deuz0s & -deuz1s & -debus & +debss
 detb3s= -deb3 & +deb3ts & +deuz0s & -deuz1s & -debus & +debss
 
-detb1cell=openmc.Cell(fill=air2,region=detb1)
-detb2cell=openmc.Cell(fill=air2,region=detb2)
-detb3cell=openmc.Cell(fill=air2,region=detb3)
+detb1cell=openmc.Cell(region=detb1)
+detb2cell=openmc.Cell(region=detb2)
+detb3cell=openmc.Cell(region=detb3)
+
 detb1scell=openmc.Cell(fill=air2,region=detb1s)
 detb2scell=openmc.Cell(fill=air2,region=detb2s)
 detb3scell=openmc.Cell(fill=air2,region=detb3s)
@@ -333,9 +341,9 @@ deta1s= +dea1 & -dea1ts & -deaus & +deass & +deabs & -deats
 deta2s= +dea2 & -dea2ts & -deaus & +deass & +deabs & -deats
 deta3s= +dea3 & -dea3ts & -deaus & +deass & +deabs & -deats
 
-deta1cell=openmc.Cell(fill=air2,region=deta1)
-deta2cell=openmc.Cell(fill=air2,region=deta2)
-deta3cell=openmc.Cell(fill=air2,region=deta3)
+deta1cell=openmc.Cell(region=deta1)
+deta2cell=openmc.Cell(region=deta2)
+deta3cell=openmc.Cell(region=deta3)
 deta1scell=openmc.Cell(fill=air2,region=deta1s)
 deta2scell=openmc.Cell(fill=air2,region=deta2s)
 deta3scell=openmc.Cell(fill=air2,region=deta3s)
@@ -389,11 +397,17 @@ void1= +zmin & -zmaxx \
             & ~du1cell.region & ~du2cell.region & ~ds1cell.region\
             & ~ppbcell.region & ~pbpecell.region & ~ppb2cell.region\
             & ~datascell.region & ~dbawcell.region & ~dattecell.region\
-            & ~detb1cell.region & ~detb2cell.region & ~detb3cell.region\
-            & ~detub1cell.region & ~detub2cell.region & ~detub3cell.region\
-            & ~detut1cell.region & ~detut2cell.region & ~detut3cell.region\
-            & ~dett1cell.region & ~dett2cell.region & ~dett3cell.region\
-            & ~deta1cell.region & ~deta2cell.region & ~deta3cell.region\
+            & ~fecell.region\
+            & ~detb1scell.region & ~detb2scell.region & ~detb3scell.region\
+            & ~detub1scell.region & ~detub2scell.region & ~detub3scell.region\
+            & ~detut1scell.region & ~detut2scell.region & ~detut3scell.region\
+            & ~dett1scell.region & ~dett2scell.region & ~dett3scell.region\
+            & ~deta1scell.region & ~deta2scell.region & ~deta3scell.region\
+            #& ~detb1cell.region & ~detb2cell.region & ~detb3cell.region\
+            #& ~detub1cell.region & ~detub2cell.region & ~detub3cell.region\
+            #& ~detut1cell.region & ~detut2cell.region & ~detut3cell.region\
+            #& ~dett1cell.region & ~dett2cell.region & ~dett3cell.region\
+            #& ~deta1cell.region & ~deta2cell.region & ~deta3cell.region\
 
 void1cell = openmc.Cell(fill=air, region=void1)
 
@@ -413,7 +427,7 @@ univ=openmc.Universe(cells=[dt1cell,dt2cell,dt3cell,
                             detut1scell,detut2scell,detut3scell,
                             dett1scell,dett2scell,dett3scell,
                             deta1scell,deta2scell,deta3scell,
-                            detaxcell])
+                            detaxcell,fecell])
 geometry=openmc.Geometry(univ)
 geometry.export_to_xml()
 
@@ -423,6 +437,7 @@ colors[bpe]='lightblue'
 colors[concrete]='grey'
 colors[air]='white'
 colors[air2]='blue'
+colors[iron]='black'
 
 ###############################################
 #                Rotation
@@ -453,8 +468,8 @@ print("linacuvw,linacxyz,linacuvwn1,linacuvwn2",linacuvw, linacxyz,linacxyzn1,li
 ###############################################
 plot=openmc.Plot()
 plot.basis='xy'
-plot.origin=(0,200,0)
-plot.width=(2000,2000)
+plot.origin=(0,200,-149)
+plot.width=(3000,3000)
 plot.pixles=(2000,2000)
 plot.filename='xy_room'
 plot.colors={
@@ -462,7 +477,9 @@ plot.colors={
     bpe:'lightblue',
     concrete:'grey',
     air:'white',
-    air2:'blue'
+    air2:'blue',
+    air3:'red',
+    iron:'yellow'
 }
 plot.color_by='material'
 plot_file=openmc.Plots([plot])
@@ -500,10 +517,9 @@ plt.show()
 univ.plot(width=(1800,1040),basis='yz',color_by='material',colors=colors)
 plt.savefig('yzRSHS.png',dpi=500, bbox_inches='tight')
 plt.show()
+
 """
-
 #Tidak terdapat library matplotlib pada server, sehingga  penampil geometri harus dimatikan untuk running server
-
 ###############################################
 #                 Plot Grid                   #
 ###############################################
