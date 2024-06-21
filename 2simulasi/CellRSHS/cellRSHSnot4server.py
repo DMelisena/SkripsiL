@@ -25,6 +25,16 @@ air2.add_element('Fe',0.001)
 air2.add_element('Si',0.001)
 air2.add_element('Mn',0.001)
 
+air3=openmc.Material(name='Air')
+air3.set_density('g/cm3',0.001205)
+air3.add_nuclide('N14',0.7)
+air3.add_nuclide('O16',0.3)
+#air.add_s_alpha_beta('c_H_in_Air')
+air3.add_element('C',0.002)
+air3.add_element('Fe',0.001)
+air3.add_element('Si',0.001)
+air3.add_element('Mn',0.001)
+
 water=openmc.Material(name='Water')
 water.set_density('g/cm3',1.0)
 water.add_nuclide('H1',2.0)
@@ -68,10 +78,14 @@ concrete.add_element('Si', 0.25, percent_type='ao')#14
 concrete.add_element('S',  0.01, percent_type='ao')#16
 concrete.add_element('K',  0.01, percent_type='ao')#19
 concrete.add_element('Ca', 0.01, percent_type='ao')#20
-concrete.add_element('Fe', 0.01, percent_type='ao')#26
+concrete.add_element('Fe', 0.01, percent_type='ao')#26 
 concrete.add_element('Pb', 0.01, percent_type='ao')#82
 
-materials=openmc.Materials([air,air2,water,soft,bpe,lead,concrete])
+iron = openmc.Material(name="Iron")
+iron.set_density('g/cm3',7.87) #Harus disesuaikan dengan uji beton
+iron.add_element('Fe', 1.0)#1
+
+materials=openmc.Materials([air,air2,air3,water,soft,bpe,lead,concrete,iron]) 
 materials.export_to_xml()
 
 ################################################
