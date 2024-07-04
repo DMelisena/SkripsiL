@@ -33,7 +33,8 @@ dosevalues=meshtally.get_values() #Nilai perpixel dari grid 500x500
 dosevalues.shape=(x,y)
 #pSvcm3/src*(src/s)/cm3=pSv/s
 dosevalues = dosevalues*conversion/v #pSv/s = (pSv*cm3/src) *src/s /cm3
-dose=(dosevalues/1_000_000)*3600 #pSv/s -> uSv/hour
+dose=dosevalues #pSv/s -> uSv/hour
+dose=dose[::-1,:]
 
 fig, ax = plt.subplots()
 cs = ax.imshow(dose, cmap='coolwarm', norm=LogNorm()) # type: ignore
@@ -66,8 +67,8 @@ usvh_stddev=(stddev_psvs/1e6)*3600
 dose=usvh_dose
 dosestddev=usvh_stddev
 """
-dose= celldosevalues*conversion*60/vcell
-dosestddev=celldosestddev*conversion*60/vcell
+dose= celldosevalues*conversion/vcell
+dosestddev=celldosestddev*conversion/vcell
 
 DF=pd.DataFrame(dose,dosestddev)
 

@@ -17,6 +17,9 @@ print(sp.tallies[2])
 x=500#harus sama dengan resolusi pada file utama
 y=500
 
+#s_rate=3.293648066139751e+17 #src/s
+#s_rate=1.1102950707142344e+21
+#cfac=1.0993814207650992e+17 
 conversion = 16368352439.27938
 # dose * flux * src_rate * t / V = [pSv cm²] [p-cm/src] [src/sec] [sec] / [cm³] = [pSv]
 # dose * cfac *t/V=pSv
@@ -30,7 +33,8 @@ dosevalues=meshtally.get_values() #Nilai perpixel dari grid 500x500
 dosevalues.shape=(x,y)
 #pSvcm3/src*(src/s)/cm3=pSv/s
 dosevalues = dosevalues*conversion/v #pSv/s = (pSv*cm3/src) *src/s /cm3
-dose=(dosevalues/1_000_000)*3600 #pSv/s -> uSv/hour
+dose=dosevalues #pSv/s -> uSv/hour
+dose=dose[::-1,:]
 
 fig, ax = plt.subplots()
 cs = ax.imshow(dose, cmap='coolwarm', norm=LogNorm()) # type: ignore
