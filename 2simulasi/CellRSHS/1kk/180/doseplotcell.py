@@ -32,6 +32,7 @@ dosevalues.shape=(x,y)
 #pSvcm3/src*(src/s)/cm3=pSv/s
 dosevalues = dosevalues*s_rate/v #pSv/s = (pSv*cm3/src) *src/s /cm3
 dose=(dosevalues/1_000_000)*3600 #pSv/s -> uSv/hour
+dose=dose[::-1,:]
 
 fig, ax = plt.subplots()
 cs = ax.imshow(dose, cmap='coolwarm', norm=LogNorm()) # type: ignore

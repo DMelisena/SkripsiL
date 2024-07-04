@@ -48,6 +48,7 @@ celldosestddev = celltally.std_dev
 print(celltally)
 celldosevalues.shape = celldosevalues.shape[0]
 celldosestddev.shape = celldosestddev.shape[0]
+dose=dose[::-1,:]
 
 vcell=10.8*50*200 #cm3
 

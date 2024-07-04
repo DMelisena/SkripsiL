@@ -12,6 +12,12 @@
 	Scores         =	['flux']
 	Estimator      =	tracklength, 3: Tally
 	ID             =	3
+	Name           =	flux detektor small
+	Filters        =	CellFilter, ParticleFilter, EnergyFunctionFilter
+	Nuclides       =	total
+	Scores         =	['flux']
+	Estimator      =	tracklength, 4: Tally
+	ID             =	4
 	Name           =	neutron
 	Filters        =	CellFilter, ParticleFilter, EnergyFunctionFilter
 	Nuclides       =	total
@@ -26,9 +32,9 @@
 0.0 +- 0.0 uSv/h
 0.0 +- 0.0 uSv/h
 0.0 +- 0.0 uSv/h
-654161596.0912384 +- 43887.376090827885 uSv/h
-424744156.9838852 +- 36402.67322222172 uSv/h
-342435152.03924304 +- 35045.655772827005 uSv/h
+0.0 +- 0.0 uSv/h
+0.0 +- 0.0 uSv/h
+0.0 +- 0.0 uSv/h
 0.0 +- 0.0 uSv/h
 0.0 +- 0.0 uSv/h
 0.0 +- 0.0 uSv/h
