@@ -1,5 +1,6 @@
-import openmc, openmc.model, openmc.stats, openmc.data
-from math import * #type: ignore
+import openmc, openmc.model, openmc.stats, openmc.data #type: ignore
+from math import pi, atan2, cos
+import matplotlib.pyplot as plt
 
 ROOM_SIZE = 60 
 LINAC_DIRECTION= 130 
@@ -19,9 +20,16 @@ water.add_s_alpha_beta('c_H_in_H2O')
 
 tungsten = openmc.Material(name='Collimator')
 tungsten.set_density('g/cm3', 17)
-tungsten.add_nuclide('W184', 1, 'ao')
+tungsten.add_nuclide('W184', 0.905, 'ao')
+tungsten.add_element('Ni', 0.065, 'ao')
+tungsten.add_nuclide('Fe56', 0.03, 'ao')
 
-materials = openmc.Materials([air, water,tungsten])
+copper=openmc.Material(name='Copper')
+copper.add_nuclide('Cu63', 30.83, 'ao')
+copper.add_nuclide('Cu65', 69.17, 'ao')
+copper.set_density('g/cm3',8.92)
+
+materials = openmc.Materials([air, water,tungsten,copper])
 materials.export_to_xml()
 
 # create the room
@@ -31,6 +39,7 @@ roomY0 = openmc.YPlane(y0=-ROOM_SIZE/2, boundary_type='vacuum')
 roomY1 = openmc.YPlane(y0= ROOM_SIZE/2, boundary_type='vacuum')
 roomZ0 = openmc.ZPlane(z0=-ROOM_SIZE/2, boundary_type='vacuum')
 roomZ1 = openmc.ZPlane(z0= ROOM_SIZE/2, boundary_type='vacuum')
+roomTotalRegion = +roomX0 & -roomX1 & +roomY0 & -roomY1 & +roomZ0 & -roomZ1
 
 # create the phantom
 phantomX0 = openmc.XPlane(x0=-PHANTOM_SIZE/2)
@@ -41,27 +50,60 @@ phantomZ0 = openmc.ZPlane(z0=-PHANTOM_SIZE/2)
 phantomZ1 = openmc.ZPlane(z0= PHANTOM_SIZE/2)
 phantomRegion = +phantomX0 & -phantomX1 & +phantomY0 & -phantomY1 & +phantomZ0 & -phantomZ1
 
+# create secondary Collimator
 secollDis= 47 #Secondary Collimator distance from target
 secollLength = 7.8 #Secondary Collimator distance
-s_x = +openmc.XPlane(secollDis-(secollLength/2.0)) & -openmc.XPlane(secollDis+(secollLength/2.0)) #the length for area
-s_y = +openmc.YPlane(-PHANTOM_SIZE/2) & -openmc.YPlane(PHANTOM_SIZE) #area between slices 
-s_z = +openmc.ZPlane(-PHANTOM_SIZE/2) & -openmc.ZPlane(PHANTOM_SIZE/2) #area between slices 
 
-s_y2 = +openmc.YPlane(-SOURCE_SIZE/2.0) & -openmc.YPlane(SOURCE_SIZE/2.0) #the width for area
-s_z2 = +openmc.ZPlane(-SOURCE_SIZE/2.0) & -openmc.ZPlane(SOURCE_SIZE/2.0) #the width for area
-secollHole= s_x & s_y2 & s_z2 #the geometry that would overlaps with tally
-secollSurr = s_x & s_y & s_z #The whole water cells
-secollRegion = secollSurr & ~secollHole
-secoll=openmc.Cell(fill=tungsten ,region=secollRegion)
-roomTotalRegion = +roomX0 & -roomX1 & +roomY0 & -roomY1 & +roomZ0 & -roomZ1
-roomRegion = roomTotalRegion & ~phantomRegion & ~secollRegion
+sx0 = openmc.XPlane(-125+secollDis-(secollLength/2.0)) 
+sx1 = openmc.XPlane(-125+secollDis+(secollLength/2.0)) #the length for area
+secollOuter= +sx0 & -sx1 & +phantomY0 & -phantomY1 & +phantomZ0 & -phantomZ1
+
+sy2 = +openmc.YPlane(-SOURCE_SIZE/2.0) & -openmc.YPlane(SOURCE_SIZE/2.0) #the width for area
+sz2 = +openmc.ZPlane(-SOURCE_SIZE/2.0) & -openmc.ZPlane(SOURCE_SIZE/2.0) #the width for area
+secollHole= +sx0 & -sx1 & sy2 & sz2
+secollRegion= secollOuter & ~secollHole
+
+#create FF Cone
+ffd=7.91 #FF Distance from target
+ffr=1.905 #FF cone radius
+ffh=1.89 #FF height
+ffr2=1.905*1.905/1.89
+ffconeShape=openmc.XCone(x0=-125+ffd,r2=ffr2)#FIX:Is this inward or outward, whats r2
+ffconeup=openmc.XPlane(x0=-125+ffd)
+ffcylup=openmc.XPlane(x0=-125+ffd+ffh)
+ffconeGeo= -ffcylup & -ffconeShape & +ffconeup
+
+# create FF Cylinderr
+ffdr=3 #ffradius
+ffdh=0.05 #ffdownheight FF cylinder down part height
+ffcyl=openmc.XCylinder(r=ffdr) #FIX,: Is this inward or outward
+ffcylup=openmc.XPlane(x0=-125+ffd+ffh)
+ffcyldown=openmc.XPlane(x0=-125+ffd+ffh+ffdh)
+ffcylGeo = -ffcyl & +ffcylup & -ffcyldown
+
+
+roomRegion = roomTotalRegion & ~phantomRegion & ~secollRegion &~ffconeGeo & ~ffcylGeo
 
 roomCell = openmc.Cell(region=roomRegion, fill=air)
 phantomCell = openmc.Cell(region=phantomRegion, fill=water)
+secoll=openmc.Cell(region=secollRegion,fill=tungsten)
+ffcone=openmc.Cell(fill=copper,region=ffconeGeo)
+ffcyl=openmc.Cell(fill=copper,region=ffcylGeo)
 
-universe = openmc.Universe(cells=[roomCell, phantomCell, secoll])
+universe = openmc.Universe(cells=[roomCell, phantomCell, secoll, ffcone, ffcyl])
 geom = openmc.Geometry(universe)
+
+colors1={}
+colors1[water]='lightblue'
+colors1[air]='green'
+colors1[copper]='black'
+colors1[tungsten]='grey'
+print(colors1)
+
+#universe.plot(width=(300,100),basis='xz',colors=colors1)
+#plt.show()
 geom.export_to_xml()
+
 
 plot= openmc.Plot()
 plot.basis = 'xz'
@@ -75,23 +117,19 @@ plot.colors={
 }
 plot.to_ipython_image()
 
+
 ## source
 d = 100#distance between linac and water phantom
 t = 1 #thickness
-#source = openmc.Source()
+source = openmc.Source()
+source.space = openmc.stats.Point((-PHANTOM_SIZE/2-d,0,0))
+phi = openmc.stats.Uniform(0,2*pi)
+mu  = openmc.stats.Uniform(cos(atan2(50/2, 100)), 1)
+source.angle = openmc.stats.PolarAzimuthal(mu,phi,reference_uvw=(1,0,0))
 #source.space = openmc.stats.Box((-PHANTOM_SIZE/2-d, -SOURCE_SIZE/2, -SOURCE_SIZE/2), (-PHANTOM_SIZE/2-d-t, SOURCE_SIZE/2, SOURCE_SIZE/2))
 #source.angle = openmc.stats.Monodirectional((1, 0, 0))
-#source.energy = openmc.stats.Discrete([10e6], [1])
-#source.particle = 'photon'
-source  =openmc.Source()
-phi =openmc.stats.Uniform(0.0,2*pi) # type: ignore #phi=distribution of the azimuthal angle in radians
-mu=openmc.stats.Uniform(0.5,1) # type: ignore #mu= distribution of the cosine of the polar angle
-source.space = openmc.stats.Box((-PHANTOM_SIZE/2-d, -SOURCE_SIZE/2, -SOURCE_SIZE/2), (-PHANTOM_SIZE/2-d-t, SOURCE_SIZE/2, SOURCE_SIZE/2))
-#source.space = openmc.stats.Box((linacxyzn1), (linacxyzn2))
-##source.angle = openmc.stats.Monodirectional(linacuvw)
-source.angle = openmc.stats.PolarAzimuthal(mu,phi,reference_uvw=(1, 0, 0)) # type: ignore
-source.angle = openmc.stats.Monodirectional()
 source.energy = openmc.stats.Discrete([10e6], [1])
+source.particle = 'photon'
 
 ## tally
 tallysize=0.1

@@ -73,9 +73,20 @@ geometry = openmc.Geometry()
 geometry.root_universe = universe
 geometry.export_to_xml()
 # }}}
+plot= openmc.Plot()
+plot.basis = 'xz'
+plot.origin = (0, 0, 0)
+plot.width = (200., 100.)
+plot.pixels = (1200, 600)
+plot.color_by='material'
+plot.colors={
+    water:'blue',
+    air:'green'
+}
+plot.to_ipython_image()
 
 # {{{
-
+"""
 height = 300
 plotXZ = openmc.Plot()
 plotXZ.filename = f'img'
@@ -86,6 +97,7 @@ plotXZ.color_by = 'material'
 plotXZ.pixels = (200, 200)
 plots = openmc.Plots([plotXZ])
 plots.export_to_xml()
+"""
 # openmc.plot_geometry()
 # }}}
 

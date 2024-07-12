@@ -100,8 +100,8 @@ colors1[copper]='black'
 colors1[tungsten]='grey'
 print(colors1)
 
-#universe.plot(width=(300,100),basis='xz',colors=colors1)
-#plt.show()
+universe.plot(width=(300,100),basis='xz',colors=colors1)
+plt.show()
 geom.export_to_xml()
 
 
@@ -115,6 +115,9 @@ plot.colors={
     water:'blue',
     air:'green'
 }
+plot_file=openmc.Plots([plot])
+plot_file.export_to_xml()
+openmc.plot_geometry()
 plot.to_ipython_image()
 
 

@@ -90,8 +90,8 @@ source.space = openmc.stats.Box((-PHANTOM_SIZE/2-d, -SOURCE_SIZE/2, -SOURCE_SIZE
 #source.space = openmc.stats.Box((linacxyzn1), (linacxyzn2))
 ##source.angle = openmc.stats.Monodirectional(linacuvw)
 source.angle = openmc.stats.PolarAzimuthal(mu,phi,reference_uvw=(1, 0, 0)) # type: ignore
-source.angle = openmc.stats.Monodirectional()
 source.energy = openmc.stats.Discrete([10e6], [1])
+source.particle = 'photon'
 
 ## tally
 tallysize=0.1
