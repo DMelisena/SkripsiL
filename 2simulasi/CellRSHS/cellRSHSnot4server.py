@@ -200,6 +200,7 @@ deu1t=openmc.YPlane (190.0+250.0+120.0+185.0+81.0+30.0+10.8) #+tebal detektor
 deu1ts=openmc.YPlane(190.0+250.0+120.0+185.0+81.0+30.0+detde) #+tebal detektor
 deu2=openmc.YPlane  (190.0+250.0+120.0+185.0+81.0+100.0)
 deu2t=openmc.YPlane (190.0+250.0+120.0+185.0+81.0+100.0+10.8)
+b5=openmc.XPlane(-632+76.5+250.5)
 deu2ts=openmc.YPlane(190.0+250.0+120.0+185.0+81.0+100.0+detde)
 deu3=openmc.YPlane  (190.0+250.0+120.0+185.0+81.0+200.0)
 deu3t=openmc.YPlane (190.0+250.0+120.0+185.0+81.0+200.0+10.8)
@@ -283,15 +284,15 @@ dett3scell=openmc.Cell(region=dett3s)
 
 #                          Barat              #
 
-deb1=openmc.XPlane (-632.0+76.5+250.5-15.8-102.0-15.8-30.0)
-deb1t=openmc.XPlane(-632.0+76.5+250.5-15.8-102.0-15.8-30.0-10.8)
-deb1ts=openmc.XPlane(-632.0+76.5+250.5-15.8-102.0-15.8-30.0-detde)
-deb2=openmc.XPlane (-632.0+76.5+250.5-15.8-102.0-15.8-100.0)
-deb2t=openmc.XPlane(-632.0+76.5+250.5-15.8-102.0-15.8-100.0-10.8)
-deb2ts=openmc.XPlane(-632.0+76.5+250.5-15.8-102.0-15.8-100.0-detde)
-deb3=openmc.XPlane (-632.0+76.5+250.5-15.8-102.0-15.8-200.0)
-deb3t=openmc.XPlane(-632.0+76.5+250.5-15.8-102.0-15.8-200.0-10.8)
-deb3ts=openmc.XPlane(-632.0+76.5+250.5-15.8-102.0-15.8-200.0-detde)
+deb1  =openmc.XPlane (-632.0+76.5+250.5-1-15-1-30.0)
+deb1t =openmc.XPlane (-632.0+76.5+250.5-1-15-1-30.0-10.8)
+deb1ts=openmc.XPlane (-632.0+76.5+250.5-1-15-1-30.0-detde)
+deb2  =openmc.XPlane (-632.0+76.5+250.5-1-15-1-100)
+deb2t =openmc.XPlane (-632.0+76.5+250.5-1-15-1-100-10.8)
+deb2ts=openmc.XPlane (-632.0+76.5+250.5-1-15-1-100-detde)
+deb3  =openmc.XPlane (-632.0+76.5+250.5-1-15-1-200.0)
+deb3t =openmc.XPlane (-632.0+76.5+250.5-1-15-1-200-10.8)
+deb3ts=openmc.XPlane (-632.0+76.5+250.5-1-15-1-200-detde)
 
 debu =openmc.YPlane(190.0+250.0+120.0+185.0-67.5) 
 debs =openmc.YPlane(190.0+250.0+120.0+185.0-67.5-50.0) 
@@ -555,7 +556,7 @@ source.energy = openmc.stats.Discrete([10e6], [1])
 source.particle = 'photon'
 #source.particle = 'neutron'
 settings.source = source
-settings.batches= 100
+settings.batches= 3
 settings.particles = particle
 #Asumsi 36e7 partikel pada mula, pada 600MU=600cGy/m=6Gy/m=6Sv/m=6e6uSv/m=360e6uSv/h
 settings.run_mode = 'fixed source'
