@@ -1,0 +1,40 @@
+{1: Tally
+	ID             =	1
+	Name           =	Room Dose Distribution
+	Filters        =	MeshFilter, ParticleFilter, EnergyFunctionFilter
+	Nuclides       =	total
+	Scores         =	['flux']
+	Estimator      =	tracklength, 2: Tally
+	ID             =	2
+	Name           =	flux
+	Filters        =	CellFilter, ParticleFilter, EnergyFunctionFilter
+	Nuclides       =	total
+	Scores         =	['flux']
+	Estimator      =	tracklength, 3: Tally
+	ID             =	3
+	Name           =	flux detektor small
+	Filters        =	CellFilter, ParticleFilter, EnergyFunctionFilter
+	Nuclides       =	total
+	Scores         =	['flux']
+	Estimator      =	tracklength, 4: Tally
+	ID             =	4
+	Name           =	neutron
+	Filters        =	CellFilter, ParticleFilter, EnergyFunctionFilter
+	Nuclides       =	total
+	Scores         =	['flux']
+	Estimator      =	tracklength}
+0.0099327827443669 +- 0.008143415536478122 uSv/h
+0.004298114704111322 +- 0.0026637754478590985 uSv/h
+0.02054458173185905 +- 0.018714910540545252 uSv/h
+0.00991255203473756 +- 0.006837500492438491 uSv/h
+0.06835993539511687 +- 0.027326235661268322 uSv/h
+0.06104176027496185 +- 0.005027246694845256 uSv/h
+0.029968174602704244 +- 0.01498490830494324 uSv/h
+0.05450576526992881 +- 0.047964962339914013 uSv/h
+0.003087203958161481 +- 0.0025642279331883765 uSv/h
+0.03157668806126859 +- 0.0041918621785394326 uSv/h
+0.07214366651635916 +- 0.02435573420783864 uSv/h
+0.0609450427028075 +- 0.024006219395124567 uSv/h
+0.0 +- 0.0 uSv/h
+0.0 +- 0.0 uSv/h
+0.0 +- 0.0 uSv/h

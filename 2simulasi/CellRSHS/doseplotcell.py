@@ -1,76 +1,76 @@
-import openmc
+import openmc # type: ignore
 import matplotlib.pyplot as plt
 from matplotlib.colors import LogNorm
+import pandas as pd
 
-sp = openmc.StatePoint('./statepoint.10000.h5')
+sp = openmc.StatePoint('./statepoint.100.h5')
 
 f=open("output.txt","w")
 f.write(str(sp.tallies))
 f.close()
 
-meshtally = sp.tallies[1]
+print(sp.tallies)
 
+meshtally = sp.tallies[1]
+#print(sp.tallies[3])
 
 x=500#harus sama dengan resolusi pada file utama
 y=500
-#s_rate=4.87805e7 #source rate ICRP 116
-#s_rate=34.52580998
-#dose=dosevalues*1000*3600 #microsieverts/hour
 
-s_rate=34525809.98
-v=(2000/x)*(2000/y)*300 #volume of room dose distribution
-dosevalues=meshtally.get_values()
+conversion = 16368352439.27938
+# dose * flux * src_rate * t / V = [pSv cm²] [p-cm/src] [src/sec] [sec] / [cm³] = [pSv]
+# dose * cfac *t/V=pSv
+# dose*cfac*60/V
+
+v=(2000/x)*(2000/y)*1000 #volume of room dose distribution
+
+# {{{ ######## Pembuatan Visualisasi Distribusi Dosis #################
+dosevalues=meshtally.get_values() #Nilai perpixel dari grid 500x500
 dosevalues.shape=(x,y)
-dosevalues = dosevalues*s_rate/v #picosieverts/s
-dose=(dosevalues/1000000)*3600 #microsieverts/hour
-
+dosevalues = dosevalues*conversion/v #pSv/s = (pSv*cm3/src) *src/s /cm3
+#dose=(dosevalues/1_000_000)*3600 #pSv/s -> uSv/hour
+dose=dosevalues #pSv/s -> uSv/hour
 
 fig, ax = plt.subplots()
 cs = ax.imshow(dose, cmap='coolwarm', norm=LogNorm()) # type: ignore
 cb = plt.colorbar(cs)
-ax.set_title('Power density (kW/cm$^3$)') #type: ignore
+ax.set_title('Distribusi Dosis Ruangan (uSv/hour)') #type: ignore
 plt.savefig('RoomDoseDistribution.png',dpi=900 )
 plt.axis('off')
-
-phantally = sp.tallies[3]
-phandosevalues = phantally.get_values()#pSvcm3/src
-phandosestddev = phantally.std_dev 
-
-phandosevalues.shape = phandosevalues.shape[0]
-phandosestddev.shape = phandosestddev.shape[0]
-
-axvcell=5*10*10#cm3
-mu=1e11#pSv/s
-s_rate=mu*axvcell/phandosevalues #src/s
-factorMU = 60/1e10 # pSv/s -> MU/min
-factoruSv = 3600/1e6 # pSv/s -> uSv/h
-
-print(f"source rate *phantomdosevaluse/v cell axis= mu\n{s_rate}x{phandosevalues}/{axvcell}={mu}\n={phandosevalues*s_rate/axvcell} pSv/s")
-print(f"={phandosevalues*s_rate/axvcell*60/1e10} MU")#pSv/sec*(src/s)/cm3
-#phandosevalues = phandosevalues * s_rate / axvcell /1000000*3600 #
-#phandosestddev = phandosestddev * s_rate / axvcell
-
-phandosevalues *= factoruSv
-phandosestddev *= factoruSv
-for v,s in zip(phandosevalues,phandosestddev):
-    f=open("output.txt","a")
-    print(f'{v} +- {s}')
-    f.write(str(f'\n{v} +- {s}'))
-    f.close()
+#################################################################
+# }}}
 
 celltally = sp.tallies[2]
 celldosevalues = celltally.get_values() #pSvcm3/src;dosevolume per source
 celldosestddev = celltally.std_dev 
-print(celltally)
 celldosevalues.shape = celldosevalues.shape[0]
 celldosestddev.shape = celldosestddev.shape[0]
 
-vcell=10.8*50*200
+vcell=10.8*50*200 #cm3
 
-dose = celldosevalues *s_rate/ vcell #pSvcm3/src * (src/s) / cm3= pSv/s
-dose=(dose/1e6)*3600 #pSv/s -> uSv/h 3.6e9
-dosestddev = (celldosestddev * s_rate / vcell) *(1e6/3600) 
+dose= celldosevalues*conversion/vcell
+dosestddev=celldosestddev*conversion/vcell
 
+celltally = sp.tallies[3]
+celldosevalues = celltally.get_values() #pSvcm3/src;dosevolume per source
+celldosestddev = celltally.std_dev 
+celldosevalues.shape = celldosevalues.shape[0]
+celldosestddev.shape = celldosestddev.shape[0]
+print(celldosevalues)
+
+vcell=10.8*50*50 #cm3
+
+dosesmall= celldosevalues*conversion/vcell
+dosestddevsmall=celldosestddev*conversion/vcell
+print()
+#DF=pd.DataFrame(dose,dosestddev,dosesmall,dosestddevsmall)
+DF=pd.DataFrame(dose,dosestddev)
+
+DF.to_csv("cellTallyDose.csv")
+
+
+
+print(dose)
 for v,s in zip(dose,dosestddev):
     f=open("output.txt","a")
     print(f'{v:.7e} +- {s:.7e}uSv/h')

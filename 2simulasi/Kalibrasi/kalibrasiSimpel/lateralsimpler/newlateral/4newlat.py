@@ -1,4 +1,5 @@
 import openmc, openmc.model, openmc.stats, openmc.data
+from math import * #type: ignore
 
 ROOM_SIZE = 60 
 LINAC_DIRECTION= 130 
@@ -77,11 +78,20 @@ plot.to_ipython_image()
 ## source
 d = 100#distance between linac and water phantom
 t = 1 #thickness
-source = openmc.Source()
+#source = openmc.Source()
+#source.space = openmc.stats.Box((-PHANTOM_SIZE/2-d, -SOURCE_SIZE/2, -SOURCE_SIZE/2), (-PHANTOM_SIZE/2-d-t, SOURCE_SIZE/2, SOURCE_SIZE/2))
+#source.angle = openmc.stats.Monodirectional((1, 0, 0))
+#source.energy = openmc.stats.Discrete([10e6], [1])
+#source.particle = 'photon'
+source  =openmc.Source()
+phi =openmc.stats.Uniform(0.0,2*pi) # type: ignore #phi=distribution of the azimuthal angle in radians
+mu=openmc.stats.Uniform(0.5,1) # type: ignore #mu= distribution of the cosine of the polar angle
 source.space = openmc.stats.Box((-PHANTOM_SIZE/2-d, -SOURCE_SIZE/2, -SOURCE_SIZE/2), (-PHANTOM_SIZE/2-d-t, SOURCE_SIZE/2, SOURCE_SIZE/2))
-source.angle = openmc.stats.Monodirectional((1, 0, 0))
+#source.space = openmc.stats.Box((linacxyzn1), (linacxyzn2))
+##source.angle = openmc.stats.Monodirectional(linacuvw)
+source.angle = openmc.stats.PolarAzimuthal(mu,phi,reference_uvw=(1, 0, 0)) # type: ignore
+source.angle = openmc.stats.Monodirectional()
 source.energy = openmc.stats.Discrete([10e6], [1])
-source.particle = 'photon'
 
 ## tally
 tallysize=0.1
