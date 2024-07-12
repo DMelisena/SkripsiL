@@ -24,7 +24,7 @@ conversion = 16368352439.27938
 # dose*cfac*60/V
 
 
-v=(2000/x)*(2000/y)*1000 #volume of room dose distribution
+v=(2000/x)*(2000/y)*5 #volume of room dose distribution
 
 # {{{ ######## Pembuatan Visualisasi Distribusi Dosis #################
 dosevalues=meshtally.get_values() #Nilai perpixel dari grid 500x500
@@ -33,6 +33,10 @@ dosevalues.shape=(x,y)
 dosevalues = dosevalues*conversion/v #pSv/s = (pSv*cm3/src) *src/s /cm3
 dose=(dosevalues/1_000_000)*3600 #pSv/s -> uSv/hour
 dose=dose[::-1,:]
+
+GD=pd.DataFrame(dose)
+
+GD.to_csv("gridTallyDose.csv")
 
 fig, ax = plt.subplots()
 cs = ax.imshow(dose, cmap='coolwarm', norm=LogNorm()) # type: ignore

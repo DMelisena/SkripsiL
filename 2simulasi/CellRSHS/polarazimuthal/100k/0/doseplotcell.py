@@ -50,7 +50,7 @@ print(celltally)
 celldosevalues.shape = celldosevalues.shape[0]
 celldosestddev.shape = celldosestddev.shape[0]
 
-smalltally = sp.tallies[3]
+smalltally = sp.tallies[2]
 smalltallydose = smalltally.get_values()
 smalltallydose.shape = smalltallydose.shape[0]
 print("===========",smalltallydose,"===========")
