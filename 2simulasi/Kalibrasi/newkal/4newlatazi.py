@@ -1,4 +1,5 @@
 import openmc, openmc.model, openmc.stats, openmc.data
+from math import * #type: ignore
 
 ROOM_SIZE = 60 
 LINAC_DIRECTION= 130 
@@ -64,7 +65,7 @@ geom.export_to_xml()
 
 plot= openmc.Plot()
 plot.basis = 'xz'
-plot.origin = (0, 0, 0)
+plot.origin = (-60, 0, 0)
 plot.width = (200., 100.)
 plot.pixels = (1200, 600)
 plot.color_by='material'
@@ -77,14 +78,24 @@ plot.to_ipython_image()
 ## source
 d = 100#distance between linac and water phantom
 t = 1 #thickness
-source = openmc.Source()
+#source = openmc.Source()
+#source.space = openmc.stats.Box((-PHANTOM_SIZE/2-d, -SOURCE_SIZE/2, -SOURCE_SIZE/2), (-PHANTOM_SIZE/2-d-t, SOURCE_SIZE/2, SOURCE_SIZE/2))
+#source.angle = openmc.stats.Monodirectional((1, 0, 0))
+#source.energy = openmc.stats.Discrete([10e6], [1])
+#source.particle = 'photon'
+source  =openmc.Source()
+phi =openmc.stats.Uniform(0.0,2*pi) # type: ignore #phi=distribution of the azimuthal angle in radians
+#tan theta = r/SAD=20/1000; theta = atan(20/100)=0.19739555984988; cos theta=0.98058
+mu=openmc.stats.Uniform(0.74329,1) # type: ignore #mu= distribution of the cosine of the polar angle
 source.space = openmc.stats.Box((-PHANTOM_SIZE/2-d, -SOURCE_SIZE/2, -SOURCE_SIZE/2), (-PHANTOM_SIZE/2-d-t, SOURCE_SIZE/2, SOURCE_SIZE/2))
-source.angle = openmc.stats.Monodirectional((1, 0, 0))
+#source.space = openmc.stats.Box((linacxyzn1), (linacxyzn2))
+##source.angle = openmc.stats.Monodirectional(linacuvw)
+source.angle = openmc.stats.PolarAzimuthal(mu,phi,reference_uvw=(1, 0, 0)) # type: ignore
 source.energy = openmc.stats.Discrete([10e6], [1])
 source.particle = 'photon'
 
 ## tally
-tallysize=0.1
+tallysize=3
 mesh = openmc.Mesh()
 mesh.dimension = [1, 1, 500]
 mesh.lower_left = [(-PHANTOM_SIZE/2)+2.5, -tallysize/2, -PHANTOM_SIZE/2] #type: ignore
@@ -165,10 +176,9 @@ particles = int(input('Enter number of particle (It was 1e8)\n= ')) #1_000_000_0
 settings = openmc.Settings()
 settings.run_mode = 'fixed source'
 settings.particles = particles
-settings.batches = 10
+settings.batches = 20
 settings.inactive = 0
 settings.source = source
-settings.photon_transport = True
 settings.export_to_xml()
 
 openmc.run()
