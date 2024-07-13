@@ -4,13 +4,14 @@ import matplotlib.pyplot as plt
 import openmc.stats, openmc.data
 from math import cos, atan2, pi
 
-batches = 10
+batches = 5
 inactive = 10
 particles = int(input('Enter number of particle (It was 1e8)\n= ')) #1_000_000_000
-
-
+PHANTOM_SIZE=40 
+SOURCE_SIZE=20 
+TARGET_SIZE=30
 # Material 
-# {{{
+
 air=openmc.Material(name='Air')
 air.set_density('g/cm3',0.001205)
 air.add_nuclide('N14',0.7)
@@ -32,14 +33,13 @@ materials.export_to_xml()
 # }}}
 
 SSD = 100.0 #Source to Skin Distance
-l = 10 
-ld= 6# panjang dan lebar WP
-d = 10.0 #kedalaman WP
+ld= 40# panjang dan lebar WP
+d = 30.0 #kedalaman WP
 padd = 10.0 #padding terhadap source dan detektor
 
 # {{{
 
-n = 1000
+n = 3000
 phantom_cells = []
 dx = d/n
 for i in range(n):
@@ -60,10 +60,10 @@ r_phantom = r_x & r_y & r_z
 
 r_x_air = +openmc.XPlane(-padd, boundary_type='vacuum')\
     & -openmc.XPlane(SSD+d+padd, boundary_type='vacuum')
-r_y_air = +openmc.YPlane(-l/2.0-padd, boundary_type='vacuum')\
-    & -openmc.YPlane(l/2.0+padd, boundary_type='vacuum')
-r_z_air = +openmc.ZPlane(-l/2.0-padd, boundary_type='vacuum')\
-    & -openmc.ZPlane(l/2.0+padd, boundary_type='vacuum')
+r_y_air = +openmc.YPlane(-ld/2.0-padd, boundary_type='vacuum')\
+    & -openmc.YPlane(ld/2.0+padd, boundary_type='vacuum')
+r_z_air = +openmc.ZPlane(-ld/2.0-padd, boundary_type='vacuum')\
+    & -openmc.ZPlane(ld/2.0+padd, boundary_type='vacuum')
 r_air = r_x_air & r_y_air & r_z_air
 c_air = openmc.Cell(region=r_air & ~r_phantom)
 c_air.fill = air
@@ -119,6 +119,7 @@ tally.scores = ['flux']
 tallies_file.append(tally)
 tallies_file.export_to_xml()
 
+"""
 source = openmc.Source() #type: ignore
 source.space = openmc.stats.Point((0,0,0))
 phi = openmc.stats.Uniform(0, 2*pi)
@@ -126,6 +127,15 @@ phi = openmc.stats.Uniform(0, 2*pi)
 mu  = openmc.stats.Uniform(cos(atan2(40/2, SSD)), 1)
 source.angle = openmc.stats.PolarAzimuthal(mu,phi,reference_uvw=(1,0,0))
 source.energy = openmc.stats.Discrete([10e6],[1]) #10MeV
+"""
+phi = openmc.stats.Uniform(0, 2*pi)
+
+mu  = openmc.stats.Uniform((cos(atan2(TARGET_SIZE/SOURCE_SIZE, SSD))), 1) 
+source = openmc.Source()
+source.space = openmc.stats.Box((-0.1, -SOURCE_SIZE/2, -SOURCE_SIZE/2), (0, SOURCE_SIZE/2, SOURCE_SIZE/2))
+#source.angle = openmc.stats.Monodirectional((1, 0, 0))
+source.angle = openmc.stats.PolarAzimuthal(mu,phi,reference_uvw=(1,0,0))
+source.energy = openmc.stats.Discrete([10e6], [1])
 source.particle = 'photon'
 
 
