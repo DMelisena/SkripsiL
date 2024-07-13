@@ -8,7 +8,7 @@ batches = 5
 inactive = 10
 particles = int(input('Enter number of particle (It was 1e8)\n= ')) #1_000_000_000
 PHANTOM_SIZE=40 
-SOURCE_SIZE=20 
+SOURCE_SIZE=10 
 TARGET_SIZE=30
 # Material 
 
@@ -117,6 +117,15 @@ tally = openmc.Tally(name='tally')
 tally.filters = [cell_filter, particle_filter, dose_filter]
 tally.scores = ['flux']
 tallies_file.append(tally)
+
+mesh=openmc.Mesh()
+mesh.dimension=[1,1,600]
+mesh.lower_left=[]
+mesh.upper_right=[]
+mesh_filter = openmc.MeshFilter(mesh)
+
+
+
 tallies_file.export_to_xml()
 
 """
@@ -127,10 +136,12 @@ phi = openmc.stats.Uniform(0, 2*pi)
 mu  = openmc.stats.Uniform(cos(atan2(40/2, SSD)), 1)
 source.angle = openmc.stats.PolarAzimuthal(mu,phi,reference_uvw=(1,0,0))
 source.energy = openmc.stats.Discrete([10e6],[1]) #10MeV
+source.particle = 'photon'
 """
-phi = openmc.stats.Uniform(0, 2*pi)
 
+phi = openmc.stats.Uniform(0, 2*pi)
 mu  = openmc.stats.Uniform((cos(atan2(TARGET_SIZE/SOURCE_SIZE, SSD))), 1) 
+
 source = openmc.Source()
 source.space = openmc.stats.Box((-0.1, -SOURCE_SIZE/2, -SOURCE_SIZE/2), (0, SOURCE_SIZE/2, SOURCE_SIZE/2))
 #source.angle = openmc.stats.Monodirectional((1, 0, 0))
