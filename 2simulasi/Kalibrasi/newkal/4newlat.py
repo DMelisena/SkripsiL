@@ -64,7 +64,7 @@ geom.export_to_xml()
 
 plot= openmc.Plot()
 plot.basis = 'xz'
-plot.origin = (-60, 0, 0)
+plot.origin = (0, 0, 0)
 plot.width = (200., 100.)
 plot.pixels = (1200, 600)
 plot.color_by='material'
@@ -165,9 +165,10 @@ particles = int(input('Enter number of particle (It was 1e8)\n= ')) #1_000_000_0
 settings = openmc.Settings()
 settings.run_mode = 'fixed source'
 settings.particles = particles
-settings.batches = 20
+settings.batches = 10
 settings.inactive = 0
 settings.source = source
+settings.photon_transport = True
 settings.export_to_xml()
 
 openmc.run()
