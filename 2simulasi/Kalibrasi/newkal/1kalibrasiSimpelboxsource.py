@@ -9,7 +9,7 @@ inactive = 10
 particles = int(input('Enter number of particle (It was 1e8)\n= ')) #1_000_000_000
 PHANTOM_SIZE=40 
 SOURCE_SIZE=20 
-TARGET_SIZE=40
+TARGET_SIZE=30
 # Material 
 
 air=openmc.Material(name='Air')
@@ -118,11 +118,94 @@ tally.filters = [cell_filter, particle_filter, dose_filter]
 tally.scores = ['flux']
 tallies_file.append(tally)
 
-mesh=openmc.Mesh()
-mesh.dimension=[1,1,600]
-mesh.lower_left=[]
-mesh.upper_right=[]
+dpp1=0.1
+dpp01=openmc.Mesh()
+dpp01.dimension=[600,1,1]
+dpp01.lower_left=[100,-dpp1/2,-dpp1/2]
+dpp01.upper_right=[100+d,dpp1/2,dpp1/2]
+dpp01_filter = openmc.MeshFilter(dpp01)
+
+dpp10s=10
+dpp10=openmc.Mesh()
+dpp10.dimension=[600,1,1]
+dpp10.lower_left=[100,-dpp10s/2,-dpp10s/2]
+dpp10.upper_right=[100+d,dpp10s/2,dpp10s/2]
+dpp10_filter= openmc.MeshFilter(dpp10)
+
+tallysize=0.1
+mesh = openmc.Mesh()
+mesh.dimension = [1, 1, 400]
+mesh.lower_left = [SSD, -tallysize/2, -tallysize/2] #type: ignore
+mesh.upper_right = [SSD+tallysize, tallysize/2, tallysize/2] #type: ignore
 mesh_filter = openmc.MeshFilter(mesh)
+
+mesh25 = openmc.Mesh()
+mesh25.dimension = [1, 1, 400]
+mesh25.lower_left = [SSD+2.5, -tallysize/2, -tallysize/2] #type: ignore
+mesh25.upper_right = [SSD+2.5+tallysize, tallysize/2, tallysize/2] #type: ignore
+mesh25_filter = openmc.MeshFilter(mesh25)
+
+mesh5 = openmc.Mesh()
+mesh5.dimension = [1, 1, 400]
+mesh5.lower_left = [SSD+5, -tallysize/2, -tallysize/2] #type: ignore
+mesh5.upper_right = [SSD+5+tallysize, tallysize/2, tallysize/2] #type: ignore
+mesh5_filter = openmc.MeshFilter(mesh5)
+
+mesh10 = openmc.Mesh()
+mesh10.dimension = [1, 1, 400]
+mesh10.lower_left = [SSD+10, -tallysize/2, -tallysize/2] #type: ignore
+mesh10.upper_right = [SSD+10+tallysize, tallysize/2, tallysize/2] #type: ignore
+mesh10_filter = openmc.MeshFilter(mesh10)
+
+heatmap=openmc.Mesh()
+heatmap.dimension =[1300,1,500]
+heatmap.lower_left = [0, -tallysize/2, -PHANTOM_SIZE/2] #type: ignore
+heatmap.upper_right = [SSD+d, tallysize/2, PHANTOM_SIZE/2] #type: ignore
+heatmap_filter = openmc.MeshFilter(heatmap)
+
+tallydpp = openmc.Tally(name="dpp tally 0.1")
+tallydpp.filters = [dpp01_filter, particle_filter, dose_filter]
+tallydpp.scores = ['flux']
+
+tallydpp10 = openmc.Tally(name="dpp tally 10")
+tallydpp10.filters = [dpp10_filter, particle_filter, dose_filter]
+tallydpp10.scores = ['flux']
+
+tally = openmc.Tally(name="2.5 depth tally")
+tally.filters = [mesh_filter, particle_filter, dose_filter]
+tally.scores = ['flux']
+
+tally25 = openmc.Tally(name="25 depth tally")
+tally25.filters = [mesh25_filter, particle_filter, dose_filter]
+tally25.scores = ['flux']
+
+tally5 = openmc.Tally(name="5 depth tally")
+tally5.filters = [mesh5_filter, particle_filter, dose_filter]
+tally5.scores = ['flux']
+
+tally10 = openmc.Tally(name="10 depth tally")
+tally10.filters = [mesh10_filter, particle_filter, dose_filter]
+tally10.scores = ['flux']
+
+heatmaptally = openmc.Tally(name="depth dose tally")
+heatmaptally.filters = [heatmap_filter, particle_filter, dose_filter]
+heatmaptally.scores = ['flux']
+
+
+tallies = openmc.Tallies()
+tallies.append(tallydpp)
+tallies.append(tallydpp10)
+tallies.append(tally)
+tallies.append(tally25)
+tallies.append(tally5)
+tallies.append(tally10)
+tallies.append(heatmaptally)
+
+tallies.export_to_xml()
+
+
+
+
 
 
 tallies_file.export_to_xml()
@@ -138,7 +221,7 @@ source.energy = openmc.stats.Discrete([10e6],[1]) #10MeV
 source.particle = 'photon'
 """
 #tan theta = r/SAD=20/1000; theta = atan(20/100)=0.19739555984988; cos theta=0.98058
-mu=openmc.stats.Uniform(0.98058,1) # type: ignore #mu= distribution of the cosine of the polar angle
+#mu=openmc.stats.Uniform(0.98058,1) # type: ignore #mu= distribution of the cosine of the polar angle
 
 phi = openmc.stats.Uniform(0, 2*pi)
 mu  = openmc.stats.Uniform(cos(atan((TARGET_SIZE-SOURCE_SIZE)/SSD)), 1) 
@@ -148,7 +231,6 @@ source.space = openmc.stats.Box((-0.1, -SOURCE_SIZE/2, -SOURCE_SIZE/2), (0, SOUR
 source.angle = openmc.stats.PolarAzimuthal(mu,phi,reference_uvw=(1,0,0))
 source.energy = openmc.stats.Discrete([10e6], [1])
 source.particle = 'photon'
-
 
 settings = openmc.Settings()
 settings.batches = batches
