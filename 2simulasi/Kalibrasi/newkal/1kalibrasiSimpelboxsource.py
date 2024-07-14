@@ -2,14 +2,14 @@
 import openmc
 import matplotlib.pyplot as plt
 import openmc.stats, openmc.data
-from math import cos, atan2, pi
+from math import cos, atan2, pi,atan
 
 batches = 5
 inactive = 10
 particles = int(input('Enter number of particle (It was 1e8)\n= ')) #1_000_000_000
 PHANTOM_SIZE=40 
-SOURCE_SIZE=10 
-TARGET_SIZE=30
+SOURCE_SIZE=20 
+TARGET_SIZE=40
 # Material 
 
 air=openmc.Material(name='Air')
@@ -125,7 +125,6 @@ mesh.upper_right=[]
 mesh_filter = openmc.MeshFilter(mesh)
 
 
-
 tallies_file.export_to_xml()
 
 """
@@ -138,10 +137,11 @@ source.angle = openmc.stats.PolarAzimuthal(mu,phi,reference_uvw=(1,0,0))
 source.energy = openmc.stats.Discrete([10e6],[1]) #10MeV
 source.particle = 'photon'
 """
+#tan theta = r/SAD=20/1000; theta = atan(20/100)=0.19739555984988; cos theta=0.98058
+mu=openmc.stats.Uniform(0.98058,1) # type: ignore #mu= distribution of the cosine of the polar angle
 
 phi = openmc.stats.Uniform(0, 2*pi)
-mu  = openmc.stats.Uniform((cos(atan2(TARGET_SIZE/SOURCE_SIZE, SSD))), 1) 
-
+mu  = openmc.stats.Uniform(cos(atan((TARGET_SIZE-SOURCE_SIZE)/SSD)), 1) 
 source = openmc.Source()
 source.space = openmc.stats.Box((-0.1, -SOURCE_SIZE/2, -SOURCE_SIZE/2), (0, SOURCE_SIZE/2, SOURCE_SIZE/2))
 #source.angle = openmc.stats.Monodirectional((1, 0, 0))
