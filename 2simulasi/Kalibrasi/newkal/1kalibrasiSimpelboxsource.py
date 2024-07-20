@@ -9,7 +9,7 @@ inactive = 10
 particles = int(input('Enter number of particle (It was 1e8)\n= ')) #1_000_000_000
 PHANTOM_SIZE=40 
 SOURCE_SIZE=20 
-TARGET_SIZE=30
+FIELD_SIZE=30
 # Material 
 
 air=openmc.Material(name='Air')
@@ -116,7 +116,6 @@ cell_filter = openmc.CellFilter(phantom_cells)
 tally = openmc.Tally(name='tally')
 tally.filters = [cell_filter, particle_filter, dose_filter]
 tally.scores = ['flux']
-tallies_file.append(tally)
 
 dpp1=0.1
 dpp01=openmc.Mesh()
@@ -171,9 +170,9 @@ tallydpp10 = openmc.Tally(name="dpp tally 10")
 tallydpp10.filters = [dpp10_filter, particle_filter, dose_filter]
 tallydpp10.scores = ['flux']
 
-tally = openmc.Tally(name="2.5 depth tally")
-tally.filters = [mesh_filter, particle_filter, dose_filter]
-tally.scores = ['flux']
+tally0 = openmc.Tally(name="2.5 depth tally")
+tally0.filters = [mesh_filter, particle_filter, dose_filter]
+tally0.scores = ['flux']
 
 tally25 = openmc.Tally(name="25 depth tally")
 tally25.filters = [mesh25_filter, particle_filter, dose_filter]
@@ -192,21 +191,14 @@ heatmaptally.filters = [heatmap_filter, particle_filter, dose_filter]
 heatmaptally.scores = ['flux']
 
 
-tallies = openmc.Tallies()
-tallies.append(tallydpp)
-tallies.append(tallydpp10)
-tallies.append(tally)
-tallies.append(tally25)
-tallies.append(tally5)
-tallies.append(tally10)
-tallies.append(heatmaptally)
-
-tallies.export_to_xml()
-
-
-
-
-
+tallies_file.append(tally)
+tallies_file.append(tallydpp)
+tallies_file.append(tallydpp10)
+tallies_file.append(tally0)
+tallies_file.append(tally25)
+tallies_file.append(tally5)
+tallies_file.append(tally10)
+tallies_file.append(heatmaptally)
 
 tallies_file.export_to_xml()
 
@@ -224,7 +216,7 @@ source.particle = 'photon'
 #mu=openmc.stats.Uniform(0.98058,1) # type: ignore #mu= distribution of the cosine of the polar angle
 
 phi = openmc.stats.Uniform(0, 2*pi)
-mu  = openmc.stats.Uniform(cos(atan((TARGET_SIZE-SOURCE_SIZE)/SSD)), 1) 
+mu  = openmc.stats.Uniform(cos(atan2(((FIELD_SIZE-SOURCE_SIZE)/2),SSD)), 1) 
 source = openmc.Source()
 source.space = openmc.stats.Box((-0.1, -SOURCE_SIZE/2, -SOURCE_SIZE/2), (0, SOURCE_SIZE/2, SOURCE_SIZE/2))
 #source.angle = openmc.stats.Monodirectional((1, 0, 0))

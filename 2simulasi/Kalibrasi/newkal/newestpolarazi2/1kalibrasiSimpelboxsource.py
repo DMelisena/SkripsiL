@@ -8,8 +8,8 @@ batches = 5
 inactive = 10
 particles = int(input('Enter number of particle (It was 1e8)\n= ')) #1_000_000_000
 PHANTOM_SIZE=40 
-SOURCE_SIZE=20 
-TARGET_SIZE=30
+SOURCE_SIZE=22.5
+FIELD_SIZE=30
 # Material 
 
 air=openmc.Material(name='Air')
@@ -39,7 +39,7 @@ padd = 10.0 #padding terhadap source dan detektor
 
 # {{{
 
-n = 3000
+n = 300
 phantom_cells = []
 dx = d/n
 for i in range(n):
@@ -116,18 +116,17 @@ cell_filter = openmc.CellFilter(phantom_cells)
 tally = openmc.Tally(name='tally')
 tally.filters = [cell_filter, particle_filter, dose_filter]
 tally.scores = ['flux']
-tallies_file.append(tally)
 
 dpp1=0.1
 dpp01=openmc.Mesh()
-dpp01.dimension=[600,1,1]
+dpp01.dimension=[300,1,1]
 dpp01.lower_left=[100,-dpp1/2,-dpp1/2]
 dpp01.upper_right=[100+d,dpp1/2,dpp1/2]
 dpp01_filter = openmc.MeshFilter(dpp01)
 
 dpp10s=10
 dpp10=openmc.Mesh()
-dpp10.dimension=[600,1,1]
+dpp10.dimension=[300,1,1]
 dpp10.lower_left=[100,-dpp10s/2,-dpp10s/2]
 dpp10.upper_right=[100+d,dpp10s/2,dpp10s/2]
 dpp10_filter= openmc.MeshFilter(dpp10)
@@ -193,6 +192,7 @@ heatmaptally.scores = ['flux']
 
 
 tallies = openmc.Tallies()
+tallies.append(tally)
 tallies.append(tallydpp)
 tallies.append(tallydpp10)
 tallies.append(tally)
@@ -208,7 +208,6 @@ tallies.export_to_xml()
 
 
 
-tallies_file.export_to_xml()
 
 """
 source = openmc.Source() #type: ignore
@@ -224,7 +223,7 @@ source.particle = 'photon'
 #mu=openmc.stats.Uniform(0.98058,1) # type: ignore #mu= distribution of the cosine of the polar angle
 
 phi = openmc.stats.Uniform(0, 2*pi)
-mu  = openmc.stats.Uniform(cos(atan((TARGET_SIZE-SOURCE_SIZE)/SSD)), 1) 
+mu  = openmc.stats.Uniform(cos(atan2(((FIELD_SIZE-SOURCE_SIZE)/2),SSD)), 1) 
 source = openmc.Source()
 source.space = openmc.stats.Box((-0.1, -SOURCE_SIZE/2, -SOURCE_SIZE/2), (0, SOURCE_SIZE/2, SOURCE_SIZE/2))
 #source.angle = openmc.stats.Monodirectional((1, 0, 0))
