@@ -101,5 +101,32 @@ plt.show()
 # plt.clf()
 """
 
+df = pd.read_csv('./gridTallyDose.csv')
+fig, ax = plt.subplots()
+cs = ax.imshow(df, cmap='coolwarm', norm=LogNorm()) # type: ignore
+cb = plt.colorbar(cs)
+ax.set_title('Distribusi Dosis Ruangan (uSv/hour)') #type: ignore
 
-# plt.clf()
+
+labelsx = [item.get_text() for item in ax.get_xticklabels()]
+labelsx[1] = '-1000'
+labelsx[2] = '-600'
+labelsx[3] = '-200'
+labelsx[4] = '200'
+labelsx[5] = '600'
+labelsx[6] = '1000'
+
+labelsy = [item.get_text() for item in ax.get_yticklabels()]
+labelsy[1] = '1000'
+labelsy[2] = '600'
+labelsy[3] = '200'
+labelsy[4] = '-200'
+labelsy[5] = '-600'
+labelsy[6] = '-1000'
+
+ax.set_xticklabels(labelsx)
+ax.set_yticklabels(labelsy)
+
+plt.savefig('RoomDoseDistribution.png',dpi=900 )
+plt.axis('off')
+fig.canvas.draw()

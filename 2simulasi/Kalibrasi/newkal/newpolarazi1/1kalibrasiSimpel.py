@@ -9,7 +9,7 @@ inactive = 10
 particles = int(input('Enter number of particle (It was 1e8)\n= ')) #1_000_000_000
 PHANTOM_SIZE=40 
 SOURCE_SIZE=20 
-TARGET_SIZE=30
+FIELD_SIZE=30
 # Material 
 
 air=openmc.Material(name='Air')
@@ -22,24 +22,34 @@ air.add_element('Fe',0.001)
 air.add_element('Si',0.001)
 air.add_element('Mn',0.001)
 
+air2=openmc.Material(name='Air2')
+air2.set_density('g/cm3',0.001205)
+air2.add_nuclide('N14',0.7)
+air2.add_nuclide('O16',0.3)
+#air.add_s_alpha_beta('c_H_in_Air')
+air2.add_element('C',0.002)
+air2.add_element('Fe',0.001)
+air2.add_element('Si',0.001)
+air2.add_element('Mn',0.001)
+
 water=openmc.Material(name='Water')
 water.set_density('g/cm3',1.0)
 water.add_nuclide('H1',2.0)
 water.add_nuclide('O16',1.0)
 water.add_s_alpha_beta('c_H_in_H2O')
 
-materials = openmc.Materials([air,water])
+materials = openmc.Materials([air,air2,water])
 materials.export_to_xml()
 # }}}
 
 SSD = 100.0 #Source to Skin Distance
-ld= 4# panjang dan lebar WP
+ld= 10# panjang dan lebar WP tally
 d = 30.0 #kedalaman WP
 padd = 10.0 #padding terhadap source dan detektor
 
 # {{{
 
-n = 3000
+n = 300
 phantom_cells = []
 dx = d/n
 for i in range(n):
@@ -56,35 +66,54 @@ for i in range(n):
 r_x = +openmc.XPlane(SSD) & -openmc.XPlane(SSD+d)
 r_y = +openmc.YPlane(-ld/2.0) & -openmc.YPlane(ld/2.0)
 r_z = +openmc.ZPlane(-ld/2.0) & -openmc.ZPlane(ld/2.0)
-r_phantom = r_x & r_y & r_z
+r_phantom_tally = r_x & r_y & r_z
+
+r_xs = +openmc.XPlane(SSD) & -openmc.XPlane(SSD+30)
+r_ys = +openmc.YPlane(PHANTOM_SIZE/2.0) & -openmc.YPlane(PHANTOM_SIZE/2.0)
+r_zs = +openmc.ZPlane(PHANTOM_SIZE/2.0) & -openmc.ZPlane(PHANTOM_SIZE/2.0)
+
+r_phantom =  r_xs & r_ys & r_zs
+r_phantom_surround =  r_phantom-r_phantom_tally 
+r_phantom_surround.fill = water
 
 r_x_air = +openmc.XPlane(-padd, boundary_type='vacuum')\
     & -openmc.XPlane(SSD+d+padd, boundary_type='vacuum')
-r_y_air = +openmc.YPlane(-ld/2.0-padd, boundary_type='vacuum')\
+r_y_air = +openmc.YPlane(-PHANTOM_SIZE/2.0-padd, boundary_type='vacuum')\
     & -openmc.YPlane(ld/2.0+padd, boundary_type='vacuum')
-r_z_air = +openmc.ZPlane(-ld/2.0-padd, boundary_type='vacuum')\
+r_z_air = +openmc.ZPlane(-PHANTOM_SIZE/2.0-padd, boundary_type='vacuum')\
     & -openmc.ZPlane(ld/2.0+padd, boundary_type='vacuum')
 r_air = r_x_air & r_y_air & r_z_air
 c_air = openmc.Cell(region=r_air & ~r_phantom)
 c_air.fill = air
 
-universe = openmc.Universe(cells=[c_air]+phantom_cells)
+universe = openmc.Universe(cells=[c_air]+phantom_cells+r_phantom_surround)
 geometry = openmc.Geometry()
 geometry.root_universe = universe
 geometry.export_to_xml()
 # }}}
 plot= openmc.Plot()
 plot.basis = 'xz'
+plot.filename='xy_cal'
 plot.origin = (0, 0, 0)
 plot.width = (200., 100.)
 plot.pixels = (1200, 600)
 plot.color_by='material'
 plot.colors={
     water:'blue',
-    air:'green'
+    air:'green',
+    air2:'black'
 }
 plot.to_ipython_image()
 
+plot.basis='xz'
+plot.filename='xz_cal'
+plot.pixles=(100,100)
+plot.width=(100,100)
+plot.origin=(120,0,0)
+plot_file=openmc.Plots([plot])
+plot_file.export_to_xml()
+openmc.plot_geometry()
+plot.to_ipython_image()
 # {{{
 """
 height = 300
@@ -131,7 +160,7 @@ source.particle = 'photon'
 """
 phi = openmc.stats.Uniform(0, 2*pi)
 
-mu  = openmc.stats.Uniform((cos(atan2(TARGET_SIZE/SOURCE_SIZE, SSD))), 1) 
+mu  = openmc.stats.Uniform(cos(atan2(((FIELD_SIZE-SOURCE_SIZE)/2),SSD)), 1) 
 source = openmc.Source()
 source.space = openmc.stats.Box((-0.1, -SOURCE_SIZE/2, -SOURCE_SIZE/2), (0, SOURCE_SIZE/2, SOURCE_SIZE/2))
 #source.angle = openmc.stats.Monodirectional((1, 0, 0))

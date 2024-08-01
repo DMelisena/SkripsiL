@@ -51,8 +51,8 @@ plt.axvline(x=x_maxs, color='r')
 # write x_max value on plot
 plt.title(f'x_max = {x_max}')
 #print(f"Y Value on xmax={_max}")
-plt.show()
 plt.savefig('2.5 depth.png')
+plt.show()
 
 def rounde(unrounded):
     roundede="{:.4e}".format(unrounded)

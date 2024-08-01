@@ -4,7 +4,7 @@ import numpy as np
 from scipy.signal import savgol_filter
 ##
 
-sp = openmc.StatePoint('statepoint.10.h5')
+sp = openmc.StatePoint('statepoint.5.h5')
 ##
 
 n = 1000

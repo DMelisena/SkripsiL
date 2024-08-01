@@ -210,6 +210,8 @@ deuz0=openmc.ZPlane(-300.0+48.0+100.0)#Tinggi detektor, default untuk semua dete
 deuz1=openmc.ZPlane(-300.0+48.0+100.0+50.0)
 deuz0s=openmc.ZPlane(-300.0+48.0+100.0-(detd/2))#Tinggi detektor, default untuk semua detektor kecuali atas
 deuz1s=openmc.ZPlane(-300.0+48.0+100.0+(detd/2))
+#deuz0s=openmc.ZPlane(-300.0+48.0+100.0-(150/2))#Tinggi detektor, default untuk semua detektor kecuali atas
+#deuz1s=openmc.ZPlane(-300.0+48.0+100.0+(detd/2))
 
 deubb=openmc.XPlane(-632.0+76.5+250.5+100.0) #Koordinat x nya masih ngasal
 deubt=openmc.XPlane(-632.0+76.5+250.5+100.0+50.0)
@@ -293,6 +295,16 @@ deb2ts=openmc.XPlane (-632.0+76.5+250.5-1-15-1-100-detde)
 deb3  =openmc.XPlane (-632.0+76.5+250.5-1-15-1-200.0)
 deb3t =openmc.XPlane (-632.0+76.5+250.5-1-15-1-200-10.8)
 deb3ts=openmc.XPlane (-632.0+76.5+250.5-1-15-1-200-detde)
+"""
+deb1t=openmc.XPlane(-632.0+76.5+250.5-15.8-102.0-15.8-30.0-10.8)
+deb1ts=openmc.XPlane(-632.0+76.5+250.5-15.8-102.0-15.8-30.0-detde)
+deb2=openmc.XPlane (-632.0+76.5+250.5-15.8-102.0-15.8-100.0)
+deb2t=openmc.XPlane(-632.0+76.5+250.5-15.8-102.0-15.8-100.0-10.8)
+deb2ts=openmc.XPlane(-632.0+76.5+250.5-15.8-102.0-15.8-100.0-detde)
+deb3=openmc.XPlane (-632.0+76.5+250.5-15.8-102.0-15.8-200.0)
+deb3t=openmc.XPlane(-632.0+76.5+250.5-15.8-102.0-15.8-200.0-10.8)
+deb3ts=openmc.XPlane(-632.0+76.5+250.5-15.8-102.0-15.8-200.0-detde)
+"""
 
 debu =openmc.YPlane(190.0+250.0+120.0+185.0-67.5) 
 debs =openmc.YPlane(190.0+250.0+120.0+185.0-67.5-50.0) 
@@ -437,7 +449,7 @@ colors[lead]='black'
 colors[bpe]='lightblue'
 colors[concrete]='grey'
 colors[air]='white'
-colors[air2]='blue'
+colors[air2]='green'
 colors[iron]='black'
 
 ###############################################
@@ -478,7 +490,7 @@ plot.colors={
     bpe:'lightblue',
     concrete:'grey',
     air:'white',
-    air2:'blue',
+    air2:'green',
     air3:'red',
     iron:'yellow'
 }

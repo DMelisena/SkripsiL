@@ -6,10 +6,9 @@ from scipy.signal import savgol_filter
 
 sp = openmc.StatePoint('statepoint.3.h5')
 ##
-print(sp.n_particles)
 
 n = 300
-d = 30
+d = 10
 tal = sp.tallies[1]
 datay = tal.mean
 # datax is linspace between 0 and 50
@@ -24,18 +23,12 @@ y_max = datay[datay.argmax()]
 print(x_max,max_index,y_max)
 
 y_max=datay[max_index]
-#plt.axvline(x=x_max, color='r')
-plt.legend(loc='best')
-plt.ylabel("Relative Dose (%)")
-plt.xlabel("Position (cm)")
-plt.xlim(-0,30)
-plt.ylim(0,105)
-datay=datay/y_max*100
+plt.axvline(x=x_max, color='r')
 plt.plot(datax, datay)
+
 
 tal = sp.tallies[1]
 datay = tal.mean
-datay=datay/y_max*100
 n = len(datay)
 
 x_smooth=datax
@@ -54,12 +47,12 @@ y_maxs=y_smooth[max_index]
 plt.plot(x_smooth, y_smooth)
 
 # draw line at x_max
-#plt.axvline(x=x_maxs, color='r')
+plt.axvline(x=x_maxs, color='r')
 # write x_max value on plot
-plt.title(f'x_max = {x_max} cm \n xsmooth_max = {x_maxs} cm')
+plt.title(f'x_max = {x_max}')
 #print(f"Y Value on xmax={_max}")
-plt.show()
 plt.savefig('2.5 depth.png')
+plt.show()
 
 def rounde(unrounded):
     roundede="{:.4e}".format(unrounded)

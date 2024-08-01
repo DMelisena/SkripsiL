@@ -4,6 +4,9 @@ import matplotlib.pyplot as plt
 from math import * #type: ignore
 
 particle=int(input('Particle number (\'twas 1e7)\n= '))
+SOURCE_SIZE=20
+FIELD_SIZE=40
+SSD=100
 
 air=openmc.Material(name='Air')
 air.set_density('g/cm3',0.001205)
@@ -71,7 +74,11 @@ concrete.add_element('Ca', 0.01, percent_type='ao')#20
 concrete.add_element('Fe', 0.01, percent_type='ao')#26
 concrete.add_element('Pb', 0.01, percent_type='ao')#82
 
-materials=openmc.Materials([air,air2,water,soft,bpe,lead,concrete])
+iron = openmc.Material(name="Iron")
+iron.set_density('g/cm3',7.87) #Harus disesuaikan dengan uji beton
+iron.add_element('Fe', 1.0)#1
+
+materials=openmc.Materials([air,air2,air3,water,soft,bpe,lead,concrete,iron]) 
 materials.export_to_xml()
 
 ################################################
@@ -81,6 +88,7 @@ rotationDegree=int(input("Harap masukkan sudut rotasi LINAC\n= "))
 t1=openmc.XPlane(632)
 t2=openmc.XPlane(632-76.5)
 t3=openmc.XPlane(632-76.5-155)
+t3fe=openmc.XPlane(632-76.5-155-235)
 t4=openmc.XPlane(632-76.5-155-76.5)
 t5=openmc.XPlane(632-76.5-155-76.5)
 t6=openmc.XPlane(632-76.5-155-235)
@@ -94,6 +102,7 @@ b5=openmc.XPlane(-632+76.5+250.5)
 #y #Di berkas 125, tapi ga make sense jadi diubah ke 1200 biar masuk angkanya
 u1=openmc.YPlane(190.0+250.0+120.0+185.0+81.0)
 u2=openmc.YPlane(190.0+250.0+120.0+185.0)
+ufe=openmc.YPlane(190.0+250.0+120.0+185.0-10)
 u3=openmc.YPlane(190.0+250.0+120.0)
 u4=openmc.YPlane(190.0+250.0)
 u5=openmc.YPlane(190.0)
@@ -135,6 +144,7 @@ du2 = +b3 & -t6 & -u3 & +u4 & +z0 & -z2
 
 ds1 = +b3 & -t3 & +s1 & -s2 & +z0 & -z2
 
+fe1 = -t3 & +t3fe & -u1 & +ufe & +z0 & -z2
 datas= +b1 & -t1 & +s1 & -u1 & +z2 & -z3 #celing
 datte= +b4 & -t4 & -u5 & +s3 & +z1 & -z2 #linac's middle wall
 dbaw = +b1 & -t1 & +s1 & -u1 & +zm1 & -z0 #flooring
@@ -168,6 +178,7 @@ datascell=openmc.Cell(fill=concrete,region=datas)
 dattecell=openmc.Cell(fill=concrete,region=datte)
 dbawcell=openmc.Cell(fill=concrete,region=dbaw)
 
+fecell=openmc.Cell(fill=iron, region=fe1)
 
 ###############################################
 #                Detektor/Tally               #
@@ -180,6 +191,7 @@ deu1t=openmc.YPlane(190.0+250.0+120.0+185.0+81.0+30.0+10.8) #+tebal detektor
 deu1ts=openmc.YPlane(190.0+250.0+120.0+185.0+81.0+30.0+detde) #+tebal detektor
 deu2=openmc.YPlane (190.0+250.0+120.0+185.0+81.0+100.0)
 deu2t=openmc.YPlane(190.0+250.0+120.0+185.0+81.0+100.0+10.8)
+b5=openmc.XPlane(-632+76.5+250.5)
 deu2ts=openmc.YPlane(190.0+250.0+120.0+185.0+81.0+100.0+detde)
 deu3=openmc.YPlane (190.0+250.0+120.0+185.0+81.0+200.0)
 deu3t=openmc.YPlane(190.0+250.0+120.0+185.0+81.0+200.0+10.8)
@@ -189,6 +201,8 @@ deuz0=openmc.ZPlane(-300.0+48.0+100.0)#Tinggi detektor, default untuk semua dete
 deuz1=openmc.ZPlane(-300.0+48.0+100.0+200.0)
 deuz0s=openmc.ZPlane(-300.0+48.0+100.0-detd/2)#Tinggi detektor, default untuk semua detektor kecuali atas
 deuz1s=openmc.ZPlane(-300.0+48.0+100.0+detd/2)
+#deuz0s=openmc.ZPlane(-300.0+48.0+100.0-(150/2))#Tinggi detektor, default untuk semua detektor kecuali atas
+#deuz1s=openmc.ZPlane(-300.0+48.0+100.0+(150/2))
 
 deubb=openmc.XPlane(-632.0+76.5+250.5+100.0) #Koordinat x nya masih ngasal
 deubt=openmc.XPlane(-632.0+76.5+250.5+100.0+50.0)
@@ -243,12 +257,13 @@ det3ts=openmc.XPlane(632.0+200.0+detde)
 
 detu=openmc.YPlane(25.0)
 dets=openmc.YPlane(-25.0)
-detus=openmc.YPlane(-detd/2)
-detss=openmc.YPlane(+detd/2)
+detus=openmc.YPlane(detd/2)
+detss=openmc.YPlane(-detd/2)
 
 dett1= +det1 & -det1t & +deuz0 & -deuz1 & -detu & +dets
 dett2= +det2 & -det2t & +deuz0 & -deuz1 & -detu & +dets
 dett3= +det3 & -det3t & +deuz0 & -deuz1 & -detu & +dets
+dett3s= +det3 & -det3t & +deuz0 & -deuz1 & -detu & +dets
 dett1s= +det1 & -det1ts & +deuz0s & -deuz1s & -detus & +detss
 dett2s= +det2 & -det2ts & +deuz0s & -deuz1s & -detus & +detss
 dett3s= +det3 & -det3ts & +deuz0s & -deuz1s & -detus & +detss
@@ -399,7 +414,7 @@ univ=openmc.Universe(cells=[dt1cell,dt2cell,dt3cell,
                             detut1scell,detut2scell,detut3scell,
                             dett1scell,dett2scell,dett3scell,
                             deta1scell,deta2scell,deta3scell,
-                            detaxcell])
+                            detaxcell,fecell])
 geometry=openmc.Geometry(univ)
 geometry.export_to_xml()
 
@@ -409,7 +424,7 @@ colors[bpe]='lightblue'
 colors[concrete]='grey'
 colors[air]='white'
 colors[air2]='blue'
-
+ssh=SOURCE_SIZE/2
 ###############################################
 #                Rotation
 ###############################################
@@ -421,16 +436,16 @@ def sposi(d,rot):
     xyz = ( d*(sin(radians(rot))) ), 0, -128+ ( d*(cos(radians(rot)) ))
     xyz = xyz
     if rot==0 or rot==180:
-        xyz1= ( d*(sin(radians(rot))) )+20, 20, -128+ ( d*(cos(radians(rot)) )+0.1)
-        xyz2= ( d*(sin(radians(rot))) )-20, -20, -128+ ( d*(cos(radians(rot)) ))
+        xyz1= ( d*(sin(radians(rot))) )+ssh, ssh, -128+ ( d*(cos(radians(rot)) )+0.1)
+        xyz2= ( d*(sin(radians(rot))) )-ssh, -ssh, -128+ ( d*(cos(radians(rot)) ))
     else:
-        xyz1= ( d*(sin(radians(rot))) )+0.1, 20, -128+ ( d*(cos(radians(rot)) )+20)
-        xyz2= ( d*(sin(radians(rot))) ), -20, -128+ ( d*(cos(radians(rot)) )-20)
+        xyz1= ( d*(sin(radians(rot))) )+0.1, ssh, -128+ ( d*(cos(radians(rot)) )+ssh)
+        xyz2= ( d*(sin(radians(rot))) ), -ssh, -128+ ( d*(cos(radians(rot)) )-ssh)
     return uvw, xyz,xyz1,xyz2 
     #asumsi tinggi pasien 75
 ###############################################
 #        Input (linac distance,rotation)      #
-linacuvw, linacxyz,linacxyzn1,linacxyzn2=sposi(100,rotationDegree)
+linacuvw, linacxyz,linacxyzn1,linacxyzn2=sposi(SSD,rotationDegree)
 ###############################################
 print("linacuvw,linacxyz,linacuvwn1,linacuvwn2",linacuvw, linacxyz,linacxyzn1,linacxyzn2)
 
@@ -441,7 +456,7 @@ plot=openmc.Plot()
 plot.basis='xy'
 plot.origin=(0,200,0)
 plot.width=(2000,2000)
-plot.pixles=(2000,2000)
+plot.pixels=(2000,2000)
 plot.filename='xy_room'
 plot.colors={
     lead:'black',
@@ -468,7 +483,7 @@ plot.to_ipython_image()
 
 plot.basis='xz'
 plot.filename='xz_room'
-plot.pixles=(2000,2000)
+plot.pixels=(2000,2000)
 plot.width=(2000,2000)
 plot.origin=(0,0,0)
 plot_file=openmc.Plots([plot])
@@ -519,7 +534,7 @@ source.energy = openmc.stats.Discrete([10e6],[1]) #10MeV # type: ignore
 #source.space=openmc.stats.Point(xyz=linacxyz) # type: ignore
 #source.space = openmc.stats.Box((-PHANTOM_SIZE/2-d, -SOURCE_SIZE/2, -SOURCE_SIZE/2), (-PHANTOM_SIZE/2-d-t, SOURCE_SIZE/2, SOURCE_SIZE/2))
 phi =openmc.stats.Uniform(0.0,2*pi) # type: ignore #phi=distribution of the azimuthal angle in radians
-mu=openmc.stats.Uniform(0.98058,1) # type: ignore #mu= distribution of the cosine of the polar angle
+mu  = openmc.stats.Uniform(cos(atan2(((FIELD_SIZE-SOURCE_SIZE)/2),SSD)), 1) 
 source.space = openmc.stats.Box((linacxyzn1), (linacxyzn2))
 ##source.angle = openmc.stats.Monodirectional(linacuvw)
 source.angle = openmc.stats.PolarAzimuthal(mu,phi,reference_uvw=linacuvw) # type: ignore
