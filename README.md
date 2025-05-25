@@ -1,4 +1,6 @@
 #Directory Guide:
+kk
+
 - Perhitungan Analitik
     - Primer
     - Sekunder
@@ -18,16 +20,14 @@
             -doseplotcell.py
 
 # SkripsiL
-Perhitungan analitik dan openmc untuk skripsi
+Radiation dose Calculation using analytical method and Monte Carlo Particle simulation for Medical Linear Accelerator Bunker
 
-Todolist:
--Ngetes kode cell filter dose
-    -Masih kurang paham bentuk output openmc
--Post Processing Cell Filter
--Pembandingan dengan nilai deteksi
--Pembuatan formula laju dosis analitik
--Pembandingan hasil perhitungan laju dosis dengan nilai deteksi
--Penulisan pembahasan untuk simulasi dan perhitungan
+TODO: Make a 3d heatmap and a bit of interface for the analytical method
+
+Result Example:
+![alt text](https://github.com/DMelisena/SkripsiL/blob/main/2simulasi/CellRSHS/10kk/270/RoomDoseDistribution.png?raw=true)
+This is a heatmap of Radiation Dose on and at the surrounding of a Medical Linear Accelerator Bunker
+more of this is available in bahasa on https://bit.ly/NPMAryaH
 
 File Tree Directory :
 linac  -> File JIH
